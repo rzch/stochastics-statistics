@@ -1,0 +1,215 @@
+%A master style is kept separately, and a manually installed .sty file is kept in tex\latex\misc so it can be used anywhere
+
+% Declare that this style file requires at least LaTeX version 2e.
+\NeedsTeXFormat{LaTeX2e}
+
+% Provide the name of your page, the date it was last updated, and a comment about what it's used for
+\ProvidesPackage{mystyle}[2017/11/22 custom LaTeX style]
+
+\newif\ifdark
+\DeclareOption{dark}{
+  \darktrue
+}
+
+\DeclareOption{light}{
+  \darkfalse
+}
+
+\newif\ifbook
+\DeclareOption{book}{
+  \booktrue
+}
+
+\DeclareOption{article}{
+  \bookfalse
+}
+
+\ExecuteOptions{light}
+
+\ProcessOptions\relax
+
+% Now paste your code from the preamble here===========================
+%=======================================================================
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{
+  top=1in,           
+  inner=1in,
+  outer=1in,
+  bottom=1in,
+  headheight=3ex,       
+  headsep=3ex,          
+}
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+\usepackage{float}
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+\usepackage[dvipsnames]{xcolor} %for more colours
+\usepackage{color} %for colour text
+\usepackage{pagecolor} %for page colour
+\usepackage{titling}
+\usepackage{cite} %bibtex for referencing, incompatible with biblatex
+\usepackage{thmtools} %theorem tools for being able to list all theorems
+\usepackage{url} %show url with bibtex
+\usepackage[toc]{appendix} %for appendices. include [..., page] to have a page before appendices
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+%\usepackage[backend=biber]{biblatex}
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+
+%Here's a set of patches that will provide the commands
+%\chaptertitle
+%\sectiontitle
+%\subsectiontitle
+%\subsubsectiontitle
+%which will always expand to the most recent title of the corresponding sectional unit.
+
+\ifbook
+%====================================================================
+% Patch the sectioning commands to provide a hook to be used later
+\usepackage{etoolbox}
+\preto{\chapter}{\def\leveltitle{\chaptertitle}}
+\preto{\section}{\def\leveltitle{\sectiontitle}}
+\preto{\subsection}{\def\leveltitle{\subsectiontitle}}
+\preto{\subsubsection}{\def\leveltitle{\subsubsectiontitle}}
+
+\makeatletter
+% \@sect is called with normal sectioning commands
+% Argument #8 to \@sect is the title
+% Thus \section{Title} will do \gdef\sectiontitle{Title}
+\pretocmd{\@sect}
+  {\expandafter\gdef\leveltitle{#8}}
+  {}{}
+% \@ssect is called with *-sectioning commands
+% Argument #5 to \@ssect is the title
+\pretocmd{\@ssect}
+  {\expandafter\gdef\leveltitle{#5}}
+  {}{}
+% \@chapter is called by \chapter (without *)
+% Argument #2 to \@chapter is the title
+\pretocmd{\@chapter}
+  {\expandafter\gdef\leveltitle{#2}}
+  {}{}
+% \@schapter is called with \chapter*
+% Argument #1 to \@schapter is the title
+\pretocmd{\@schapter}
+  {\expandafter\gdef\leveltitle{#1}}
+  {}{}
+\makeatother
+%======================================================================
+\fi
+
+\renewcommand{\headrulewidth}{2pt} % customise the layout...
+  \renewcommand{\headrule}{\hbox to\headwidth{%
+    \color{black}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{2pt}
+  \renewcommand{\footrule}{\hbox to\headwidth{%
+    \color{black}\leaders\hrule height \headrulewidth\hfill}}
+    
+\ifdark
+\renewcommand{\headrulewidth}{2pt} % customise the layout...
+  \renewcommand{\headrule}{\hbox to\headwidth{%
+    \color{brown}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{2pt}
+  \renewcommand{\footrule}{\hbox to\headwidth{%
+    \color{brown}\leaders\hrule height \headrulewidth\hfill}}
+\fi
+
+\ifbook
+%patch the definition of chapter macro to use fancy page style
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+\fi
+
+%%%% SECTION TITLE APPEARANCE
+%\usepackage{sectsty}
+%\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+%% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% My customisations
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm} %for theorems
+\usepackage{gensymb}
+\usepackage{mathtools}
+\usepackage{cancel} % for 'cancel to' arrows
+\usepackage{nicefrac}
+\usepackage{upgreek} %for upright greek letters
+\usepackage{lipsum} %to generate dummy text
+\usepackage{enumitem} %change enum style ie. \begin{enumerate}[label=(\alph*)]
+\usepackage{hyperref}%setup bookmarks in generated pdf
+\usepackage{bookmark}
+\usepackage{listings} %for including code with syntax highlighting
+\usepackage{epstopdf} %allows eps files to be included in figures
+\usepackage{mathrsfs} %for formal script font
+
+%\usepackage{fullpage} %increase margins, do not use with custom geometry + headrule & footrule
+\setlength\parindent{0pt} %no indent for paragraphs
+\numberwithin{equation}{section} %Label equations based on sections
+
+%Custom argmin and argmax
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+%Declare theorems
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{claim}{Claim}
+\newtheorem{corollary}{Corollary}
+\newtheorem{axiom}{Axiom}
+\newtheorem{assumption}{Assumption}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+
+
+%Colour commands based on theme
+\newcommand{\blue}{\color{Blue}}
+\newcommand{\red}{\color{Red}}
+\newcommand{\green}{\color{OliveGreen}}
+\newcommand{\black}{\color{black}}
+
+\ifdark
+\definecolor{dark-gray}{gray}{0.1}
+\pagecolor{dark-gray}
+\color{white}
+\renewcommand{\blue}{\color{SkyBlue}}
+\renewcommand{\red}{\color{Salmon}}
+\renewcommand{\green}{\color{SpringGreen}}
+\renewcommand{\black}{\color{white}}
+\fi
+
+
+% Finally, we'll use \endinput to indicate that LaTeX can stop reading this file. LaTeX will ignore anything after this line.
+\endinput

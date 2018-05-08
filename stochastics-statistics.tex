@@ -1,0 +1,1658 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "report" class.
+
+\documentclass[11pt]{report} % use larger type; default would be 10pt
+
+\usepackage[dark, book]{mystyle}
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+\lhead{\chaptertitle}\chead{}\rhead{\thetitle}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+\pretitle{\begin{center}\LARGE\bf}
+\posttitle{\normalfont\end{center}}
+\title{Stochastics \& Statistics}
+\author{R. C.}
+%\date{\vspace{-5ex}} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+%for PDF authoring
+\hypersetup{
+    pdftitle={\thetitle},
+    pdfauthor={\theauthor},
+%    pdfsubject={},
+%    pdfkeywords={keyword1, keyword2},
+    bookmarksnumbered=true,     
+    bookmarksopen=false,         
+    bookmarksopenlevel=1,       
+	hidelinks=true,         
+    pdfstartview=,           
+    pdfpagemode=UseNone,
+%    pdfpagelayout=TwoPageRight
+}
+
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\tableofcontents
+
+\part{Fundamentals}
+
+\chapter{Classical Probability}
+
+\section{Probability Laws}
+
+\subsection{Conditional Probability}
+
+The probability of event $A$ occurring given event $B$ has occurred is denoted by $P\left(A\middle|B\right)$ and is known as a conditional probability. The conditional probability can be calculated by
+\begin{equation}
+P\left(A\middle|B\right) = \dfrac{P\left(A \cap B\right)}{P\left(B\right)}
+\end{equation}
+The term $P\left(B\right)$ can be thought of as a `normalising constant' for $P\left(A \cap B\right)$.
+
+\subsection{Bayes' Theorem}
+
+By definitions of conditional probability, we have
+\begin{gather}
+P\left(A\middle|B\right) = \dfrac{P\left(A\cap B\right)}{P\left(B\right)} \\
+P\left(B\middle|A\right) = \dfrac{P\left(A\cap B\right)}{P\left(A\right)}
+\end{gather}
+Rearranging both gives
+\begin{gather}
+P\left(A\cap B\right) = P\left(A\middle|B\right)P\left(B\right) \\
+P\left(A\cap B\right) = P\left(B\middle|A\right)P\left(A\right)
+\end{gather}
+Then equating them gives Bayes' theorem
+\begin{gather}
+P\left(A\middle|B\right)P\left(B\right) = P\left(B\middle|A\right)P\left(A\right) \\
+P\left(A\middle|B\right) = \dfrac{P\left(B\middle|A\right)P\left(A\right) }{P\left(B\right)}
+\end{gather}
+
+Consider a probability tree for three events $A$, $B$ and $C$.
+\begin{figure}[H]
+\includegraphics[width=0.7\textwidth]{Figures/multiple_conditional}\centering
+\caption{A probability tree for three events expressed in conditional probabilities.}
+\end{figure}
+By multiplying probabilities along the tree, we can see that
+\begin{equation}
+P\left(A,B,C\right) = P\left(A\middle|B, C\right)P\left(B\middle|C\right)P\left(C\right)
+\end{equation}
+The two branches of $\left.B\middle|C\right.$ and $\left.A\middle|B,C\right.$ are the branches of $A$ and $B$ conditional on $C$. Hence we can also state that
+\begin{equation}
+P\left(A,B\middle|C\right) = P\left(A\middle|B,C\right)P\left(B\middle|C\right)
+\end{equation}
+A way of writing Bayes' theorem for three events is
+\begin{equation}
+P\left(A, B\middle|C\right) = \dfrac{P\left(C\middle|A,B\right)P\left(A,B\right)}{P\left(C\right)}
+\end{equation}
+We can use the facts $P\left(A,B\right) = P\left(A\right)P\left(B\middle|A\right)$ and $P\left(C\middle|A,B\right) = \dfrac{P\left(B,C\middle|A\right)}{P\left(B\middle|A\right)}$, where the latter is a conditional probability except everything is conditioned on $A$. Applying these gives
+\begin{align}
+P\left(A, B\middle|C\right) &= \dfrac{P\left(B,C\middle|A\right)}{P\left(B\middle|A\right)}\dfrac{P\left(A\right)P\left(B\middle|A\right)}{P\left(C\right)} \\
+&= \dfrac{P\left(B,C\middle|A\right)P\left(A\right)}{P\left(C\right)}
+\end{align}
+
+\section{Introductory Combinatorics}
+
+\section{Random Variables}
+
+\section{Probability Distributions}
+
+\subsection{Discrete Distributions}
+
+\subsubsection{Cumulative Discrete Distribution Functions}
+
+Suppose we have the discrete bivariate cumulative distribution function $F\left(x, y\right) := P\left(X\leq x, Y \leq y\right)$. We are interested in deriving the probability mass function $f\left(x, y\right) = P\left(X = x, Y = y\right)$ from this. Assume that $X$ and $Y$ are integer valued. We can derive this using the inclusion-exclusion principle. First define the events
+\begin{gather}
+A: \left\{X \leq x, Y < y\right\} \\
+B: \left\{X < x, Y \leq y\right\}
+\end{gather}
+Then logically
+\begin{gather}
+A \cup B: \left\{X \leq x, Y \leq y\right\}\setminus\left\{X = x, Y = y\right\} \\
+A \cap B: \left\{X < x, Y < y\right\}
+\end{gather}
+Thus the probability mass function can be expressed as
+\begin{align}
+P\left(X = x, Y = y\right) &= P\left(X \leq x, Y \leq y\right) - P\left(A \cup B\right) \\
+&= P\left(X \leq x, Y \leq y\right) - P\left(A\right) - P\left(B\right) + P\left(A \cap B\right) \\
+&= P\left(X \leq x, Y \leq y\right) - P\left(X \leq x, Y < y\right) - P\left(X < x, Y \leq y\right) + P\left(X < x, Y < y\right) \\
+&= P\left(X \leq x, Y \leq y\right) - P\left(X \leq x, Y \leq y - 1\right) - P\left(X \leq x - 1, Y \leq y\right) \\
+&+ P\left(X \leq x - 1, Y \leq y - 1\right) \\
+&= F\left(x, y\right) - F\left(x, y - 1\right) - F\left(x - 1, y\right) + F\left(x - 1, y - 1\right)
+\end{align}
+
+\subsection{Negative Binomial Distribution}
+
+The negative binomial distribution is a discrete distribution on support $x \in \left\{0, 1, 2, 3, \dots\right\}$ for the number of successes of i.i.d. Bernoulli trials (with success probability $p$) before $r$ failures occur. For example, if we are interested in 1 success before $r$ failures, the probability of this is given by
+\begin{equation}
+P\left(X = 1\right) = \mathstrut^{r}C_{1}\left(1 - p\right)^{r}p^{1}
+\end{equation}
+We know that the sequence will be of length $n = r + 1$, and that the final trial in the sequence is fixed as a failure. Hence the term $\mathstrut^{r}C_{1} = \mathstrut^{n - 1}C_{1}$ gives the number of combinations where we can place $1$ success among $n - 1$ trials. Generally, the probability mass function is given by
+\begin{equation}
+P\left(X = x\right) = \mathstrut^{r + x - 1}C_{x}\left(1 - p\right)^{r}p^{x}
+\end{equation}
+The distribution has a mean of
+\begin{equation}
+\mu = \dfrac{pr}{1 - p}
+\end{equation}
+and a variance of
+\begin{equation}
+\sigma^{2} = \dfrac{pr}{\left(1 - p\right)^{2}}
+\end{equation}
+In practice, the negative binomial distribution may be used as an alternative to the Poisson distribution when the data appears too `overdispersed' for the Poisson distribution. Since the negative binomial has two parameters ($r$ and $p$), we can fit the distribution better to the data. The negative binomial can also be seen as a mixture of Poissons with Gamma-distributed mixing weights. Suppose we know $\mu$ and $\sigma^{2}$, then solving the equations above for $p$ and $r$ gives the moment estimators
+\begin{gather}
+p = 1 - \dfrac{\mu}{\sigma^{2}} \\
+r = \dfrac{\mu^{2}}{\sigma^{2} - \mu}
+\end{gather}
+
+\chapter{Introductory Statistics}
+
+\section{Descriptive Statistics}
+
+\section{Cumulants}
+
+\subsection{Variance}
+
+\subsubsection{Intuitive explanation of the sample variance}
+
+Suppose we knew the value of the population mean. Then it should be clear that in order to compute an unbiased estimate of the population variance from the sample variance, one should first compute the sum of squared deviations about the population mean $\sum_{i = 1}^{n}{\left(x_{i} - \mu\right)^{2}}$ and then divide by the sample size $n$. However, typically only the sample mean $\bar{x}$ is known, which itself is computed from the sample. So this inherently introduces bias if we were to compute sample variance the same way (we are measuring squared deviations of a sample from a mean which is itself determined by the sample). So to `compensate' for this, we divide by $n - 1$ instead of $n$ to give an unbiased estimate of the sample variance.
+
+\section{Inferential Statistics}
+
+\subsection{Confidence Intervals}
+
+Suppose the distribution of a sample statistic is known. Take for example the sample mean $\bar{X}$, which under the Central Limit Theorem will be approximately normally distributed with a mean of $\mu$ and variance of $\dfrac{\sigma^{2}}{n}$ for large $n$. So if we take a sample and find the average, this will have been a number drawn from the aforementioned distribution. One the other hand, using our sample statistics we can perform inference on the population parameters.
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{Figures/conf_int_contains}\centering
+\caption{A sample statistic is drawn from inside the middle 95\% of the distribution. It happens to be that a 95\% confidence interval constructed about the sample statistic contains the population parameter.}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{Figures/conf_int_notcontains}\centering
+\caption{A sample statistic is drawn from \textit{outside} the middle 95\% of the distribution. It happens to be that a 95\% confidence interval constructed about the sample statistic \textit{does not contain} the population parameter.}
+\end{figure}
+
+\section{Linear Regression}
+
+\subsection{Confidence Intervals}
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{Figures/lin_reg_conf_int1}\centering
+\caption{The `true' regression line, in which $y$ observations at given $x$-values are centred around due to normally distributed $\varepsilon$.}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{Figures/lin_reg_conf_int2}\centering
+\caption{Another set of randomly sampled observations, in which a regression line is fitted through.}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{Figures/lin_reg_conf_int3}\centering
+\caption{A distribution of the estimated conditional mean, $\hat{\operatorname{E}}\left[Y\middle|X = x_{d}\right] = \hat{\beta}_{0} + \hat{\beta}_{1}x_{d}$, about the true conditional mean, $\operatorname{E}\left[Y\middle|X = x_{d}\right] = \beta_{0} + \beta_{1}x_{d}$. Using the point estimate along the fitted line, a confidence interval is constructed around the estimated conditional mean which contains the true conditional mean.}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{Figures/lin_reg_pred_int_counter}\centering
+\caption{Considering that actual observed $y$ are taken about the true conditional mean, the confidence interval calculated for $\operatorname{E}\left[Y\middle|X = x_{d}\right] = \beta_{0} + \beta_{1}x_{d}$ does not contain the observed $y$.}
+\end{figure}
+
+Thus a prediction interval needs to be calculated to capture the potential range of values if a new value of $y$ is observed.
+
+\subsection{Prediction Intervals}
+
+\begin{figure}[H]
+\includegraphics[width=1\textwidth]{Figures/pred_int_all}\centering
+\caption{A prediction interval is constructed about $\hat{\operatorname{E}}\left[Y\middle|X = x_{d}\right]$ which does contain the new observed value of $y$.}
+\end{figure}
+
+Note that although the variances are added together, this does not extend to the standard deviations ie. generally $\sqrt{a + b} \neq \sqrt{a} + \sqrt{b}$. To assist sketching, a plot of $\sqrt{\sigma^{2} + \operatorname{Var}\left(\hat{Y}\right)} - \sqrt{\operatorname{Var}\left(\hat{Y}\right)}$ is plotted against a $45\degree$ line. This essentially gives an indication of the additional distance on top of the confidence interval for $\operatorname{E}\left[Y\middle|X = x_{d}\right]$ that the prediction interval needs to be extended by.
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{Figures/pred_int_graphing}\centering
+\caption{A plot of $\sqrt{\sigma^{2} + \operatorname{Var}\left(\hat{Y}\right)} - \sqrt{\operatorname{Var}\left(\hat{Y}\right)}$ on $\sigma$ with $\operatorname{Var}\left(\hat{Y}\right)$ held constant, alongside a $45\degree$ line.}
+\end{figure}
+
+\subsection{Deming Regression}
+
+\section{Maximum Likelihood}
+
+\subsection{Neyman-Pearson Lemma}
+
+\subsection{Fisher Information}
+
+Let $f\left(x;\theta\right)$ be a probability density function for the random variable $X$ parametrised by $\theta$. Note that $f\left(X; \theta\right)$ is a random variable for the density of $X$, and that $f\left(x;\theta\right)$ is also a likelihood function for $\theta$. The partial derivative of the log likelihood with respect to $\theta$ is called the score. The score $\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)$ It can be shown that the expected value of the score with respect to $X$ is zero:
+\begin{align}
+\mathbb{E}_{X}\left[\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)\right] &= \begin{multlined} \mathbb{E}_{X}\left[\dfrac{1}{f\left(X;\theta\right)}\dfrac{\partial}{\partial \theta}f\left(X;\theta\right)\right] \\
+\text{\blue by the chain rule\black}
+\end{multlined} \\
+&= \int_{-\infty}^{\infty}\dfrac{1}{f\left(x;\theta\right)}\cdot\dfrac{\partial}{\partial \theta}f\left(x;\theta\right)\cdot f\left(x;\theta\right) dx \\
+&= \int_{-\infty}^{\infty}\dfrac{\partial}{\partial \theta}f\left(x;\theta\right) dx \\
+&= \dfrac{\partial}{\partial \theta}\left(\int_{-\infty}^{\infty}f\left(x;\theta\right) dx\right) \\
+&= \dfrac{\partial}{\partial \theta}\left(1\right) \\
+&= 0
+\end{align}
+The Fisher information $\mathcal{I}\left(\theta\right)$ is defined as the variance of the score
+\begin{align}
+\mathcal{I}\left(\theta\right) &= \operatorname{Var}\left(\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)\right) \\
+&= \mathbb{E}_{X}\left[\left(\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)\right)^{2}\right] - \green\cancelto{0}{\black\mathbb{E}_{X}\left[\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)\right]^{2}} \\
+&= \mathbb{E}_{X}\left[\left(\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)\right)^{2}\right]
+\end{align}
+We can show that
+\begin{align}
+\dfrac{\partial^{2}}{\partial \theta^{2}}\log f\left(X;\theta\right) &= \begin{multlined}\dfrac{\partial}{\partial \theta}\left(\dfrac{1}{f\left(X;\theta\right)}\cdot\dfrac{\partial}{\partial \theta}f\left(X;\theta\right)\right) \\
+\text{\blue by the chain rule \black} \end{multlined} \\
+&= \begin{multlined} -\dfrac{\dfrac{\partial}{\partial \theta}f\left(X;\theta\right)}{f\left(X;\theta\right)^{2}}\cdot\dfrac{\partial}{\partial \theta}f\left(X;\theta\right) + \dfrac{1}{f\left(X;\theta\right)}\cdot \dfrac{\partial^{2}}{\partial \theta^{2}}f\left(X;\theta\right) \\
+\text{\blue by the product rule \black} \end{multlined} \\
+&= -\left(\dfrac{\frac{\partial}{\partial \theta}f\left(X;\theta\right)}{f\left(X;\theta\right)}\right)^{2} + \dfrac{\frac{\partial^{2}}{\partial \theta^{2}}f\left(X;\theta\right)}{f\left(X;\theta\right)} \\
+&= \begin{multlined} \dfrac{\frac{\partial^{2}}{\partial \theta^{2}}f\left(X;\theta\right)}{f\left(X;\theta\right)} - \left(\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)\right)^{2} \\
+\text{\blue using }\blue\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right) = \dfrac{\frac{\partial}{\partial \theta}f\left(X;\theta\right)}{f\left(X;\theta\right)}\black
+\end{multlined}
+\end{align}
+Hence
+\begin{equation}
+\left(\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)\right)^{2} = \dfrac{\frac{\partial^{2}}{\partial \theta^{2}}f\left(X;\theta\right)}{f\left(X;\theta\right)} - \dfrac{\partial^{2}}{\partial \theta^{2}}\log f\left(X;\theta\right)
+\end{equation}
+Additionally, we can show
+\begin{align}
+\mathbb{E}_{X}\left[\dfrac{\frac{\partial^{2}}{\partial \theta^{2}}f\left(X;\theta\right)}{f\left(X;\theta\right)}\right] &= \int_{-\infty}^{\infty}\dfrac{\frac{\partial^{2}}{\partial \theta^{2}}f\left(x;\theta\right)}{f\left(x;\theta\right)}\cdot f\left(x; \theta\right) dx \\
+&= \int_{-\infty}^{\infty}\dfrac{\partial^{2}}{\partial \theta^{2}}f\left(x;\theta\right) dx \\
+&= \dfrac{\partial^{2}}{\partial \theta^{2}}\left(\int_{-\infty}^{\infty}f\left(x;\theta\right) dx\right) \\
+&= \dfrac{\partial^{2}}{\partial \theta^{2}}\left(1\right) \\
+&= 0
+\end{align}
+Returning to the Fisher information
+\begin{align}
+\mathcal{I}\left(\theta\right) &= \mathbb{E}_{X}\left[\left(\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)\right)^{2}\right] \\
+&= \mathbb{E}_{X}\left[\dfrac{\frac{\partial^{2}}{\partial \theta^{2}}f\left(X;\theta\right)}{f\left(X;\theta\right)} - \dfrac{\partial^{2}}{\partial \theta^{2}}\log f\left(X;\theta\right)\right] \\
+&= \green\cancelto{0}{\black \mathbb{E}_{X}\left[\dfrac{\frac{\partial^{2}}{\partial \theta^{2}}f\left(X;\theta\right)}{f\left(X;\theta\right)}\right]}\black - \mathbb{E}_{X}\left[\dfrac{\partial^{2}}{\partial \theta^{2}}\log f\left(X;\theta\right)\right] \\
+&= - \mathbb{E}_{X}\left[\dfrac{\partial^{2}}{\partial \theta^{2}}\log f\left(X;\theta\right)\right]
+\end{align}
+This shows that the Fisher information is equal to the negative of the curvature of the log likelihood, assuming the log likelihood is twice differentiable with respect to $\theta$.
+
+\section{Generalised Linear Models}
+
+\subsection{Logistic Regression}
+
+When the response variable $Y$ can take on a $0$ or $1$ (ie. success of fail), the probability that the response equals $1$ can be modelled using logistic regression. For a parameter vector $\beta$ and predictors $x$, this probability takes the form
+\begin{equation}
+P\left(Y = 1\middle| X = x\right) = \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}
+\end{equation}
+An alternative form is
+\begin{equation}
+P\left(Y = 1\middle| X = x\right) = \dfrac{\exp\left(\beta^{\top}x\right)}{\exp\left(\beta^{\top}x\right) + 1}
+\end{equation}
+Notice that this probability will be bounded between $0$ and $1$. Denoting $p\left(x\right) := P\left(Y = 1\middle| X = x\right)$, we can rearrange for a `linear form', given as
+\begin{equation}
+\ln\left(\dfrac{p\left(x\right)}{1 - p\left(x\right)}\right) = \beta^{\top}x
+\end{equation}
+To fit a logistic regression to some data, we first construct the likelihood (assuming independent samples) as
+\begin{align}
+L\left(\beta\middle|x\right) &= P\left(Y\middle|X = x, \beta\right) \\
+&= \prod_{i = 1}^{n} P\left(y_{i}\middle|X = x_{i}, \beta\right) \\
+&= \prod_{i = 1}^{n} \left(\dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)^{y_{i}}\left(1 - \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)^{1 - y_{i}}
+\end{align}
+Note that since $y_{i}$ can only be $0$ or $1$, each multiplicand `selects' either the probability of occurrence of $P\left(Y = 1\middle|X = x, \beta\right)$ if $y_{i} = 1$ or $P\left(Y = 0\middle|X = x, \beta\right)$ if $y_{i} = 0$. The log-likelihood is
+\begin{equation}
+\log L\left(\beta\middle|x\right) = \sum_{i = 1}^{n} y_{i}\log\left(\dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right) + \sum_{i = 1}^{n}\left(1 - y_{i}\right)\log\left(1 - \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)
+\end{equation}
+Hence the maximum-likelihood estimate is the solution to
+\begin{equation}
+\min_{\beta} \left\{-\log L\left(\beta\middle|x\right)\right\}
+\end{equation}
+
+\chapter{Advanced Probability}
+
+\section{Inequalities and Limit Theorems}
+
+\subsection{Jensen's Inequality}
+
+A function $f\left(x\right)$ is convex if and only Jensen's inequality holds for any $x$ and $y$ in the domain of $f$:
+\begin{equation}
+f\left(\theta x + \left(1 - \theta\right)y\right) \leq \theta f\left(x\right) + \left(1 - \theta\right)f\left(y\right)
+\end{equation}
+where $\theta \in \left[0, 1\right]$ and $\theta x + \left(1 - \theta\right)y$ is termed as a `convex combination' of $x$ and $y$. Intuitively speaking, no part of a secant joining any two points on the graph of $f\left(x\right)$ can lie below the graph. A convex combination can be extended to more than two points, and so can Jensen's inequality:
+\begin{equation}
+f\left(\theta_{1}x_{1} + \dots + \theta_{k}x_{k}\right) \leq \theta_{1}f\left(x_{1}\right) + \dots + \theta_{k}f\left(x_{k}\right)
+\end{equation}
+where $\theta_{1}, \dots, \theta_{k} \geq 0$ and $\theta_{1} + \dots + \theta_{k} = 1$. We may extend this to infinite sums, ie. integrals over probability distributions:
+\begin{equation}
+f\left(\int p\left(x\right) x dx\right) \leq \int f\left(x\right)p\left(x\right) dx
+\end{equation}
+where $p\left(x\right) \geq 0$ and $\int p\left(x\right) dx = 1$. Recognise that the above inequality pertains to the expected value of a random variable $X$ with probability density $p\left(x\right)$, and a convex function $f\left(x\right)$. We can write
+\begin{equation}
+f\left(\mathbb{E}\left[X\right]\right) \leq \mathbb{E}\left[f\left(X\right)\right]
+\end{equation}
+
+\subsection{Markov's Inequality}
+
+Let $X$ be a non-negative random variable (it cannot take on negative values), and let $a > 0$ be some constant. Then
+\begin{equation}
+\operatorname{P}\left(X\geq a\right) \leq \dfrac{\operatorname{E}\left[X\right]}{a}
+\end{equation}
+or alternatively, if we let $\tilde{a}$ be some constant such that $a = \tilde{a}\operatorname{E}\left[X\right]$, then making this substitution gives
+\begin{equation}
+\operatorname{P}\left(X\geq \tilde{a}\operatorname{E}\left[X\right]\right) \leq \dfrac{1}{\tilde{a}}
+\end{equation}
+\begin{proof}
+For a continuous non-negative random variable, the expectation is defined as
+\begin{align}
+\operatorname{E}\left[X\right] &= \int_{0}^{\infty}xf\left(x\right)dx \\
+&= \int_{0}^{a}xf\left(x\right)dx + \int_{a}^{\infty}xf\left(x\right)dx \\
+&\geq \int_{a}^{\infty}xf\left(x\right)dx
+\end{align}
+We then have
+\begin{align}
+\int_{a}^{\infty}af\left(x\right)dx &\leq \int_{a}^{\infty}xf\left(x\right)dx \\
+a\int_{a}^{\infty}f\left(x\right)dx &\leq \operatorname{E}\left[X\right] \\
+a\operatorname{P}\left(X \geq a\right) &\leq \operatorname{E}\left[X\right] \\
+\operatorname{P}\left(X \geq a\right) &\leq \dfrac{\operatorname{E}\left[X\right]}{a}
+\end{align}
+If $X$ is a non-negative discrete random variable on support $\left\{0, 1, 2, \dots\right\}$, then
+\begin{align}
+\operatorname{E}\left[X\right] &= \sum_{x = 0}^{\infty}x\operatorname{P}\left(X = x\right) \\
+&= \sum_{x = 0}^{a - 1}x\operatorname{P}\left(X = x\right) + \sum_{x = a}^{\infty}x\operatorname{P}\left(X = x\right) \\
+&\geq \sum_{x = a}^{\infty}x\operatorname{P}\left(X = x\right)
+\end{align}
+Then similar to before,
+\begin{align}
+\sum_{x = a}^{\infty}a\operatorname{P}\left(X = x\right) &\leq \sum_{x = a}^{\infty}x\operatorname{P}\left(X = x\right) \\
+a\sum_{x = a}^{\infty}\operatorname{P}\left(X = x\right) &\leq \operatorname{E}\left[X\right] \\
+a\operatorname{P}\left(X \geq a\right) &\leq \operatorname{E}\left[X\right] \\
+\operatorname{P}\left(X \geq a\right) &\leq \dfrac{\operatorname{E}\left[X\right]}{a}
+\end{align}
+\end{proof}
+An alternative proof is given below:
+\begin{proof}
+Let $I_{X \geq a}$ be an indicator random variable where $I_{X \geq a} = 1$ if the event $X \geq a$ occurs, and $I_{X \geq a}$ if the event $X < a$ occurs. Then we can write
+\begin{equation}
+aI_{X \geq a} \leq X
+\end{equation}
+This can be seen as follows:
+\begin{itemize}
+\item Suppose $X \geq a$, then $I_{X \geq a} = 1$ and the inequality above holds.
+\item Suppose $X < a$, then $I_{X \geq a} = 0$ and the inequality above is satisfied because $X$ is non-negative.
+\end{itemize}
+Take the expectation operator of both sides. The expectation operator is monotonically increasing (ie. $\operatorname{E}\left[c\right] = c$ for some constant $c$) so this preserves the inequality.
+\begin{equation}
+\operatorname{E}\left[aI_{X \geq a}\right] \leq \operatorname{E}\left[X\right]
+\end{equation}
+Taking the constant $a$ out of the expectation:
+\begin{gather}
+a\operatorname{E}\left[I_{X \geq a}\right] \leq \operatorname{E}\left[X\right] \\
+\operatorname{E}\left[I_{X \geq a}\right] \leq \dfrac{\operatorname{E}\left[X\right]}{a}
+\end{gather}
+We can evaluate $\operatorname{E}\left[I_{X \geq a}\right]$
+\begin{equation}
+\operatorname{E}\left[I_{X \geq a}\right] = 1\times\operatorname{P}\left(X\geq a\right) + 0\times\operatorname{P}\left(X < a\right) = \operatorname{P}\left(X\geq a\right)
+\end{equation}
+Hence
+\begin{equation}
+\operatorname{P}\left(X\geq a\right) \leq \dfrac{\operatorname{E}\left[X\right]}{a}
+\end{equation}
+
+\end{proof}
+We can use this result to bound probabilities of $X$ being greater than some value in relation to the mean. For example, suppose the population of $X$ is income (which we assume to be non-negative). Then if we choose $a$ to be 10 times the average income, we can make the statement that the proportion of people earning at least 10 times the average income is no more than 10\%.
+
+\subsection{Chebychev's Inequality}
+
+Let $X$ be a random variable with finite mean $\mu$ and non-zero standard deviation $\sigma$. Then for any $k > 0$
+\begin{equation}
+\operatorname{P}\left(\left|X - \mu\right| \geq k\sigma\right) \leq \dfrac{1}{k^{2}}
+\end{equation}
+In words, this states that the probability of $X$ being at least $k$ standard deviations away from the mean can be no more than $\dfrac{1}{k^{2}}$.
+\begin{proof}
+Let a random variable $Y$ be $Y = \left(X - \mu\right)^{2}$ and let $a = \left(k\sigma\right)^{2}$. Then applying Markov's inequality
+\begin{gather}
+\operatorname{P}\left(Y \geq a\right) \leq \dfrac{\operatorname{E}\left[Y\right]}{a} \\
+\operatorname{P}\left(\left(X - \mu\right)^{2} \geq k^{2}\sigma^{2}\right) \leq \dfrac{\operatorname{E}\left[\left(X - \mu\right)^{2}\right]}{k^{2}\sigma^{2}} \\
+\end{gather}
+The event inside the probability is equivalent to $\left|X - \mu\right| \geq k\sigma$ and the numerator on the right hand side is the definition of variance $\sigma^{2}$. So
+\begin{equation}
+\operatorname{P}\left(\left|X - \mu\right| \geq k\sigma\right) \leq \dfrac{1}{k^{2}}
+\end{equation}
+\end{proof}
+Note that this inequality is only useful for when $k > 1$, because when $0 < k \leq 1$, the term $\dfrac{1}{k^{2}} \geq 1$ so Chebychev's inequality is trivially satisfied. An alternative form of the inequality is to let $k = \varepsilon/\sigma$. Then we have
+\begin{equation}
+\operatorname{P}\left(\left|X - \mu\right| \geq \varepsilon\right) \leq \dfrac{\sigma^{2}}{\varepsilon^{2}}
+\end{equation}
+Chebychev's inequality can be used to bound probabilities within a certain number of standard deviations from the mean, for very general distributions. Obtaining more knowledge of the distribution (such as information the distribution is normal) will often lead to tighter (ie. smaller) bounds.
+
+\subsection{Weak Law of Large Numbers}
+
+Let $X_{1}, \dots, X_{n}$ be a sequence of independent and identically distributed random variables, with mean $\operatorname{E}\left[X_{i}\right] = \mu$ and standard deviation $\sigma$. Then the sample mean $\overline{X}$ is defined as
+\begin{equation}
+\overline{X} = \dfrac{X_{1} + \dots + X_{n}}{n}
+\end{equation}
+The Weak Law of Large Numbers states that $\overline{X} \underset{prob}{\rightarrow} \mu$ as $n \rightarrow \infty$. That is, the sample mean converges in probability to the population mean as the sample size increases to infinity. We can also write this as
+\begin{equation}
+\lim_{n\rightarrow\infty}\operatorname{P}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
+\end{equation}
+for all $\varepsilon > 0$.
+\begin{proof}
+From Chebychev's inequality
+\begin{equation}
+\operatorname{P}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\operatorname{Var}\left(\overline{X}\right)}{\varepsilon^{2}}
+\end{equation}
+Using $\operatorname{Var}\left(\overline{X}\right) = \sigma^{2}/n$
+\begin{equation}
+\operatorname{P}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\sigma^{2}}{n\varepsilon^{2}}
+\end{equation}
+Taking the limit
+\begin{equation}
+\lim_{n\rightarrow\infty}\operatorname{P}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
+\end{equation}
+\end{proof}
+
+\subsection{Strong Law of Large Numbers}
+
+The Strong Law of Large Numbers is a stronger version of the Weak Law of Large Numbers which says that the sample mean converges almost surely to the population mean. That is,
+\begin{equation}
+\operatorname{P}\left(\lim_{n\rightarrow\infty}\overline{X} = \mu\right) = 1
+\end{equation}
+
+\section{Multivariate Distributions}
+
+\subsection{Covariance Matrices}
+The covariance matrix $C$ of a random vector $\mathbf{x}$ can be defined by
+\begin{equation}
+C = \operatorname{E}\left[\left(\mathbf{x} - \bar{\mathbf{x}}\right)\left(\mathbf{x} - \bar{\mathbf{x}}\right)^{\top}\right]
+\end{equation}
+Covariance matrices of real random vectors are always positive semi-definite. We can show this by considering an arbitrary real vector $\mathbf{u}$. We have
+\begin{align}
+\mathbf{u}^{\top}C\mathbf{u} &= \mathbf{u}^{\top}\operatorname{E}\left[\left(\mathbf{x} - \bar{\mathbf{x}}\right)\left(\mathbf{x} - \bar{\mathbf{x}}\right)^{\top}\right]\mathbf{u} \\
+&= \operatorname{E}\left[\mathbf{u}^{\top}\left(\mathbf{x} - \bar{\mathbf{x}}\right)\left(\mathbf{x} - \bar{\mathbf{x}}\right)^{\top}\mathbf{u}\right]
+\end{align}
+Let $s := \mathbf{u}^{\top}\left(\mathbf{x} - \bar{\mathbf{x}}\right)$ be a zero-mean scalar random variable with variance $\sigma^{2} \geq 0$. Hence
+\begin{align}
+\mathbf{u}^{\top}C\mathbf{u} &= \operatorname{E}\left[ss^{\top}\right] \\
+&= \operatorname{E}\left[\left(s - \operatorname{E}\left[s\right]\right)^{2}\right] \\
+&= \operatorname{E}\left[s^{2}\right] \\
+&= \sigma^{2} \\
+&\geq 0
+\end{align}
+Therefore $C$ satisfies the property of a positive semi-definite matrix.
+
+\subsection{Gaussian Identities}
+
+A multivariate $D$-dimensional Gaussian distribution can be denoted by the density function
+\begin{equation}
+p\left(x;\mu,\Sigma\right)=\left(2\pi\right)^{-D/2}\left|\Sigma\right|^{-1/2}\exp\left(-\dfrac{1}{2}\left(x-\mu\right)^{\top}\Sigma^{-1}\left(x-\mu\right)\right)
+\end{equation}
+where $x$ is a random vector, and $\mu$ and $\Sigma$ are the mean and covariance respectively. Here, $\left|\cdot\right|$ denotes determinant. We can also denote a Gaussian using $x\sim\mathcal{N}\left(\mu, \Sigma\right)$. For a joint distribution between two Gaussian random vectors $x$ and $y$, we can denote it as
+\begin{equation}
+\begin{bmatrix}x\\
+y
+\end{bmatrix}\sim\mathcal{N}\left(\begin{bmatrix}\mu_{x}\\
+\mu_{y}
+\end{bmatrix},\begin{bmatrix}A & C\\
+C^{\top} & B
+\end{bmatrix}\right)=\mathcal{N}\left(\begin{bmatrix}\mu_{x}\\
+\mu_{y}
+\end{bmatrix},\begin{bmatrix}\tilde{A} & \tilde{C}\\
+\tilde{C}^{\top} & \tilde{B}
+\end{bmatrix}^{-1}\right)
+\end{equation}
+where $x\sim\mathcal{N}\left(\mu_{x},A\right)$, $y\sim\mathcal{N}\left(\mu_{y},B\right)$, and the inverse of the block partitioned matrix can be expressed using the block inversion formula:
+\begin{equation}
+\begin{bmatrix}\tilde{A} & \tilde{C}\\
+\tilde{C}^{\top} & \tilde{B}
+\end{bmatrix}=\begin{bmatrix}A^{-1}+A^{-1}C\left(B-C^{\top}A^{-1}C\right)^{-1}C^{\top}A^{-1} & -A^{-1}C\left(B-C^{\top}A^{-1}C\right)^{-1}\\
+-\left(B-C^{\top}A^{-1}C\right)^{-1}C^{\top}A^{-1} & \left(B-C^{\top}A^{-1}C\right)^{-1}
+\end{bmatrix}
+\end{equation}
+If we want the conditional distribution of $x$ on $y$, this is
+\begin{equation}
+\left.x\middle|y\right.\sim\mathcal{N}\left(\mu_{x}+CB^{-1}\left(y-\mu_{y}\right),A-CB^{-1}C^{\top}\right) =\mathcal{N}\left(\mu_{x}-\tilde{A}^{-1}\tilde{C}\left(y-\mu_{y}\right),\tilde{A}^{-1}\right)
+\end{equation}
+Suppose we take the product of two Gaussian distributions. Note that this is different from the distribution of two Gaussian random variables, which will not be Gaussian distributed. The product of two Gaussian distributions will be another (unormalised) Gaussian:
+\begin{equation}
+\mathcal{N}\left(x; a,A\right)\mathcal{N}\left(x;b,B\right)=Z^{-1}\mathcal{N}\left(x;c,C\right)
+\end{equation}
+where
+\begin{gather}
+C=\left(A^{-1}+B^{-1}\right)^{-1} \\
+c=C\left(A^{-1}a+B^{-1}b\right)
+\end{gather}
+and the normalising factor looks like a Gaussian:
+\begin{equation}
+Z^{-1}=\left(2\pi\right)^{-D/2}\left|A+B\right|^{-1/2}\exp\left(-\dfrac{1}{2}\left(a-b\right)^{\top}\left(A+B\right)^{-1}\left(a-b\right)\right)
+\end{equation}
+We can show the above. First replace the distributions using the definition of their density functions, and substitute the definitions of $Z$, $C$ and $c$. We get
+\begin{multline}
+\dfrac{\exp\left[-\dfrac{1}{2}\left(x-a\right)^{\top}A^{-1}\left(x-a\right)\right]}{\left(2\pi\right)^{D/2}\left|A\right|^{1/2}}\cdot\dfrac{\exp\left[-\dfrac{1}{2}\left(x-b\right)^{\top}B^{-1}\left(x-b\right)\right]}{\left(2\pi\right)^{D/2}\left|B\right|^{1/2}} = \\
+\dfrac{\exp\left[-\dfrac{1}{2}\left(a-b\right)^{\top}\left(A+B\right)^{-1}\left(a-b\right)\right]}{\left(2\pi\right)^{D/2}\left|A+B\right|^{1/2}}\times \\
+\dfrac{\exp\left[-\dfrac{1}{2}\left(x-\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)\right)^{\top}\left(A^{-1}+B^{-1}\right)\left(x-\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)\right)\right]}{\left(2\pi\right)^{D/2}\left|\left(A^{-1}+B^{-1}\right)^{-1}\right|^{1/2}}
+\end{multline}
+First let's show equivalence over the denominators. Equating the denominators gives
+\begin{gather}
+\left(2\pi\right)^{D/2}\left|A\right|^{1/2}\left(2\pi\right)^{D/2}\left|B\right|^{1/2}=\left(2\pi\right)^{D/2}\left|A+B\right|^{1/2}\left(2\pi\right)^{D/2}\left|\left(A^{-1}+B^{-1}\right)^{-1}\right|^{1/2} \\
+\left|A\right|^{1/2}\left|B\right|^{1/2}=\left|A+B\right|^{1/2}\left|\left(A^{-1}+B^{-1}\right)^{-1}\right|^{1/2} \\
+\left|A\right|\left|B\right|=\left|A+B\right|\left|\left(A^{-1}+B^{-1}\right)^{-1}\right|
+\end{gather}
+We can use a property of determinants that the determinant of the inverse is the inverse of the determinant. Hence
+\begin{equation}
+\left|A+B\right|=\left|A\right|\left|B\right|\left|A^{-1}+B^{-1}\right|
+\end{equation}
+We can apply the determinant form of the matrix inversion lemma:
+\begin{equation}
+\left|Z+UWV^{\top}\right|=\left|Z\right|\left|W\right|\left|W^{-1}+V^{\top}Z^{-1}U\right|
+\end{equation}
+(note that this $Z$ is not the same as the one defined above). Letting $Z = A$, $W = B$, $U = I$, $V = I$, we have
+\begin{equation}
+\left|A+B\right|=\left|A\right|\left|B\right|\left|A^{-1}+B^{-1}\right|
+\end{equation}
+Thus we get the same as above, hence the denominators are equal. We now begin the more tedious process of proving equivalence over the numerators. Grouping exponentials, the terms inside should be equal, ie. (after taking out the $-1/2$)
+\begin{multline}
+\left(x-a\right)^{\top}A^{-1}\left(x-a\right)+\left(x-b\right)^{\top}B^{-1}\left(x-b\right) \\
+=\left(a-b\right)^{\top}\left(A+B\right)^{-1}\left(a-b\right)+ \\
+\left(x-\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)\right)^{\top}\left(A^{-1}+B^{-1}\right)\left(x-\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)\right)
+\end{multline}
+Expand the quadratics to get lengthy expressions for the LHS and RHS
+\begin{multline}
+RHS = a^{\top}\left(A+B\right)^{-1}a-b^{\top}\left(A+B\right)^{-1}a-a^{\top}\left(A+B\right)^{-1}b+b^{\top}\left(A+B\right)^{-1}b+ \red x^{\top}\left(A^{-1}+B^{-1}\right)x\black \\
+-\left[\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)\right]^{\top}\left(A^{-1}+B^{-1}\right)x-x^{\top}\left(A^{-1}+B^{-1}\right)\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right) \\
++\left[\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)\right]^{\top}\left(A^{-1}+B^{-1}\right)\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)
+\end{multline}
+\begin{multline}
+LHS=\red x^{\top}A^{-1}x\black -a^{\top}A^{-1}x-x^{\top}A^{-1}a+a^{\top}A^{-1}a+ \red x^{\top}B^{-1}x\black -b^{\top}B^{-1}x-x^{\top}B^{-1}b+b^{\top}B^{-1}b
+\end{multline}
+The highlighted terms in \red red \black cancel out. So we have (in addition to grouping some similar terms such as $b^{\top}\left(A+B\right)^{-1}a$ and $a^{\top}\left(A+B\right)^{-1}b$ together since they are scalar and $A$, $B$ are symmetric):
+\begin{multline}
+RHS=a^{\top}\left(A+B\right)^{-1}a-2a^{\top}\left(A+B\right)^{-1}b+b^{\top}\left(A+B\right)^{-1}b \\
+-2x^{\top}\blue\left(A^{-1}+B^{-1}\right)\left(A^{-1}+B^{-1}\right)^{-1}\black \left(A^{-1}a+B^{-1}b\right) \\
++\left(A^{-1}a+B^{-1}b\right)^{\top}\blue\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}+B^{-1}\right)\black \left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)
+\end{multline}
+\begin{equation}
+LHS=-a^{\top}A^{-1}x-x^{\top}A^{-1}a+a^{\top}A^{-1}a-b^{\top}B^{-1}x-x^{\top}B^{-1}b+b^{\top}B^{-1}b
+\end{equation}
+The highlighted terms in \blue blue \black cancel out because they are the inverses of each other. Also by grouping similar terms in the LHS, we get
+\begin{multline}
+RHS=a^{\top}\left(A+B\right)^{-1}a-2a^{\top}\left(A+B\right)^{-1}b+b^{\top}\left(A+B\right)^{-1}b \\
+\green -2x^{\top}\left(A^{-1}a+B^{-1}b\right)\black +\left(A^{-1}a+B^{-1}b\right)^{\top}\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)
+\end{multline}
+\begin{equation}
+LHS=\green -2x^{\top}A^{-1}a\black +a^{\top}A^{-1}a \green -2x^{\top}B^{-1}b\black +b^{\top}B^{-1}b
+\end{equation}
+
+Note now that another set of highlighted terms in \green green \black cancel out on both sides. So
+\begin{multline}
+RHS=a^{\top}\left(A+B\right)^{-1}a-2a^{\top}\left(A+B\right)^{-1}b+b^{\top}\left(A+B\right)^{-1}b+ \\
+\left(A^{-1}a+B^{-1}b\right)^{\top}\red\left(A^{-1}+B^{-1}\right)^{-1}\black\left(A^{-1}a+B^{-1}b\right)
+\end{multline}
+\begin{equation}
+LHS=a^{\top}A^{-1}a+b^{\top}B^{-1}b
+\end{equation}
+
+We deal with the highlighted term in \red red \black above using the matrix inversion lemma:
+\begin{equation}
+\left(A^{-1}+B^{-1}\right)^{-1}=A-A\left(A+B\right)^{-1}A
+\end{equation}
+Substituting this into the RHS:
+\begin{multline}
+RHS=a^{\top}\left(A+B\right)^{-1}a-2a^{\top}\left(A+B\right)^{-1}b+b^{\top}\left(A+B\right)^{-1}b \\
++\left(a^{\top}A^{-1}+b^{\top}B^{-1}\right)\left(A-A\left(A+B\right)^{-1}A\right)\left(A^{-1}a+B^{-1}b\right)
+\end{multline}
+Expanding out the quadratic, this gives the very length expression
+\begin{multline}
+RHS=a^{\top}\left(A+B\right)^{-1}a-2a^{\top}\left(A+B\right)^{-1}b+b^{\top}\left(A+B\right)^{-1}b+a^{\top}A^{-1}AA^{-1}a \\
++a^{\top}A^{-1}AB^{-1}b+b^{\top}B^{-1}AA^{-1}a+b^{\top}B^{-1}AB^{-1}b-a^{\top}A^{-1}A\left(A+B\right)^{-1}AA^{-1}a \\
+-b^{\top}B^{-1}A\left(A+B\right)^{-1}AA^{-1}a-a^{\top}A^{-1}A\left(A+B\right)^{-1}AB^{-1}b-b^{\top}B^{-1}A\left(A+B\right)^{-1}AB^{-1}b
+\end{multline}
+We can notice instances where $A^{-1}A$ or $AA^{-1}$ appears and cancel them out.
+\begin{multline}
+RHS=\blue a^{\top}\left(A+B\right)^{-1}a\black -2a^{\top}\left(A+B\right)^{-1}b+b^{\top}\left(A+B\right)^{-1}b+ \green a^{\top}A^{-1}a \black \\
++a^{\top}B^{-1}b+b^{\top}B^{-1}a+b^{\top}B^{-1}AB^{-1}b- \blue a^{\top}\left(A+B\right)^{-1}a\black -b^{\top}B^{-1}A\left(A+B\right)^{-1}a \\
+-a^{\top}\left(A+B\right)^{-1}AB^{-1}b-b^{\top}B^{-1}A\left(A+B\right)^{-1}AB^{-1}b
+\end{multline}
+We can cancel out some \blue blue \black terms within the RHS, as well as cancel the $\green a^{\top}A^{-1}a \black$ from the LHS. We are left with
+\begin{multline}
+RHS=-2a^{\top}\left(A+B\right)^{-1}b+b^{\top}\left(A+B\right)^{-1}b+a^{\top}B^{-1}b+b^{\top}B^{-1}a+b^{\top}B^{-1}AB^{-1}b \\
+-b^{\top}B^{-1}A\left(A+B\right)^{-1}a-a^{\top}\left(A+B\right)^{-1}AB^{-1}b-b^{\top}B^{-1}A\left(A+B\right)^{-1}AB^{-1}b
+\end{multline}
+\begin{equation}
+LHS=b^{\top}B^{-1}b
+\end{equation}
+We can also group similar terms in the RHS, giving
+\begin{multline}
+RHS=-2a^{\top}\left(A+B\right)^{-1}b+b^{\top}\left(A+B\right)^{-1}b+2a^{\top}B^{-1}b+ \\
+b^{\top}B^{-1}AB^{-1}b-2a^{\top}\left(A+B\right)^{-1}AB^{-1}b-b^{\top}B^{-1}A\left(A+B\right)^{-1}AB^{-1}b
+\end{multline}
+Next we subtract the LHS from the RHS and factorise out $a^{\top}\left(\cdot\right)b$ and $b^{\top}\left(\cdot\right)b$:
+\begin{multline}
+RHS-LHS=a^{\top}\green\underbrace{\black\left(-2\left(A+B\right)^{-1}+2B^{-1}-2\left(A+B\right)^{-1}AB^{-1}\right)}_{\green=0}\black b \\
++b^{\top}\green\underbrace{\black\left(\left(A+B\right)^{-1}+B^{-1}AB^{-1}-B^{-1}A\left(A+B\right)^{-1}AB^{-1}\right)}_{\green =0}\black b
+\end{multline}
+Thus to show equivalence, we need to show that the terms inside the brackets are equal to zero. This requires carrying out some manipulations. Starting from the first term:
+\begin{align}
+-2\left(A+B\right)^{-1}+2B^{-1}-2\left(A+B\right)^{-1}AB^{-1}&=0 \\
+-\left(A+B\right)^{-1}+B^{-1}-\left(A+B\right)^{-1}AB^{-1}&=0 \\
+B^{-1}&=\left(A+B\right)^{-1}\left(I+AB^{-1}\right) \\
+A+B&=\left(I+AB^{-1}\right)B \\
+A+B&=B+A
+\end{align}
+For the second term:
+\begin{align}
+\left(A+B\right)^{-1}+B^{-1}AB^{-1}-B^{-1}A\left(A+B\right)^{-1}AB^{-1}&=0 \\
+B^{-1}\left(AB^{-1}-A\left(A+B\right)^{-1}AB^{-1}-I\right)&=-\left(A+B\right)^{-1} \\
+\left(AB^{-1}-A\left(A+B\right)^{-1}AB^{-1}-I\right)\left(A+B\right)&=-B \\
+AB^{-1}A-A\left(A+B\right)^{-1}AB^{-1}A-A+A-A\left(A+B\right)^{-1}A-B&=-B \\
+AB^{-1}A-A\left(A+B\right)^{-1}AB^{-1}A-A\left(A+B\right)^{-1}A&=0 \\
+A\left(B^{-1}-\left(A+B\right)^{-1}AB^{-1}-\left(A+B\right)^{-1}\right)A&=0
+\end{align}
+Since $A \neq 0$ (we have already taken the inverse of $A$ up until this stage):
+\begin{align}
+B^{-1}-\left(A+B\right)^{-1}AB^{-1}-\left(A+B\right)^{-1}&=0 \\
+B^{-1}&=\left(A+B\right)^{-1}\left(AB^{-1}+I\right) \\
+A+B&=\left(AB^{-1}+I\right)B \\
+A+B&=A+B
+\end{align}
+Hence the terms inside the brackets are zero, so the LHS equals the RHS. This finally shows equivalence over the numerators.
+
+\section{Transformation of Densities}
+
+Let $X$ be a random variable with probability density $f_{X}\left(x\right)$, and let $A$ be the set $A = \left\{x \in\mathbb{R}\middle| f_{X}\left(x\right) > 0\right\}$. Suppose that $Y$ is a transformation of $X$ given by $Y = g\left(X\right)$ such that $g$ is strictly monotonic over $A$. We derive the probability density of $Y$, denoted $f_{Y}\left(y\right)$, in terms of $f_{X}\left(x\right)$ and $g$. \\
+
+First assume $g$ is monotonically increasing, so $g^{-1}$ will also be monotonically increasing. The cumulative density function of $Y$ is given by
+\begin{align}
+F_{Y}\left(y\right) &= P\left(Y \leq y\right) \\
+&= P\left(g\left(X\right) \leq y\right) \\
+&= P\left(X \leq g^{-1}\left(y\right)\right) \\
+&= F_{X}\left(g^{-1}\left(y\right)\right)
+\end{align}
+Differentiating $F_{Y}$ gives the density of $Y$:
+\begin{align}
+f_{Y}\left(y\right) &= \dfrac{d}{dy}F_{Y}\left(y\right)\\
+&= \dfrac{d}{dy}F_{X}\left(g^{-1}\left(y\right)\right)
+\end{align}
+Using the chain rule,
+\begin{align}
+f_{Y}\left(y\right) &= \dfrac{d}{dx}F_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right) \\
+&= f_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right)
+\end{align}
+Now assume $g$ is monotonically decreasing, so $g^{-1}$ is also monotonically decreasing and has the ability to flip an inequality sign. Similar to before, we can write
+\begin{align}
+F_{Y}\left(y\right) &= P\left(Y \leq y\right) \\
+&= P\left(g\left(X\right) \leq y\right) \\
+&= P\left(X \geq g^{-1}\left(y\right)\right) \\
+&= 1 - F_{X}\left(g^{-1}\left(y\right)\right)
+\end{align}
+Now differentiating $F_{Y}$ gives 
+\begin{align}
+f_{Y}\left(y\right) &= \dfrac{d}{dy}F_{Y}\left(y\right) \\
+&= -\dfrac{d}{dy}F_{X}\left(g^{-1}\left(y\right)\right) \\
+&= -\dfrac{d}{dx}F_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right) \\
+&= -f_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right)
+\end{align}
+Since by monotonically decreasing $g^{-1}$, we have $\dfrac{d}{dy}g^{-1}\left(y\right) < 0$ hence this density is positive. Combining the two cases, we get
+\begin{equation}
+f_{Y}\left(y\right) =  f_{X}\left(g^{-1}\left(y\right)\right)\cdot\left|\dfrac{d}{dy}g^{-1}\left(y\right)\right|
+\end{equation}
+
+\subsection{Inverse Transform Sampling}
+
+\subsection{Gauss' Approximation Theorem \cite{Blom1989}}
+
+For a differentiable function $g\left(X\right)$ of a single random variable $X$, we can make the approximations
+\begin{gather}
+\operatorname{E}\left[g\left(X\right)\right] \approx g\left(\operatorname{E}\left[X\right]\right) \\
+\operatorname{Var}\left(g\left(X\right)\right) \approx \operatorname{Var}\left(X\right)g'\left(\operatorname{E}\left[X\right]\right)^{2}
+\end{gather}
+This is achieved using a first-order Taylor series expansion of $g\left(X\right)$ about $m := \operatorname{E}\left[X\right]$ as follows
+\begin{equation}
+g\left(X\right) \approx g\left(m\right) + \left(X - m\right)g'\left(m\right)
+\end{equation}
+Taking the expectations of both sides gives
+\begin{align}
+\operatorname{E}\left[g\left(X\right)\right] &\approx \operatorname{E}\left[g\left(m\right)\right] + \operatorname{E}\left[\left(X - m\right)g'\left(m\right)\right] \\
+&\approx \operatorname{E}\left[g\left(\operatorname{E}\left[X\right]\right)\right] + \operatorname{E}\left[\left(X - \operatorname{E}\left[X\right]\right)\right]g'\left(\operatorname{E}\left[X\right]\right) \\
+&\approx g\left(\operatorname{E}\left[X\right]\right) + \left(\operatorname{E}\left[X\right] - \operatorname{E}\left[X\right]\right)g'\left(\operatorname{E}\left[X\right]\right) \\
+&\approx g\left(\operatorname{E}\left[X\right]\right)
+\end{align}
+Taking the variance of both sides of the expansion gives
+\begin{align}
+\operatorname{Var}\left(g\left(X\right)\right) &\approx \operatorname{Var}\left(g\left(m\right) + \left(X - m\right)g'\left(m\right)\right) \\
+&\approx \operatorname{Var}\left(\left(X - m\right)g'\left(m\right)\right) \\
+&\approx \operatorname{Var}\left(X - m\right)g'\left(m\right)^{2} \\
+&\approx \operatorname{Var}\left(X\right)g'\left(m\right)^{2} \\
+&\approx \operatorname{Var}\left(X\right)g'\left(\operatorname{E}\left[X\right]\right)^{2} 
+\end{align}
+
+\section{Moment Generating Functions}
+
+\section{Characteristic Functions}
+
+\section{Exponential Families}
+
+\section{Entropy}
+
+The `information entropy' of a discrete random variable $X$ with probability mass function $P\left(x\right)$ is defined as
+\begin{align}
+\operatorname{H}\left[X\right] &= \operatorname{E}\left[-\log P\left(x\right)\right] \\
+&= -\sum_{i = 1}^{n}P\left(x_{i}\right)\log P\left(x_{i}\right) \\
+&= \sum_{i = 1}^{n}P\left(x_{i}\right)\log \dfrac{1}{P\left(x_{i}\right)}
+\end{align}
+Note that since $0 \leq P\left(x_{i}\right) \leq 1$, then entropy is non-negative (and when $P\left(x_{i}\right) \rightarrow 0$, the term in the summation approaches zero). If the log used is base 2, then the units of entropy is measured in bits. If the log is the natural log, then the units are in `nats'. There are various interpretations of entropy.
+\begin{itemize}
+\item Entropy can be thought of as a measure of uncertainty. The larger the entropy, the more uncertainty in the random variable. A deterministic variable is the most certain kind of random variable, and has an entropy of zero (minimum uncertainty) since $\log 1 = 0$.
+\item Entropy measured in bits can be thought of as the lower bound on the number of bits it requires to transmit/store the outcome of an experiment. For example, in the deterministic case we require no bits because we already know the outcome of all experiments. Consider the outcome of a fair coin toss, with probability mass function
+\begin{equation}
+P\left(X = x\right) = \begin{cases}
+\begin{array}{c}
+0.5,\\
+0.5,\\
+0,
+\end{array} & \begin{array}{c}
+x=0\\
+x=1\\
+\text{elsewhere}
+\end{array}\end{cases}
+\end{equation}
+The calculation of entropy yields $\operatorname{H}\left[X\right] = 1$ bit. This agrees with the intuition that it requires a minimum of 1 bit to convey the outcome of a fair coin toss (ie. 0 for tails, 1 for heads). In the case of an unfair coin, for example with the probability mass function
+\begin{equation}
+P\left(X = x\right) = \begin{cases}
+\begin{array}{c}
+0.25,\\
+0.75,\\
+0,
+\end{array} & \begin{array}{c}
+x=0\\
+x=1\\
+\text{elsewhere}
+\end{array}\end{cases}
+\end{equation}
+The calculation of entropy for this distribution yields $\operatorname{H}\left[X\right] = 0.8113$ bits. This is a lower bound, so rounded up gives 1 bit. We still require at least 1 bit to convey the outcome of an unfair coin toss because the outcome is still binary (either we get heads or we don't). \\
+
+Now imagine an experiment with four possible outcomes distributed uniformly (eg. two fair coin tosses). The calculation of entropy does not depend on the events, only the associated probabilities. So in the case the probabilities are $\left\{0.25, 0.25, 0.25, 0.25\right\}$, the entropy works out to be $2$ bits. Once again this agrees with the intuition that it would take a minimum of $2$ bits to store the outcome of two fair coin tosses.
+\item Lastly, entropy can also be thought of as the expected value of a random variable that expresses the amount of information contained in each event (the random variable in question being $-\log P\left(x\right)$). To illustrate, consider the random variable with distribution
+\begin{equation}
+P\left(X = x\right) = \begin{cases}
+\begin{array}{c}
+0.05,\\
+0.95,\\
+0,
+\end{array} & \begin{array}{c}
+x=0\\
+x=1\\
+\text{elsewhere}
+\end{array}\end{cases}
+\end{equation}
+We regard the occurrence of the event $X = 0$ as containing more information than the occurrence of the event $X = 1$, since it is rarer and hence more of a `surprise' (the occurrence of $X = 0$ says more about the experiment than the occurrence $X = 1$). This is reflected in $\log\dfrac{1}{0.05} > \log\dfrac{1}{0.95}$.
+\end{itemize}
+
+\subsection{Differential Entropy}
+
+The continuous analogue of information entropy is differential entropy, where the discrete sum is converted to an integral over the probability density function $p\left(x\right)$.
+\begin{equation}
+\operatorname{H}\left[X\right] = -\int p\left(x\right)\log p\left(x\right) dx
+\end{equation}
+Note however that this measure of entropy does not share all the same properties as information entropy defined above. One such property is non-negativity. Since $p\left(x\right)$ may be greater than 1, then it is possible for $-\log p\left(x\right) < 0$. Despite this, we can still use differential entropy as a measure of uncertainty.
+
+\subsection{Kullback-Leibler Divergence}
+
+The Kullback-Leibler (KL) Divergence is a measure of relative entropy between two distributions, which roughly speaking gives a measure of the amount of information lost when approximating one distribution with the other distribution. For discrete probability distributions $P\left(x\right)$ and $Q\left(x\right)$, the Kullback-Leibler Divergence from $Q$ to $P$ is defined as
+\begin{align}
+\operatorname{KL}\left(P\|Q\right) &= -\sum_{i}P\left(x_{i}\right)\log\dfrac{Q\left(x_{i}\right)}{P\left(x_{i}\right)} \\
+&= \sum_{i}P\left(x_{i}\right)\log\dfrac{P\left(x_{i}\right)}{Q\left(x_{i}\right)} \\
+&= \sum_{i}P\left(x_{i}\right)\left[\log P\left(x_{i}\right) - \log Q\left(x_{i}\right)\right]
+\end{align}
+Here, $Q$ is treated as the approximating distribution. The KL divergence is defined only for when $Q\left(x_{i}\right) = 0$ implies $P\left(x_{i}\right) = 0$ for all $i$. A property of the KL divergence is always non-negative, ie. $\operatorname{KL}\left(P\|Q\right) \geq 0$.
+\begin{proof}
+\begin{align}
+\operatorname{KL}\left(P\|Q\right) &= \sum_{P\left(x_{i}\right) > 0}P\left(x_{i}\right)\log\dfrac{P\left(x_{i}\right)}{Q\left(x_{i}\right)} \\
+&= -\sum_{P\left(x_{i}\right) > 0}P\left(x_{i}\right)\log\dfrac{Q\left(x_{i}\right)}{P\left(x_{i}\right)}
+\end{align}
+As $-\log$ is a convex function, then using Jensen's inequality
+\begin{equation}
+\operatorname{KL}\left(P\|Q\right) \geq -\log\sum_{P\left(x_{i}\right) > 0}P\left(x_{i}\right)\dfrac{Q\left(x_{i}\right)}{P\left(x_{i}\right)} = -\log\sum_{P\left(x_{i}\right) > 0}Q\left(x_{i}\right)
+\end{equation}
+Or
+\begin{equation}
+-\operatorname{KL}\left(P\|Q\right) \leq \log\sum_{P\left(x_{i}\right) > 0}Q\left(x_{i}\right)
+\end{equation}
+Since $\sum Q\left(x_{i}\right) \leq 1$, then
+\begin{equation}
+-\operatorname{KL}\left(P\|Q\right) \leq \log 1 = 0
+\end{equation}
+Hence
+\begin{equation}
+\operatorname{KL}\left(P\|Q\right) \geq 0
+\end{equation}
+\end{proof}
+Intuitively, there is always information loss when approximating one distribution with another distribution, with only no information loss occurring ($\operatorname{KL}\left(P\|Q\right) = 0$ when the distributions of $P$ and $Q$ are identical). Also note that in general, $\operatorname{KL}\left(P\|Q\right) \neq \operatorname{KL}\left(Q\|P\right)$. An alternative way to write the KL divergence is as
+\begin{equation}
+\operatorname{KL}\left(P\|Q\right) = \operatorname{H}\left(P, Q\right) - \operatorname{H}\left(P\right)
+\end{equation}
+where $\operatorname{H}\left(P, Q\right)$ is the cross entropy of $P$ and $Q$, and $\operatorname{H}\left(P\right)$ is the entropy of $P$. \\
+
+The continuous analogue of KL divergence for probability density functions $p$ and $q$ is
+\begin{equation}
+\operatorname{KL}\left(p\|q\right) = \int p\left(x\right)\log\dfrac{p\left(x\right)}{q\left(x\right)}dx
+\end{equation}
+
+\subsubsection{Symmetrised KL Divergence}
+
+\subsection{Maximum Entropy Distributions}
+
+For a prescribed mean, the exponential distribution has the maximum entropy among all continuous distributions supported on $\left[0, \infty\right)$. \\
+
+For a prescribed mean and variance, the Gaussian distribution has the maximum entropy among all continuous distributions supported on $\left(-\infty, \infty\right)$. \\
+
+For a prescribed mean, variance, skewness and kurtosis, the maximum entropy distribution among continuous distributions supported on $\left(-\infty, \infty\right)$ takes the form
+\begin{equation}
+f_{X}\left(x\right) \propto \exp\left(ax + bx^{2} + cx^{3} + dx^{4}\right)
+\end{equation}
+However there may be no solution (if the skewness and kurtosis lie in certain regions) and the solution (if it exists) can be a bimodal distribution \cite{Rockinger2002}.
+
+\section{Notions of Convergence}
+
+\subsection{Convergence in Distribution}
+
+Let $\left\{X_{1}, X_{2}, \dots \right\}$ be a sequence of real-valued random variables. The sequence of random variables is said to converge in distribution to a random variable $X$ if
+\begin{equation}
+\lim_{n\to \infty}F_{n}\left(x\right) = F\left(x\right)
+\end{equation}
+where $F_{n}\left(x\right)$ is the cumulative distribution function of $X_{n}$ and $F\left(x\right)$ is the cumulative distribution function of $X$. \\
+
+Let $X_{1}, X_{2}, \dots$ be real valued random vectors and let $\left\{X_{1}, X_{2}, \dots \right\}$ be a sequence of random vectors. The sequence is said to converge in distribution to a random variable $X$ if
+\begin{equation}
+\lim_{n\to\infty}\operatorname{Pr}\left(X_{n}\in A\right) = \operatorname{Pr}\left(X\in A\right)
+\end{equation}
+for every $A\subset \mathbb{R}^{n}$ which is a continuity set of $X$. Note that it is stronger condition to say it converges in distribution if the cumulative distribution functions converge. If 
+\begin{equation}
+\lim_{n\to \infty}F_{n}\left(x\right) = F\left(x\right)
+\end{equation}
+then this implies convergence in distribution.
+
+\subsection{Convergence in Probability}
+
+A sequence of random variables $\left\{X_{1}, X_{2}, \dots \right\}$ converges in probability towards $X$ if
+\begin{equation}
+\lim_{n\to \infty}\operatorname{Pr}\left(\left|X_{n} - X\right| > \varepsilon\right) = 0
+\end{equation} 
+for all $\varepsilon > 0$.
+
+\subsection{Almost Sure Convergence}
+
+A sequence of random variables $\left\{X_{1}, X_{2}, \dots \right\}$ converges almost surely towards $X$ if
+\begin{equation}
+\operatorname{Pr}\left(\lim_{n\to\infty}X_{n} = X\right) = 1
+\end{equation}
+Almost sure convergence implies convergence in probability, however convergence in probability does not imply almost sure convergence. For example, consider the sequence where $X_{n}$ takes the value $1$ with probability $\dfrac{1}{n}$, and takes the value of $0$ otherwise. Although this sequence converges in probability to $0$, since the series $\sum_{n = 1}^{\infty}\operatorname{Pr}\left(X_{n} = 1\right) = \sum_{n = 1}^{\infty}\dfrac{1}{n}$ diverges, and each $X_{n}$ is independent, we have by the converse Borel-Cantelli lemma that there is probability 1 that the event $X_{n} = 1$ occurs infinitely many times. Therefore the sequence does not almost surely converge to $0$.
+
+\subsection{Complete Convergence}
+
+A sequence of random variables $\left\{X_{1}, X_{2}, \dots \right\}$ is said to be completely convergent to $X$ if
+\begin{equation}
+\sum_{n = 1}^{\infty}\operatorname{Pr}\left(\left|X_{n} - X\right| > \varepsilon\right) < \infty
+\end{equation}
+for all $\varepsilon > 0$. If $X_{n}$ are independent, then complete convergence is equivalent to almost sure convergence.
+\begin{proof}
+To show that complete convergence implies almost sure convergence, let event $E_{n}$ be $\left\{\left|X_{n} - X\right| > \varepsilon\right\}$ for some $\varepsilon > 0$. Then since $\sum_{n = 1}^{\infty}\operatorname{Pr}\left(\left|X_{n} - X\right| > \varepsilon\right) < \infty$ by complete convergence, the Borel-Cantelli lemma tells us that
+\begin{equation}
+\operatorname{Pr}\left(\limsup_{n\to\infty}\left\{\left|X_{n} - X\right| > \varepsilon\right\}\right) = 0
+\end{equation}
+Since $\varepsilon$ can be arbitrarily small, then
+\begin{align}
+\operatorname{Pr}\left(\limsup_{n\to\infty}\left\{\left|X_{n} - X\right| = 0\right\}\right) &= 1 \\
+\operatorname{Pr}\left(\lim_{n\to\infty}X_{n} = X\right) &= 1
+\end{align}
+To show that almost sure convergence implies complete convergence, first suppose we have almost sure convergence but not complete converge. This means there exists an $\varepsilon > 0$ such that
+\begin{equation}
+\sum_{n = 1}^{\infty}\operatorname{Pr}\left(\left|X_{n} - X\right| > \varepsilon\right) = \infty
+\end{equation}
+Given that the sequence $\left\{X_{n}\right\}$ is independent, we can verify that $\left\{X_{n} - X\right\}$ is also independent as follows. Since $X_{n} \to X$, then $X$ is almost sure constant. Hence $\left\{X_{n} - X\right\}$ is independent. By the converse Borel-Cantelli lemma, this gives for that particular $\varepsilon > 0$:
+\begin{equation}
+\operatorname{Pr}\left(\limsup_{n\to\infty}\left\{\left|X_{n} - X\right| > \varepsilon\right\}\right) = 1
+\end{equation}
+This contradicts almost sure convergence, hence almost sure convergence implies complete convergence.
+\end{proof}
+
+\subsection{With High Probability}
+
+An event $E$ occurs with high probability if the probability $\operatorname{Pr}\left(E\right)$ depends on some number $n$, and $\operatorname{Pr}\left(E\right) \to 1$ as $n \to \infty$. That is, we can make the probability as close as desired to $1$ by making $n$ big enough.
+
+\chapter{Bayesian Probability \& Statistics}
+
+\section{Cox's Theorem}
+
+\section{Rule of Succession}
+
+\section{Bayesian Networks}
+
+\section{Bayesian Inference}
+
+\subsubsection{Uninformative Priors}
+
+An uninformative prior gives no subjective information. An improper prior may be used as an uninformative prior. An improper prior is a prior whose sum or integral does not necessarily sum to 1. From Bayes' theorem, it can be seen that scaling all prior probabilities or densities by some constant will still give the same result for the posterior. So it is still possible to use improper priors in Bayesian inference. An example of an improper prior is a uniform distribution over an infinite interval.
+
+\subsection{Bayesian Linear Regression \cite{Rasmussen2006}}
+
+\subsection{Maximum a Posteriori}
+
+\subsection{Hierarchical Bayes \cite{Rasmussen2006}}
+
+Consider a model over parameters $\mathbf{w}$ (eg. weights in a neural network), hyperparameters $\boldsymbol{\theta}$ (eg. regularisation in a cost function) and a discrete set of structures $\mathcal{H}_{i}$ (eg. number of layers and nodes). We can conduct inference on these using a hierarchical approach. On the lowest level (level 1) is inference over the weights, given inputs $X$, outputs $\mathbf{y}$ and $\boldsymbol{\theta}$, $\mathcal{H}_{i}$.
+\begin{equation}
+p\left(\mathbf{w}\middle|\mathbf{y}, X, \boldsymbol{\theta}, \mathcal{H}_{i}\right) = \dfrac{p\left(\mathbf{y}\middle|\mathbf{w}, X, \boldsymbol{\theta}, \mathcal{H}_{i}\right)p\left(\mathbf{w}\middle|X, \boldsymbol{\theta}, \mathcal{H}_{i}\right)}{p\left(\mathbf{y}\middle|X, \boldsymbol{\theta}, \mathcal{H}_{i}\right)}
+\end{equation}
+As a common assumption is that $\mathbf{w}$ and $X$ are independent
+\begin{equation}
+p\left(\mathbf{w}\middle|\mathbf{y}, X, \boldsymbol{\theta}, \mathcal{H}_{i}\right) = \dfrac{p\left(\mathbf{y}\middle|\mathbf{w}, X, \boldsymbol{\theta}, \mathcal{H}_{i}\right)p\left(\mathbf{w}\middle|\boldsymbol{\theta}, \mathcal{H}_{i}\right)}{p\left(\mathbf{y}\middle|X, \boldsymbol{\theta}, \mathcal{H}_{i}\right)}
+\end{equation}
+A property of hyperparameters is that they can be selected before we gather training data and before we begin training. It follows that $\boldsymbol{\theta}$ should be independent of $\mathbf{y}$, giving
+\begin{equation}
+p\left(\mathbf{w}\middle|\mathbf{y}, X, \boldsymbol{\theta}, \mathcal{H}_{i}\right) = \dfrac{p\left(\mathbf{y}\middle|\mathbf{w}, X, \mathcal{H}_{i}\right)p\left(\mathbf{w}\middle|\boldsymbol{\theta}, \mathcal{H}_{i}\right)}{p\left(\mathbf{y}\middle|X, \boldsymbol{\theta}, \mathcal{H}_{i}\right)}
+\end{equation}
+In level 2, we conduct inference over $\boldsymbol{\theta}$.
+\begin{equation}
+p\left(\boldsymbol{\theta}\middle|\mathbf{y}, X, \mathcal{H}_{i}\right) = \dfrac{p\left(\mathbf{y}\middle|X, \boldsymbol{\theta}, \mathcal{H}_{i}\right) p\left(\boldsymbol{\theta}\middle| X, \mathcal{H}_{i}\right)}{p\left(\mathbf{y}\middle|X, \mathcal{H}_{i}\right)}
+\end{equation}
+Again, we argue that $\boldsymbol{\theta}$ should be independent of the data $X$, so
+\begin{equation}
+p\left(\boldsymbol{\theta}\middle|\mathbf{y}, X, \mathcal{H}_{i}\right) = \dfrac{p\left(\mathbf{y}\middle|X, \boldsymbol{\theta}, \mathcal{H}_{i}\right) p\left(\boldsymbol{\theta}\middle| \mathcal{H}_{i}\right)}{p\left(\mathbf{y}\middle|X, \mathcal{H}_{i}\right)}
+\end{equation}
+Note that the marginal likelihood in level 1 can be expressed as in integral over $\mathbf{w}$:
+\begin{equation}
+p\left(\mathbf{y}\middle|X, \boldsymbol{\theta}, \mathcal{H}_{i}\right) = \int p\left(\mathbf{y}\middle|\mathbf{w}, X, \mathcal{H}_{i}\right)p\left(\mathbf{w}\middle|\boldsymbol{\theta}, \mathcal{H}_{i}\right) d\mathbf{w}
+\end{equation}
+Notice that this level 1 marginal likelihood is the same as the level 2 likelihood. In practical terms, we will conduct inference on $\boldsymbol{\theta}$ by integrating over $\mathbf{w}$ using some prior for $\mathbf{w}$ to find the likelihood. We also require a hyperprior $p\left(\boldsymbol{\theta}\middle|\mathcal{H}_{i}\right)$ for $\boldsymbol{\theta}$. Once this is done, then we may perform inference on $\mathbf{w}$. \\
+
+In level 3, inference is performed over the model structures. As $\mathcal{H}_{i}$ was defined to be discrete, we use $P\left(\cdot\right)$ to denote the probability mass function (in contrast to $p\left(\cdot\right)$ for the probability density function). Bayes' theorem for the posterior of $\mathcal{H}_{i}$ gives
+\begin{equation}
+P\left(\mathcal{H}_{i}\middle|\mathbf{y}, X\right) = \dfrac{p\left(\mathbf{y}\middle|X, \mathcal{H}_{i}\right)P\left(\mathcal{H}_{i}\right)}{p\left(\mathbf{y}\middle|X\right)}
+\end{equation}
+The likelihood function $p\left(\mathbf{y}\middle|X, \mathcal{H}_{i}\right)$ is the same as the marginal likelihood for level 2, and can be computed using the integral
+\begin{equation}
+p\left(\mathbf{y}\middle|X, \mathcal{H}_{i}\right) = \int p\left(\mathbf{y}\middle|X, \boldsymbol{\theta}, \mathcal{H}_{i}\right) p\left(\boldsymbol{\theta}\middle| \mathcal{H}_{i}\right) d\boldsymbol{\theta}
+\end{equation}
+As $P\left(\mathcal{H}_{i}\right)$ is a probability mass function, the level 3 marginal likelihood is computed using the sum
+\begin{equation}
+p\left(y\middle|X\right) = \sum_{i}p\left(y\middle|X, \mathcal{H}_{i}\right)P\left(\mathcal{H}_{i}\right)
+\end{equation}
+ie. it is a weighted average of some continuous functions, and acts as a normalising constant for the posterior of $\mathcal{H}_{i}$.
+
+\section{Bayesian Classifiers}
+
+\chapter{Markov Processes}
+
+\section{Markov Chains}
+
+\section{Hidden Markov Models}
+
+\section{Markov Decision Processes}
+
+\section{Markov Chain Monte Carlo}
+
+\chapter{Measure Theoretic Probability}
+
+\section{Probability Spaces}
+
+\subsubsection{Elementary Event}
+An elementary event is an event which contains only a single outcome in the sample space. For example, in the experiment that a coin is flipped twice, the outcomes are $\left\{H, T\right\}$, $\left\{T, H\right\}$, $\left\{H, H\right\}$ and $\left\{T, T\right\}$. The event `heads followed by tails' is an elementary event because there is only a single outcome associated to it: $\left\{H, T\right\}$. However, the event `at least one heads' is not an elementary event because there are three outcomes associated to it: $\left\{H, T\right\}$, $\left\{T, H\right\}$ and $\left\{H, H\right\}$.
+
+\subsubsection{Power Set}
+The power set of a set $S$ is the set of all subsets of $S$, including the empty set and $S$ itself. If $S$ is a finite set with cardinality $\left|S\right| = n$, then the number of subsets of $S$ is $2^{n}$ (related to the binomial theorem). This motivates the notation for the power set of $S$ as $2^{S}$. \\
+
+The power set of all functions from $Y$ to $X$ can be denoted $X^{Y}$.
+
+\subsubsection{Countable Set}
+A countable set $S$ has the same cardinality $\left|S\right|$ as some subset of the natural numbers. Intuitively speaking, a set is countable we can in some way assign numbers $1, 2, 3, \dots$ to each element in $S$ (ie. we can `enumerate' the elements of $S$). A finite set will always be countable, but some infinite sets can still be countably infinite. For example, the set of natural numbers itself is trivially countably infinite. 
+
+\begin{figure}[H]
+\includegraphics[width=0.5\textwidth]{Figures/rational_countable}\centering
+\caption{The set of positive rational numbers is countable, as we can enumerate all positive rational numbers in the following way. Similarly, the set of all rational numbers is also countable. One possible enumeration is that we can imagine starting at 0, and then enumerating back a forth between a second `layer' of negative rational numbers behind the positive rational numbers.}
+\end{figure}
+
+An example of an uncountable set is the set of real numbers.
+
+\subsubsection{Measurable Sets}
+An example of sets which are not measurable are Vitali sets. A Vitali set $V$ is a subset of the interval $\left[0, 1\right]$ such that for each real number $r \in \mathbb{R}$, there is exactly one number $v \in V$ such that $v - r$ is a rational number. A numerical example of this is with the real number $10 + 1/\sqrt{2}$, we can choose $1/\sqrt{2} \in \left[0, 1\right]$ such that $1/\sqrt{2} - \left(10 - 1/\sqrt{2}\right)$ is rational. There are uncountably many Vitali sets, but all Vitali sets will satisfy this property. \\
+
+We can show that Vitali sets are unmeasureable in the following way. Define the enumeration of all rational numbers in $\left[-1, 1\right]$ to be $q_{1}, q_{2}, \dots$. Define the translated Vitali sets $V_{k} := V + q_{k} = \left\{v + q_{k}: v \in V\right\}$ for $k = 1, 2, \dots$ so that $v_{k} = v + q_{k} \in V_{k}$. These sets must be disjoint in order to satisfy the definition that there is exactly one $v \in V$ for each real number. If shifting $V$ by $q_{k}$ causes $V$ and $V_{k}$ to have elements in common, then it implies $V$ is not a Vitali set. Another way to state this is that there is no gap between any two elements in $V$ equal to a rational number. If this were the case, then there could be more than one $v \in V$ that could make $v - r$ rational. Hence shifting $V$ by a rational number $q_{k}$ will ensure $V_{k}$ and $V$ will be disjoint. We can write the following inclusion
+\begin{equation}
+\bigcup_{k}V_{k} \subseteq \left[-1, 2\right]
+\end{equation}
+since $v \in \left[0, 1\right]$ and $q_{k} \in \left[-1, 1\right]$, then $-1 \leq v + q_{k} \leq 2$. Furthermore, consider any real number $v_{i} \in \left[0, 1\right]$. Then by definition there will be exactly one $v \in \left[0, 1\right]$ such that $v - v_{i} = -q_{i}$, where $q_{i} \in \left[-1,1\right]$ since $-1 \leq v - v_{i} \leq 1 \Rightarrow -1 \leq q_{i} \leq 1$. Therefore $v_{i} \in V_{i}$ and we can write
+\begin{equation}
+\left[0, 1\right] \subseteq \bigcup_{k}V_{k} \subseteq \left[-1, 2\right]
+\end{equation}
+Suppose we can take the Lebesque measure $\lambda\left(\cdot\right)$ of these inclusions.
+\begin{equation}
+1 \leq \sum_{k = 1}^{\infty}\lambda\left(V_{k}\right) \leq 3
+\end{equation}
+Since the Lebesque measure is translation invariant, we have $\lambda\left(V_{k}\right) = \lambda\left(V\right)$ (a constant) and then
+\begin{equation}
+1 \leq \sum_{k = 1}^{\infty}\lambda\left(V\right) \leq 3
+\end{equation}
+This results in a contradiction. The infinite sum must either be zero or infinity, but neither is between 1 and 3. So a Vitali set is not Lebesgue measurable.
+
+\subsubsection{Borel Sets}
+
+A Borel set is a set in topological space $\mathcal{X}$ (eg. Euclidean space) that can be formed from the operations of countable union, countable intersection, and relative complement (ie. the relative complement of $A$ in $B$ is denoted $A\setminus B$) of open or closed sets in $\mathcal{X}$.
+
+\subsubsection{$\sigma$-algebra}
+
+The $\sigma$-algebra of a set $\Omega$ is a collection of subsets of $\Omega$ which:
+\begin{itemize}
+\item includes the empty subset.
+\item is closed under complement (ie. the complement of a member of the $\sigma$-algebra is also a member of the $\sigma$-algebra).
+\item is closed under countable unions (ie. the countable union of members of the $\sigma$-algebra is also a member of the $\sigma$-algebra).
+\item is closed under countable intersections (ie. the countable intersection of members of the $\sigma$-algebra is also a member of the $\sigma$-algebra).
+\end{itemize}
+In general, the $\sigma$-algebra of $\Omega$ is a subset of the power set of $\Omega$. However in the case where $\Omega$ is a countable set, then the power set is identical to the $\sigma$-algebra.
+
+\subsubsection{Borel $\sigma$-algebra}
+
+The Borel $\sigma$-algebra of a set $\Omega$ is the collection of all Borel sets of $\Omega$.
+
+\subsubsection{Boundary Sets}
+
+The boundary set of $\mathcal{B}$ is the set of points in the closure of $\mathcal{B}$ but not in the interior of $\mathcal{B}$. The boundary set is denoted $\partial\mathcal{B}$.
+
+\subsubsection{Continuity Sets}
+
+For a random variable $X$, a Borel set $\mathcal{B}$ is called a continuity set if
+\begin{equation}
+\mathbb{P}\left(X\in \partial\mathcal{B}\right) = 0
+\end{equation}
+For example, if $X$ is a Bernoulli random variable, then $\left[0, 1\right]$ nor $\left(0, 1\right)$ are considered continuity sets, however $\left(-1, -0.5\right)$, $\left[0.1, 0.9\right)$ and $\left[1.1, \infty\right)$ would be considered continuity sets. A continuity set can be made of any points at which the cumulative distribution function of $X$ is continuous.
+
+
+
+
+\subsection{$\left(\Omega, \mathcal{F}, \mathbb{P}\right)$}
+In measure theoretic probability, a probability space is a measure space denoted with the three-tuple $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$ where $\Omega$ is the sample space, $F$ is the event space and $\mathbb{P}$ is a probability measure. \\
+
+The set $\Omega$ contains each elementary events. The event space $\mathcal{F}$ is formed by taking the Borel $\sigma$-algebra of $\Omega$. The function $\mathbb{P}: \mathcal{F} \to \left[0, 1\right]$ is called a probability measure, which maps events to probabilities.
+
+\subsubsection{Lebesgue Integration}
+
+A real valued function $f: \Omega \to \mathbb{R}$ is said to be measurable if for every $E$ in the $\sigma$-algebra of $\Omega$, denoted $\mathcal{F}$, the preimage of $E$ under $f$ is in $\Omega$. Explicitly,
+\begin{equation}
+f^{-1}\left(E\right) := \left\{x \in \Omega \middle| f\left(x\right) \in E\right\} \in \Omega
+\end{equation}
+In a probability space $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$, the Lebesgue integral of a measurable function $f\left(x\right)$ over a measurable subset $\mathcal{B}$ of $\Omega$ with respect to the measure $\mathbb{P}$ may be denoted as
+\begin{equation}
+\int_{\mathcal{B}}f\left(x\right)\mathrm{d}\mathbb{P}\left(x\right)
+\end{equation}
+
+\subsection{Probability Axioms}
+
+Let $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$ be a probability space with sample space $\Omega$, event space $\mathcal{F}$ and probability measure $\mathbb{P}$.
+\begin{enumerate}
+\item The probability of an event $E \in \mathcal{F}$ is a nonnegative real number
+\begin{equation}
+0 \leq \mathbb{P}\left(E\right) \in \mathbb{R}
+\end{equation}
+for all $E \in \mathcal{F}$.
+\item The probability that at least one of the elementary events in the entire sample space will occur is 1.
+\begin{equation}
+\mathbb{P}\left(\Omega\right) = 1
+\end{equation}
+\item Any countable sequence of disjoint (mutually exclusive) events $E_{1}$, $E_{2}$, $\dots$ satisfies
+\begin{equation}
+\mathbb{P}\left(\bigcup_{i = 1}^{\infty}E_{i}\right) = \sum_{i = 1}^{\infty}\mathbb{P}\left(E_{i}\right)
+\end{equation}
+\end{enumerate}
+From the axioms, we can deduce further properties
+\begin{itemize}
+\item If $A \subseteq B$, the we have the monotonicity property
+\begin{equation}
+\mathbb{P}\left(A\right) \leq \mathbb{P}\left(B\right)
+\end{equation}
+This can be seen by defining events $E_{1} = A$, $E_{2} = B\setminus A$ where $A\subseteq B$, and $E_{i} = \O$ for all $i\geq 3$. These sets are all disjoint (we may alternatively define disjoint sets to be sets whose intersection is the empty set). Additionally, we have $\bigcup_{i = 1}^{\infty}E_{i} = B$. By the third axiom
+\begin{align}
+\sum_{i = 1}^{\infty}\mathbb{P}\left(E_{i}\right) &= \mathbb{P}\left(A\right) + \mathbb{P}\left(B\setminus A\right) + \sum_{i = 3}^{\infty}\mathbb{P}\left(\O\right) \\
+&= \mathbb{P}\left(B\right)
+\end{align}
+The terms $\mathbb{P}\left(B\setminus A\right)$ and $\sum_{i = 3}^{\infty}\mathbb{P}\left(\O\right)$ are non-negative, hence $\mathbb{P}\left(A\right) \leq \mathbb{P}\left(B\right)$.
+\item The probability of the empty set is zero.
+\begin{equation}
+\mathbb{P}\left(\O\right) = 0
+\end{equation}
+In deriving the above, we saw that the sum in $\mathbb{P}\left(A\right) + \mathbb{P}\left(B\setminus A\right) + \sum_{i = 3}^{\infty}\mathbb{P}\left(\O\right)$ was convergent. Therefore it must be that $\mathbb{P}\left(\O\right) = 0$, otherwise the sum would be infinite.
+\item The numeric bound applies to any event $E \in \mathcal{F}$:
+\begin{equation}
+0 \leq \mathbb{P}\left(E\right) \leq 1
+\end{equation}
+This can be shown by applying the non-negativity axiom and the monotonicity property to any subset of $\Omega$ since $\mathbb{P}\left(\Omega\right) = 1$.
+\end{itemize}
+
+\subsection{Random Variables}
+
+In measure theoretic probability, a real valued random variable $X$ is defined as a function $X: \Omega \to \mathbb{R}$. For each $\omega \in \Omega$, the function $X\left(\omega\right)$ assigns a number to each outcome in the sample space. For example, in an experiment involving a sequence of coin tosses, let the sample space be $\Omega = \left\{H, T, HH, HT, TH, TT\right\}$. We can define the random variable $X\left(\omega\right)$ to be the number of heads tossed. In that case, we have $X\left(H\right) = 1$, $X\left(T\right) = 0$, $X\left(HH\right) = 2$, $X\left(HT\right) = 1$, $X\left(TH\right) = 1$, $X\left(TT\right) = 0$.
+
+\subsection{Expectation}
+
+The expectation of a random variable $X\left(\omega\right)$ is defined using the Lebesgue integral
+\begin{equation}
+\mathbb{E}\left[X\right] = \int_{\Omega}X\left(\omega\right)\mathrm{d}\mathbb{P}\left(\omega\right)
+\end{equation}
+
+\section{Borel-Cantelli Lemma}
+
+\subsection{Limit Supremum of a Sequence of Events}
+
+Let $E_{1}, E_{2}, \dots$ be a sequence of events in some probability space. The limit supremum of the sequence of events is the set of all outcomes where the event $E_{n}$ occurs infinitely many times in the infinite sequence of events. That is,
+\begin{align}
+\limsup_{n\to\infty}E_{n} &= \bigcup_{k = 1}^{\infty}E_{k} \cap \bigcup_{k = 2}^{\infty}E_{k} \cap \dots \\
+&= \bigcap_{n = 1}^{\infty}\bigcup_{k = n}^{\infty}E_{k}
+\end{align}
+
+\subsection{Statement of Lemma in Probability Spaces}
+
+For a sequence of events $E_{1}, E_{2}, \dots$ in a probability space, if the sum of probabilities is finite
+\begin{equation}
+\sum_{n = 1}^{\infty}\mathbb{P}\left(E_{n}\right) < \infty
+\end{equation}
+then the probability the event occurs infinitely often is zero:
+\begin{equation}
+\mathbb{P}\left(\limsup_{n\to\infty}E_{n}\right) = 0
+\end{equation}
+\begin{proof}
+Since $\sum_{n = 1}^{\infty}\mathbb{P}\left(E_{n}\right) < \infty$, then the series of probabilities converges, meaning $\sum_{n = N}^{\infty}\mathbb{P}\left(E_{n}\right) \to 0$ as $N \to \infty$. Hence taking the greatest lower bound of the series gives
+\begin{equation}
+\inf_{N \geq 1}\sum_{n = N}^{\infty}\mathbb{P}\left(E_{n}\right) = 0
+\end{equation}
+Evaluating $\mathbb{P}\left(\limsup_{n\to\infty}E_{n}\right)$ yields
+\begin{equation}
+\mathbb{P}\left(\limsup_{n\to\infty}E_{n}\right) = \mathbb{P}\left(\bigcap_{N = 1}^{\infty}\bigcup_{n = N}^{\infty}E_{n}\right)
+\end{equation}
+Note that by the chain rule of probability, $\operatorname{Pr}\left(A \cap B\right) = \operatorname{Pr}\left(B \middle| A\right)\operatorname{Pr}\left(A\right) \leq \operatorname{Pr}\left(A\right)$ so we can use the generalisation this argument to state
+\begin{align}
+\mathbb{P}\left(\bigcap_{N = 1}^{\infty}\bigcup_{n = N}^{\infty}E_{n}\right) &\leq \inf_{N \geq 1}\mathbb{P}\left(\bigcup_{n = N}^{\infty}E_{n}\right) \\
+&\leq \inf_{N \geq 1}\sum_{n = N}^{\infty}\mathbb{P}\left(E_{n}\right) = 0
+\end{align}
+where the latter inequality comes from the generalisation of the concept $\operatorname{Pr}\left(A \cup B\right) \leq \operatorname{Pr}\left(A\right) + \operatorname{Pr}\left(B\right)$ (this is called Boole's inequality). Hence $\mathbb{P}\left(\limsup_{n\to\infty}E_{n}\right) = 0$
+\end{proof}
+An alternative proof is provided:
+\begin{proof}
+Let $\mathbb{I}_{n}$ denote the indicator function for the event $E_{n}$. Then by the linearity of expectation
+\begin{align}
+\mathbb{E}\left[\sum_{n = 1}^{\infty}\mathbb{I}_{n}\right] &= \sum_{n = 1}^{\infty}\mathbb{E}\left[\mathbb{I}_{n}\right] \\
+&= \sum_{n = 1}^{\infty}\mathbb{P}\left(E_{n}\right) < \infty
+\end{align}
+Suppose there is a non-zero probability that $E_{n}$ occurs infinitely often, meaning $\mathbb{P}\left(\sum_{n = 1}^{\infty}\mathbb{I}_{n} = \infty\right) > 0$. However if we attempt to find $\mathbb{E}\left[\sum_{n = 1}^{\infty}\mathbb{I}_{n}\right]$ by Lebesgue integration this gives
+\begin{align}
+\mathbb{E}\left[\sum_{n = 1}^{\infty}\mathbb{I}_{n}\right] &= \int_{\left\{\sum_{n = 1}^{\infty}\mathbb{I}_{n} = \infty\right\}}\left(\sum_{n = 1}^{\infty}\mathbb{I}_{n}\right)\mathrm{d}\mathbb{P} + \int_{\left\{\sum_{n = 1}^{\infty}\mathbb{I}_{n} \neq \infty\right\}}\left(\sum_{n = 1}^{\infty}\mathbb{I}_{n}\right)\mathrm{d}\mathbb{P} \\
+&\geq \int_{\left\{\sum_{n = 1}^{\infty}\mathbb{I}_{n} = \infty\right\}}\left(\sum_{n = 1}^{\infty}\mathbb{I}_{n}\right)\mathrm{d}\mathbb{P}
+\end{align}
+Since there is a non-zero probability that $\sum_{n = 1}^{\infty}\mathbb{I}_{n} = \infty$, then the integral is infinite, ie.
+\begin{equation}
+\int_{\left\{\sum_{n = 1}^{\infty}\mathbb{I}_{n} = \infty\right\}}\left(\sum_{n = 1}^{\infty}\mathbb{I}_{n}\right)\mathrm{d}\mathbb{P} = \infty
+\end{equation}
+This results in $\mathbb{E}\left[\sum_{n = 1}^{\infty}\mathbb{I}_{n}\right] \geq \infty$, which is a contradiction.
+\end{proof}
+
+\subsection{Converse Borel-Cantelli Lemma}
+
+We have the converse result that if the events $E_{1}, E_{2}, \dots$ are independent and the sum of the probabilities diverges to infinity, ie.
+\begin{equation}
+\sum_{n = 1}^{\infty}\mathbb{P}\left(E_{n}\right) = \infty
+\end{equation}
+then then probability that $E_{n}$ occurs infinitely many times is $1$, ie.
+\begin{equation}
+\mathbb{P}\left(\limsup_{n \to \infty}E_{n}\right) = 1
+\end{equation}
+\begin{proof}
+We can show that there is zero probability that $E_{n}$ will occur a finite amount of times, ie.
+\begin{equation}
+1 - \mathbb{P}\left(\limsup_{n \to \infty}E_{n}\right) = 0
+\end{equation}
+This probability can be rewritten as
+\begin{equation}
+1 - \mathbb{P}\left(\limsup_{n \to \infty}E_{n}\right) = \lim_{N \to \infty}\mathbb{P}\left(\bigcap_{n = N}^{\infty}\overline{E}_{n}\right)
+\end{equation}
+where $\overline{E}_{n}$ is the complement of $E_{n}$. Intuitively, this expresses the probability that there is some integer large enough such that any subsequent $E_{n}$ can no longer occur. Since the $E_{n}$ are independent, we can show
+\begin{align}
+\mathbb{P}\left(\bigcap_{n = N}^{\infty}\overline{E}_{n}\right) &= \prod_{n = N}^{\infty}\mathbb{P}\left(\overline{E}_{n}\right) \\
+&= \prod_{n = N}^{\infty}\left(1 - \mathbb{P}\left(E_{n}\right)\right) \\
+&\leq \prod_{n = N}^{\infty}\exp\left(-\mathbb{P}\left(E_{n}\right)\right)
+\end{align}
+where we have used the fact that $1 - x \leq e^{-x}$ for $x \geq 0$. Hence
+\begin{align}
+\mathbb{P}\left(\bigcap_{n = N}^{\infty}\overline{E}_{n}\right) &\leq \prod_{n = N}^{\infty}\exp\left(-\mathbb{P}\left(E_{n}\right)\right) \\
+&\leq \exp\left(-\sum_{n = N}^{\infty}\mathbb{P}\left(E_{n}\right)\right) \\
+&\leq 0 \\
+\mathbb{P}\left(\bigcap_{n = N}^{\infty}\overline{E}_{n}\right) &= 0
+\end{align}
+Therefore $1 - \mathbb{P}\left(\limsup_{n \to \infty}E_{n}\right) = \lim_{N \to \infty}\mathbb{P}\left(\bigcap_{n = N}^{\infty}\overline{E}_{n}\right) = 0$, completing the proof.
+\end{proof}
+
+\section{Radon-Nikodym Theorem}
+
+\chapter{Advanced Statistics}
+
+\section{Copulas}
+
+A copula is a multivariate probability distribution on support the unit hypercube, with uniform marginal distributions. 	
+
+\begin{figure}[H]
+\includegraphics[width=0.7\textwidth]{Figures/copula}\centering
+\caption{A copula in two dimensions. From this it is easier to see that the marginals will be uniform.}
+\end{figure}
+
+An example of a copula is the Frank distribution, with cumulative distribution function
+\begin{equation}
+H\left(x, y; \psi\right) = \begin{cases}
+\begin{array}{c}
+\dfrac{1}{\psi}\log\left(1+\dfrac{\left(e^{\psi x}-1\right)\left(e^{\phi y}-1\right)}{e^{\psi}-1}\right)\\
+xy,
+\end{array} & \begin{array}{c}
+\psi\neq0\\
+\psi=0
+\end{array}\end{cases}
+\end{equation}
+where $\psi$ is a parameter which determines the dependence structure of the copula. We can verify that the following properties hold for this distribution: $H\left(0, 0; \psi\right) = 0$, $H\left(1, 1; \psi\right) = 1$. Additionally, we can verify that $H\left(1, y; \psi\right) = y$, $H\left(x, 1; \psi\right) = x$ which are the cumulative distribution functions of the uniform marginal distributions. \\
+
+The usefulness of copulas in statistics starts with the property that for some continuous random variable $X$ with cumulative distribution function $F_{X}\left(x\right)$, then the transformed random variable $F_{X}\left(X\right)$ will be uniformly distributed on $\left[0, 1\right]$. The reason for this is related to the inverse transform sampling theorem. Thus if we observe some data and suspect that their marginal distributions follow some distributions (eg. $F_{X}\left(x\right)$ and $F_{Y}\left(y\right)$), then we can fit the data to a copula. \\
+
+For example with the Frank copula, we can fit it to a distribution of the form $H\left(F_{X}\left(x\right), F_{Y}\left(y\right); \psi\right)$. Since by construction the random variables $F_{X}\left(X\right)$ and $F_{Y}\left(Y\right)$ have uniform marginals, then the random variables $X$ and $Y$ have cumulative distribution functions $F_{X}\left(x\right)$ and $F_{Y}\left(y\right)$ respectively. The parameter $\psi$ can then be used to model the dependencies of the variables based on what is observed in the data. The maximum likelihood technique is typically used for estimating the parameters of the copula, which can be jointly estimated with any parameters of the marginal distributions.
+
+\section{Asymptotic Theory}
+
+\section{Resampling Methods}
+
+\subsection{Jackknife}
+
+Given a sample of size $n$, the Jackknife method for an estimator involves aggregating the estimates for each size $n - 1$ subsample. Suppose the parameter to be estimated is the population mean. Formally, the Jackknife estimate involves first taking $n$ sample means with each observation removed:
+\begin{equation}
+\bar{x}_{i} = \dfrac{1}{n - 1}\sum_{j = 1, j\neq i}^{n}x_{j}
+\end{equation}
+for $i = 1, \dots, n$. The Jackknife estimate of the population mean is then the mean of all the subsample means:
+\begin{equation}
+\hat{\theta} = \dfrac{1}{n}\sum_{i = 1}^{n}\bar{x}_{i}
+\end{equation}
+The Jackknife estimate of the variance of the estimator can also be calculated using the distribution of $\bar{x}_{i}$ as follows:
+\begin{equation}
+\hat{\operatorname{Var}}\left(\hat{\theta}\right) = \dfrac{n - 1}{n}\sum_{i = 1}^{n}\left(\bar{x}_{i} - \hat{\theta}\right)^{2}
+\end{equation}
+This estimator is an unbiased estimator of the variance of the sample mean.
+\begin{proof}
+Notice that $\bar{x}_{i} = \dfrac{n\bar{x} - x_{i}}{n - 1} \Rightarrow \left(n - 1\right)\bar{x}_{i} = n\bar{x} - x_{i}$ where $\bar{x}$ is the sample mean. The term $\bar{x}_{i} - \hat{\theta}$ can be manipulated to become
+\begin{align}
+\bar{x}_{i} - \hat{\theta} &= \dfrac{n\bar{x} - x_{i}}{n - 1} - \dfrac{1}{n}\sum_{i = 1}^{n}\bar{x}_{i} \\
+&= \dfrac{1}{n - 1}\left(n\bar{x} - x_{i} - \dfrac{1}{n}\sum_{i = 1}^{n}\left(n - 1\right)\bar{x}_{i}\right) \\
+&= \dfrac{1}{n - 1}\left(n\bar{x} - x_{i} - \dfrac{1}{n}\sum_{i = 1}^{n}\left(n\bar{x} - x_{i}\right)\right) \\
+&= \dfrac{1}{n - 1}\left(n\bar{x} - x_{i} - n\bar{x} + \dfrac{1}{n}\sum_{i = 1}^{n}x_{i}\right) \\
+&= \dfrac{1}{n - 1}\left(\bar{x} - x_{i}\right) \\
+\end{align}
+Hence
+\begin{align}
+\hat{\operatorname{Var}}\left(\hat{\theta}\right) &= \dfrac{n - 1}{n}\sum_{i = 1}^{n}\left(\bar{x}_{i} - \hat{\theta}\right)^{2} \\
+&= \dfrac{1}{n\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\right)^{2}
+\end{align}
+Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\right)^{2}$ is an unbiased estimator of the population variance, and so $\dfrac{1}{n\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\right)^{2}$ is an unbiased estimator of the variance of the sample mean.
+\end{proof}
+
+\subsection{Bootstrap}
+
+
+
+\section{Gauss-Markov Theorem}
+
+\subsection{Cramer-Rao Bound}
+
+\section{Rao-Blackwell Estimators}
+
+\section{Principal Component Analysis}
+
+\chapter{Stochastic Calculus}
+
+\section{Martingales}
+
+\section{Ito Calculus}
+
+\subsection{Ito Integral}
+
+\section{Kolmogorov-Chentsov Continuity Theorem}
+
+\chapter{Combinatorial Probability}
+
+\section{Inclusion-Exclusion Principle}
+
+\part{Applications}
+
+\chapter{Machine Learning}
+
+\section{Neural Networks}
+For an input vector $x\in\mathbb{R}^{Nx}$ with $x=\begin{bmatrix}x_{1} & \dots & x_{Nx}\end{bmatrix}^{\top}$, we have an associated (target/observed) output vector $y\in\mathbb{R}^{Ny}$ with $y=\begin{bmatrix}y_{1} & \dots & y_{Ny}\end{bmatrix}^{\top}$. Let there be $L + 1$ layers in the network, with structure given by
+\begin{equation}
+\left\{Nx,N1,N2,\dots,N\ell,\dots,NL\right\} \in \mathbb{N}^{L + 1}
+\end{equation}
+which denotes the number of nodes (size) of each layer. Note that $NL\equiv Ny$. For each layer excluding the input layer, there is an `intermediate output' $\mathstrut^{\ell}z\in\mathbb{R}^{N\ell}$, an activation $\mathstrut^{\ell}a\in\mathbb{R}^{N\ell}$, a bias $\mathstrut^{\ell}b\in\mathbb{R}^{N\ell}$, some weights $\mathstrut_{\ell-1}^{\ell}w\in\mathbb{R}^{N\ell\times N\left(\ell-1\right)}$ and an activation function $\mathstrut^{\ell}\sigma\left(\cdot\right)$. Their relationship in each layer from the one before it is given by
+\begin{equation}
+\mathstrut^{\ell}z=\mathstrut_{\ell-1}^{\ell}w\mathstrut^{\ell-1}a+\mathstrut^{\ell}b
+\end{equation}
+and $\mathstrut^{0}a$ can be taken to equal $x$. Denote
+\begin{equation}
+\mathstrut^{\ell}\boldsymbol{\sigma}\left(\mathstrut^{\ell}z\right)=\begin{bmatrix}\mathstrut^{\ell}\sigma\left(\mathstrut^{\ell} z_{1}\right)\\
+\vdots\\
+\mathstrut^{\ell}\sigma\left(\mathstrut^{\ell}z_{N}\right)
+\end{bmatrix}
+\end{equation}
+so that
+\begin{equation}
+\mathstrut^{\ell}a=\mathstrut^{\ell}\boldsymbol{\sigma}\left(\mathstrut^{\ell}z\right)
+\end{equation}
+The feedforward function is
+\begin{equation}
+f\left(x\right)=\mathstrut^{L}a=\mathstrut^{L}\boldsymbol{\sigma}\left(\mathstrut_{L-1}^{L}w\mathstrut^{L-1}a+\mathstrut^{L}b\right)
+\end{equation}
+Suppose we have a training data set indexed by
+\begin{gather}
+X=\left\{ x\left[1\right],\dots,x\left[n\right]\right\} \\
+Y=\left\{ y\left[1\right],\dots,y\left[n\right]\right\} 
+\end{gather}
+Use the cost function
+\begin{equation}
+C=\dfrac{1}{2n}\sum_{i=1}^{n}\left\Vert f\left(x\left[i\right]\right)-y\left[i\right]\right\Vert ^{2}
+\end{equation}
+This can be broken up into a cost for each training point:
+\begin{equation}
+C_{i}=\dfrac{1}{2}\left\Vert f\left(x\left[i\right]\right)-y\left[i\right]\right\Vert ^{2}=\dfrac{1}{2}\left(f_{1}\left(x\left[i\right]\right)-y_{1}\left[i\right]\right)^{2}+\dots+\dfrac{1}{2}\left(f_{Ny}\left(x\left[i\right]\right)-y_{Ny}\left[i\right]\right)^{2}
+\end{equation}
+so that
+\begin{equation}
+C=\dfrac{1}{n}\sum_{i=1}^{n}C_{i}
+\end{equation}
+Using this cost function, the gradient descent equations for the weights and biases in each layer are
+\begin{gather}
+\mathstrut_{\ell-1}^{\ell}w\rightarrow\mathstrut_{\ell-1}^{\ell}w-\eta\dfrac{\partial C}{\partial\mathstrut_{\ell-1}^{\ell}w}^{\top} \\
+\mathstrut^{\ell}b\rightarrow\mathstrut^{\ell}b-\eta\dfrac{\partial C}{\partial\mathstrut^{\ell}b}^{\top}
+\end{gather}
+where $\eta$ is the learning rate. For ease of notation we will use for a given $i$: $c := C_{i}$, $f := f\left(x\right)\left[i\right]$ and $y:= y\left[i\right]$. For example, instead of using the cumbersome notation for the gradient vector
+\begin{equation}
+\nabla_{f}C_{i}=\dfrac{\partial C_{i}}{\partial f}^{\top}=\begin{bmatrix}\dfrac{\partial C_{i}}{\partial f_{1}} & \dots & \dfrac{\partial C_{i}}{\partial f_{Ny}}\end{bmatrix}^{\top}=\begin{bmatrix}f_{1}\left(x\left[i\right]\right)-y_{1}\left[i\right]\\
+\vdots\\
+f_{Ny}\left(x\left[i\right]\right)-y_{Ny}\left[i\right]
+\end{bmatrix}
+\end{equation}
+we can instead write
+\begin{equation}
+\nabla_{f}c=\begin{bmatrix}f_{1}-y_{1}\\
+\vdots\\
+f_{Ny}-y_{Ny}
+\end{bmatrix}
+\end{equation}
+To make our way to finding $\dfrac{\partial C}{\partial\mathstrut_{\ell-1}^{\ell}w}$ and $\dfrac{\partial C}{\partial\mathstrut^{\ell}b}$, first consider $\nabla_{\mathstrut^{L}z}c$. We have from the chain rule
+\begin{equation}
+\nabla_{\mathstrut^{L}z}c=\begin{bmatrix}\dfrac{\partial c}{\partial\mathstrut^{L}z_{1}}\\
+\vdots\\
+\dfrac{\partial c}{\partial\mathstrut^{L}z_{NL}}
+\end{bmatrix}=\begin{bmatrix}\dfrac{\partial c}{\partial f_{1}}\times\dfrac{\partial f_{1}}{\partial\mathstrut^{L}z_{1}}\\
+\vdots\\
+\dfrac{\partial c}{\partial f_{NL}}\times\dfrac{\partial f_{NL}}{\partial\mathstrut^{L}z_{NL}}
+\end{bmatrix}=\begin{bmatrix}\dfrac{\partial c}{\partial f_{1}}\cdot\mathstrut^{L}\sigma'\left(\mathstrut^{L}z\right)\\
+\vdots\\
+\dfrac{\partial c}{\partial f_{NL}}\cdot\mathstrut^{L}\sigma'\left(\mathstrut^{L}z\right)
+\end{bmatrix}=\nabla_{f}c\odot\mathstrut^{L}\boldsymbol{\sigma}'\left(\mathstrut^{L}z\right)
+\end{equation}
+where $\odot$ is the Hadamard (element-wise) product. Denote the `error' in each layer as $\mathstrut^{\ell}\delta:=\nabla_{\mathstrut^{\ell}z}c$. For the final layer, we have
+\begin{equation}
+\mathstrut^{L}z=\mathstrut_{L-1}^{L}w\mathstrut^{L-1}a+\mathstrut^{L}b
+\end{equation}
+It can be easily seen that $\dfrac{\partial\mathstrut^{L}z}{\partial\mathstrut^{L}b}=I$, so this gives
+\begin{equation}
+\dfrac{\partial C}{\partial\mathstrut^{L}b}^{\top}=\nabla_{\mathstrut^{L}z}c=\mathstrut^{L}\delta
+\end{equation}
+and in general for any layer
+\begin{equation}
+\dfrac{\partial C}{\partial\mathstrut^{\ell}b}^{\top}=\nabla_{\mathstrut^{\ell}z}c=\mathstrut^{\ell}\delta
+\end{equation}
+For the following steps use for ease of notation: $z:=\mathstrut^{\ell}z$, $b:=\mathstrut^{\ell}b$,  $a:=\mathstrut^{\ell-1}a$ and $w:=\mathstrut_{\ell-1}^{\ell}w$. Then write out the following sums:
+\begin{equation}
+\begin{bmatrix}z_{1}\\
+z_{2}\\
+\vdots\\
+z_{N}
+\end{bmatrix}=\begin{bmatrix}w_{11}a_{1}+w_{12}a_{2}+\dots+w_{1N}a_{N}+b_{1}\\
+w_{21}a_{1}+w_{22}a_{2}+\dots+w_{2N}a_{N}+b_{2}\\
+\vdots\\
+w_{N1}a_{1}+w_{N2}a_{2}+\dots+w_{NN}a_{N}+b_{N}
+\end{bmatrix}
+\end{equation}
+This is helpful for seeing that if we compute the derivative of scalar by matrix $\dfrac{\partial z_{1}}{\partial w}$, this gives
+\begin{equation}
+\dfrac{\partial z_{1}}{\partial w}=\begin{bmatrix}\dfrac{\partial z_{1}}{\partial w_{11}} & \dfrac{\partial z_{1}}{\partial w_{21}} & \dots\\
+\dfrac{\partial z_{1}}{\partial w_{12}} & \ddots\\
+\vdots
+\end{bmatrix}=\begin{bmatrix}a_{1} & 0 & \dots\\
+a_{2} & 0 & \dots\\
+\vdots & \vdots & \ddots
+\end{bmatrix}
+\end{equation}
+The derivative of the cost with respect to the weights are
+\begin{equation}
+\dfrac{\partial c}{\partial w}=\begin{bmatrix}\dfrac{\partial c}{\partial w_{11}} & \dfrac{\partial c}{\partial w_{21}} & \dots\\
+\dfrac{\partial c}{\partial w_{12}} & \ddots\\
+\vdots
+\end{bmatrix}
+\end{equation}
+Consider the first element, this will consist of all the contributions from elements of $z$ as so
+\begin{equation}
+\dfrac{\partial c}{\partial w_{11}}=\dfrac{\partial c}{\partial z_{1}}\dfrac{\partial z_{1}}{\partial w_{11}}+\dfrac{\partial c}{\partial z_{2}}\green\cancelto{0}{\black\dfrac{\partial z_{2}}{\partial w_{11}}}\black+\green\cancelto{0}{\black\left[\dots\right]}\black=\dfrac{\partial c}{\partial z_{1}}a_{1}
+\end{equation}
+The element $\dfrac{\partial c}{\partial w_{12}}$ is similarly given by
+\begin{equation}
+\dfrac{\partial c}{\partial w_{12}}=\dfrac{\partial c}{\partial z_{1}}\dfrac{\partial z_{1}}{\partial w_{12}}+\dfrac{\partial c}{\partial z_{2}}\green\cancelto{0}{\black\dfrac{\partial z_{2}}{\partial w_{12}}}\black+\green\cancelto{0}{\black\left[\dots\right]}\black=\dfrac{\partial c}{\partial z_{1}}a_{2}
+\end{equation}
+Thus
+\begin{equation}
+\dfrac{\partial c}{\partial w}^{\top}=\begin{bmatrix}\dfrac{\partial c}{\partial w_{11}} & \dfrac{\partial c}{\partial w_{12}} & \dots\\
+\dfrac{\partial c}{\partial w_{21}} & \ddots\\
+\vdots
+\end{bmatrix}=\begin{bmatrix}\dfrac{\partial c}{\partial z_{1}}a_{1} & \dfrac{\partial c}{\partial z_{1}}a_{2} & \dots\\
+\dfrac{\partial c}{\partial z_{2}}a_{1} & \ddots\\
+\vdots
+\end{bmatrix}=\begin{bmatrix}\dfrac{\partial c}{\partial z_{1}}\\
+\dfrac{\partial c}{\partial z_{2}}\\
+\vdots
+\end{bmatrix}\begin{bmatrix}a_{1} & a_{2} & \dots\end{bmatrix}
+\end{equation}
+Reverting back to notation which specifies the layers, we have
+\begin{equation}
+\dfrac{\partial c}{\partial\mathstrut_{\ell-1}^{\ell}w}^{\top}=\mathstrut^{\ell}\delta\cdot\mathstrut^{\ell-1}a^{\top}
+\end{equation}
+Next, consider the relationship between $\mathstrut^{\ell - 1}\delta$ and $\mathstrut^{\ell}\delta$. Computing $\mathstrut^{\ell - 1}\delta$ from $\mathstrut^{\ell}\delta$ is known as backpropogation. First write
+\begin{equation}
+\mathstrut^{\ell}z=\mathstrut_{\ell-1}^{\ell}w\mathstrut^{\ell}\boldsymbol{\sigma}\left(\mathstrut^{\ell-1}z\right)+\mathstrut^{\ell}b
+\end{equation}
+For ease of notation, use $\sigma\left(\cdot\right):=\mathstrut^{\ell}\sigma\left(\cdot\right)$. Then writing out the sums arising from the matrix multiplication gives
+\begin{equation}
+\begin{bmatrix}\mathstrut^{\ell}z_{1}\\
+\mathstrut^{\ell}z_{2}\\
+\vdots
+\end{bmatrix}=\begin{bmatrix}\mathstrut_{\ell-1}^{\ell}w_{11}\sigma\left(\mathstrut^{\ell-1}z_{1}\right)+\mathstrut_{\ell-1}^{\ell}w_{12}\sigma\left(\mathstrut^{\ell-1}z_{2}\right)+\dots+\mathstrut^{\ell}b_{1}\\
+\mathstrut_{\ell-1}^{\ell}w_{21}\sigma\left(\mathstrut^{\ell-1}z_{1}\right)+\mathstrut_{\ell-1}^{\ell}w_{22}\sigma\left(\mathstrut^{\ell-1}z_{2}\right)+\dots+\mathstrut^{\ell}b_{2}\\
+\vdots
+\end{bmatrix}
+\end{equation}
+We want to find
+\begin{equation}
+\mathstrut^{\ell-1}\delta=\begin{bmatrix}\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}\\
+\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{2}}\\
+\vdots
+\end{bmatrix}
+\end{equation}
+First consider $\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}$ as the contribution from all $\mathstrut^{\ell}z_{1}$, $\mathstrut^{\ell}z_{2}$, etc.
+\begin{equation}
+\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}=\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot \red \dfrac{\partial\mathstrut^{\ell}z_{1}}{\partial\mathstrut^{\ell-1}z_{1}}\black +\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot \blue \dfrac{\partial\mathstrut^{\ell}z_{2}}{\partial\mathstrut^{\ell-1}z_{1}}\black+\dots
+\end{equation}
+Calculating some of these terms using the chain rule gives
+\begin{gather}
+\red\dfrac{\partial\mathstrut^{\ell}z_{1}}{\partial\mathstrut^{\ell-1}z_{1}}\black=\mathstrut_{\ell-1}^{\ell}w_{11}\sigma'\left(\mathstrut^{\ell-1}z_{1}\right) \\
+\blue\dfrac{\partial\mathstrut^{\ell}z_{2}}{\partial\mathstrut^{\ell-1}z_{1}}\black=\mathstrut_{\ell-1}^{\ell}w_{21}\sigma'\left(\mathstrut^{\ell-1}z_{1}\right) \\
+\vdots
+\end{gather}
+So then
+\begin{equation}
+\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}=\left(\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot\mathstrut_{\ell-1}^{\ell}w_{11}+\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot\mathstrut_{\ell-1}^{\ell}w_{21}+\dots\right)\sigma'\left(\mathstrut^{\ell-1}z_{1}\right)
+\end{equation}
+and more generally,
+\begin{equation}
+\begin{bmatrix}\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}\\
+\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{2}}\\
+\vdots
+\end{bmatrix}=\begin{bmatrix}\left(\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot\mathstrut_{\ell-1}^{\ell}w_{11}+\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot\mathstrut_{\ell-1}^{\ell}w_{21}+\dots\right)\sigma'\left(\mathstrut^{\ell-1}z_{1}\right)\\
+\left(\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot\mathstrut_{\ell-1}^{\ell}w_{12}+\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot\mathstrut_{\ell-1}^{\ell}w_{22}+\dots\right)\sigma'\left(\mathstrut^{\ell-1}z_{2}\right)\\
+\vdots
+\end{bmatrix}
+\end{equation}
+Notice that we may then write this as
+\begin{equation}
+\mathstrut^{\ell-1}\delta=\left(\mathstrut_{\ell-1}^{\ell}w^{\top}\cdot\mathstrut^{\ell}\delta\right)\odot\mathstrut^{\ell-1}\boldsymbol{\sigma}'\left(\mathstrut^{\ell-1}z\right)
+\end{equation}
+Now reverting back to notation that is indexed by each training point $i$: $\mathstrut^{\ell}\delta\left[i\right]=\dfrac{\partial C_{i}}{\partial\mathstrut^{\ell}z}$. Since we have found the derivative of each individual cost with respect to the weights, the derivative of the total cost with respect to the weights is
+\begin{gather}
+\dfrac{\partial C}{\partial\mathstrut_{\ell-1}^{\ell}w}^{\top} = \dfrac{1}{n}\sum_{i=1}^{n}\dfrac{\partial C_{i}}{\partial\mathstrut_{\ell-1}^{\ell}w}^{\top} = \dfrac{1}{n}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]\cdot\mathstrut^{\ell-1}a\left[i\right]^{\top} \\
+\dfrac{\partial C}{\partial\mathstrut^{\ell}b}^{\top}= \dfrac{1}{n}\sum_{i=1}^{n}\dfrac{\partial C_{i}}{\partial\mathstrut^{\ell}b}^{\top} = \dfrac{1}{n}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]
+\end{gather}
+So the gradient descent equations using the entire data set are
+\begin{gather}
+\mathstrut_{\ell-1}^{\ell}w\rightarrow\mathstrut_{\ell-1}^{\ell}w-\eta\cdot\dfrac{1}{n}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]\cdot\mathstrut^{\ell-1}a\left[i\right]^{\top} \\
+\mathstrut^{\ell}b\rightarrow\mathstrut^{\ell}b-\eta\cdot\dfrac{1}{n}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]
+\end{gather}
+If the number of training points is very large, then gradient descent can take a long time, so learning occurs slowly. An idea is to use stochastic gradient descent, where a random mini-batch of $m$ inputs is chosen to approximate the gradient of $C$ and update the weights according to
+\begin{gather}
+\mathstrut_{\ell-1}^{\ell}w\rightarrow\mathstrut_{\ell-1}^{\ell}w-\eta\cdot\dfrac{1}{m}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]\cdot\mathstrut^{\ell-1}a\left[i\right]^{\top} \\
+\mathstrut^{\ell}b\rightarrow\mathstrut^{\ell}b-\eta\cdot\dfrac{1}{m}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]
+\end{gather}
+Then another mini-batch is chosen to update the weights. This occurs until the entirety of the training set is exhausted, in which this is called one training epoch. We may then start over again with a new epoch to continue training.
+
+\section{Ensemble Methods}
+
+\subsection{Boosting}
+
+
+\chapter{Econometrics}
+
+\section{Model Specification}
+
+\subsection{Log Models}
+
+Suppose we have a simple linear model of the form
+\begin{equation}
+\log y = \beta_{0} + \beta_{1}x + u
+\end{equation}
+where $u$ is the error term. Then $\beta_{1}\times 100\%$ may be interpreted as the percentage increase in $y$ for a 1 unit increase in $x$. To see this, first note $\dfrac{\partial \log y}{y} = \dfrac{1}{y}$ and $\dfrac{\partial \log y}{\partial x} = \beta_{1}$. This gives $\beta_{1} = \dfrac{\partial y}{\partial x}\cdot\dfrac{1}{y}$. So for a 1 unit increase in $x$ we have $\beta_{1} \approx \dfrac{\Delta y}{y}$ which is the relative change in $y$.
+
+\section{Time-Series Models}
+
+\subsection{Autoregressive (AR) Model}
+An autoregressive model of order $p$ is denoted $AR\left(p\right)$ and is defined by
+\begin{equation}
+X_{t} = c + \sum_{i = 1}^{p}\varphi_{i}X_{t - i} + \varepsilon_{t}
+\end{equation}
+where $\varphi_{1}, \dots, \varphi_{2}$ are parameters of the model, $c$ is a constant term and $\varepsilon_{t}$ is white noise.
+
+\subsection{Moving Average (MA) Model}
+A moving average model of order $q$ is denoted $MA\left(q\right)$ and is defined by
+\begin{equation}
+X_{t} = \mu + \varepsilon_{t} + \sum_{i = 1}^{q}\theta_{i}\varepsilon_{t - i}
+\end{equation}
+where $\mu$ is the mean of the series, $\theta_{1}, \dots, \theta_{q}$ are the parameters of the model and $\varepsilon_{t}, \dots, \varepsilon_{t - q}$ are white noise error terms.
+
+\subsection{Autoregressive Moving Average (ARMA) Model}
+An ARMA model is a generalisation of the autoregressive and moving average models, and is denoted by $ARMA\left(p, q\right)$. The model is defined by
+\begin{equation}
+X_{t} = c + \varepsilon_{t} + \sum_{i = 1}^{p}\varphi_{i}X_{t - i} + \sum_{i = 1}^{q}\theta_{i}\varepsilon_{t - i}
+\end{equation}
+
+\subsection{Autoregressive Integrated Moving Average (ARIMA) Model}
+An ARIMA model is a generalisation of the ARMA model, and is denoted by $ARIMA\left(p, d, q\right)$. Denoting $L$ as the lag operator (ie. $L^{i}X_{t} = X_{t - i}$), the model is defined by
+\begin{equation}
+\left(1 - \sum_{i = 1}^{p}\varphi_{i}L^{i}\right)\left(1 - L\right)^{d}X_{t} = \left(1 + \sum_{i = 1}^{d}\theta_{i}L^{i}\right)\varepsilon_{t}
+\end{equation}
+Using the binomial expansion, we can write
+\begin{align}
+\left(1 - \sum_{i = 1}^{p}\varphi_{i}L^{i}\right)\left(1 - L\right)^{d} &= \left(1 - \sum_{i = 1}^{p}\varphi_{i}L^{i}\right)\sum_{j = 0}^{d} \begin{pmatrix}
+d \\ j
+\end{pmatrix} \left(-L\right)^{d - j}  \\
+&= \sum_{j = 0}^{d} \begin{pmatrix}
+d \\ j
+\end{pmatrix} \left(-1\right)^{d - j}L^{d - j} - \sum_{i = 1}^{p}\sum_{j = 0}^{d}\varphi_{i}\begin{pmatrix}
+d \\ j
+\end{pmatrix}\left(-1\right)^{d- j}L^{d - j + i}
+\end{align}
+Hence an alternative specification of the model is
+\begin{equation}
+\sum_{j = 0}^{d} \begin{pmatrix}
+d \\ j
+\end{pmatrix} \left(-1\right)^{d - j}X_{t - d + j} - \sum_{i = 1}^{p}\sum_{j = 0}^{d}\varphi_{i}\begin{pmatrix}
+d \\ j
+\end{pmatrix}\left(-1\right)^{d- j}X_{t - d + j - i} = \varepsilon_{t} + \sum_{i = 1}^{d}\theta_{i}\varepsilon_{t - i}
+\end{equation}
+
+\subsection{Autoregressive Moving Average with Exogenous Inputs (ARMAX) Model}
+An ARMAX model is a generalisation of the ARMA model, and is denoted by $ARMAX\left(p, q, b\right)$. The model is defined by
+\begin{equation}
+X_{t} = \varepsilon_{t} + \sum_{i = 1}^{p}\varphi_{i}X_{t - i} + \sum_{i = 1}^{q}\theta_{i}\varepsilon_{t - i} + \sum_{i = 1}^{b}\eta_{i}d_{t - i}
+\end{equation}
+where $\eta_{1}, \dots, \eta_{b}$ are parameters of the exogeneous input $d_{t}$.
+
+\subsection{Autoregressive Conditional Heteroskedasticity (ARCH) Model}
+An ARCH model is a generalisation of the AR model, and is denoted by $ARCH\left(q\right)$. The model defines for the error term
+\begin{equation}
+\varepsilon_{t} = \sigma_{t}z_{t}
+\end{equation}
+where $z_{t}$ is white noise and $\sigma^{2}_{t}$ is modelled by
+\begin{equation}
+\sigma^{2}_{t} = \omega + \sum_{i = 1}^{q}\alpha_{i}\varepsilon^{2}_{t - i}
+\end{equation}
+where $\omega > 0$ is a constant and $\alpha_{1}, \dots, \alpha_{q} > 0$ are parameters. Hence the full model is defined by
+\begin{equation}
+X_{t} = c + \sum_{i = 1}^{p}\varphi_{i}X_{t - i} + z_{t}\sqrt{\omega + \sum_{i = 1}^{q}\alpha_{i}\varepsilon^{2}_{t - i}}
+\end{equation}
+
+\subsection{Generalised Autoregressive Conditional Heteroskedasticity (GARCH) Model}
+A GARCH model is a generalisation of the ARCH model, and is denoted by $GARCH\left(p, q\right)$. The term $\sigma^{2}_{t}$ is now modelled by
+\begin{equation}
+\sigma^{2}_{t} = \omega + \sum_{i = 1}^{q}\alpha_{i}\varepsilon^{2}_{t - i} + \sum_{i = 1}^{p}\beta_{i}\sigma^{2}_{i - 1}
+\end{equation}
+where $\beta_{1}, \dots, \beta{p} > 0$ are parameters. The full model is defined by
+\begin{equation}
+X_{t} = c + \sum_{i = 1}^{p}\varphi_{i}X_{t - i} + z_{t}\sqrt{\omega + \sum_{i = 1}^{q}\alpha_{i}\varepsilon^{2}_{t - i} + \sum_{i = 1}^{p}\beta_{i}\sigma^{2}_{i - 1}}
+\end{equation}
+
+\subsection{Vector Autoregressive (VAR) Model}
+A VAR model is a generalisation of the AR model, and is denoted by  $VAR\left(p\right)$. The model is defined by
+\begin{equation}
+X_{t} = c + \sum_{i = 1}^{p}A_{i}X_{t - i} + \varepsilon_{t}
+\end{equation}
+where $X_{t}$ is a stochastic vector, $c$ is a constant vector, $A_{1}, \dots, A_{p}$ are square matrix parameters, and $\varepsilon_{t}$ is a zero-mean vector error term with no correlation across time, ie. $\operatorname{E}\left[\varepsilon_{t}\varepsilon_{t - k}^{\top}\right] = 0$ for any non-zero $k$.
+
+\subsection{Nonlinear Autoregressive Exogeneous (NARX) Model}
+A NARX model is a generalisation of the AR model, and is denoted by $NARX\left(p, b\right)$. The model is defined by
+\begin{equation}
+X_{t} = F\left(X_{t - 1}, \dots, X_{t - p}, d_{t}, d_{t - 1}, \dots, d_{t - b}\right) + \varepsilon_{t}
+\end{equation}
+where $F$ is a nonlinear function.
+
+\chapter{Stochastic Control}
+
+\chapter{Quantitative Finance}
+
+\section{Black-Scholes Model}
+
+\chapter{Statistical Signal Processing}
+
+\chapter{Statistical Physics}
+
+%\nocite{*} % adds all entries in the bib file to the bibliography
+\bibliography{prob_stats_references}{}
+\bibliographystyle{plain}
+
+\end{document}
+
+%\begin{figure}[H]
+%\includegraphics[width=1\textwidth]{Figures/pred_int_all}\centering
+%\caption{A prediction interval is constructed about $\hat{\operatorname{E}}\left[Y\middle|X = x_{d}\right]$ which does contain the new observed value of $y$.}
+%\end{figure}
