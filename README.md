@@ -1,17 +1,17 @@
-# Stochastics & Statistics
-Notes in probability, statistics, and their applications from the introductory to the advanced level
+﻿# Stochastics & Statistics
+Notes in probability, statistics, and their applications from the introductory to the advanced level. Always going to be a work in progress.
 
 ## Contents
 -   [Fundamentals](#fundamentals)
     -   [Introductory Probability](#introductory-probability)
         -   [Probability Laws](#probability-laws)
         -   [Introductory Combinatorics](#introductory-combinatorics)
-        -   [Random Variables](#random-variables)
         -   [Probability Distributions](#probability-distributions)
         -   [Expectation](#expectation)
         -   [Variance](#variance)
         -   [Independence](#independence)
     -   [Introductory Statistics](#introductory-statistics)
+        -   [Data Generating Processes](#data-generating-processes)
         -   [Descriptive Statistics](#descriptive-statistics)
         -   [Inferential Statistics](#inferential-statistics)
         -   [Simple Linear Regression](#simple-linear-regression)
@@ -31,10 +31,12 @@ Notes in probability, statistics, and their applications from the introductory t
             Theorems](#inequalities-and-limit-theorems)
         -   [Notions of Convergence](#notions-of-convergence)
     -   [Intermediate Statistics](#intermediate-statistics)
-        -   [Maximum Likelihood Hypothesis
-            Testing](#maximum-likelihood-hypothesis-testing)
+        -   [Least Squares](#least-squares)
+        -   [Statistical Decision Theory](#statistical-decision-theory)
         -   [Maximum Likelihood
             Estimation](#maximum-likelihood-estimation)
+        -   [Maximum a Posteriori
+            Estimation](#maximum-a-posteriori-estimation)
         -   [James-Stein Estimators](#james-stein-estimators)
         -   [Generalised Linear Models](#generalised-linear-models)
     -   [Advanced Probability](#advanced-probability)
@@ -51,6 +53,8 @@ Notes in probability, statistics, and their applications from the introductory t
     -   [Bayesian Probability &
         Statistics](#bayesian-probability-statistics)
         -   [Cox's Theorem](#coxs-theorem)
+        -   [Extensions to Bayes' Theorem](#extensions-to-bayes-theorem)
+        -   [Bayesian Priors](#bayesian-priors)
         -   [Bayesian Updating](#bayesian-updating)
         -   [Bayesian Networks](#bayesian-networks)
         -   [Bayesian Inference](#bayesian-inference)
@@ -69,12 +73,15 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Karhunen-Loève Theorem](#karhunen-loève-theorem)
     -   [Advanced Statistics](#advanced-statistics)
         -   [Copulas](#copulas)
+        -   [Empirical Measures](#empirical-measures)
         -   [Asymptotic Theory](#asymptotic-theory)
         -   [Resampling Methods](#resampling-methods)
         -   [Gauss-Markov Theorem](#gauss-markov-theorem)
         -   [Principal Component
             Analysis](#principal-component-analysis)
         -   [Survival Analysis](#survival-analysis)
+        -   [Linear Discriminant
+            Analysis](#linear-discriminant-analysis)
         -   [Rao-Blackwell Estimators](#rao-blackwell-estimators)
     -   [Stochastic Calculus](#stochastic-calculus)
         -   [Martingales](#martingales)
@@ -86,6 +93,8 @@ Notes in probability, statistics, and their applications from the introductory t
     -   [Combinatorial Probability](#combinatorial-probability)
         -   [Inclusion-Exclusion
             Principle](#inclusion-exclusion-principle)
+        -   [Partitions](#partitions)
+        -   [Derangements](#derangements)
 -   [Applications](#applications)
     -   [Information Theory](#information-theory)
         -   [Entropy](#entropy)
@@ -103,7 +112,7 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Time-Series Regression](#time-series-regression)
     -   [Machine Learning](#machine-learning)
         -   [Classification Problems](#classification-problems)
-        -   [k-Nearest Neighbours](#k-nearest-neighbours)
+        -   [$k$-Nearest Neighbours](#k-nearest-neighbours)
         -   [Neural Networks](#neural-networks)
         -   [Ensemble Methods](#ensemble-methods)
         -   [Random Forests](#random-forests)
@@ -113,6 +122,7 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Particle Filtering](#particle-filtering)
         -   [Kalman Smoother](#kalman-smoother)
         -   [Viterbi Algorithm](#viterbi-algorithm)
+        -   [Subspace Identification](#subspace-identification)
         -   [Wavelets](#wavelets)
     -   [Stochastic Control](#stochastic-control)
         -   [Linear Quadratic Gaussian](#linear-quadratic-gaussian)
@@ -123,8 +133,7 @@ Notes in probability, statistics, and their applications from the introductory t
     -   [Quantitative Finance](#quantitative-finance)
         -   [Portfolio Optimisation](#portfolio-optimisation)
         -   [Black-Scholes Model](#black-scholes-model)
-        -   [Optimal Stopping Theorem](#optimal-stopping-theorem)
-    -   [Actuarial Science](#actuarial-science)
+        -   [Optional Stopping Theorem](#optional-stopping-theorem)
         -   [Ruin Theory](#ruin-theory)
     -   [Statistical Physics](#statistical-physics)
         -   [Mean Sojourn Time](#mean-sojourn-time)

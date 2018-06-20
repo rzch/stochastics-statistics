@@ -71,9 +71,27 @@ B\setminus A = \overline{B}\cap A
 
 \subsubsection{Venn Diagrams}
 
+Venn diagrams provide a way to visualise sets and events.
+
+\begin{center}
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,228.46875); %set diagram left start at 0, and has height of 228.46875
+
+\draw    (153, 22.47) rectangle (466.5, 199.47)   ;
+\draw    (270.7, 109.07) circle [x radius= 68.49, y radius= 63.6]  ;
+\draw    (346.75, 111.97) circle [x radius= 68.49, y radius= 63.6]  ;
+
+\draw (247,111) node   {$A$};
+\draw (375,108) node   {$B$};
+\draw (309,110) node   {$A\cap B$};
+\draw (421,44) node   {$\overline{\left(A\cup B\right)}$};
+\end{tikzpicture}
+\end{center}
+
+
 \subsection{Classical Definition of Probability}
 
-In an experiment with outcomes given by the set $\Omega$, the outcomes associated with event $A$ is a subset of $\Omega$ (ie. $A \subseteq \Omega$). Let $\left|\Omega\right|$ be the number of outcomes in $\Omega$, and similarly let $\left|A\right|$ be the number of outcomes in $A$. Then by the classical definition of probability, the probability of event $A$, denoted $\operatorname{Pr}\left(A\right)$, is
+In an experiment with outcomes given by the set $\Omega$, the outcomes associated with event $A$ is a subset of $\Omega$ (ie. $A \subseteq \Omega$). Suppose we have a way to count these outcomes. Let $\left|\Omega\right|$ be the number of outcomes in $\Omega$, and similarly let $\left|A\right|$ be the number of outcomes in $A$. Then by the classical definition of probability, the probability of event $A$, denoted $\operatorname{Pr}\left(A\right)$, is
 \begin{equation}
 \operatorname{Pr}\left(A\right) = \dfrac{\left|A\right|}{\left|\Omega\right|}
 \end{equation}
@@ -82,7 +100,7 @@ This means that probabilities are always between $0$ and $1$ (inclusive). We can
 
 \subsection{Addition Rule of Probability}
 
-The probability of the intersection of $A$ and $B$ is written $\operatorname{Pr}\left(A \cap B\right)$, or alternatively may be denoted $\operatorname{Pr}\left(A, B\right)$. To obtain the probability of the union between $A$ and $B$, we have the formula
+The probability of the intersection of $A$ and $B$ is written $\operatorname{Pr}\left(A \cap B\right)$, or alternatively may be denoted $\operatorname{Pr}\left(A, B\right)$. To obtain the probability of the union between $A$ and $B$, we have the formula (called the addition rule of probability):
 \begin{equation}
 \operatorname{Pr}\left(A \cup B\right) = \operatorname{Pr}\left(A\right) + \operatorname{Pr}\left( B\right) - \operatorname{Pr}\left(A \cap B\right) 
 \end{equation}
@@ -107,70 +125,88 @@ Hence the addition rule of probability in the case of mutual exclusivity simplif
 
 \subsection{Conditional Probability}
 
-The probability of event $A$ occurring given event $B$ has occurred is denoted by $P\left(A\middle|B\right)$ and is known as a conditional probability. The conditional probability can be calculated by
+The probability of event $A$ occurring given event $B$ has occurred is denoted by $\operatorname{Pr}\left(A\middle|B\right)$ and is known as a conditional probability. The conditional probability can be calculated by
 \begin{equation}
-P\left(A\middle|B\right) = \dfrac{P\left(A \cap B\right)}{P\left(B\right)}
+\operatorname{Pr}\left(A\middle|B\right) = \dfrac{\operatorname{Pr}\left(A \cap B\right)}{\operatorname{Pr}\left(B\right)}
 \end{equation}
-The term $P\left(B\right)$ can be thought of as a `normalising constant' for $P\left(A \cap B\right)$, as we only want to consider the space of events where $B$ has occurred.
+The term $\operatorname{Pr}\left(B\right)$ can be thought of as a `normalising constant' for $\operatorname{Pr}\left(A \cap B\right)$, as we only want to consider the space of outcomes where $B$ has occurred.
 
 \subsection{Chain Rule of Probability}
 
-Given the conditional probability $\operatorname{Pr}\left(A\middle|B\right)$ and the marginal probability $\operatorname{Pr}\left(B\right)$, the chain rule of probability says that
+Given the conditional probability $\operatorname{Pr}\left(A\middle|B\right)$ and the marginal probability $\operatorname{Pr}\left(B\right)$, the chain rule of probability says that the `joint' probability $\operatorname{Pr}\left(A\cap B\right)$ is equal to
 \begin{equation}
 \operatorname{Pr}\left(A\cap B\right) = \operatorname{Pr}\left(A\middle|B\right)\operatorname{Pr}\left(B\right)
 \end{equation}
 
 \subsection{Law of Total Probability}
 
+The law of total probability gives a way to write the probability of an event $B$ in terms of its conditional probabilities, using the chain rule of probability. For events $A$ and $B$, the law of total probability says that
+\begin{equation}
+\operatorname{Pr}\left(B\right) = \operatorname{Pr}\left(A\right)\operatorname{Pr}\left(B\middle|A\right) + \operatorname{Pr}\left(\overline{A}\right)\operatorname{Pr}\left(B\middle|\overline{A}\right)
+\end{equation}
+
 \subsubsection{Probability Tree Diagrams}
+A probability tree diagram for two events $A$, $B$ is given below.
+\begin{center}
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,228.84375); %set diagram left start at 0, and has height of 228.84375
+\draw    (119.5,117.84) -- (231.5,64.84) ;
+
+\draw    (119.5,117.84) -- (229.5,175.84) ;
+
+\draw    (273.5,56.84) -- (389.5,26.84) ;
+
+\draw    (273.5,56.84) -- (388.5,79.84) ;
+
+\draw    (272.5,177.84) -- (388.5,147.84) ;
+\draw    (272.5,177.84) -- (387.5,200.84) ;
+
+\draw (253,58) node   {$A$};
+\draw (253,177) node   {$\overline{A}$};
+\draw (161,80) node [rotate=-334.26]  {$\operatorname{Pr}\left(A\right)$};
+\draw (159,155) node [rotate=-28.56]  {$\operatorname{Pr}\left(\overline{A}\right)$};
+\draw (403,200) node   {$\overline{B}$};
+\draw (403,148) node   {$B$};
+\draw (403,80) node   {$\overline{B}$};
+\draw (403,28) node   {$B$};
+\draw (329,28) node [rotate=-343.54]  {$\operatorname{Pr}\left(B\middle|A\right)$};
+\draw (329,80) node [rotate=-11.43]  {$\operatorname{Pr}\left(\overline{B}\middle|A\right)$};
+\draw (332,150) node [rotate=-343.54]  {$\operatorname{Pr}\left(B\middle|\overline{A}\right)$};
+\draw (328,202) node [rotate=-11.43]  {$\operatorname{Pr}\left(\overline{B}\middle|\overline{A}\right)$};
+\draw (530,28) node   {$\operatorname{Pr}\left(A\cap B\right) = \operatorname{Pr}\left(A\right)\operatorname{Pr}\left(B\middle|A\right)$};
+\draw (530,80) node   {$\operatorname{Pr}\left(A\cap \overline{B}\right) = \operatorname{Pr}\left(A\right)\operatorname{Pr}\left(\overline{B}\middle|A\right)$};
+\draw (530,148) node   {$\operatorname{Pr}\left(\overline{A}\cap B\right) = \operatorname{Pr}\left(\overline{A}\right)\operatorname{Pr}\left(B\middle|\overline{A}\right)$};
+\draw (530,200) node   {$\operatorname{Pr}\left(\overline{A}\cap \overline{B}\right) = \operatorname{Pr}\left(\overline{A}\right)\operatorname{Pr}\left(\overline{B}\middle|\overline{A}\right)$};
+\end{tikzpicture}
+
+\end{center}
+Probability tree diagrams allow for the law of total probability to be visualised. One can think of obtaining $\operatorname{Pr}\left(B\right)$ across all branches to the tree to find the joint probabilities, then summing over the probabilities which are favourable to event $B$.
 
 \subsection{Bayes' Theorem}
 
-By definitions of conditional probability, we have
+By definitions of conditional probability, we have for two events $A$, $B$:
 \begin{gather}
-P\left(A\middle|B\right) = \dfrac{P\left(A\cap B\right)}{P\left(B\right)} \\
-P\left(B\middle|A\right) = \dfrac{P\left(A\cap B\right)}{P\left(A\right)}
+\operatorname{Pr}\left(A\middle|B\right) = \dfrac{\operatorname{Pr}\left(A\cap B\right)}{\operatorname{Pr}\left(B\right)} \\
+\operatorname{Pr}\left(B\middle|A\right) = \dfrac{\operatorname{Pr}\left(A\cap B\right)}{\operatorname{Pr}\left(A\right)}
 \end{gather}
 Rearranging both gives
 \begin{gather}
-P\left(A\cap B\right) = P\left(A\middle|B\right)P\left(B\right) \\
-P\left(A\cap B\right) = P\left(B\middle|A\right)P\left(A\right)
+\operatorname{Pr}\left(A\cap B\right) = \operatorname{Pr}\left(A\middle|B\right)\operatorname{Pr}\left(B\right) \\
+\operatorname{Pr}\left(A\cap B\right) = \operatorname{Pr}\left(B\middle|A\right)\operatorname{Pr}\left(A\right)
 \end{gather}
 Then equating them gives Bayes' theorem
 \begin{gather}
-P\left(A\middle|B\right)P\left(B\right) = P\left(B\middle|A\right)P\left(A\right) \\
-P\left(A\middle|B\right) = \dfrac{P\left(B\middle|A\right)P\left(A\right) }{P\left(B\right)}
+\operatorname{Pr}\left(A\middle|B\right)\operatorname{Pr}\left(B\right) = \operatorname{Pr}\left(B\middle|A\right)\operatorname{Pr}\left(A\right) \\
+\operatorname{Pr}\left(A\middle|B\right) = \dfrac{\operatorname{Pr}\left(B\middle|A\right)\operatorname{Pr}\left(A\right)}{\operatorname{Pr}\left(B\right)}
 \end{gather}
-
-Consider a probability tree for three events $A$, $B$ and $C$.
-\begin{figure}[H]
-\includegraphics[width=0.7\textwidth]{Figures/multiple_conditional}\centering
-\caption{A probability tree for three events expressed in conditional probabilities.}
-\end{figure}
-By multiplying probabilities along the tree, we can see that
-\begin{equation}
-P\left(A,B,C\right) = P\left(A\middle|B, C\right)P\left(B\middle|C\right)P\left(C\right)
-\end{equation}
-The two branches of $\left.B\middle|C\right.$ and $\left.A\middle|B,C\right.$ are the branches of $A$ and $B$ conditional on $C$. Hence we can also state that
-\begin{equation}
-P\left(A,B\middle|C\right) = P\left(A\middle|B,C\right)P\left(B\middle|C\right)
-\end{equation}
-A way of writing Bayes' theorem for three events is
-\begin{equation}
-P\left(A, B\middle|C\right) = \dfrac{P\left(C\middle|A,B\right)P\left(A,B\right)}{P\left(C\right)}
-\end{equation}
-We can use the facts $P\left(A,B\right) = P\left(A\right)P\left(B\middle|A\right)$ and $P\left(C\middle|A,B\right) = \dfrac{P\left(B,C\middle|A\right)}{P\left(B\middle|A\right)}$, where the latter is a conditional probability except everything is conditioned on $A$. Applying these gives
-\begin{align}
-P\left(A, B\middle|C\right) &= \dfrac{P\left(B,C\middle|A\right)}{P\left(B\middle|A\right)}\dfrac{P\left(A\right)P\left(B\middle|A\right)}{P\left(C\right)} \\
-&= \dfrac{P\left(B,C\middle|A\right)P\left(A\right)}{P\left(C\right)}
-\end{align}
+where $\operatorname{Pr}\left(A\middle|B\right)$ is known as the posterior probability, $\operatorname{Pr}\left(A\right)$ is known as the prior probability, $\operatorname{Pr}\left(B\middle|A\right)$ is known as the likelihood and $\operatorname{Pr}\left(B\right)$ is known as the marginal likelihood.
 
 \subsection{DeMorgan's Laws}
 
 DeMorgan's laws can be arrived at via some logical postulates.
 \begin{itemize}
 \item The event of $A$ or $B$ not happening is the same as neither $A$ happening nor $B$ happening.
-\item The event of both $A$ and $B$ not happening is the same as either $A$ not happening or $B$ not happening. 
+\item The event that $A$ and $B$ both do not happen is the same as either $A$ not happening or $B$ not happening. 
 \end{itemize}
 This can be written down using set notation:
 \begin{gather}
@@ -190,19 +226,258 @@ Or by using complements:
 
 \section{Introductory Combinatorics}
 
-\section{Random Variables}
+In the context of probability, combinatorics allows us to count the number of outcomes, relating to both the number of outcomes in an experiment, and the number of outcomes favourable to an event.
 
-\subsection{Conditional Random Variables}
+\subsection{Arrangements}
+
+\subsubsection{Homogeneous Sequences}
+Consider a sequence of `symbols' that can be made up of an `alphabet' of size $n$. Then for a sequence of length $m$, there are $n^{m}$ different ways to form such sequences without restriction.
+
+\subsubsection{Inhomogeneous Sequences}
+Consider a sequence of symbols where the $j$\textsuperscript{th} symbol in the sequences comes from an alphabet of size $n_{j}$. Then for a sequence of length $m$, there are $n_{1}\times n_{2}\times\dots\times n_{m}$ different ways to form such sequences without restriction. This can be used to calculate the total number of outcomes at the end of a probability tree for example.
+
+\subsubsection{Arrangements in a Line}
+Consider the number of different ways to order $n$ different symbols. There are $n$ possibilities for the first symbol, $n - 1$ possibilities for the second symbol, etc. Hence there are
+\begin{equation}
+n\times\left(n - 1\right)\times \dots\times 2\times 1 = n!
+\end{equation}
+different ways.
+
+\subsubsection{Arrangements in a Circle}
+
+Consider the number of different ways to arrange $n$ distinct objects in a circle (where it only matters which object is next to which). The first object can be placed in any arbitrary position. There are $n - 1$ possibilities for the second object placed next to the first object, and $n - 2$ possibilities for the third object places next to the second object, etc. Hence there are
+\begin{equation}
+\left(n - 1\right)\times \dots\times 2\times 1 = \left(n - 1\right)!
+\end{equation}
+different ways. Note that if it did matter which position in the circle each object was placed, the number of arrangements becomes the same as the number of arrangements in a line.
+
+\subsection{Permutations}
+
+Consider the number of different ways to pick $k$ objects from a pool of $n$ distinct objects, where the order in which they are picked matters. There are $n$ possibilities for the first pick, $n - 1$ possibilities for the second pick, up to $n - k + 1$ possibilities for the $k$\textsuperscript{th} pick. Hence there are
+\begin{equation}
+n\times\left(n - 1\right)\times \dots\times \left(n - k + 1\right) = \dfrac{n!}{\left(n - k\right)!}
+\end{equation}
+different ways. This is called the number of permutations, and may be denoted as $\mathstrut^{n}\mathsf{P}_{k}$. This also gives the number of different ways to arrange $k$ distinct objects among $\left(n - k\right)$ other homogeneous objects in a line (ie. there are $n$ objects total). This is because there are $n$ possible locations for the first object, up to $n - k + 1$ possible locations for the $k$\textsuperscript{th} object.
+
+\subsubsection{Permutations in a Circle}
+
+With $n$ total objects, consider the number of different ways to arrange $k$ distinct objects among $\left(n - k\right)$ other homogeneous objects in a circle (where it only matters which object is next to which). The first object can be placed in any arbitrary position. There are $n - 1$ possible positions for where the second object can be placed relative to first object, $n - 2$ possible positions for where the third object can be placed relative to first object, up to $n - k + 1$ possible positions for where the $k$\textsuperscript{th} object can be placed relative to first object. Hence there are
+\begin{equation}
+\left(n - 1\right)\times \dots\times \left(n - k + 1\right) = \dfrac{\left(n - 1\right)!}{\left(n - k\right)!}
+\end{equation}
+different ways. Note that we can arrive at this number by counting $\mathstrut^{n}\mathsf{P}_{k}$ permutations in a circle where absolute position 
+does matter (equivalent to permutations in a line), but then dividing by the possible number of rotations in a circle without affecting relative positions, which is $n$.
+
+\subsection{Combinations}
+
+\subsubsection{Binomial Coefficient}
+
+Consider the number of different ways to pick $k$ objects from a pool of $n$ distinct objects, where the order in which they are picked does not matter (ie. it only matters which group of $k$ are picked). We know that there are $\mathstrut^{n}\mathsf{P}_{k}$ different ways to pick $k$ objects when order does matter, but this number counts all the $k!$ different ways for every possible grouping of $k$ objects from the pool. So dividing the number of permutations by $k!$ gives
+\begin{equation}
+\dfrac{\mathstrut^{n}\mathsf{P}_{k}}{k!} = \dfrac{n!}{k!\left(n - k\right)!}
+\end{equation}
+which is the number of different groups of $k$ can be picked from $n$ distinct objects. This is known as the binomial coefficient, and denoted $\mathstrut^{n}\mathsf{C}_{k}$, which may also be read as "$n$ choose $k$". It is also sometimes denoted
+\begin{equation}
+\mathstrut^{n}\mathsf{C}_{k} = \begin{pmatrix}n\\k\end{pmatrix}
+\end{equation}
+This number can also be thought of as the number of different ways to arrange $k$ homogeneous objects among $\left(n - k\right)$ other homogeneous objects in a line. Note that the following properties hold for the binomial coefficient:
+\begin{equation}
+\mathstrut^{n}\mathsf{C}_{k} = \mathstrut^{n}\mathsf{C}_{n - k}
+\end{equation}
+which says that asking for the number of ways to choose $k$ from $n$ is no different to asking for the number of ways to choose $n - k$ from $n$. Also
+\begin{equation}
+\mathstrut^{n}\mathsf{C}_{0} + \mathstrut^{n}\mathsf{C}_{1} + \dots + \mathstrut^{n}\mathsf{C}_{n} = 2^{n}
+\end{equation}
+since there are $2^{n}$ different binary sequences of length $n$, and the above sum exhaustively enumerates through all combinations of binary sequences from when there are zero `$1$'s up to $n$ `$1$'s.
+
+\subsubsection{Multinomial Coefficient}
+
+As a generalisation to the binomial coefficient, suppose there are $n$ objects and $m$ different groups, with the numbers of homogeneous objects in each group given by $k_{1}, k_{2}, \dots, k_{m}$ and so we have
+\begin{equation}
+k_{1} + k_{2} + \dots + k_{m} = n
+\end{equation}
+To derive the number of different ways these objects can be arranged, first consider the number of ways to arrange only the first group (which has $k_{1}$ members), without regard for the other groups (call it the `remainder' group). By the binomial coefficient, there are
+\begin{equation}
+\mathstrut^{n}\mathsf{C}_{k_{1}} = \dfrac{n!}{k_{1}!\left(n - k_{1}\right)!}
+\end{equation}
+ways. Then for every one of these arrangements, there are $\mathstrut^{n - k_{1}}\mathsf{C}_{k_{2}}$ ways to arrange members of group $2$ among the remainder. Hence there are
+\begin{equation}
+\mathstrut^{n}\mathsf{C}_{k_{1}}\times\mathstrut^{n - k_{1}}\mathsf{C}_{k_{2}} = \dfrac{n!}{k_{1}!\left(n - k_{1}\right)!}\times\dfrac{\left(n - k_{1}\right)!}{k_{2}!\left(n - k_{1} - k_{2}\right)!}
+\end{equation}
+different ways to arrange objects in groups $1$ and $2$, without regard for the others. By continuing this process of induction, we find that
+\begin{multline}
+\mathstrut^{n}\mathsf{C}_{k_{1}}\times\mathstrut^{n - k_{1}}\mathsf{C}_{k_{2}}\times\dots\times\mathstrut^{n - k_{1} - \dots - k_{m - 1}}\mathsf{C}_{k_{m}} = \dfrac{n!}{k_{1}!\left(n - k_{1}\right)!}\times\dfrac{\left(n - k_{1}\right)!}{k_{2}!\left(n - k_{1} - k_{2}\right)!}\times\dots \\
+\times \dfrac{\left(n - k_{1} - \dots - k_{m - 2}\right)!}{k_{m - 1}!\left(n - k_{1} - \dots - k_{m - 1}\right)!}\times\dfrac{\left(n - k_{1} - \dots - k_{m - 1}\right)!}{k_{m}!0!}
+\end{multline}
+gives the number of different ways to arrange all objects in all groups. By cancellation of terms, the multinomial coefficient can be denoted as
+\begin{equation}
+\begin{pmatrix} n \\ k_{1}, \dots, k_{m}\end{pmatrix} = \dfrac{n!}{k_{1}!k_{2}!\dots k_{m}!}
+\end{equation}
+This number can also be thought of as the number of ways of depositing $n$ distinct objects into $m$ bins, where the $j$\textsuperscript{th} bin requires $k_{j}$ objects.
+
+\subsubsection{Combinations in a Circle}
+
+With $n$ total objects, consider the number of different ways to arrange $k$ homogeneous objects among $\left(n - k\right)$ other homogeneous objects in a circle (where it only matters which object is next to which). Like with arrangements and permutations in a circle, we can find this number by dividing the total number of combinations in a line by the number of possible rotations without affecting relative position, which is $n$. This gives
+\begin{equation}
+\dfrac{\mathstrut^{n}\mathsf{C}_{k}}{n} = \dfrac{\left(n - 1\right)!}{k!\left(n - k\right)!}
+\end{equation}
 
 \section{Probability Distributions}
 
-\subsection{Continuous Distributions}
+\subsection{Random Variables}
 
-\subsection{Discrete Distributions}
+Random variables are variables which are determined as a result of a random experiment, ie. they are not fixed and will depend on the outcome of the random experiment. This is in contrast to `deterministic' variables, which are always fixed regardless of the outcome. Deterministic variables can even be thought to be a special case of random variables, which are determined at the end of the random experiment but always take on the same value. \\
 
-\subsection{Cumulative Distributions}
+The value of a random variable after the experiment has occurred is said to have been `realised'.
+
+\subsubsection{Degenerate Random Variables}
+
+A degenerate random variable takes on a single value with probability $1$, and thus can be regarded as a deterministic variable.
+
+\subsubsection{Binary Random Variables}
+
+Binary random variables are random variables which can take on either of two possible values, usually chosen to be $0$ and $1$.
+
+\subsubsection{Indicator Random Variables}
+
+An indicator random variable for an event $A$ is a binary random variable that takes on the value of $1$ if $A$ occurred, and $0$ if $A$ did not occur.
+
+\subsection{Distribution Functions}
+
+The possible values which a random variable can take, as well as probabilities of random variables taking on certain values, is represented using a distribution function.
+
+\subsubsection{Discrete Distributions}
+
+For a random variable $X$ that takes on discrete values (eg. $0, 1, 2, \dots$), the probability mass function describes the probability of $X$ being equal to a particular value, denoted $\operatorname{Pr}\left(X = x\right)$. Note that for random experiments with discrete outcomes which do not explicitly result in the realisation of a random variable, a discrete random variable can still be defined by assigning each outcome to the set of integers (and if an integer $x$ is not assigned to any outcome, this simply means $\operatorname{Pr}\left(X = x\right) = 0$). In this way, a probability mass function can still be defined for any random experiment with discrete outcomes. A probability mass function satisfies the following properties:
+\begin{equation}
+\sum_{x=-\infty}^{\infty}\operatorname{Pr}\left(X = x\right) = 1
+\end{equation}
+and
+\begin{equation}
+0 \leq \operatorname{Pr}\left(X = x\right) \leq 1
+\end{equation}
+for all integers $x$.
+
+\subsubsection{Continuous Distributions}
+
+In some random experiments, a random variable can take on a continuum of values (eg. $\left[0, 1\right]$ or $\left(-\infty, \infty\right)$). These are called continuous random variables. A continuous random variable $X$ has a probability density function, denoted $f_{X}\left(x\right)$. Integrating this function over regions gives the probability that $X$ will lie in that region. For example, the probability that $a \leq X \leq b$ is given by
+\begin{equation}
+\operatorname{Pr}\left(a \leq X \leq b\right) = \int_{a}^{b}f_{X}\left(x\right)dx
+\end{equation}
+Note that is does not matter if this is integrated with open intervals or closed intervals. Hence for a continuous random variable, $\operatorname{Pr}\left(a \leq X \leq b\right) = \operatorname{Pr}\left(a < X < B\right)$. Also, the probability that $X$ takes on any one particular value is zero, ie. $\operatorname{Pr}\left(X = x\right) = 0$. That means it only makes sense to talk about $X$ lying within regions, rather than for specific points. A probability density function satisfies the following properties:
+\begin{equation}
+\int_{-\infty}^{\infty}f_{X}\left(x\right)dx = 1
+\end{equation}
+and
+\begin{equation}
+f_{X}\left(x\right) \geq 0
+\end{equation}
+for all $x\in\left(-\infty, \infty\right)$. Note that unlike probability masses, probability densities are allowed to be greater than $1$.
+
+\subsubsection{Cumulative Distributions}
+
+A cumulative distribution function $F_{X}\left(x\right)$ for a random variable $X$ is defined as a function for the `cumulative' probability up to $x$:
+\begin{equation}
+F_{X}\left(x\right) = \operatorname{Pr}\left(X \leq x\right)
+\end{equation}
+Thus if $X$ is a discrete random variable, then the relation between the cumulative distribution function and the probability mass function is given by
+\begin{equation}
+F_{X}\left(a\right) = \sum_{x = -\infty}^{a}\operatorname{Pr}\left(X = x\right)
+\end{equation}
+Whereas if $X$ is a continuous random variable, then the relation between the cumulative distribution function and the probability density function is given by
+\begin{equation}
+F_{X}\left(a\right) = \int_{-\infty}^{a}f_{X}\left(x\right)dx
+\end{equation}
+The cumulative distribution satisfies the following properties:
+\begin{equation}
+0 \leq F_{X}\left(x\right) \leq 1
+\end{equation}
+for all $x$, and
+\begin{gather}
+\lim_{x\to -\infty}F_{X}\left(x\right) = 0 \\
+\lim_{x\to \infty}F_{X}\left(x\right) = 1
+\end{gather}
+Furthermore, the probability density function can be obtained from the cumulative density function by
+\begin{equation}
+f_{X}\left(x\right) = \dfrac{dF_{X}\left(x\right)}{dx}
+\end{equation}
+(wherever the cumulative density function is differentiable) and if given the probability density function, then
+\begin{equation}
+F_{X}\left(x\right) = \int f_{X}\left(x\right)dx
+\end{equation}
+with a constant of integration such that $\lim_{x\to \infty}F_{X}\left(x\right) = 1$.
+
+\subsection{Joint Distributions}
+
+Consider a random experiment which produces two random variables, $X$ and $Y$. If these random variables are discrete (taking on integer values), we can express a joint probability mass function over all combinations of $X$ and $Y$, given by $\operatorname{Pr}\left(X = x, Y = y\right)$. This joint distribution has the property that
+\begin{equation}
+\sum_{x = -\infty}^{\infty}\sum_{y = -\infty}^{\infty}\operatorname{Pr}\left(X = x, Y = y\right) = 1
+\end{equation}
+We call $\operatorname{Pr}\left(X = x\right)$ and $\operatorname{Pr}\left(Y = y\right)$ the marginal distributions, which can be calculated from the joint distribution by a summation:
+\begin{gather}
+\operatorname{Pr}\left(X = x\right) = \sum_{y = -\infty}^{\infty}\operatorname{Pr}\left(X = x, Y = y\right) \\
+\operatorname{Pr}\left(Y = y\right) = \sum_{x = -\infty}^{\infty}\operatorname{Pr}\left(X = x, Y = y\right)
+\end{gather}
+Analogously, if $X$ and $Y$ are continuous, then there exists a joint density function denoted $f_{XY}\left(x, y\right)$ with the relation
+\begin{equation}
+\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f_{XY}\left(x, y\right)dxdy = 1
+\end{equation}
+and the marginal densities $f_{X}\left(x\right)$, $f_{Y}\left(y\right)$ given by the integrals
+\begin{gather}
+f_{X}\left(x\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, y\right)dy \\
+f_{Y}\left(y\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, y\right)dx
+\end{gather}
 
 \subsection{Conditional Distributions}
+
+By the definition of the conditional probability, we know (for discrete $X$ and $Y$):
+\begin{equation}
+\operatorname{Pr}\left(X = x\middle|Y = y\right) = \dfrac{\operatorname{Pr}\left(X = x, Y = y\right)}{\operatorname{Pr}\left(Y = y\right)}
+\end{equation}
+this is known as the conditional distribution of $X$ given $Y$, and is itself a probability mass function which is dependent on the value of $Y$. Notice that it is the quotient between the joint distribution of $X, Y$ and the marginal distribution of $Y$, and is defined only when $\operatorname{Pr}\left(Y = y\right) > 0$, otherwise we can presume $\operatorname{Pr}\left(X = x\middle|Y = y\right) = 0$. Likewise, the conditional distribution of $Y$ given $X$ is
+\begin{equation}
+\operatorname{Pr}\left(Y = y\middle|X = x\right) = \dfrac{\operatorname{Pr}\left(X = x, Y = y\right)}{\operatorname{Pr}\left(X = x\right)}
+\end{equation}
+Using the chain rule of probability, we can relate the marginal distribution of $X$ to the conditional distribution of $X$ given $Y$ by
+\begin{align}
+\operatorname{Pr}\left(X = x\right) &= \sum_{y = -\infty}^{\infty}\operatorname{Pr}\left(X = x, Y = y\right)\\
+&= \sum_{\left\{y: \operatorname{Pr}\left(Y = y\right) > 0\right\}}\operatorname{Pr}\left(X = x\middle|Y = y\right)\operatorname{Pr}\left(Y = y\right)
+\end{align}
+We can also show that the conditional distribution $\operatorname{Pr}\left(X = x\middle|Y = y\right)$ is a proper distribution (summing over $x$ to $1$) for any given $y$:
+\begin{align}
+\sum_{x = -\infty}^{\infty}\operatorname{Pr}\left(X = x\middle|Y = y\right) &= \sum_{x = -\infty}^{\infty}\dfrac{\operatorname{Pr}\left(X = x, Y = y\right)}{\operatorname{Pr}\left(Y = y\right)} \\
+&= \dfrac{1}{\operatorname{Pr}\left(Y = y\right)}\sum_{x = -\infty}^{\infty}\operatorname{Pr}\left(X = x, Y = y\right) \\
+&= \dfrac{\operatorname{Pr}\left(Y = y\right)}{\operatorname{Pr}\left(Y = y\right)} \\
+&= 1
+\end{align}
+If $X$ and $Y$ are continuous, then there exists conditional densities $f_{X|Y}\left(x\middle|Y = y\right)$ and $f_{Y|X}\left(y\middle|X = x\right)$. These are similarly defined by
+\begin{gather}
+f_{X|Y}\left(x\middle|Y = y\right) = \dfrac{f_{XY}\left(x, y\right)}{f_{Y}\left(y\right)} \\
+f_{Y|X}\left(y\middle|X = x\right) = \dfrac{f_{XY}\left(x, y\right)}{f_{X}\left(x\right)} 
+\end{gather}
+where we can show similar properties as with discrete distributions hold:
+\begin{align}
+f_{X}\left(x\right) &= \int_{-\infty}^{\infty}f_{XY}\left(x, y\right)dy \\
+&= \int_{\left\{y: f_{Y}\left(y\right) > 0\right\}}f_{X|Y}\left(x\middle|Y = y\right)f_{Y}\left(y\right)dy
+\end{align}
+and
+\begin{align}
+\int_{-\infty}^{\infty}f_{X|Y}\left(x\middle|Y = y\right)dx &= \int_{-\infty}^{\infty}\dfrac{f_{XY}\left(x, y\right)}{f_{Y}\left(y\right)}dx \\
+&= \dfrac{1}{f_{Y}\left(y\right)}\int_{-\infty}^{\infty}f_{XY}\left(x, y\right)dx \\
+&= \dfrac{f_{Y}\left(y\right)}{f_{Y}\left(y\right)} \\
+&= 1
+\end{align}
+
+\subsubsection{Conditional Random Variables}
+
+A `conditional random variable' denoted $X|Y$ can be informally defined as the random variable which has the conditional distribution of $X$ given $Y$ as its distribution function.
+
+\subsection{Support of a Distribution}
+
+The support of a distribution for a random variable is the set of values for which the probability density function (or probability mass function, in the case of discrete random variables) is non-zero. For example, we can denote the support of a discrete random variable $X$ as
+\begin{equation}
+\mathcal{X} := \left\{x: \operatorname{Pr}\left(X = x\right) > 0\right\}
+\end{equation}
 
 \section{Expectation}
 
@@ -312,7 +587,7 @@ Finally, recognise that the last two terms give the covariance between the rando
 \begin{equation}
 \operatorname{Cov}\left(X, Y\right) = \mathbb{E}\left[\operatorname{Cov}\left(X, Y\middle|Z\right)\right] + \operatorname{Cov}\left(\mathbb{E}\left[X\middle|Z\right], \mathbb{E}\left[Y\middle|Z\right]\right)
 \end{equation}
-The Law of Total Covariance is a special case of the Law of Total Variance where $X = Y$.
+The Law of Total Variance is a special case of the Law of Total Covariance where $X = Y$.
 
 \section{Independence}
 
@@ -356,6 +631,10 @@ which yields the subadditivity property for the standard deviation.
 
 \subsubsection{Independent and Identically Distributed Random Variables}
 
+
+\subsection{Uncorrelatedness}
+
+
 \subsection{Conditional Independence}
 
 Two events $A$ and $B$ are conditionally independent on a third event $C$ if the knowledge of $C$ makes events $A$ and $B$ independent (hence their joint probability conditional on $C$ can be obtained by multiplying the marginal conditional probabilities):
@@ -377,21 +656,41 @@ Two random variables $X$ and $Y$ are said to be orthogonal if $\mathbb{E}\left[X
 
 \chapter{Introductory Statistics}
 
+\section{Data Generating Processes}
+
+\subsection{Population}
+
+\subsubsection{Population Parameters}
+
+\subsection{Sample}
+
+\subsubsection{Sample Statistics}
+
+\subsubsection{Estimators}
+
+\subsubsection{Biasedness}
+
+\subsubsection{Consistency}
+
 \section{Descriptive Statistics}
 
 \subsection{Measures of Central Tendency}
 
-\subsubsection{Mean}
+\subsubsection{Arithmetic Mean}
 
 \subsubsection{Median}
 
 \subsubsection{Mode}
+
+\subsubsection{Geometric Mean}
 
 \subsection{Measures of Dispersion}
 
 \subsubsection{Sample Variance}
 
 Suppose we knew the value of the population mean. Then it should be clear that in order to compute an unbiased estimate of the population variance from the sample variance, one should first compute the sum of squared deviations about the population mean $\sum_{i = 1}^{n}{\left(x_{i} - \mu\right)^{2}}$ and then divide by the sample size $n$. However, typically only the sample mean $\bar{x}$ is known, which itself is computed from the sample. So this inherently introduces bias if we were to compute sample variance the same way (we are measuring squared deviations of a sample from a mean which is itself determined by the sample). So to `compensate' for this, we divide by $n - 1$ instead of $n$ to give an unbiased estimate of the sample variance.
+
+\subsubsection{Sample Standard Deviation}
 
 \subsubsection{Coefficient of Variation}
 
@@ -400,14 +699,44 @@ The coefficient of variation is a standardised measure of dispersion relative to
 \mathrm{COV} = \dfrac{\sigma}{\mu}
 \end{equation}
 
+\subsubsection{Range}
+
+\subsubsection{Interquartile Range}
+
+\subsubsection{Percentile}
+
+\subsubsection{Frequency Distribution}
+
 \subsubsection{Signal-to-noise Ratio}
 
-The signal-to-noise ratio is defined as the inverse of the coefficient of variation.
+While there are many definitions of the signal-to-noise ratio, one such definition is the inverse of the coefficient of variation.
 \begin{equation}
 \mathrm{SNR} = \dfrac{\mu}{\sigma}
 \end{equation}
 
+\subsection{Measures of Dependence}
+
+\subsubsection{Sample Covariance}
+
+\subsubsection{Pearson Correlation Coefficient}
+
 \subsubsection{Contingency Tables}
+
+A contingency table can be used to present the joint probability distribution (or alternatively, relative frequency or absolute frequency distribution) of two variables, and by taking summations across rows and columns to obtain marginal distributions. The layout of a $2\times 2$ contingency table for two random variables $X$, $Y$ taking on values $\left\{0, 1\right\}$ is given below.
+\begin{table}\centering
+\begin{tabular}{|c||c|c|c|}
+\hline 
+ & $Y = 0$ & $Y = 1$ & \\
+\hline 
+\hline 
+$X = 0$ & $\operatorname{Pr}\left(X = 0, Y = 0\right)$ &  $\operatorname{Pr}\left(X = 0, Y = 1\right)$ & $\operatorname{Pr}\left(X = 0\right)$ \\
+\hline 
+$X = 1$ & $\operatorname{Pr}\left(X = 1, Y = 0\right)$ & $\operatorname{Pr}\left(X = 1, Y = 1\right)$ & $\operatorname{Pr}\left(X = 1\right)$ \\
+\hline 
+ & $\operatorname{Pr}\left(Y = 0\right)$ & $\operatorname{Pr}\left(Y = 1\right)$ & $1$ \\
+ \hline
+\end{tabular}
+\end{table}
 
 \section{Inferential Statistics}
 
@@ -444,8 +773,6 @@ However, the above assumes we know all about the population and data-generating 
 
 \subsection{Prediction Intervals of the Observed Response}
 
-\subsection{Deming Regression}
-
 \section{Analysis of Variance}
 
 \section{Method of Moments}
@@ -461,6 +788,60 @@ However, the above assumes we know all about the population and data-generating 
 \subsection{Exponential Distribution}
 
 \subsection{Gaussian Distribution}
+
+\subsubsection{Q Function}
+
+The Q function is the complementary cumulative distribution function of the standard Gaussian distribution. It is denoted
+\begin{align}
+Q\left(x\right) &= 1 - \Phi\left(x\right) \\
+&= \int_{x}^{\infty}\phi\left(u\right)du \\
+&= \int_{x}^{\infty}\dfrac{e^{-u^{2}/2}}{\sqrt{2\pi}}du
+\end{align}
+
+\subsubsection{Mill's Ratio}
+
+Mill's ratio of a distribution is defined as the ratio of the complementary cumulative distribution function to the probability density function. For the standard Gaussian distribution, Mill's ratio can be written in terms of the Q function as $\dfrac{Q\left(x\right)}{\phi\left(x\right)}$. This ratio satisfies some well-known inequalities. Firstly, we can show
+\begin{align}
+Q\left(x\right) &= \int_{x}^{\infty}\phi\left(u\right)du \\
+& < \int_{x}^{\infty}\dfrac{u}{x}\phi\left(u\right)du
+\end{align}
+for $x > 0$, since the ratio $u/x > 1$ for $u > x$ and $\phi\left(u\right) > 0$ everywhere. Then with a change of variables $v = \dfrac{u^{2}}{2}$ (noting that $\dfrac{dv}{du} = u$):
+\begin{align}
+\int_{x}^{\infty}\dfrac{u}{x}\phi\left(u\right)du &= \int_{x}^{\infty}\dfrac{u}{x}\cdot \dfrac{e^{-u^{2}/2}}{\sqrt{2\pi}}du \\
+&= \int_{x^{2}/2}^{\infty}\dfrac{e^{-v}}{x\sqrt{2\pi}}dv \\
+&= -\left[\dfrac{1}{x\sqrt{2\pi}}e^{-v}\right]_{v=x^{2}/2}^{v = \infty} \\
+&= \dfrac{e^{-x^{2}/2}}{x\sqrt{2\pi}} \\
+&= \dfrac{\phi\left(x\right)}{x}
+\end{align}
+Hence we have the upper bound on Mill's ratio
+\begin{equation}
+\dfrac{Q\left(x\right)}{\phi\left(x\right)} < \dfrac{1}{x}
+\end{equation}
+for $x > 0$. A lower bound can be derived in a similar fashion. Start with
+\begin{align}
+\left(1 + \dfrac{1}{x^{2}}\right)Q\left(x\right) &= \int_{x}^{\infty}\left(1 + \dfrac{1}{x^{2}}\right)\phi\left(u\right)du \\
+&> \int_{x}^{\infty}\left(1 + \dfrac{1}{u^{2}}\right)\phi\left(u\right)du
+\end{align}
+since $\dfrac{1}{x^{2}} > \dfrac{1}{u^{2}}$ for $u > x$ and $x$ while $\phi\left(u\right) > 0$. Now note that the derivative of $\phi\left(u\right)$ is
+\begin{equation}
+\dfrac{d\phi\left(u\right)}{du} = -u\phi\left(u\right)
+\end{equation}
+Then using the quotient rule, the derivative of $-\phi\left(u\right)/u$ is
+\begin{align}
+\dfrac{d}{du}\left(-\dfrac{\phi\left(u\right)}{u}\right) &= -\dfrac{-u^{2}\phi\left(u\right) - \phi\left(u\right)}{u^{2}} \\
+&= \left(1 + \dfrac{1}{u^{2}}\right)\phi\left(u\right)
+\end{align}
+Hence
+\begin{align}
+\int_{x}^{\infty}\left(1 + \dfrac{1}{u^{2}}\right)\phi\left(u\right)du &= \left[-\dfrac{\phi\left(u\right)}{u}\right]_{u = x}^{u = \infty} \\
+&= \dfrac{\phi\left(x\right)}{x}
+\end{align}
+This gives the lower bound
+\begin{gather}
+\left(1 + \dfrac{1}{x^{2}}\right)Q\left(x\right) > \dfrac{\phi\left(x\right)}{x} \\
+\dfrac{x}{1 + x^{2}} < \dfrac{Q\left(x\right)}{\phi\left(x\right)}
+\end{gather}
+for $x > 0$.
 
 \subsubsection{Truncated Gaussian Distribution}
 
@@ -550,7 +931,7 @@ Introduce the change in variables $u = st$, $v = s\left(1 - t\right)$, which whe
 \begin{equation}
 \Gamma\left(z\right)\Gamma\left(y\right)  = \int_{0}^{\infty}\int_{0}^{1}\left(st\right)^{z - 1}\left[s\left(1 - t\right)\right]^{y - 1}e^{-s}\det\left(\mathbf{J}\right)dtds
 \end{equation}
-where
+where the Jacobian determinant
 \begin{equation}
 \det\left(\mathbf{J}\right) = \det\left(\begin{bmatrix}\dfrac{\partial}{\partial t}st & \dfrac{\partial}{\partial s}st\\
 \dfrac{\partial}{\partial t}s\left(1-t\right) & \dfrac{\partial}{\partial s}s\left(1-t\right)
@@ -590,9 +971,9 @@ If $\alpha$ and $\beta$ are positive integers, then the Beta distribution in ter
 \begin{equation}
 f\left(x\right) = \dfrac{\left(\alpha + \beta - 1\right)!}{\left(\alpha - 1\right)!\left(\beta - 1\right)!}x^{\alpha - 1}\left(1-x\right)^{\beta - 1}
 \end{equation}
-By letting $n = \alpha + \beta + 2$ and $r = \alpha - 1$, an alternative parametrisation is
+By letting $n = \alpha + \beta - 2$ and $r = \alpha - 1$, an alternative parametrisation is
 \begin{equation}
-f\left(x\right) = \dfrac{\left(n + 1\right)!}{r!\left(n - r\right)!}x^{\alpha - 1}\left(1-x\right)^{\beta - 1}
+f\left(x\right) = \dfrac{\left(n + 1\right)!}{r!\left(n - r\right)!}x^{r}\left(1-x\right)^{n - r}
 \end{equation}
 
 \subsection{Chi-Squared Distribution}
@@ -629,11 +1010,11 @@ f\left(x\right) = \dfrac{\left(n + 1\right)!}{r!\left(n - r\right)!}x^{\alpha - 
 
 The negative binomial distribution is a discrete distribution on support $x \in \left\{0, 1, 2, 3, \dots\right\}$ for the number of successes of i.i.d. Bernoulli trials (with success probability $p$) before $r$ failures occur. For example, if we are interested in 1 success before $r$ failures, the probability of this is given by
 \begin{equation}
-P\left(X = 1\right) = \mathstrut^{r}C_{1}\left(1 - p\right)^{r}p^{1}
+\operatorname{Pr}\left(X = 1\right) = \mathstrut^{r}\mathsf{C}_{1}\left(1 - p\right)^{r}p^{1}
 \end{equation}
-We know that the sequence will be of length $n = r + 1$, and that the final trial in the sequence is fixed as a failure. Hence the term $\mathstrut^{r}C_{1} = \mathstrut^{n - 1}C_{1}$ gives the number of combinations where we can place $1$ success among $n - 1$ trials. Generally, the probability mass function is given by
+We know that the sequence will be of length $n = r + 1$, and that the final trial in the sequence is fixed as a failure. Hence the term $\mathstrut^{r}\mathsf{C}_{1} = \mathstrut^{n - 1}\mathsf{C}_{1}$ gives the number of combinations where we can place $1$ success among $n - 1$ trials. Generally, the probability mass function is given by
 \begin{equation}
-P\left(X = x\right) = \mathstrut^{r + x - 1}C_{x}\left(1 - p\right)^{r}p^{x}
+\operatorname{Pr}\left(X = x\right) = \mathstrut^{r + x - 1}\mathsf{C}_{x}\left(1 - p\right)^{r}p^{x}
 \end{equation}
 The distribution has a mean of
 \begin{equation}
@@ -692,23 +1073,23 @@ Therefore $C$ satisfies the property of a positive semi-definite matrix.
 
 \subsection{Bivariate Cumulative Discrete Distribution Functions}
 
-Suppose we have the discrete bivariate cumulative distribution function $F\left(x, y\right) := P\left(X\leq x, Y \leq y\right)$. We are interested in deriving the probability mass function $f\left(x, y\right) = P\left(X = x, Y = y\right)$ from this. Assume that $X$ and $Y$ are integer valued. We can derive this using the inclusion-exclusion principle. First define the events
+Suppose we have the discrete bivariate cumulative distribution function $F\left(x, y\right) := \operatorname{Pr}\left(X\leq x, Y \leq y\right)$. We are interested in deriving the probability mass function $f\left(x, y\right) = \operatorname{Pr}\left(X = x, Y = y\right)$ from this. Assume that $X$ and $Y$ are integer valued. We can derive this using the inclusion-exclusion principle. First define the events
 \begin{gather}
-A: \left\{X \leq x, Y < y\right\} \\
-B: \left\{X < x, Y \leq y\right\}
+A = \left\{X \leq x, Y < y\right\} \\
+B = \left\{X < x, Y \leq y\right\}
 \end{gather}
 Then logically
 \begin{gather}
-A \cup B: \left\{X \leq x, Y \leq y\right\}\setminus\left\{X = x, Y = y\right\} \\
-A \cap B: \left\{X < x, Y < y\right\}
+A \cup B =  \left\{X \leq x, Y \leq y\right\}\setminus\left\{X = x, Y = y\right\} \\
+A \cap B = \left\{X < x, Y < y\right\}
 \end{gather}
-Thus the probability mass function can be expressed as
+Thus the joint probability mass function can be expressed as
 \begin{align}
-P\left(X = x, Y = y\right) &= P\left(X \leq x, Y \leq y\right) - P\left(A \cup B\right) \\
-&= P\left(X \leq x, Y \leq y\right) - P\left(A\right) - P\left(B\right) + P\left(A \cap B\right) \\
-&= P\left(X \leq x, Y \leq y\right) - P\left(X \leq x, Y < y\right) - P\left(X < x, Y \leq y\right) + P\left(X < x, Y < y\right) \\
-&= \begin{multlined} P\left(X \leq x, Y \leq y\right) - P\left(X \leq x, Y \leq y - 1\right) - P\left(X \leq x - 1, Y \leq y\right) \\
-+ P\left(X \leq x - 1, Y \leq y - 1\right) \end{multlined} \\
+\operatorname{Pr}\left(X = x, Y = y\right) &= \operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(A \cup B\right) \\
+&= \operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(A\right) - \operatorname{Pr}\left(B\right) + \operatorname{Pr}\left(A \cap B\right) \\
+&= \operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(X \leq x, Y < y\right) - \operatorname{Pr}\left(X < x, Y \leq y\right) + \operatorname{Pr}\left(X < x, Y < y\right) \\
+&\begin{multlined} =\operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(X \leq x, Y \leq y - 1\right) - \operatorname{Pr}\left(X \leq x - 1, Y \leq y\right) \\
++ \operatorname{Pr}\left(X \leq x - 1, Y \leq y - 1\right) \end{multlined} \\
 &= F\left(x, y\right) - F\left(x, y - 1\right) - F\left(x - 1, y\right) + F\left(x - 1, y - 1\right)
 \end{align}
 
@@ -777,9 +1158,9 @@ Let $X$ be a random variable with probability density $f_{X}\left(x\right)$, and
 
 First assume $g$ is monotonically increasing, so $g^{-1}$ will also be monotonically increasing. The cumulative density function of $Y$ is given by
 \begin{align}
-F_{Y}\left(y\right) &= P\left(Y \leq y\right) \\
-&= P\left(g\left(X\right) \leq y\right) \\
-&= P\left(X \leq g^{-1}\left(y\right)\right) \\
+F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
+&= \operatorname{Pr}\left(g\left(X\right) \leq y\right) \\
+&= \operatorname{Pr}\left(X \leq g^{-1}\left(y\right)\right) \\
 &= F_{X}\left(g^{-1}\left(y\right)\right)
 \end{align}
 Differentiating $F_{Y}$ gives the density of $Y$:
@@ -794,9 +1175,9 @@ f_{Y}\left(y\right) &= \dfrac{d}{dx}F_{X}\left(g^{-1}\left(y\right)\right)\cdot\
 \end{align}
 Now assume $g$ is monotonically decreasing, so $g^{-1}$ is also monotonically decreasing and has the ability to flip an inequality sign. Similar to before, we can write
 \begin{align}
-F_{Y}\left(y\right) &= P\left(Y \leq y\right) \\
-&= P\left(g\left(X\right) \leq y\right) \\
-&= P\left(X \geq g^{-1}\left(y\right)\right) \\
+F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
+&= \operatorname{Pr}\left(g\left(X\right) \leq y\right) \\
+&= \operatorname{Pr}\left(X \geq g^{-1}\left(y\right)\right) \\
 &= 1 - F_{X}\left(g^{-1}\left(y\right)\right)
 \end{align}
 Now differentiating $F_{Y}$ gives 
@@ -1008,17 +1389,28 @@ for every $A\subset \mathbb{R}^{n}$ which is a continuity set of $\mathbf{X}$. N
 \begin{equation}
 \lim_{n\to \infty}F_{n}\left(x\right) = F\left(x\right)
 \end{equation}
-then this implies convergence in distribution.
+then this implies convergence in distribution. Convergence in distribution may be denoted with the $\overset{\mathrm{d}}\to$ symbol.
 
 \subsection{Convergence in Mean}
 
-A sequence of random variables $\left\{X_{1}, X_{2}, \dots, X_{n} \right\}$ converges in mean towards random variable $X$ if
+A sequence of random variables $\left\{X_{1}, X_{2}, \dots, X_{n} \right\}$ converges in mean (or in expectation) towards random variable $X$ if
 \begin{equation}
 \lim_{n\to\infty}\mathbb{E}\left[\left|X_{n} - X\right|\right] = 0
 \end{equation}
-A sequence of random vectors $\left\{\mathbf{X}_{1}, \mathbf{X}_{2}, \dots, \mathbf{X}_{n} \right\}$ converges in mean towards random vector $\mathbf{X}$ if
+A sequence of random vectors $\left\{\mathbf{X}_{1}, \mathbf{X}_{2}, \dots, \mathbf{X}_{n} \right\}$ converges in mean (or in expectation) towards random vector $\mathbf{X}$ if
 \begin{equation}
 \lim_{n\to\infty}\mathbb{E}\left[\left\Vert\mathbf{X}_{n} - \mathbf{X}\right\Vert\right] = 0
+\end{equation}
+
+\subsection{Convergence in $p$-Mean}
+
+A sequence of random variables $\left\{X_{1}, X_{2}, \dots, X_{n} \right\}$ converges in $p$-mean (or in $L_{p}$) towards random variable $X$ if for $p \geq 1$
+\begin{equation}
+\lim_{n\to\infty}\mathbb{E}\left[\left|X_{n} - X\right|^{p}\right] = 0
+\end{equation}
+A sequence of random vectors $\left\{\mathbf{X}_{1}, \mathbf{X}_{2}, \dots, \mathbf{X}_{n} \right\}$ converges in $p$-mean (or in $L_{p}$) towards random vector $\mathbf{X}$ if for $p \geq 1$
+\begin{equation}
+\lim_{n\to\infty}\mathbb{E}\left[\left\Vert\mathbf{X}_{n} - \mathbf{X}\right\Vert^{p}\right] = 0
 \end{equation}
 
 \subsection{Convergence in Probability}
@@ -1033,7 +1425,7 @@ A sequence of random vectors $\left\{\mathbf{X}_{1}, \mathbf{X}_{2}, \dots, \mat
 \begin{equation}
 \lim_{n\to \infty}\operatorname{Pr}\left(\left\Vert \mathbf{X}_{n} - \mathbf{X}\right\Vert > \varepsilon\right) = 0
 \end{equation} 
-for all $\varepsilon > 0$.
+for all $\varepsilon > 0$. Convergence in probability may be denoted with the $\overset{\mathrm{p}}\to$ symbol.
 
 \subsection{Pointwise Convergence in Probability}
 
@@ -1071,7 +1463,7 @@ A sequence of random vectors $\left\{\mathbf{X}_{1}, \mathbf{X}_{2}, \dots, \mat
 \begin{equation}
 \operatorname{Pr}\left(\lim_{n\to\infty}\mathbf{X}_{n} = \mathbf{X}\right) = 1
 \end{equation}
-where the equality is evaluated element-wise. \\
+where the equality is evaluated element-wise. Almost sure convergence may be denoted with the $\overset{\mathrm{a.s.}}\to$ symbol.\\
 
 Almost sure convergence implies convergence in probability, however convergence in probability does not imply almost sure convergence. For example, consider the sequence where $X_{n}$ takes the value $1$ with probability $\dfrac{1}{n}$, and takes the value of $0$ otherwise. Although this sequence converges in probability to $0$, since the series $\sum_{n = 1}^{\infty}\operatorname{Pr}\left(X_{n} = 1\right) = \sum_{n = 1}^{\infty}\dfrac{1}{n}$ diverges, and each $X_{n}$ is independent, we have by the converse Borel-Cantelli lemma that there is probability 1 that the event $X_{n} = 1$ occurs infinitely many times. Therefore the sequence does not almost surely converge to $0$.
 
@@ -1107,13 +1499,54 @@ This contradicts almost sure convergence, hence almost sure convergence implies 
 
 An event $E$ occurs with high probability if the probability $\operatorname{Pr}\left(E\right)$ depends on some number $n$, and $\operatorname{Pr}\left(E\right) \to 1$ as $n \to \infty$. That is, we can make the probability as close as desired to $1$ by making $n$ big enough.
 
+\subsection{Continuous Mapping Theorem}
+
+The continuous mapping theorem states that limits of convergent sequences of random elements are preserved through a continuous mapping. Formally, let $\left\{\mathbf{X}_{n}\right\}$ be a sequence of random vectors converging in probability to the random vector $\mathbf{X}$. Let $g: \mathbb{R}^{d} \to \mathbb{R}^{m}$ be an arbitrary mapping that is continuous over the support of $\mathbf{X}$ (where $d$ is the dimension of $\mathbf{X}$ and $m$ is the dimension being mapped to). Then
+\begin{equation}
+g\left(\mathbf{X}_{n}\right) \overset{\mathrm{p}}\to g\left(\mathbf{X}\right)
+\end{equation}
+Similarly, if $\left\{\mathbf{X}_{n}\right\}$ is a sequence of random vectors converging in distribution to $\mathbf{X}$, then
+\begin{equation}
+g\left(\mathbf{X}_{n}\right) \overset{\mathrm{d}}\to g\left(\mathbf{X}\right)
+\end{equation}
+and analogously if $\left\{\mathbf{X}_{n}\right\}$ is a sequence of random vectors converging almost surely to $\mathbf{X}$, then
+\begin{equation}
+g\left(\mathbf{X}_{n}\right) \overset{\mathrm{a.s.}}\to g\left(\mathbf{X}\right)
+\end{equation}
+
 \subsection{Slutsky's Theorem}
 
-\subsection{Continuous Mapping Theorem}
+Slutsky's theorem describes properties of algebraic operations on convergent sequences of random variables. Let $\left\{X_{n}\right\}$, $\left\{Y_{n}\right\}$ be sequences of random variables. Suppose $\left\{X_{n}\right\}$ converges in distribution to random variable $X$, while $\left\{Y_{n}\right\}$ converges in probability to a constant $c$. Then
+\begin{gather}
+X_{n} + Y_{n} \overset{\mathrm{d}}{\to} X + c \\
+X_{n}Y_{n} \overset{\mathrm{d}}{\to} cX \\
+X_{n}/Y_{n} \overset{\mathrm{d}}{\to} X/c
+\end{gather}
+where the last property requires that $c\neq 0$. Analogous results hold if $\left\{X_{n}\right\}$ were to converge in probability to $X$.
 
 \chapter{Intermediate Statistics}
 
-\section{Maximum Likelihood Hypothesis Testing}
+\section{Least Squares}
+
+\subsection{Ordinary Least Squares}
+
+\subsection{Total Least Squares}
+
+\subsection{Deming Regression}
+
+\subsection{Weighted Least Squares}
+
+\subsection{Generalised Least Squares}
+
+\subsection{Regularised Least Squares}
+
+\section{Statistical Decision Theory}
+
+\subsection{Maximum Likelihood Hypothesis Testing}
+
+\subsection{Maximum a Posteriori Hypothesis Testing}
+
+\subsection{Minimum Cost Hypothesis Testing}
 
 \subsection{Neyman-Pearson Lemma}
 
@@ -1172,6 +1605,16 @@ Returning to the Fisher information
 \end{align}
 This shows that the Fisher information is equal to the negative of the curvature of the log likelihood, assuming the log likelihood is twice differentiable with respect to $\theta$.
 
+\subsection{M-estimators}
+
+M-estimators generalise maximum likelihood estimators. M-estimators are a class of estimators that are obtained by minimisation of a negative sum of logs (of which maximum likelihood estimation is a special case).
+
+\subsection{Extremum Estimators}
+
+Extremum estimators are a class of estimators which further generalise M-estimators. Extremum estimators are obtained by the minimisation of some objective function which depends on the data.
+
+\section{Maximum a Posteriori Estimation}
+
 \section{James-Stein Estimators}
 
 \section{Generalised Linear Models}
@@ -1215,6 +1658,8 @@ Hence the maximum-likelihood estimate is the solution to
 
 \section{Moments}
 
+The $n$\textsuperscript{th} moment of a random variable $X$ is defined as $\mathbb{E}\left[X^{n}\right]$. Thus the 1st moment is simply the expected value while the 2nd moment of a zero-mean random variable is the same as its variance.
+
 \subsection{Moment Generating Functions}
 
 The moment generating function of a random variable $X$ is defined as
@@ -1247,6 +1692,10 @@ Since $s\geq 0$, then $e^{sX} \geq e^{sa}$ is equivalent to $X \geq a$. Also, $\
 \operatorname{Pr}\left(X \geq a\right) \leq e^{-sa}\phi_{X}\left(s\right)
 \end{equation}
 \end{proof}
+
+\subsection{Hoeffding's Lemma}
+
+\subsection{Hoeffding's Inequality}
 
 \section{Probability Generating Functions}
 
@@ -1565,13 +2014,113 @@ A strictly stationary process does not always also imply it is wide-sense statio
 
 \section{Cox's Theorem}
 
+\section{Extensions to Bayes' Theorem}
+
+\subsection{Bayes' Theorem for Three Events}
+
+There are multiple ways of writing the chain rule of probability for three events $A$, $B$ and $C$.
+\begin{align}
+\operatorname{Pr}\left(A, B, C\right) &= \operatorname{Pr}\left(A, B\middle|C\right)\operatorname{Pr}\left(C\right) \\
+&= \operatorname{Pr}\left(A, C\middle|B\right)\operatorname{Pr}\left(B\right) \\
+&= \operatorname{Pr}\left(B, C\middle|A\right)\operatorname{Pr}\left(A\right) \\
+&= \operatorname{Pr}\left(A\middle|B, C\right)\operatorname{Pr}\left(B, C\right) \\
+&= \operatorname{Pr}\left(B\middle|A, C\right)\operatorname{Pr}\left(A, C\right) \\
+&= \operatorname{Pr}\left(C\middle|A, B\right)\operatorname{Pr}\left(A, B\right)
+\end{align}
+This means that there are $\mathstrut^{6}\mathsf{C}_{2} = 15$ different ways to write Bayes' theorem for three events by choosing any two and rearranging, for example:
+\begin{equation}
+\operatorname{Pr}\left(A, B\middle|C\right) = \dfrac{\operatorname{Pr}\left(B, C\middle|A\right)\operatorname{Pr}\left(A\right)}{\operatorname{Pr}\left(C\right)}
+\end{equation}
+and
+\begin{equation}
+\operatorname{Pr}\left(A\middle|B, C\right) = \dfrac{\operatorname{Pr}\left(B, C\middle|A\right)\operatorname{Pr}\left(A\right)}{\operatorname{Pr}\left(B, C\right)}
+\end{equation}
+
+\section{Bayesian Priors}
+
+\subsection{Principle of Indifference}
+
+The principle of indifference says that if an experiment yields $n$ mutually exclusive outcomes, and nothing else is known, then the prior probability of each outcome should be assigned $1/n$.
+
+\subsection{Cromwell's Rule}
+
+Cromwell's rule asserts that prior probabilities of zero should be avoided, except for statements which are logically true or false.
+
+\subsection{Uninformative Priors}
+
+An uninformative prior gives no subjective information. An improper prior may be used as an uninformative prior. An improper prior is a prior whose sum or integral does not necessarily sum to 1. From Bayes' theorem, it can be seen that scaling all prior probabilities or densities by some constant will still give the same result for the posterior. So it is still possible to use improper priors in Bayesian inference. An example of an improper prior is a uniform distribution over an infinite interval.
+
+\subsection{Conjugate Priors}
+
 \section{Bayesian Updating}
 
 \subsection{Rule of Succession}
 
-\subsection{Odds Ratio}
+The rule of succession is the application of Bayes' theorem to the probability of success/fail after repeated trials. Suppose $X_{1}, \dots, X_{n + 1}$ are independent binary random variables. Then suppose that after $n$ trials, $s$ successes were observed. Then under a uniform prior on the success probability $\theta$, the probability of the next trial being a success is given by
+\begin{equation}
+\operatorname{Pr}\left(X_{n + 1} = 1\middle|X_{1}, \dots, X_{n + 1}\right) = \dfrac{s + 1}{n + 2}
+\end{equation}
+To show this, first write the likelihood of $\theta$ given $s$ successes as
+\begin{align}
+\mathcal{L}\left(\theta\middle|s\right) &= \operatorname{Pr}\left(X_{1} + \dots + X_{n} = s\middle|\theta\right) \\
+&= \theta^{s}\left(1 - \theta\right)^{n - s}
+\end{align}
+The prior density $p\left(\theta\right)$ has function
+\begin{equation}
+p\left(\theta\right) = \begin{cases} 1, & 0\leq \theta \leq 1 \\ 0, & \mathrm{otherwise}\end{cases}
+\end{equation}
+The posterior density $p\left(\theta\middle|X_{1} + \dots + X_{n} = s\right)$ takes the form
+\begin{equation}
+p\left(\theta\middle|X_{1} + \dots + X_{n} = s\right) = \dfrac{\theta^{s}\left(1 - \theta\right)^{n - s}}{\int_{0}^{1}\theta^{s}\left(1 - \theta\right)^{n - s}d\theta}
+\end{equation}
+Note that the denominator is a Beta function, and in fact the posterior density is a Beta distribution. Since $n$ and $s$ are integers, then posterior distribution can be written in terms of factorials as
+\begin{equation}
+p\left(\theta\middle|X_{1} + \dots + X_{n} = s\right) = \dfrac{\left(n + 1\right)!}{s!\left(n  - s\right)!}\theta^{s}\left(1 - \theta\right)^{n - s}
+\end{equation}
+where in terms of the traditional parameters of the Beta distribution we have $\alpha = s + 1$ and $\beta = n - s + 1$. Hence the mean of the Beta posterior density is
+\begin{equation}
+\mathbb{E}\left[\theta\middle|X_{1} + \dots + X_{n} = s\right] = \dfrac{\alpha}{\alpha + \beta} = \dfrac{s + 1}{n + 2} 
+\end{equation}
+As $X_{n + 1}$ is a binary variable, the probability of success is simply given by this mean. Note that when $s = 0$ and $n = 0$ (ie. no trials have been conducted), the expectation becomes $\dfrac{1}{2}$, in agreement with having used a uniform prior on the probability of success. \\
 
-\subsection{Log Odds}
+Now, a more intuitive guess for the probability of success is the observed sample proportion of success $\dfrac{s}{n}$. We can show that this results in using the improper prior
+\begin{equation}
+p\left(\theta\right) \propto \dfrac{1}{\theta\left(1 - \theta\right)}
+\end{equation}
+over $0 \leq \theta \leq 1$. The posterior density is then proportional to
+\begin{equation}
+p\left(\theta\middle|X_{1} + \dots + X_{n} = s\right) \propto \theta^{s - 1}\left(1 - \theta\right)^{n - s - 1}
+\end{equation}
+where the normalising constant is the Beta function $\operatorname{B}\left(s, n\right)$, hence (provided $s \neq 0$ and $s \neq n$) the posterior density is a Beta distribution with parameters $\alpha = s$ and $\beta = n - s$, which has a mean of $\dfrac{s}{n}$.
+
+\subsection{Odds Ratio Updating}
+
+The odds ratio of an event $A$ is defined as $\dfrac{\operatorname{Pr}\left(A\right)}{\operatorname{Pr}\left(\overline{A}\right)}$. The odds ratio can be used as a way to simplify Bayesian updating. From some evidence $B$, the likelihood ratio is defined as $\dfrac{\operatorname{Pr}\left(B\middle|A\right)}{\operatorname{Pr}\left(B\middle|\overline{A}\right)}$. Then from Bayes' theorem the posterior probabilities are:
+\begin{gather}
+\operatorname{Pr}\left(A\middle|B\right) = \dfrac{\operatorname{Pr}\left(B\middle|A\right)\operatorname{Pr}\left(A\right)}{\operatorname{Pr}\left(B\right)} \\
+\operatorname{Pr}\left(\overline{A}\middle|B\right) = \dfrac{\operatorname{Pr}\left(B\middle|\overline{A}\right)\operatorname{Pr}\left(\overline{A}\right)}{\operatorname{Pr}\left(B\right)}
+\end{gather}
+Dividing these two probabilities gives
+\begin{equation}
+\dfrac{\operatorname{Pr}\left(A\middle|B\right)}{\operatorname{Pr}\left(\overline{A}\middle|B\right)} = \dfrac{\operatorname{Pr}\left(B\middle|A\right)}{\operatorname{Pr}\left(B\middle|\overline{A}\right)}\cdot\dfrac{\operatorname{Pr}\left(A\right)}{\operatorname{Pr}\left(\overline{A}\right)}
+\end{equation}
+Hence this shows that the posterior odds ratio can be expressed as a multiplication between the likelihood ratio and the prior odds ratio.
+
+\subsection{Log Odds Updating}
+
+The log odds is the logarithm of the odds ratio, also known as the logit.
+\begin{align}
+\operatorname{logit}\left(\operatorname{Pr}\left(A\right)\right) &= \log\left(\dfrac{\operatorname{Pr}\left(A\right)}{\operatorname{Pr}\left(\overline{A}\right)}\right) \\
+&= \log\left(\dfrac{\operatorname{Pr}\left(A\right)}{1 - \operatorname{Pr}\left(A\right)}\right) \\
+&= \log\operatorname{Pr}\left(A\right) - \log\left(1 - \operatorname{Pr}\left(A\right)\right)
+\end{align}
+The posterior log odds can be obtain by addition of the log likelihood ratio and the prior log odds.
+\begin{gather}
+\log\left(\dfrac{\operatorname{Pr}\left(A\middle|B\right)}{\operatorname{Pr}\left(\overline{A}\middle|B\right)}\right) = \log\left(\dfrac{\operatorname{Pr}\left(B\middle|A\right)}{\operatorname{Pr}\left(B\middle|\overline{A}\right)}\cdot\dfrac{\operatorname{Pr}\left(A\right)}{\operatorname{Pr}\left(\overline{A}\right)}\right) \\
+\operatorname{logit}\left(\operatorname{Pr}\left(A\middle|B\right)\right) = \log\left(\dfrac{\operatorname{Pr}\left(B\middle|A\right)}{\operatorname{Pr}\left(B\middle|\overline{A}\right)}\right) + \operatorname{logit}\left(\operatorname{Pr}\left(A\right)\right)
+\end{gather}
+
+\subsection{Bayes Filter}
 
 \section{Bayesian Networks}
 
@@ -1579,25 +2128,13 @@ A strictly stationary process does not always also imply it is wide-sense statio
 
 \section{Bayesian Inference}
 
-\subsection{Bayesian Priors}
-
-\subsubsection{Principle of Indifference}
-
-The principle of indifference says that if an experiment yields $n$ mutually exclusive outcomes, and nothing else is known, then the prior probability of each outcome should be assigned $1/n$.
-
-\subsubsection{Uninformative Priors}
-
-An uninformative prior gives no subjective information. An improper prior may be used as an uninformative prior. An improper prior is a prior whose sum or integral does not necessarily sum to 1. From Bayes' theorem, it can be seen that scaling all prior probabilities or densities by some constant will still give the same result for the posterior. So it is still possible to use improper priors in Bayesian inference. An example of an improper prior is a uniform distribution over an infinite interval.
-
-\subsection{Maximum a Posteriori}
-
 \subsection{Credible Intervals}
+
+\subsection{Bayesian Regularisation}
 
 \subsection{Bayesian Linear Regression \cite{Rasmussen2006}}
 
-\subsection{Conjugate Priors}
-
-\subsection{Hierarchical Bayes \cite{Rasmussen2006}}
+\subsection{Hierarchical Bayes Modelling \cite{Rasmussen2006}}
 
 Consider a model over parameters $\mathbf{w}$ (eg. weights in a neural network), hyperparameters $\boldsymbol{\theta}$ (eg. regularisation in a cost function) and a discrete set of structures $\mathcal{H}_{i}$ (eg. number of layers and nodes). We can conduct inference on these using a hierarchical approach. On the lowest level (level 1) is inference over the weights, given inputs $X$, outputs $\mathbf{y}$ and $\boldsymbol{\theta}$, $\mathcal{H}_{i}$.
 \begin{equation}
@@ -1635,15 +2172,25 @@ p\left(\mathbf{y}\middle|X, \mathcal{H}_{i}\right) = \int p\left(\mathbf{y}\midd
 \end{equation}
 As $P\left(\mathcal{H}_{i}\right)$ is a probability mass function, the level 3 marginal likelihood is computed using the sum
 \begin{equation}
-p\left(y\middle|X\right) = \sum_{i}p\left(y\middle|X, \mathcal{H}_{i}\right)P\left(\mathcal{H}_{i}\right)
+p\left(\mathbf{y}\middle|X\right) = \sum_{i}p\left(\mathbf{y}\middle|X, \mathcal{H}_{i}\right)P\left(\mathcal{H}_{i}\right)
 \end{equation}
 ie. it is a weighted average of some probability density functions, and acts as a normalising constant for the posterior of $\mathcal{H}_{i}$.
+
+\subsection{Berstein-von Mises Theorem}
 
 \section{Bayesian Classifiers}
 
 \chapter{Markov Processes}
 
 \section{Markov Chains}
+
+\subsection{Countable State Discrete Time Markov Chains}
+
+\subsection{Countable State Continuous Time Markov Chains}
+
+\subsection{Uncountable State Discrete Time Markov Chains}
+
+\subsection{Uncountable State Continuous Time Markov Chains}
 
 \section{Hidden Markov Models}
 
@@ -1674,7 +2221,7 @@ The power set of a set $S$ is the set of all subsets of $S$, including the empty
 The power set of all functions from $Y$ to $X$ can be denoted $X^{Y}$.
 
 \subsubsection{Countable Sets}
-A countable set $S$ has the same cardinality $\left|S\right|$ as some subset of the natural numbers. Intuitively speaking, a set is countable we can in some way assign numbers $1, 2, 3, \dots$ to each element in $S$ (ie. we can `enumerate' the elements of $S$). A finite set will always be countable, but some infinite sets can still be countably infinite. For example, the set of natural numbers itself is trivially countably infinite. We can also enumerate through the set of rational numbers in the following way:
+A countable set $S$ has the same cardinality $\left|S\right|$ as some subset of the natural numbers. Intuitively speaking, a set is countable we can in some way assign numbers $1, 2, 3, \dots$ to each element in $S$ (ie. we can `enumerate' the elements of $S$). A finite set will always be countable, but some infinite sets can still be countably infinite. For example, the set of natural numbers itself is trivially countably infinite. We can also enumerate through the set of positive rational numbers in the following way:
 \begin{equation*}
 \begin{array}{ccccccccc}
 1/1 &  & 1/2 & \rightarrow & 1/3 &  & 1/4 & \rightarrow & 1/5\\
@@ -1760,19 +2307,6 @@ In measure theoretic probability, a probability space is a measure space denoted
 
 The set $\Omega$ contains each elementary event. The event space $\mathcal{F}$ is formed by taking a $\sigma$-algebra of $\Omega$. A typical choice of $\sigma$-algebra is the Borel $\sigma$-algebra. The function $\mathbb{P}: \mathcal{F} \to \left[0, 1\right]$ is called a probability measure, which maps events to probabilities.
 
-\subsubsection{Lebesgue Integration}
-
-A real valued function $f: \Omega \to \mathbb{R}$ is said to be measurable if for every $B\in\mathcal{B}$ (where $\mathcal{B}$ is a $\sigma$-algebra of $\mathbb{R}$), the preimage of $B$ under $f$ is a $\sigma$-algebra of $\Omega$, denoted $\mathcal{F}$. Explicitly,
-\begin{equation}
-f^{-1}\left(B\right) := \left\{x \in \Omega \middle| f\left(x\right) \in B\right\} \in \mathcal{F}
-\end{equation}
-for all $B \in\mathcal{B}$. Measurability is subject to the choice of $\sigma$-algebras $\mathcal{B}$ and $\mathcal{F}$, but we normally take these to be the Borel $\sigma$-algebras. An example of a non-measurable function is an indicator function for a non-measurable set.\\
-
-In a probability space $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$, the Lebesgue integral of a measurable function $f\left(x\right)$ over a measurable subset $E$ of $\Omega$ with respect to the measure $\mathbb{P}$ may be denoted as
-\begin{equation}
-\int_{E}f\left(x\right)\mathrm{d}\mathbb{P}\left(x\right)
-\end{equation}
-
 \subsection{Probability Axioms}
 
 Let $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$ be a probability space with sample space $\Omega$, event space $\mathcal{F}$ and probability measure $\mathbb{P}$.
@@ -1814,6 +2348,66 @@ In deriving the above, we saw that the sum in $\mathbb{P}\left(A\right) + \mathb
 \end{equation}
 This can be shown by applying the non-negativity axiom and the monotonicity property to any subset of $\Omega$ since $\mathbb{P}\left(\Omega\right) = 1$.
 \end{itemize}
+
+\subsection{Lebesgue Integration}
+
+\subsubsection{Measurable Functions}
+
+A real valued function $f: \Omega \to \mathbb{R}$ is said to be measurable if for every $B\in\mathcal{B}$ (where $\mathcal{B}$ is a $\sigma$-algebra of $\mathbb{R}$), the preimage of $B$ under $f$ is an element of the $\sigma$-algebra of $\Omega$, denoted $\mathcal{F}$. Explicitly,
+\begin{equation}
+f^{-1}\left(B\right) := \left\{x \in \Omega \middle| f\left(x\right) \in B\right\} \in \mathcal{F}
+\end{equation}
+for all $B \in\mathcal{B}$. Measurability is subject to the choice of $\sigma$-algebras $\mathcal{B}$ and $\mathcal{F}$, but we normally take these to be the Borel $\sigma$-algebras. An example of a non-measurable function is an indicator function for a non-measurable set.
+
+\subsubsection{Lebesgue Integral over Probability Spaces}
+
+In a probability space $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$, the Lebesgue integral of a measurable function $f\left(x\right)$ over a measurable subset $E$ of $\Omega$ with respect to the measure $\mathbb{P}$ may be denoted as
+\begin{equation}
+\int_{E}f\left(x\right)\mathrm{d}\mathbb{P}\left(x\right)
+\end{equation}
+
+\subsubsection{Simple Functions}
+
+Given a probability space $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$, suppose there is an indicator function $\mathbb{I}_{E}\left(\omega\right): \Omega \to \mathbb{R}$ where $E$ is a measurable subset of $\Omega$. That is,
+\begin{equation}
+\mathbb{I}_{E}\left(\omega\right) = \begin{cases} 1, & \omega \in E \\ 0, & \mathrm{otherwise}\end{cases}
+\end{equation}
+To decide what value the Lebesgue integral of this function should take, the only reasonable choice is to set the integral as
+\begin{equation}
+\int_{\Omega}\mathbb{I}_{E}\left(\omega\right)d\mathbb{P}\left(\omega\right) = \mathbb{P}\left(E\right)
+\end{equation}
+A simple function is a finite linear combination of indicator functions for sets $E_{1}, \dots, E_{n}$ that are a partition of $\Omega$ is denoted
+\begin{equation}
+f_{n}\left(\omega\right) = \sum_{i = 1}^{n}a_{i}\mathbb{I}_{E_{i}}\left(\omega\right)
+\end{equation}
+where $a_{i}$ are non-negative coefficients. The integrals for such functions can be defined as
+\begin{equation}
+\int_{\Omega}f_{n}\left(\omega\right)d\mathbb{P}\left(\omega\right) = \sum_{i}^{n}a_{i}\mathbb{P}\left(E_{i}\right)
+\end{equation}
+
+\subsubsection{Monotone Convergence Theorem}
+
+For non-negative functions which cannot be simply written as a finite linear combination of indicator functions, one can take the limit of a sequence of simple functions as $n \to \infty$. The Lebesgue integral of such functions can then be defined as
+\begin{equation}
+\int_{\Omega}f\left(\omega\right)d\mathbb{P}\left(\omega\right) = \sup_{f_{n}\left(\omega\right) = \sum_{i = 1}^{n}a_{i}\mathbb{I}_{E_{i}}\left(\omega\right)}\left\{\int_{\Omega}f_{n}\left(\omega\right)d\mathbb{R}\left(\omega\right)\middle|0\leq f_{n}\left(\omega\right) \leq f\left(\omega\right)\forall \omega \in \Omega\right\}
+\end{equation}
+ie. take the Lebesgue integral of the `largest' simple function bounded by $f\left(\omega\right)$. The monotone convergence theorem asserts that if there is a non-decreasing sequence of non-negative functions (ie. $0 \leq f_{n}\left(\omega\right) \leq f_{n + 1}\left(\omega\right)$ for all $\omega \in \Omega$ and for all $n \geq 0$), and if $f_{n}\left(\omega\right)$ converges to $f\left(\omega\right)$ pointwise:
+\begin{equation}
+\lim_{n\to\infty}f_{n}\left(\omega\right) = f\left(\omega\right)
+\end{equation}
+for all $\omega \in \Omega$, then the limit of the Lebesgue integral of $f_{n}\left(\omega\right)$ as $n \to \infty$ is the same as the definition from above:
+\begin{equation}
+\lim_{n\to\infty}\int_{\Omega}f_{n}\left(\omega\right)d\mathbb{P}\left(\omega\right) = \int_{\Omega}f\left(\omega\right)d\mathbb{P}\left(\omega\right)
+\end{equation}
+Note that the sequence of simple functions as $n\to\infty$ is non-decreasing by virtue of the coefficients $a_{i}$ being defined to be non-negative.
+
+\subsubsection{Lebesgue Integral of Signed Functions}
+
+The Lebesgue integral can be generalised to functions which can take on negative values. Define $f^{+}\left(\omega\right) = \sup\left\{f\left(\omega\right), 0\right\}$ (ie. the positive part) and $f^{-}\left(\omega\right) = \sup\left\{-f\left(\omega\right), 0\right\}$ (ie. the negative part). Note that both $f^{+}\left(\omega\right) \geq 0$ and $f^{-}\left(\omega\right) \geq 0$. Then the Lebesgue integral can be defined as
+\begin{equation}
+\int_{\Omega}f\left(\omega\right)d\mathbb{P}\left(\omega\right) = \int_{\Omega}f^{+}\left(\omega\right)d\mathbb{P}\left(\omega\right) - \int_{\Omega}f^{-}\left(\omega\right)d\mathbb{P}\left(\omega\right)
+\end{equation}
+whenever at least one of the integrals is finite. Note that the Lebesque integral generalises the Riemann integral, so the Lebesgue integral of a function is the same as the Riemann integral, if the Riemann integral is defined/exists.
 
 \subsection{Random Variables}
 
@@ -1967,6 +2561,10 @@ The usefulness of copulas in statistics starts with the property that for some c
 
 For example with the Frank copula, we can fit it to a distribution of the form $H\left(F_{X}\left(x\right), F_{Y}\left(y\right); \psi\right)$. Since by construction the random variables $F_{X}\left(X\right)$ and $F_{Y}\left(Y\right)$ have uniform marginals, then the random variables $X$ and $Y$ have cumulative distribution functions $F_{X}\left(x\right)$ and $F_{Y}\left(y\right)$ respectively. The parameter $\psi$ can then be used to model the dependencies of the variables based on what is observed in the data. The maximum likelihood technique is typically used for estimating the parameters of the copula, which can be jointly estimated with any parameters of the marginal distributions.
 
+\section{Empirical Measures}
+
+\subsection{Empirical Distribution Function}
+
 \section{Asymptotic Theory}
 
 \section{Resampling Methods}
@@ -1993,7 +2591,7 @@ Notice that $\bar{x}_{i} = \dfrac{n\bar{x} - x_{i}}{n - 1} \Rightarrow \left(n -
 &= \dfrac{1}{n - 1}\left(n\bar{x} - x_{i} - \dfrac{1}{n}\sum_{i = 1}^{n}\left(n - 1\right)\bar{x}_{i}\right) \\
 &= \dfrac{1}{n - 1}\left(n\bar{x} - x_{i} - \dfrac{1}{n}\sum_{i = 1}^{n}\left(n\bar{x} - x_{i}\right)\right) \\
 &= \dfrac{1}{n - 1}\left(n\bar{x} - x_{i} - n\bar{x} + \dfrac{1}{n}\sum_{i = 1}^{n}x_{i}\right) \\
-&= \dfrac{1}{n - 1}\left(\bar{x} - x_{i}\right) \\
+&= \dfrac{1}{n - 1}\left(\bar{x} - x_{i}\right)
 \end{align}
 Hence
 \begin{align}
@@ -2017,6 +2615,8 @@ Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\
 
 \section{Survival Analysis}
 
+\section{Linear Discriminant Analysis}
+
 \section{Rao-Blackwell Estimators}
 
 \chapter{Stochastic Calculus}
@@ -2034,6 +2634,23 @@ Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\
 \chapter{Combinatorial Probability}
 
 \section{Inclusion-Exclusion Principle}
+
+\section{Partitions}
+
+Consider the positive integer $n$, partitioned into the sum of $k \leq n$ positive integers by
+\begin{equation}
+n = n_{1} + n_{2} + \dots + n_{k}
+\end{equation}
+where $n_{1}, \dots, n_{k} \geq 1$ (ie. there are no `empty' partitions). We ask how many different partitions $n_{1}, \dots, n_{k}$ there are. Picture a `block' of $n$ objects, with spaces in between each object. There are $n - 1$ such spaces (since the sides are excluded). We then imaging placing $k - 1$ `separators' among these spaces, in order to divide the block into $k$ partitions. Then the number of ways to place these separators is the number of possible partitions, given by
+\begin{equation}
+\mathstrut^{n-1}\mathsf{C}_{k - 1} = \dfrac{\left(n - 1\right)!}{\left(k - 1\right)!\left(n - k\right)!}
+\end{equation}
+If instead empty partitions are allowed (ie. $n_{1}, \dots, n_{k} \geq 0$), then we can extend the above by enumerating through possibilities where some of the partitions are empty. Note that if at least one partition is empty, there can be as few as $1$ and as many as $k - 1$ empty partitions (since the sum must still equal $n$). For an arbitrary $i$ empty partitions, there are $\mathstrut^{k}\mathsf{C}_{i}$ different possibilities, and for each possibility we imagine counting $k - i$ non-empty partitions of $n$. Hence the number of ways is given by
+\begin{equation}
+\mathstrut^{n-1}\mathsf{C}_{k - 1} + \sum_{i = 1}^{k - 1}\mathstrut^{k}\mathsf{C}_{i}\times\mathstrut^{n-1}\mathsf{C}_{k - 1 - i} = \sum_{i = 0}^{k - 1}\mathstrut^{k}\mathsf{C}_{i}\times\mathstrut^{n-1}\mathsf{C}_{k - 1 - i}
+\end{equation}
+
+\section{Derangements}
 
 \part{Applications}
 
@@ -2343,13 +2960,82 @@ Suppose however an optimal code is designed using an assumed/approximating distr
 
 The AIC of a model parametrised by $\theta$ can be written in terms of its log likelihood $\log\mathcal{L}\left(\theta\right)$.
 \begin{equation}
-\operatorname{AIC}\left(\theta\right) = 2\max_{\theta}\left\{\log\mathcal{L}\left(\theta\right)\right\} - 2\dim\left(\theta\right)
+\operatorname{AIC}\left(\theta\right) = -2\max_{\theta}\left\{\log\mathcal{L}\left(\theta\right)\right\} + 2\dim\left(\theta\right)
 \end{equation}
-where $\dim\left(\theta\right)$ is the length of the parameter vector $\theta$. The AIC aims to trade off between a high likelihood and low model complexity (measured by the number of parameters) by introducing a penalty on the number of parameters, since too high model complexity may lead to overfitting or loss in interpretability of the model. The AIC can be used for model selection, where we select the model with the highest AIC. There also exist formulae for corrected AIC based on sample size $n$ \cite{Claeskens2008}.
+where $\dim\left(\theta\right)$ is the length of the parameter vector $\theta$. To derive the AIC \cite{Ljung1999}, first consider a prediction error term $\varepsilon_{i}\left(\theta\right)$ parameterised by $\theta$, which is the prediction error of the $i$\textsuperscript{th} observation in the dataset $\mathcal{D}_{N}$, where $N$ is the sample size. Let $\ell\left(\varepsilon\right)$ be a cost on the prediction error. The estimator $\hat{\theta}_{N}$ is an extremum estimator for the mean cost $V_{N}\left(\theta, \mathcal{D}_{N}\right)$ given by
+\begin{align}
+\hat{\theta}_{N} &= \argmin_{\theta}V_{N}\left(\theta, \mathcal{D}_{N}\right) \\
+&= \argmin_{\theta}\left\{\dfrac{1}{N}\sum_{i = 1}^{N}\ell\left(\varepsilon_{i}\left(\theta\right)\right)\right\}
+\end{align}
+Define $\bar{V}\left(\theta\right)$ as the limit of the mean cost as $N\to\infty$. That is,
+\begin{equation}
+\bar{V}\left(\theta\right) = \lim_{N\to\infty}\dfrac{1}{N}\sum_{i = 1}^{N}\ell\left(\varepsilon_{i}\left(\theta\right)\right)
+\end{equation}
+If the errors $\varepsilon_{i}$ are i.i.d. with the distribution of some `true error' $\varepsilon$, then by the Law of Large Numbers we can write this as:
+\begin{equation}
+\bar{V}\left(\theta\right) = \mathbb{E}\left[\ell\left(\varepsilon\left(\theta\right)\right)\middle|\theta\right]
+\end{equation}
+where the conditional expectation is taken over the data generating process. For an estimate $\hat{\theta}_{N}$, we seek to relate the terms $\mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right]$ and $\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right]$, where the expectations are taken over the estimator $\hat{\theta}_{N}$. There is an important distinction between these two terms, which is that the term $\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right]$ expresses the expected mean cost as evaluated on the training data $\mathcal{D}_{N}$, while the term $\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right]$ represents the expected cost of prediction on unseen data (ie. validation data). Note that we assume that the training data and validation data follow the same data generating process. To obtain these expectations, first perform a Taylor series expansion of $\bar{V}\left(\theta\right)$ about the `true' parameter $\theta^{*}$.
+\begin{equation}
+\bar{V}\left(\hat{\theta}_{N}\right) \approx \bar{V}\left(\theta^{*}\right) + \dfrac{1}{2}\left(\hat{\theta}_{N} - \theta^{*}\right)^{\top}\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)\left(\hat{\theta}_{N} - \theta^{*}\right)
+\end{equation}
+Note that $\theta^{*}$ minimises $\bar{V}\left(\theta\right)$, so the gradient vanishes. Perform a similar expansion for $V_{N}\left(\theta, \mathcal{D}_{N}\right)$ about $\hat{\theta}_{N}$, noting that this is minimised at $\hat{\theta}_{N}$.
+\begin{equation}
+V_{N}\left(\theta^{*}, \mathcal{D}_{N}\right) \approx V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right) + \dfrac{1}{2}\left(\theta^{*} - \hat{\theta}_{N}\right)^{\top}\nabla_{\theta}^{2}\bar{V}\left(\hat{\theta}_{N}\right)\left(\theta^{*} - \hat{\theta}_{N}\right)
+\end{equation}
+Rearranging gives
+\begin{equation}
+V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right) \approx V_{N}\left(\theta^{*}, \mathcal{D}_{N}\right) - \dfrac{1}{2}\left(\hat{\theta}_{N} - \theta^{*}\right)^{\top}\nabla_{\theta}^{2}\bar{V}\left(\hat{\theta}_{N}\right)\left(\hat{\theta}_{N} - \theta^{*}\right)
+\end{equation}
+Take the expectation of the expression for $\bar{V}\left(\hat{\theta}_{N}\right)$:
+\begin{equation}
+\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right] \approx \bar{V}\left(\theta^{*}\right) + \dfrac{1}{2}\mathbb{E}\left[\operatorname{trace}\left(\left(\hat{\theta}_{N} - \theta^{*}\right)^{\top}\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)\left(\hat{\theta}_{N} - \theta^{*}\right)\right)\right]
+\end{equation}
+since $\bar{V}\left(\theta^{*}\right)$ is not a random quantity and the quadratic form is a scalar. Then since the trace is invariant to cyclic permutations,
+\begin{equation}
+\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right] \approx \bar{V}\left(\theta^{*}\right) + \dfrac{1}{2}\operatorname{trace}\left(\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)\mathbb{E}\left[\left(\hat{\theta}_{N} - \theta^{*}\right)^{\top}\left(\hat{\theta}_{N} - \theta^{*}\right)\right]\right)
+\end{equation}
+where we have used the facts that the trace is a linear operator (and so commutes with sums hence expectations), and $\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)$ is also not a random quantity. Then suppose that $\hat{\theta}_{N}$ has an asymptotic covariance of
+\begin{equation}
+\mathbb{E}\left[\left(\hat{\theta}_{N} - \theta^{*}\right)^{\top}\left(\hat{\theta}_{N} - \theta^{*}\right)\right] \to \dfrac{1}{N}C
+\end{equation}
+as $N\to\infty$. Then for large $N$,
+\begin{equation}
+\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right] \approx \bar{V}\left(\theta^{*}\right) + \dfrac{1}{2N}\operatorname{trace}\left(\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)C\right)
+\end{equation}
+Now take the expectation of the expression for $V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)$:
+\begin{equation}
+\mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right] \approx V_{N}\left(\theta^{*}, \mathcal{D}_{N}\right) - \dfrac{1}{2}\mathbb{E}\left[\operatorname{trace}\left(\left(\hat{\theta}_{N} - \theta^{*}\right)^{\top}\nabla_{\theta}^{2}\bar{V}\left(\hat{\theta}_{N}\right)\left(\hat{\theta}_{N} - \theta^{*}\right)\right)\right]
+\end{equation}
+as similar to before. For large $N$, $V_{N}\left(\theta^{*}, \mathcal{D}_{N}\right)\approx \bar{V}\left(\theta^{*}\right)$ and $\nabla_{\theta}^{2}\bar{V}\left(\hat{\theta}_{N}\right) \approx \nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)$ so
+\begin{equation}
+\mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right] \approx \bar{V}\left(\theta^{*}\right) - \dfrac{1}{2N}\operatorname{trace}\left(\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)C\right)
+\end{equation}
+Combining both these expectations, we see that
+\begin{equation}
+\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right] \approx \mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right] + \dfrac{1}{N}\operatorname{trace}\left(\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)C\right)
+\end{equation}
+If our criterion is to minimise the expected prediction error on validation data $\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right]$, then we seek to minimise the right hand side. Suppose that the prediction error is chosen to be the log-likelihood, ie.
+\begin{equation}
+V_{N}\left(\theta, \mathcal{D}_{N}\right)  = -\dfrac{1}{N}\log\mathcal{L}\left(\theta; \mathcal{D}_{N}\right)
+\end{equation}
+The best estimate of $\mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right]$ is $-\dfrac{1}{N}\log\mathcal{L}\left(\hat{\theta}_{N}; \mathcal{D}_{N}\right)$ itself, while the asymptotic covariance $C$ is the inverse of the Fisher information (ie. in this case $C = \nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)^{-1}$). Therefore an estimate of the expected prediction error is
+\begin{align}
+\widehat{\mathbb{E}}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right] &= -\dfrac{1}{N}\max_{\theta}\log\mathcal{L}\left(\theta; \mathcal{D}_{N}\right) + \dfrac{\operatorname{trace}\left(\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)^{-1}\right)}{N} \\
+&= -\dfrac{1}{N}\log\mathcal{L}\left(\hat{\theta}_{N}; \mathcal{D}_{N}\right) + \dfrac{\dim\left(\hat{\theta}_{N}\right)}{N}
+\end{align}
+this is the same as the expression above for AIC (up to a constant). Intuitively, the AIC aims to trade off between a high likelihood and low model complexity (measured by the number of parameters) by introducing a penalty on the number of parameters, since too high model complexity may lead to overfitting or loss in interpretability of the model. The AIC can be used for model selection, where we select the model with the lowest AIC. There also exist formulae for corrected AIC based on sample size $N$ \cite{Claeskens2008}.
+
+\subsection{Bayesian Information Criterion}
+
+The BIC of a model parametrised by $\theta$ can be defined in terms of its maximum log likelihood $\log\mathcal{L}\left(\theta\right)$ from $n$ observations.
+\begin{equation}
+\operatorname{BIC}\left(\theta\right) = n\dim\left(\theta\right) - 2\max_{\theta}\left\{\log\mathcal{L}\left(\theta\right)\right\}
+\end{equation}
+The BIC is also used as a model selection technique, where we aim to select the model with lowest BIC (as defined above).
 
 \subsection{Deviance Information Criterion}
 
-\subsection{Bayesian Information Criterion}
 
 \section{$f$-Divergence}
 
@@ -2572,7 +3258,7 @@ And finally by $\operatorname{Cov}\left(Y_{t}, Y_{t - j}\right) = \operatorname{
 
 \subsection{Vapnik-Chervonenkis Dimension}
 
-\section{k-Nearest Neighbours}
+\section{$k$-Nearest Neighbours}
 
 \section{Neural Networks}
 For an input vector $x\in\mathbb{R}^{Nx}$ with $x=\begin{bmatrix}x_{1} & \dots & x_{Nx}\end{bmatrix}^{\top}$, we have an associated (target/observed) output vector $y\in\mathbb{R}^{Ny}$ with $y=\begin{bmatrix}y_{1} & \dots & y_{Ny}\end{bmatrix}^{\top}$. Let there be $L + 1$ layers in the network, with structure given by
@@ -2847,6 +3533,8 @@ If we find the estimates $\hat{\mathbf{y}}_{j}$ (in terms of the parameters of t
 
 \section{Kalman Filtering}
 
+The Kalman filter is a special case of the Bayes filter when the dynamic model is linear and the noise is Gaussian.
+
 \subsection{Linearised Kalman Filter}
 
 \subsection{Extended Kalman Filter}
@@ -2860,6 +3548,8 @@ If we find the estimates $\hat{\mathbf{y}}_{j}$ (in terms of the parameters of t
 \section{Kalman Smoother}
 
 \section{Viterbi Algorithm}
+
+\section{Subspace Identification}
 
 \section{Wavelets}
 
@@ -2879,7 +3569,7 @@ If we find the estimates $\hat{\mathbf{y}}_{j}$ (in terms of the parameters of t
 
 \subsection{Kelly Criterion}
 
-Suppose an opportunity to place a bet yields $b$ net odds (ie. for every \$1 wagered, a win results in $1 + b$ return, while a loss results in no return). The probability of winning the bet is given by $p$. The Kelly Criterion investigates the optimal betting amount for this bet. Assume the bettor has a log utility function of wealth, given by
+Suppose an opportunity to place a bet yields $b$ net odds (ie. for every \$1 wagered, a win results in $1 + b$ gross return, while a loss results in no return). The probability of winning the bet is given by $p$. The Kelly Criterion investigates the optimal betting amount for this bet. Assume the bettor has a log utility function of wealth, given by
 \begin{equation}
 u\left(W\right) = \log W
 \end{equation}
@@ -2910,9 +3600,7 @@ f^{*} = \dfrac{pb - q}{b}
 
 \section{Black-Scholes Model}
 
-\section{Optimal Stopping Theorem}
-
-\chapter{Actuarial Science}
+\section{Optional Stopping Theorem}
 
 \section{Ruin Theory}
 

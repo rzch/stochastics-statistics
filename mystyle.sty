@@ -4,7 +4,7 @@
 \NeedsTeXFormat{LaTeX2e}
 
 % Provide the name of your page, the date it was last updated, and a comment about what it's used for
-\ProvidesPackage{mystyle}[2018/06/05 custom LaTeX style]
+\ProvidesPackage{mystyle}[2018/06/12 custom LaTeX style]
 
 \newif\ifdark
 \DeclareOption{dark}{
@@ -74,6 +74,9 @@
 \usepackage[toc]{appendix} %for appendices. include [..., page] to have a page before appendices
 \usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
 %\usepackage[backend=biber]{biblatex}
+\usepackage{tikz} %for tikz drawings
+\usepackage{algorithm} % for writing algorithms
+\usepackage[noend]{algpseudocode} % for writing algorithms
 
 %%% HEADERS & FOOTERS
 \usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
@@ -179,6 +182,12 @@
 %Custom argmin and argmax
 \DeclareMathOperator*{\argmin}{argmin}
 \DeclareMathOperator*{\argmax}{argmax}
+
+%Custom pushleft and pushright commands for use in equation environments (does the same thing as \hfill)
+\makeatletter
+\newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
+\newcommand{\pushleft}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\hfill\fi\ignorespaces}
+\makeatother
 
 %Declare theorems
 \newtheorem{definition}{Definition}
