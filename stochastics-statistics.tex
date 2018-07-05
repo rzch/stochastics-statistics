@@ -340,7 +340,15 @@ Binary random variables are random variables which can take on either of two pos
 
 \subsubsection{Indicator Random Variables}
 
-An indicator random variable for an event $A$ is a binary random variable that takes on the value of $1$ if $A$ occurred, and $0$ if $A$ did not occur.
+An indicator random variable for an event $A$ is a binary random variable that takes on the value of $1$ if $A$ occurred, and $0$ if $A$ did not occur. An indicator for $A$ can be denoted by $\mathbb{I}_{A}$.
+
+\subsubsection{Simple Random Variables}
+
+A simple random variable is a weighted sum of indicator random variables for mutually exclusive events. Suppose $A_{1}, \dots, A_{n}$ are $n$ mutually exclusive events. Then a simple random variable $X$ is
+\begin{equation}
+X = \sum_{i = 1}^{n}a_{i}\mathbb{I}_{A_{i}}
+\end{equation}
+where $a_{1}, \dots, a_{n}$ are the weights.
 
 \subsection{Distribution Functions}
 
@@ -407,6 +415,10 @@ F_{X}\left(x\right) = \int f_{X}\left(x\right)dx
 \end{equation}
 with a constant of integration such that $\lim_{x\to \infty}F_{X}\left(x\right) = 1$.
 
+\subsubsection{Quantile Function}
+
+The quantile function can roughly be thought of as the inverse of the cumulative distribution function. However, the cumulative distribution may not always be invertible. In that case, we can define the quantile function $Q\left(p\right)$ which takes $p\in\left[0, 1\right]$ as the smallest $x$ such that $F_{X}\left(x\right) = \operatorname{Pr}\left(X \leq x\right) \geq p$.
+
 \subsection{Joint Distributions}
 
 Consider a random experiment which produces two random variables, $X$ and $Y$. If these random variables are discrete (taking on integer values), we can express a joint probability mass function over all combinations of $X$ and $Y$, given by $\operatorname{Pr}\left(X = x, Y = y\right)$. This joint distribution has the property that
@@ -427,6 +439,7 @@ and the marginal densities $f_{X}\left(x\right)$, $f_{Y}\left(y\right)$ given by
 f_{X}\left(x\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, y\right)dy \\
 f_{Y}\left(y\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, y\right)dx
 \end{gather}
+Note that while it is possible to obtain marginal distributions from the joint distribution (via the process known as `marginalisation'), it is generally not possible to obtain the joint distribution from the marginal distributions (with the exception of special cases), as there may be more than one joint distribution while would yield those marginal distributions.
 
 \subsection{Conditional Distributions}
 
@@ -481,11 +494,50 @@ The support of a distribution for a random variable is the set of values for whi
 
 \section{Expectation}
 
+The expectation (or expected value) of a random variable can be thought about in several ways:
+\begin{itemize}
+\item The average realisation of the random variable over an infinite number of trials.
+\item The `center of mass' of the probability distribution.
+\end{itemize}
+The expected value of a random variable $X$ is denoted $\mathbb{E}\left[X\right]$ and for a discrete random variable may be calculated as
+\begin{equation}
+\mathbb{E}\left[X\right] = \sum_{x = -\infty}^{\infty}x\operatorname{Pr}\left(X = x\right)
+\end{equation}
+If $X$ is a continuous random variable, then the expectation is calculated by
+\begin{equation}
+\mathbb{E}\left[X\right] = \int_{-\infty}^{\infty}xf_{X}\left(x\right)dx
+\end{equation}
+Expectations of functions of random variables (which are also random variables) are readily defined, for example some $g\left(X\right)$:
+\begin{equation}
+\mathbb{E}\left[g\left(X\right)\right] = \int_{-\infty}^{\infty}g\left(x\right)f_{X}\left(x\right)dx
+\end{equation}
+If an experiment results in two (continuous) random variables $X$ and $Y$, we can also take the expectation of some function of the two random variables $g\left(X, Y\right)$ by
+\begin{equation}
+\mathbb{E}\left[g\left(X, Y\right)\right] = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}g\left(x, y\right)f_{XY}\left(x, y\right)dxdy
+\end{equation}
+and analogously for discrete random variables. Sometimes, particularly when there are multiple random variables present, an expectation may be taken with respect to a random variable, which expresses which marginal distribution to sum/integrate over. For example, with a continuous random variable $X$ and a function $g\left(X\right)$,the expectation of $g\left(X\right)$ with respect to $X$ is denoted with $\mathbb{E}_{X}\left[g\left(X\right)\right]$, and defined like above as
+\begin{equation}
+\mathbb{E}_{X}\left[g\left(X\right)\right] = \int_{-\infty}^{\infty}g\left(x\right)f_{X}\left(x\right)dx
+\end{equation}
+This is more for emphasis and clarity rather than any technical difference, since $g\left(X\right)$ may be written using another symbol which does not make the connection with $X$ explicit.
+
 \subsection{Linearity of Expectation}
+
+Consider two random variables $X$, $Y$ and two constants $a$, $b$. The expectation of $aX + bY$ (supposing $X$ and $Y$ are discrete) is written as
+\begin{align}
+\mathbb{E}\left[aX + bY\right] &= \sum_{x}\sum_{y}\left(ax + by\right)\operatorname{Pr}\left(X = x, Y = y\right) \\
+&= a\sum_{x}\sum_{y}x\operatorname{Pr}\left(X = x, Y = y\right) + b\sum_{x}\sum_{y}y\operatorname{Pr}\left(X = x, Y = y\right) \\
+&= a\sum_{x}x\sum_{y}\operatorname{Pr}\left(X = x, Y = y\right) + b\sum_{y}y\sum_{x}\operatorname{Pr}\left(X = x, Y = y\right) \\
+&= a\sum_{x}x\operatorname{Pr}\left(X = x\right) + b\sum_{y}y\operatorname{Pr}\left(Y = y\right) \\
+&= a\mathbb{E}\left[X\right] + b\mathbb{E}\left[Y\right]
+\end{align}
+This analogously holds for continuous $X$ and $Y$. Since sums and integrals are linear operators, and the expectation is defined either in terms of sums or integrals, this gives the property known as the linearity of expectation.
 
 \subsection{Conditional Expectation}
 
 \subsection{Law of Iterated Expectations}
+
+\subsection{Expectation of Indicator Random Variables}
 
 \section{Variance}
 
@@ -501,7 +553,7 @@ Suppose $X$ and $Y$ are random variables, and we form $Z = X + Y$. Then we have
 \begin{equation}
 \operatorname{sd}\left(Z\right) \leq \operatorname{sd}\left(X\right) + \operatorname{sd}\left(Y\right)
 \end{equation}
-We can show subadditivity as follows. 
+This the known as the subadditivity of standard deviations. We can show subadditivity as follows. 
 \begin{gather}
 \sqrt{\operatorname{Var}\left(Z\right)} \leq \sqrt{\operatorname{Var}\left(X\right)} + \sqrt{\operatorname{Var}\left(Y\right)} \\
 \sqrt{\operatorname{Var}\left(X\right) + 2\operatorname{Cov}\left(X, Y\right) +\operatorname{Var}\left(Y\right)} \leq \sqrt{\operatorname{Var}\left(X\right)} + \sqrt{\operatorname{Var}\left(Y\right)} \\
@@ -684,6 +736,8 @@ Two random variables $X$ and $Y$ are said to be orthogonal if $\mathbb{E}\left[X
 
 \subsubsection{Geometric Mean}
 
+\subsubsection{Harmonic Mean}
+
 \subsection{Measures of Dispersion}
 
 \subsubsection{Sample Variance}
@@ -723,7 +777,7 @@ While there are many definitions of the signal-to-noise ratio, one such definiti
 \subsubsection{Contingency Tables}
 
 A contingency table can be used to present the joint probability distribution (or alternatively, relative frequency or absolute frequency distribution) of two variables, and by taking summations across rows and columns to obtain marginal distributions. The layout of a $2\times 2$ contingency table for two random variables $X$, $Y$ taking on values $\left\{0, 1\right\}$ is given below.
-\begin{table}\centering
+\begin{table}[H]\centering
 \begin{tabular}{|c||c|c|c|}
 \hline 
  & $Y = 0$ & $Y = 1$ & \\
@@ -850,6 +904,8 @@ for $x > 0$.
 \subsubsection{Half-Gaussian Distribution}
 
 \subsubsection{Mixture Gaussian Distribution}
+
+\subsubsection{Lognormal Distribution}
 
 \subsection{Laplace Distribution}
 
@@ -978,11 +1034,55 @@ f\left(x\right) = \dfrac{\left(n + 1\right)!}{r!\left(n - r\right)!}x^{r}\left(1
 
 \subsection{Chi-Squared Distribution}
 
+The chi-squared distribution with $k$ degrees of freedom is the distribution of the sum of squares of $k$ standard normal random variables. Thus if $Z_{1}, \dots, Z_{k}$ are standard normal random variables, then
+\begin{equation}
+X = Z_{1}^{2} + \dots + Z_{n}^{2}
+\end{equation}
+is chi-squared distributed. Let $f\left(x\right)$ be the probability density function of $X$ which has support $\left[0, \infty\right)$. We can see that the following two integrals should be the same (integrating to $1$):
+\begin{equation}
+\int_{0}^{\infty}f\left(x\right)dx = \int_{x = 0}^{x = \infty}\int_{z_{1}^{2} + \dots + z_{n}^{2} = x}\mathcal{N}\left(z_{1}\right)\dots\mathcal{N}\left(z_{n}\right)dz_{1}\dots dz_{n}
+\end{equation}
+where $\mathcal{N}\left(\cdot\right)$ is the standard normal PDF. Hence we equate
+\begin{equation}
+f\left(x\right)dx = \int_{z_{1}^{2} + \dots + z_{n}^{2} = x}\mathcal{N}\left(z_{1}\right)\dots\mathcal{N}\left(z_{n}\right)dz_{1}\dots dz_{n}
+\end{equation}
+Using the expressions for the PDFs:
+\begin{equation}
+f\left(x\right)dx = \int_{z_{1}^{2} + \dots + z_{n}^{2} = x}\dfrac{\exp\left[-\left(z_{1}^{2} + \dots + z_{n}^{2}\right)/2\right]}{\left(2\pi\right)^{k/2}}dz_{1}\dots dz_{n}
+\end{equation}
+Since $x = z_{1}^{2} + \dots + z_{n}^{2}$ is constant with respect to the integral,
+\begin{equation}
+f\left(x\right)dx = \dfrac{e^{-x/2}}{\left(2\pi\right)^{k/2}}\int_{z_{1}^{2} + \dots + z_{n}^{2} = x}dz_{1}\dots dz_{n}
+\end{equation}
+Letting $x = r^{2}$, the integral $\int_{z_{1}^{2} + \dots + z_{n}^{2} = r^{2}}dz_{1}\dots dz_{n}$ is the volume of an infinitesimally thin shell of radius $r$ with thickness $dr$. Since $r = \sqrt{x}$, then
+\begin{gather}
+\dfrac{dr}{dx} = \dfrac{1}{2\sqrt{x}} \\
+dr = \dfrac{1}{2\sqrt{x}}dx
+\end{gather}
+The surface area of a $k$-dimensional hypersphere with radius $r$ is $\dfrac{2r^{k-1}\pi^{k/2}}{\Gamma\left(k/2\right)}$ hence
+\begin{equation}
+f\left(x\right)dx = \dfrac{e^{-x/2}}{\left(2\pi\right)^{k/2}}\dfrac{2r^{k-1}\pi^{k/2}}{\Gamma\left(k/2\right)}\dfrac{1}{2\sqrt{x}}dx
+\end{equation}
+Substituting $r = \sqrt{x}$ and cancelling terms, this gives the expression for the PDF of the chi-squared distribution
+\begin{equation}
+f\left(x\right) = \dfrac{e^{-x/2}x^{k/2 - 1}}{2^{k/2}\Gamma\left(k/2\right)}
+\end{equation}
+
+\subsubsection{Chi-Distribution}
+
+The chi-distribution is the distribution of the square root of the sum of squares of $k$ standard normal random variables. The density function $f_{R}\left(r\right)$ can be derived the same way as with the chi-squared distribution. As above, except without substituting $r$ for $x$, we get
+\begin{equation}
+f_{R}\left(r\right)dr = \dfrac{e^{-r^{2}/2}}{\left(2\pi\right)^{k/2}}\dfrac{2r^{k-1}\pi^{k/2}}{\Gamma\left(k/2\right)}dr
+\end{equation}
+Hence cancellation yields
+\begin{equation}
+f_{R}\left(r\right) = \dfrac{e^{-r^{2}/2}r^{k - 1}}{2^{k/2 - 1}\Gamma\left(k/2\right)}
+\end{equation}
+on support $r \in \left[0, \infty\right)$.
+
 \subsection{$F$-Distribution}
 
 \subsection{Student $t$'s Distribution}
-
-\subsection{Lognormal Distribution}
 
 \subsection{Pareto Distribution}
 
@@ -1042,20 +1142,20 @@ which can be used as the moment estimators.
 \section{Random Vectors}
 
 \subsection{Covariance Matrices}
-The covariance matrix $C$ of a random vector $\mathbf{x}$ can be defined by
+The covariance matrix $C$ of a random vector $\mathbf{X}$ can be defined by
 \begin{equation}
-C = \operatorname{E}\left[\left(\mathbf{x} - \bar{\mathbf{x}}\right)\left(\mathbf{x} - \bar{\mathbf{x}}\right)^{\top}\right]
+C = \mathbb{E}\left[\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\right]
 \end{equation}
 Covariance matrices of real random vectors are always positive semi-definite. We can show this by considering an arbitrary real vector $\mathbf{u}$. We have
 \begin{align}
-\mathbf{u}^{\top}C\mathbf{u} &= \mathbf{u}^{\top}\operatorname{E}\left[\left(\mathbf{x} - \bar{\mathbf{x}}\right)\left(\mathbf{x} - \bar{\mathbf{x}}\right)^{\top}\right]\mathbf{u} \\
-&= \operatorname{E}\left[\mathbf{u}^{\top}\left(\mathbf{x} - \bar{\mathbf{x}}\right)\left(\mathbf{x} - \bar{\mathbf{x}}\right)^{\top}\mathbf{u}\right]
+\mathbf{u}^{\top}C\mathbf{u} &= \mathbf{u}^{\top}\mathbb{E}\left[\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\right]\mathbf{u} \\
+&= \mathbb{E}\left[\mathbf{u}^{\top}\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\mathbf{u}\right]
 \end{align}
-Let $s := \mathbf{u}^{\top}\left(\mathbf{x} - \bar{\mathbf{x}}\right)$ be a zero-mean scalar random variable with variance $\sigma^{2} \geq 0$. Hence
+Let $s := \mathbf{u}^{\top}\left(\mathbf{X} - \bar{\mathbf{X}}\right)$ be a zero-mean scalar random variable with variance $\sigma^{2} \geq 0$. Hence
 \begin{align}
-\mathbf{u}^{\top}C\mathbf{u} &= \operatorname{E}\left[ss^{\top}\right] \\
-&= \operatorname{E}\left[\left(s - \operatorname{E}\left[s\right]\right)^{2}\right] \\
-&= \operatorname{E}\left[s^{2}\right] \\
+\mathbf{u}^{\top}C\mathbf{u} &= \mathbb{E}\left[ss^{\top}\right] \\
+&= \mathbb{E}\left[\left(s - \mathbb{E}\left[s\right]\right)^{2}\right] \\
+&= \mathbb{E}\left[s^{2}\right] \\
 &= \sigma^{2} \\
 &\geq 0
 \end{align}
@@ -1156,14 +1256,14 @@ f_{W}\left(-w\right) = \int_{-\infty}^{\infty}f_{Y}\left(y\right)f_{X}\left(w + 
 
 Let $X$ be a random variable with probability density $f_{X}\left(x\right)$, and let $A$ be the set $A = \left\{x \in\mathbb{R}\middle| f_{X}\left(x\right) > 0\right\}$. Suppose that $Y$ is a transformation of $X$ given by $Y = g\left(X\right)$ such that $g$ is strictly monotonic (either increasing or decreasing) over $A$. We derive the probability density of $Y$, denoted $f_{Y}\left(y\right)$, in terms of $f_{X}\left(x\right)$ and $g$. \\
 
-First assume $g$ is monotonically increasing, so $g^{-1}$ will also be monotonically increasing. The cumulative density function of $Y$ is given by
+First assume $g$ is monotonically increasing, so $g^{-1}$ will also be monotonically increasing. The cumulative distribution function of $Y$ is given by
 \begin{align}
 F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
 &= \operatorname{Pr}\left(g\left(X\right) \leq y\right) \\
 &= \operatorname{Pr}\left(X \leq g^{-1}\left(y\right)\right) \\
 &= F_{X}\left(g^{-1}\left(y\right)\right)
 \end{align}
-Differentiating $F_{Y}$ gives the density of $Y$:
+Differentiating $F_{Y}\left(y\right)$ with respect to $y$ gives the density of $Y$:
 \begin{align}
 f_{Y}\left(y\right) &= \dfrac{d}{dy}F_{Y}\left(y\right)\\
 &= \dfrac{d}{dy}F_{X}\left(g^{-1}\left(y\right)\right)
@@ -1198,8 +1298,8 @@ f_{Y}\left(y\right) =  f_{X}\left(g^{-1}\left(y\right)\right)\cdot\left|\dfrac{d
 
 For a differentiable function $g\left(X\right)$ of a single random variable $X$, we can make the approximations
 \begin{gather}
-\operatorname{E}\left[g\left(X\right)\right] \approx g\left(\operatorname{E}\left[X\right]\right) \\
-\operatorname{Var}\left(g\left(X\right)\right) \approx \operatorname{Var}\left(X\right)g'\left(\operatorname{E}\left[X\right]\right)^{2}
+\mathbb{E}\left[g\left(X\right)\right] \approx g\left(\mathbb{E}\left[X\right]\right) \\
+\operatorname{Var}\left(g\left(X\right)\right) \approx \operatorname{Var}\left(X\right)g'\left(\mathbb{E}\left[X\right]\right)^{2}
 \end{gather}
 This is achieved using a first-order Taylor series expansion of $g\left(X\right)$ about $m := \operatorname{E}\left[X\right]$ as follows
 \begin{equation}
@@ -1207,10 +1307,10 @@ g\left(X\right) \approx g\left(m\right) + \left(X - m\right)g'\left(m\right)
 \end{equation}
 Taking the expectations of both sides gives
 \begin{align}
-\operatorname{E}\left[g\left(X\right)\right] &\approx \operatorname{E}\left[g\left(m\right)\right] + \operatorname{E}\left[\left(X - m\right)g'\left(m\right)\right] \\
-&\approx \operatorname{E}\left[g\left(\operatorname{E}\left[X\right]\right)\right] + \operatorname{E}\left[\left(X - \operatorname{E}\left[X\right]\right)\right]g'\left(\operatorname{E}\left[X\right]\right) \\
-&\approx g\left(\operatorname{E}\left[X\right]\right) + \left(\operatorname{E}\left[X\right] - \operatorname{E}\left[X\right]\right)g'\left(\operatorname{E}\left[X\right]\right) \\
-&\approx g\left(\operatorname{E}\left[X\right]\right)
+\mathbb{E}\left[g\left(X\right)\right] &\approx \mathbb{E}\left[g\left(m\right)\right] + \mathbb{E}\left[\left(X - m\right)g'\left(m\right)\right] \\
+&\approx \mathbb{E}\left[g\left(\mathbb{E}\left[X\right]\right)\right] + \mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)\right]g'\left(\mathbb{E}\left[X\right]\right) \\
+&\approx g\left(\mathbb{E}\left[X\right]\right) + \left(\mathbb{E}\left[X\right] - \mathbb{E}\left[X\right]\right)g'\left(\mathbb{E}\left[X\right]\right) \\
+&\approx g\left(\mathbb{E}\left[X\right]\right)
 \end{align}
 Taking the variance of both sides of the expansion gives
 \begin{align}
@@ -1218,12 +1318,43 @@ Taking the variance of both sides of the expansion gives
 &\approx \operatorname{Var}\left(\left(X - m\right)g'\left(m\right)\right) \\
 &\approx \operatorname{Var}\left(X - m\right)g'\left(m\right)^{2} \\
 &\approx \operatorname{Var}\left(X\right)g'\left(m\right)^{2} \\
-&\approx \operatorname{Var}\left(X\right)g'\left(\operatorname{E}\left[X\right]\right)^{2} 
+&\approx \operatorname{Var}\left(X\right)g'\left(\mathbb{E}\left[X\right]\right)^{2} 
 \end{align}
 
 \subsection{Independence of Transformed Random Variables}
 
-\section{Inequalities and Limit Theorems}
+\section{Inequalities in Probability}
+
+\subsection{Boole's Inequality}
+
+\subsection{Comparison of Random Variables}
+
+\begin{theorem}
+Let $X$ and $Y$ be two continuous random variables with means $\mu_{X}$ and $\mu_{Y}$ respectively such that $\mu_{Y} \geq \mu_{X}$. Let $\delta = \dfrac{\mu_{Y} - \mu_{X}}{2}$. Then
+\begin{equation}
+\operatorname{Pr}\left(X > Y\right) \leq \operatorname{Pr}\left(X > \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y < \mu_{Y} + \delta\right)
+\end{equation}
+\end{theorem}
+\begin{proof}
+The value $\mu_{X} + \delta$ can be thought of as the `midway' point between $\mu_{X}$ and $\mu_{Y}$, so we can deduce the event $\left\{X < \mu_{X} + \delta \cap Y > \mu_{Y} - \delta\right\} \subseteq \left\{X <  Y\right\}$ which implies
+\begin{align}
+\operatorname{Pr}\left(X < \mu_{X} + \delta \cap Y > \mu_{Y} - \delta\right) &\leq \operatorname{Pr}\left(X < Y\right) \\
+&\leq 1 - \operatorname{Pr}\left(X > Y\right)
+\end{align}
+From DeMorgan's laws,
+\begin{equation}
+\operatorname{Pr}\left(X > \mu_{X} + \delta \cup Y < \mu_{Y} - \delta\right) = 1 - \operatorname{Pr}\left(X < \mu_{X} + \delta \cap Y > \mu_{Y} - \delta\right)
+\end{equation}
+which can be combined with the inequality above to give
+\begin{equation}
+\operatorname{Pr}\left(X > Y\right) \leq \operatorname{Pr}\left(X > \mu_{X} + \delta \cup Y < \mu_{Y} - \delta\right)
+\end{equation}
+Lastly, applying Boole's inequality
+\begin{equation}
+\operatorname{Pr}\left(X > \mu_{X} + \delta \cup Y < \mu_{Y} - \delta\right) \leq \operatorname{Pr}\left(X > \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y < \mu_{Y} + \delta\right)
+\end{equation}
+completes the proof.
+\end{proof}
 
 \subsection{Jensen's Inequality}
 
@@ -1248,67 +1379,67 @@ f\left(\mathbb{E}\left[X\right]\right) \leq \mathbb{E}\left[f\left(X\right)\righ
 
 Let $X$ be a non-negative random variable (it cannot take on negative values), and let $a > 0$ be some constant. Then
 \begin{equation}
-\operatorname{P}\left(X\geq a\right) \leq \dfrac{\operatorname{E}\left[X\right]}{a}
+\operatorname{Pr}\left(X\geq a\right) \leq \dfrac{\mathbb{E}\left[X\right]}{a}
 \end{equation}
-or alternatively, if we let $\tilde{a}$ be some constant such that $a = \tilde{a}\operatorname{E}\left[X\right]$, then making this substitution gives
+or alternatively, if we let $\tilde{a}$ be some constant such that $a = \tilde{a}\mathbb{E}\left[X\right]$, then making this substitution gives
 \begin{equation}
-\operatorname{P}\left(X\geq \tilde{a}\operatorname{E}\left[X\right]\right) \leq \dfrac{1}{\tilde{a}}
+\operatorname{Pr}\left(X\geq \tilde{a}\mathbb{E}\left[X\right]\right) \leq \dfrac{1}{\tilde{a}}
 \end{equation}
 \begin{proof}
 For a continuous non-negative random variable, the expectation is defined as
 \begin{align}
-\operatorname{E}\left[X\right] &= \int_{0}^{\infty}xf\left(x\right)dx \\
+\mathbb{E}\left[X\right] &= \int_{0}^{\infty}xf\left(x\right)dx \\
 &= \int_{0}^{a}xf\left(x\right)dx + \int_{a}^{\infty}xf\left(x\right)dx \\
 &\geq \int_{a}^{\infty}xf\left(x\right)dx
 \end{align}
 We then have
 \begin{align}
 \int_{a}^{\infty}af\left(x\right)dx &\leq \int_{a}^{\infty}xf\left(x\right)dx \\
-a\int_{a}^{\infty}f\left(x\right)dx &\leq \operatorname{E}\left[X\right] \\
-a\operatorname{P}\left(X \geq a\right) &\leq \operatorname{E}\left[X\right] \\
-\operatorname{P}\left(X \geq a\right) &\leq \dfrac{\operatorname{E}\left[X\right]}{a}
+a\int_{a}^{\infty}f\left(x\right)dx &\leq \mathbb{E}\left[X\right] \\
+a\operatorname{Pr}\left(X \geq a\right) &\leq \mathbb{E}\left[X\right] \\
+\operatorname{Pr}\left(X \geq a\right) &\leq \dfrac{\mathbb{E}\left[X\right]}{a}
 \end{align}
 If $X$ is a non-negative discrete random variable on support $\left\{0, 1, 2, \dots\right\}$, then
 \begin{align}
-\operatorname{E}\left[X\right] &= \sum_{x = 0}^{\infty}x\operatorname{P}\left(X = x\right) \\
-&= \sum_{x = 0}^{a - 1}x\operatorname{P}\left(X = x\right) + \sum_{x = a}^{\infty}x\operatorname{P}\left(X = x\right) \\
-&\geq \sum_{x = a}^{\infty}x\operatorname{P}\left(X = x\right)
+\mathbb{E}\left[X\right] &= \sum_{x = 0}^{\infty}x\operatorname{Pr}\left(X = x\right) \\
+&= \sum_{x = 0}^{a - 1}x\operatorname{Pr}\left(X = x\right) + \sum_{x = a}^{\infty}x\operatorname{Pr}\left(X = x\right) \\
+&\geq \sum_{x = a}^{\infty}x\operatorname{Pr}\left(X = x\right)
 \end{align}
 Then similar to before,
 \begin{align}
-\sum_{x = a}^{\infty}a\operatorname{P}\left(X = x\right) &\leq \sum_{x = a}^{\infty}x\operatorname{P}\left(X = x\right) \\
-a\sum_{x = a}^{\infty}\operatorname{P}\left(X = x\right) &\leq \operatorname{E}\left[X\right] \\
-a\operatorname{P}\left(X \geq a\right) &\leq \operatorname{E}\left[X\right] \\
-\operatorname{P}\left(X \geq a\right) &\leq \dfrac{\operatorname{E}\left[X\right]}{a}
+\sum_{x = a}^{\infty}a\operatorname{Pr}\left(X = x\right) &\leq \sum_{x = a}^{\infty}x\operatorname{Pr}\left(X = x\right) \\
+a\sum_{x = a}^{\infty}\operatorname{Pr}\left(X = x\right) &\leq \mathbb{E}\left[X\right] \\
+a\operatorname{Pr}\left(X \geq a\right) &\leq \mathbb{E}\left[X\right] \\
+\operatorname{Pr}\left(X \geq a\right) &\leq \dfrac{\mathbb{E}\left[X\right]}{a}
 \end{align}
 \end{proof}
 An alternative proof is given below:
 \begin{proof}
-Let $I_{X \geq a}$ be an indicator random variable where $I_{X \geq a} = 1$ if the event $X \geq a$ occurs, and $I_{X \geq a}$ if the event $X < a$ occurs. Then we can write
+Let $\mathbb{I}_{X \geq a}$ be an indicator random variable where $\mathbb{I}_{X \geq a} = 1$ if the event $X \geq a$ occurs, and $\mathbb{I}_{X \geq a}$ if the event $X < a$ occurs. Then we can write
 \begin{equation}
-aI_{X \geq a} \leq X
+a\mathbb{I}_{X \geq a} \leq X
 \end{equation}
 This can be seen as follows:
 \begin{itemize}
-\item Suppose $X \geq a$, then $I_{X \geq a} = 1$ and the inequality above holds.
-\item Suppose $X < a$, then $I_{X \geq a} = 0$ and the inequality above is satisfied because $X$ is non-negative.
+\item Suppose $X \geq a$, then $\mathbb{I}_{X \geq a} = 1$ and the inequality above holds.
+\item Suppose $X < a$, then $\mathbb{I}_{X \geq a} = 0$ and the inequality above is satisfied because $X$ is non-negative.
 \end{itemize}
-Take the expectation operator of both sides. The expectation operator is monotonically increasing (ie. $\operatorname{E}\left[c\right] = c$ for some constant $c$) so this preserves the inequality.
+Take the expectation operator of both sides. The expectation operator is monotonically increasing (ie. $\mathbb{E}\left[c\right] = c$ for some constant $c$) so this preserves the inequality.
 \begin{equation}
-\operatorname{E}\left[aI_{X \geq a}\right] \leq \operatorname{E}\left[X\right]
+\mathbb{E}\left[a\mathbb{I}_{X \geq a}\right] \leq \mathbb{E}\left[X\right]
 \end{equation}
 Taking the constant $a$ out of the expectation:
 \begin{gather}
-a\operatorname{E}\left[I_{X \geq a}\right] \leq \operatorname{E}\left[X\right] \\
-\operatorname{E}\left[I_{X \geq a}\right] \leq \dfrac{\operatorname{E}\left[X\right]}{a}
+a\mathbb{E}\left[\mathbb{I}_{X \geq a}\right] \leq \mathbb{E}\left[X\right] \\
+\mathbb{E}\left[\mathbb{I}_{X \geq a}\right] \leq \dfrac{\mathbb{E}\left[X\right]}{a}
 \end{gather}
-We can evaluate $\operatorname{E}\left[I_{X \geq a}\right]$
+We can evaluate $\mathbb{E}\left[\mathbb{I}_{X \geq a}\right]$
 \begin{equation}
-\operatorname{E}\left[I_{X \geq a}\right] = 1\times\operatorname{P}\left(X\geq a\right) + 0\times\operatorname{P}\left(X < a\right) = \operatorname{P}\left(X\geq a\right)
+\mathbb{E}\left[\mathbb{I}_{X \geq a}\right] = 1\times\operatorname{Pr}\left(X\geq a\right) + 0\times\operatorname{Pr}\left(X < a\right) = \operatorname{Pr}\left(X\geq a\right)
 \end{equation}
 Hence
 \begin{equation}
-\operatorname{P}\left(X\geq a\right) \leq \dfrac{\operatorname{E}\left[X\right]}{a}
+\operatorname{Pr}\left(X\geq a\right) \leq \dfrac{\mathbb{E}\left[X\right]}{a}
 \end{equation}
 
 \end{proof}
@@ -1318,58 +1449,33 @@ We can use this result to bound probabilities of $X$ being greater than some val
 
 Let $X$ be a random variable with finite mean $\mu$ and non-zero standard deviation $\sigma$. Then for any $k > 0$
 \begin{equation}
-\operatorname{P}\left(\left|X - \mu\right| \geq k\sigma\right) \leq \dfrac{1}{k^{2}}
+\operatorname{Pr}\left(\left|X - \mu\right| \geq k\sigma\right) \leq \dfrac{1}{k^{2}}
 \end{equation}
 In words, this states that the probability of $X$ being at least $k$ standard deviations away from the mean can be no more than $\dfrac{1}{k^{2}}$.
 \begin{proof}
 Let a random variable $Y$ be $Y = \left(X - \mu\right)^{2}$ and let $a = \left(k\sigma\right)^{2}$. Then applying Markov's inequality
 \begin{gather}
-\operatorname{P}\left(Y \geq a\right) \leq \dfrac{\operatorname{E}\left[Y\right]}{a} \\
-\operatorname{P}\left(\left(X - \mu\right)^{2} \geq k^{2}\sigma^{2}\right) \leq \dfrac{\operatorname{E}\left[\left(X - \mu\right)^{2}\right]}{k^{2}\sigma^{2}} \\
+\operatorname{Pr}\left(Y \geq a\right) \leq \dfrac{\mathbb{E}\left[Y\right]}{a} \\
+\operatorname{Pr}\left(\left(X - \mu\right)^{2} \geq k^{2}\sigma^{2}\right) \leq \dfrac{\mathbb{E}\left[\left(X - \mu\right)^{2}\right]}{k^{2}\sigma^{2}} \\
 \end{gather}
 The event inside the probability is equivalent to $\left|X - \mu\right| \geq k\sigma$ and the numerator on the right hand side is the definition of variance $\sigma^{2}$. So
 \begin{equation}
-\operatorname{P}\left(\left|X - \mu\right| \geq k\sigma\right) \leq \dfrac{1}{k^{2}}
+\operatorname{Pr}\left(\left|X - \mu\right| \geq k\sigma\right) \leq \dfrac{1}{k^{2}}
 \end{equation}
 \end{proof}
 Note that this inequality is only useful for when $k > 1$, because when $0 < k \leq 1$, the term $\dfrac{1}{k^{2}} \geq 1$ so Chebychev's inequality is trivially satisfied. An alternative form of the inequality is to let $k = \varepsilon/\sigma$. Then we have
 \begin{equation}
-\operatorname{P}\left(\left|X - \mu\right| \geq \varepsilon\right) \leq \dfrac{\sigma^{2}}{\varepsilon^{2}}
+\operatorname{Pr}\left(\left|X - \mu\right| \geq \varepsilon\right) \leq \dfrac{\sigma^{2}}{\varepsilon^{2}}
 \end{equation}
 Chebychev's inequality can be used to bound probabilities within a certain number of standard deviations from the mean, for very general distributions. Obtaining more knowledge of the distribution (such as information the distribution is normal) will often lead to tighter (ie. smaller) bounds.
 
-\subsection{Weak Law of Large Numbers}
+\subsection{Cauchy-Schwarz Inequality}
 
-Let $X_{1}, \dots, X_{n}$ be a sequence of independent and identically distributed random variables, with mean $\operatorname{E}\left[X_{i}\right] = \mu$ and standard deviation $\sigma$. Then the sample mean $\overline{X}$ is defined as
-\begin{equation}
-\overline{X} = \dfrac{X_{1} + \dots + X_{n}}{n}
-\end{equation}
-The Weak Law of Large Numbers states that $\overline{X} \underset{prob}{\rightarrow} \mu$ as $n \rightarrow \infty$. That is, the sample mean converges in probability to the population mean as the sample size increases to infinity. We can also write this as
-\begin{equation}
-\lim_{n\rightarrow\infty}\operatorname{P}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
-\end{equation}
-for all $\varepsilon > 0$.
-\begin{proof}
-From Chebychev's inequality
-\begin{equation}
-\operatorname{P}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\operatorname{Var}\left(\overline{X}\right)}{\varepsilon^{2}}
-\end{equation}
-Using $\operatorname{Var}\left(\overline{X}\right) = \sigma^{2}/n$
-\begin{equation}
-\operatorname{P}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\sigma^{2}}{n\varepsilon^{2}}
-\end{equation}
-Taking the limit
-\begin{equation}
-\lim_{n\rightarrow\infty}\operatorname{P}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
-\end{equation}
-\end{proof}
+\subsection{H\"{o}lder's Inequality}
 
-\subsection{Strong Law of Large Numbers}
+\subsection{Minkowski's Inequality}
 
-The Strong Law of Large Numbers is a stronger version of the Weak Law of Large Numbers which says that the sample mean converges almost surely to the population mean. That is,
-\begin{equation}
-\operatorname{P}\left(\lim_{n\rightarrow\infty}\overline{X} = \mu\right) = 1
-\end{equation}
+\subsection{Lyapunov's Inequality}
 
 \section{Notions of Convergence}
 
@@ -1499,6 +1605,39 @@ This contradicts almost sure convergence, hence almost sure convergence implies 
 
 An event $E$ occurs with high probability if the probability $\operatorname{Pr}\left(E\right)$ depends on some number $n$, and $\operatorname{Pr}\left(E\right) \to 1$ as $n \to \infty$. That is, we can make the probability as close as desired to $1$ by making $n$ big enough.
 
+\subsection{Weak Law of Large Numbers}
+
+Let $X_{1}, \dots, X_{n}$ be a sequence of independent and identically distributed random variables, with mean $\operatorname{E}\left[X_{i}\right] = \mu$ and standard deviation $\sigma$. Then the sample mean $\overline{X}$ is defined as
+\begin{equation}
+\overline{X} = \dfrac{X_{1} + \dots + X_{n}}{n}
+\end{equation}
+The Weak Law of Large Numbers states that $\overline{X} \overset{\mathrm{p}}{\rightarrow} \mu$ as $n \rightarrow \infty$. That is, the sample mean converges in probability to the population mean as the sample size increases to infinity. We can also write this as
+\begin{equation}
+\lim_{n\rightarrow\infty}\operatorname{Pr}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
+\end{equation}
+for all $\varepsilon > 0$.
+\begin{proof}
+From Chebychev's inequality
+\begin{equation}
+\operatorname{Pr}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\operatorname{Var}\left(\overline{X}\right)}{\varepsilon^{2}}
+\end{equation}
+Using $\operatorname{Var}\left(\overline{X}\right) = \sigma^{2}/n$
+\begin{equation}
+\operatorname{Pr}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\sigma^{2}}{n\varepsilon^{2}}
+\end{equation}
+Taking the limit
+\begin{equation}
+\lim_{n\rightarrow\infty}\operatorname{Pr}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
+\end{equation}
+\end{proof}
+
+\subsection{Strong Law of Large Numbers}
+
+The Strong Law of Large Numbers is a stronger version of the Weak Law of Large Numbers which says that the sample mean converges almost surely to the population mean. That is,
+\begin{equation}
+\operatorname{Pr}\left(\lim_{n\rightarrow\infty}\overline{X} = \mu\right) = 1
+\end{equation}
+
 \subsection{Continuous Mapping Theorem}
 
 The continuous mapping theorem states that limits of convergent sequences of random elements are preserved through a continuous mapping. Formally, let $\left\{\mathbf{X}_{n}\right\}$ be a sequence of random vectors converging in probability to the random vector $\mathbf{X}$. Let $g: \mathbb{R}^{d} \to \mathbb{R}^{m}$ be an arbitrary mapping that is continuous over the support of $\mathbf{X}$ (where $d$ is the dimension of $\mathbf{X}$ and $m$ is the dimension being mapped to). Then
@@ -1524,6 +1663,26 @@ X_{n}/Y_{n} \overset{\mathrm{d}}{\to} X/c
 \end{gather}
 where the last property requires that $c\neq 0$. Analogous results hold if $\left\{X_{n}\right\}$ were to converge in probability to $X$.
 
+\subsection{Dominated Convergence Theorem}
+
+Suppose there is a sequence of random variables $\left\{X_{n}\right\}$ converging to $X$ almost surely as $n\to\infty$. If there exists a random variable $Y$ such that $\mathbb{E}\left[Y\right] < \infty$ and $\left|X_{n}\right| < Y$ for all $n$, then this implies expectation and limits can be exchanged, ie.
+\begin{equation}
+\lim_{n\to\infty}\mathbb{E}\left[X_{n}\right] = \mathbb{E}\left[\lim_{n\to\infty}X_{n}\right] = \mathbb{E}\left[X\right]
+\end{equation}
+Although it might seem intuitive that the expectation and limit be always exchangeable, a simple counterexample can be given. Let a sequence of random variables be defined by
+\begin{equation}
+X_{n} = \begin{cases} 2^{n}, & \mathrm{w.p.}\ \dfrac{1}{2^{n}} \\ 0, & \mathrm{w.p.}\ 1 - \dfrac{1}{2^{n}}\end{cases}
+\end{equation}
+The expectation can be calculated to be $\mathbb{E}\left[X_{n}\right] = 1$ for all $n$. However, notice that $X_{n} \overset{\mathrm{a.s.}}{\to} 0$. This can be shown using the Borel-Cantelli lemma, by noting the convergent series
+\begin{equation}
+\sum_{n = 1}^{\infty}\operatorname{Pr}\left(X_{n} = 1\right) = \sum_{n = 1}^{\infty}\dfrac{1}{2^{n}} = 1
+\end{equation}
+so the event $\left\{X_{n} = 1\right\}$ occurs finitely many times, meaning $\operatorname{Pr}\left(\lim_{n\to\infty}X_{n} = 0\right) = 1$. Therefore in this case,
+\begin{equation}
+\mathbb{E}\left[X_{n}\right] = 1 \neq \mathbb{E}\left[\lim_{n\to\infty}X_{n}\right] = \mathbb{E}\left[0\right] = 0
+\end{equation}
+because there does not exist a random variable $Y$ with finite expectation such that $\left|X_{n}\right| < Y$ for all $n$.
+
 \chapter{Intermediate Statistics}
 
 \section{Least Squares}
@@ -1540,6 +1699,8 @@ where the last property requires that $c\neq 0$. Analogous results hold if $\lef
 
 \subsection{Regularised Least Squares}
 
+\subsection{Recursive Least Squares}
+
 \section{Statistical Decision Theory}
 
 \subsection{Maximum Likelihood Hypothesis Testing}
@@ -1554,7 +1715,15 @@ where the last property requires that $c\neq 0$. Analogous results hold if $\lef
 
 \section{Maximum Likelihood Estimation}
 
-\subsection{Fisher Information}
+\subsection{M-estimators}
+
+M-estimators generalise maximum likelihood estimators. M-estimators are a class of estimators that are obtained by minimisation of a negative sum of logs (of which maximum likelihood estimation is a special case).
+
+\subsection{Extremum Estimators}
+
+Extremum estimators are a class of estimators which further generalise M-estimators. Extremum estimators are obtained by the minimisation of some objective function which depends on the data.
+
+\section{Fisher Information}
 
 Let $f\left(x;\theta\right)$ be a probability density function for the random variable $X$ parametrised by $\theta$. Note that $f\left(X; \theta\right)$ is a random variable for the density of $X$, and that $f\left(x;\theta\right)$ is also a likelihood function for $\theta$. The partial derivative of the log likelihood with respect to $\theta$ is called the score $\dfrac{\partial}{\partial \theta}\log f\left(X;\theta\right)$. It can be shown that the expected value of the score with respect to $X$ is zero:
 \begin{align}
@@ -1603,15 +1772,84 @@ Returning to the Fisher information
 &= \green\cancelto{0}{\black \mathbb{E}_{X}\left[\dfrac{\frac{\partial^{2}}{\partial \theta^{2}}f\left(X;\theta\right)}{f\left(X;\theta\right)}\right]}\black - \mathbb{E}_{X}\left[\dfrac{\partial^{2}}{\partial \theta^{2}}\log f\left(X;\theta\right)\right] \\
 &= - \mathbb{E}_{X}\left[\dfrac{\partial^{2}}{\partial \theta^{2}}\log f\left(X;\theta\right)\right]
 \end{align}
-This shows that the Fisher information is equal to the negative of the curvature of the log likelihood, assuming the log likelihood is twice differentiable with respect to $\theta$.
+This shows that the Fisher information is equal to the negative of the curvature of the log likelihood, assuming the log likelihood is twice differentiable with respect to $\theta$. If $\theta$ is a vector, then
+\begin{equation}
+\mathcal{I}\left(\theta\right) = - \mathbb{E}_{X}\left[\nabla_{\theta}^{2}\log f\left(X;\theta\right)\right]
+\end{equation}
 
-\subsection{M-estimators}
+\subsection{Fisher Information in Linear Regression}
 
-M-estimators generalise maximum likelihood estimators. M-estimators are a class of estimators that are obtained by minimisation of a negative sum of logs (of which maximum likelihood estimation is a special case).
+In a linear regression model with $y_{i} = x_{i}^{\top}\beta + \sigma\varepsilon_{i}$ where $\varepsilon \sim \mathcal{N}\left(0, 1\right)$, the log likelihood of an observation $\left(x_{i}, y_{i}\right)$ is given by
+\begin{align}
+\log\mathcal{L}\left(\beta; x_{i}, y_{i}\right) &= \log\left[\dfrac{1}{\sqrt{2\pi\sigma^{2}}}\exp\left(-\dfrac{1}{2}\cdot\dfrac{\left(y_{i} - x_{i}^{\top}\beta\right)^{2}}{\sigma^{2}}\right)\right] \\
+&= -\dfrac{1}{2}\log\left(2\pi\sigma^{2}\right) - \dfrac{1}{2}\cdot\dfrac{\left(y_{i} - x_{i}^{\top}\beta\right)^{2}}{\sigma^{2}}
+\end{align}
+The gradient (using the chain rule) is given by
+\begin{align}
+\nabla_{\beta}\log\mathcal{L}\left(\beta; x_{i}, y_{i}\right) &= -\dfrac{1}{2\sigma^{2}}\left[-\left(y_{i} - x_{i}^{\top}\beta\right)x_{i}\right] \\
+&= \dfrac{\left(y_{i} - x_{i}^{\top}\beta\right)x_{i}}{2\sigma^{2}}
+\end{align}
+Which gives the Hessian
+\begin{align}
+\nabla_{\beta}^{2}\log\mathcal{L}\left(\beta; x_{i}, y_{i}\right) &= -\dfrac{2x_{i}x_{i}^{\top}}{2\sigma^{2}} \\
+&= -\dfrac{x_{i}x_{i}^{\top}}{\sigma^{2}}
+\end{align}
+The Fisher information is the negative of the expected Hessian, so
+\begin{equation}
+\mathcal{I}\left(\beta\right) = \dfrac{1}{\sigma^{2}}\mathbb{E}\left[x_{i}x_{i}^{\top}\right]
+\end{equation}
+Suppose there are $N$ i.i.d. observations $\left(x_{i}, y_{i}\right)$, then the log likelihood is simply the sum of individual log likelihoods, and so the Fisher information is also just the sum:
+\begin{equation}
+\mathcal{I}\left(\beta\right) = \dfrac{1}{\sigma^{2}}\mathbb{E}\left[\sum_{i = 1}^{N}x_{i}x_{i}^{\top}\right]
+\end{equation}
+We can also define $X$ as a (tall) matrix given by $X := \begin{bmatrix} x_{1} & \dots & x_{N}\end{bmatrix}^{\top}$, then this lets us write the Fisher information as
+\begin{align}
+\mathcal{I}\left(\beta\right) &= \dfrac{1}{\sigma^{2}}\mathbb{E}\left[\begin{bmatrix} x_{1} & \dots & x_{N}\end{bmatrix}\begin{bmatrix} x_{1}^{\top} \\ \vdots \\ x_{N}^{\top}\end{bmatrix}\right] \\
+&= \dfrac{\mathbb{E}\left[X^{\top}X\right]}{\sigma^{2}}
+\end{align}
+Note that if $X$ is a `design matrix', that is the factors in $X$ can be freely chosen, then the expectation is redundant and the Fisher information (also known as simply the `information matrix' \cite{Atkinson2007}) is
+\begin{equation}
+\mathcal{I}\left(\beta\right) = \dfrac{X^{\top}X}{\sigma^{2}}
+\end{equation}
 
-\subsection{Extremum Estimators}
+\subsection{Cramer-Rao Bound}
 
-Extremum estimators are a class of estimators which further generalise M-estimators. Extremum estimators are obtained by the minimisation of some objective function which depends on the data.
+Let $\hat{\theta}$ be an unbiased estimator for the scalar parameter $\theta$.  Let $V$ be the score of the log likelihood $\log f\left(X;\theta\right)$. Then the covariance between $V$ and $\hat{\theta}$ satisfies
+\begin{equation}
+\operatorname{Cov}\left(V, \hat{\theta}\right) = \mathbb{E}\left[V\hat{\theta}\right]
+\end{equation}
+since we know the expected value of the score $\mathbb{E}\left[V\right] = 0$. Then
+\begin{align}
+\mathbb{E}\left[V\hat{\theta}\right] &= \int_{\mathcal{X}}f\left(x;\theta\right)V\hat{\theta}dx \\
+&= \int_{\mathcal{X}}f\left(x;\theta\right)\dfrac{\frac{\partial f\left(x;\theta\right)}{\partial \theta}}{f\left(x;\theta\right)}\hat{\theta}dx \\
+&= \int_{\mathcal{X}}\dfrac{\partial f\left(x;\theta\right)}{\partial \theta}\hat{\theta}dx \\
+&= \dfrac{\partial }{\partial \theta}\int_{\mathcal{X}}f\left(x;\theta\right)\hat{\theta}dx \\
+&= \dfrac{\partial }{\partial \theta}\mathbb{E}\left[\hat{\theta}\right] \\
+&= \dfrac{\partial }{\partial \theta}\theta \\
+&= 1
+\end{align}
+Hence $\operatorname{Cov}\left(V, \hat{\theta}\right) = \mathbb{E}\left[V\hat{\theta}\right] = 1$. Then from $\operatorname{Corr}\left(V, \hat{\theta}\right) \leq 1$:
+\begin{gather}
+\operatorname{Cov}\left(V, \hat{\theta}\right) \leq \sqrt{\operatorname{Var}\left(V\right)}\sqrt{\operatorname{Var}\left(\hat{\theta}\right)} \\
+1 \leq \sqrt{\operatorname{Var}\left(V\right)}\sqrt{\operatorname{Var}\left(\hat{\theta}\right)} \\
+\operatorname{Var}\left(V\right)\operatorname{Var}\left(\hat{\theta}\right) \geq 1
+\end{gather}
+Then from the fact that the Fisher information $\mathcal{I}\left(\theta\right)$ is the variance of the score, this gives the Cramer-Rao bound:
+\begin{equation}
+\operatorname{Var}\left(\hat{\theta}\right) \geq \dfrac{1}{\mathcal{I}\left(\theta\right)}
+\end{equation}
+In the case $\theta$ is a vector, then $\operatorname{Cov}\left(\hat{\theta}\right)$ is a covariance matrix and the Cramer-Rao bound becomes
+\begin{equation}
+\operatorname{Cov}\left(\hat{\theta}\right) \succeq \mathcal{I}\left(\theta\right)^{-1}
+\end{equation}
+
+\subsection{Efficient Estimators}
+
+An estimator that achieves the Cramer-Rao bound with equality, ie.
+\begin{equation}
+\operatorname{Cov}\left(\hat{\theta}\right) = \mathcal{I}\left(\theta\right)^{-1}
+\end{equation}
+is said to be efficient. This implies that it is an unbiased estimator with the `least variance'. The maximum likelihood estimator can be shown to be asymptotically efficient (ie. as data size $n \to \infty$).
 
 \section{Maximum a Posteriori Estimation}
 
@@ -1654,19 +1892,78 @@ Hence the maximum-likelihood estimate is the solution to
 
 \subsection{Multinomial Logistic Regression}
 
+\section{Gauss-Markov Theorem}
+
 \chapter{Advanced Probability}
 
 \section{Moments}
 
-The $n$\textsuperscript{th} moment of a random variable $X$ is defined as $\mathbb{E}\left[X^{n}\right]$. Thus the 1st moment is simply the expected value while the 2nd moment of a zero-mean random variable is the same as its variance.
+The $n$\textsuperscript{th} moment of a random variable $X$ is defined as $\mathbb{E}\left[X^{n}\right]$. Thus the 1st moment is simply the expected value while the 2nd moment of a zero-mean random variable is the same as its variance. The integral for the $n$\textsuperscript{th} moment of a continuous random variable $X$ with probability density function $f_{X}\left(x\right)$ is given by
+\begin{equation}
+\mathbb{E}\left[X^{n}\right] = \int_{-\infty}^{\infty}x^{n}f_{X}\left(x\right)dx
+\end{equation}
+If $X$ is instead a discrete random variable with probability mass function $\operatorname{Pr}\left(X = x\right)$, then
+\begin{equation}
+\mathbb{E}\left[X^{n}\right] = \sum_{s = -\infty}^{\infty}x^{n}\operatorname{Pr}\left(X = x\right)
+\end{equation}
 
 \subsection{Moment Generating Functions}
 
 The moment generating function of a random variable $X$ is defined as
 \begin{equation}
-\phi_{X}\left(s\right) =\mathbb{E}\left[e^{sX}\right]
+\phi_{X}\left(s\right) = \mathbb{E}\left[e^{sX}\right]
 \end{equation}
-That is, it is the expectation of the random variable $e^{sX}$ as a function of $s$.
+That is, it is the expectation of the random variable $e^{sX}$ as a function of $s$. If $X$ has a probability density function $f_{X}\left(x\right)$, then
+\begin{equation}
+\phi_{X}\left(s\right) = \int_{-\infty}^{\infty}e^{sx}f_{X}\left(x\right)dx
+\end{equation}
+Notice that
+\begin{equation}
+\phi_{X}\left(-s\right) = \int_{-\infty}^{\infty}e^{-sx}f_{X}\left(x\right)dx
+\end{equation}
+which is the Laplace transform of $f_{X}\left(x\right)$. \\
+
+The moment generating function can be used to compute the $n$\textsuperscript{th} moment of a random variable. The random variable $X$ with  MGF $\phi_{X}\left(s\right)$ has $n$\textsuperscript{th} moment
+\begin{equation}
+\mathbb{E}\left[X^{n}\right] = \left.\dfrac{d^{n}\phi_{X}\left(s\right)}{ds^{n}}\right|_{s = 0}
+\end{equation}
+That is, we take the $n$\textsuperscript{th} derivative of the MGF and evaluate it at $s = 0$.
+\begin{proof}
+Assuming $X$ is a continuous random variable, the $n$\textsuperscript{th} derivative of the MGF is
+\begin{align}
+\dfrac{d^{n}\phi_{X}\left(s\right)}{ds^{n}} &= \dfrac{d^{n}}{ds^{n}}\int_{-\infty}^{\infty}e^{sx}f_{X}\left(x\right)dx \\
+&= \int_{-\infty}^{\infty}\dfrac{d^{n}}{ds^{n}}e^{sx}f_{X}\left(x\right)dx \\
+&= \int_{-\infty}^{\infty}x^{n}e^{sx}f_{X}\left(x\right)dx
+\end{align}
+Evaluating at $s = 0$ gives
+\begin{align}
+\left.\dfrac{d^{n}\phi_{X}\left(s\right)}{ds^{n}}\right|_{s = 0} &= \int_{-\infty}^{\infty}x^{n}f_{X}\left(x\right)dx \\
+&= \mathbb{E}\left[X^{n}\right]
+\end{align}
+This can be analogously proved for a discrete random variable in the same manner.
+\end{proof}
+Note that a random variable is not always guaranteed to have a moment generating function (ie. when the moments do not exist, such as for a Cauchy random variable).
+
+\subsection{Sums of Random Variables with Moment Generating Functions}
+
+Let $X = X_{1} + \dots  + X_{n}$ be a sum of independent random variables. Then
+\begin{align}
+\phi_{X}\left(s\right) &= \mathbb{E}\left[e^{s\left(X_{1} + \dots + X_{n}\right)}\right] \\
+&= \mathbb{E}\left[e^{sX_{1}}\times\dots\times e^{sX_{n}}\right]
+\end{align}
+By independence,
+\begin{align}
+\phi_{X}\left(t\right) &= \mathbb{E}\left[e^{sX_{1}}\right]\times\dots\times\mathbb{E}\left[e^{sX_{n}}\right] \\
+&= \phi_{X_{1}}\left(s\right)\times\dots\times\phi_{X_{n}}\left(s\right)
+\end{align}
+Hence the moment generating function of the sum of independent random variables is just the product of the moment generating functions.
+
+\subsubsection{Random Sums with Moment Generating Functions}
+
+Given an positive integer valued random variable $N$ and a sequence of i.i.d. random variables $X_{1}, X_{2}, \dots$, let the random sum $R$ be defined by
+\begin{equation}
+R = X_{1} +  X_{2} + \dots + X_{N}
+\end{equation}
 
 \subsection{Chernoff Bound}
 
@@ -1699,7 +1996,91 @@ Since $s\geq 0$, then $e^{sX} \geq e^{sa}$ is equivalent to $X \geq a$. Also, $\
 
 \section{Probability Generating Functions}
 
+The probability generating function of a discrete random variable $X$ taking on values in the non-negative integers with probability mass function $\operatorname{Pr}\left(X = x\right)$ is defined by
+\begin{align}
+\psi_{X}\left(z\right) &= \mathbb{E}\left[z^{X}\right] \\
+&= \sum_{x = 0}^{\infty}z^{x}\operatorname{Pr}\left(X = x\right)
+\end{align}
+which is the $z$-transform of the probability mass function.
+
 \section{Characteristic Functions}
+
+The characteristic function of a random variable $X$ is a complex-valued function in a real-valued argument $t$, defined as
+\begin{equation}
+\varphi_{X}\left(t\right) = \mathbb{E}\left[e^{-itX}\right]
+\end{equation}
+where $i = \sqrt{-1}$. By Euler's formula, we can see that it is complex-valued.
+\begin{equation}
+\varphi_{X}\left(t\right) = \mathbb{E}\left[\cos\left(tX\right)\right] + i\mathbb{E}\left[\sin\left(tX\right)\right]
+\end{equation}
+If $X$ has a probability density function $f_{X}\left(x\right)$, then the characteristic function is
+\begin{equation}
+\varphi_{X}\left(t\right) = \int_{-\infty}^{\infty}e^{-itx}f_{X}\left(x\right)dx
+\end{equation}
+which is the Fourier transform of $f_{X}\left(x\right)$. Hence the characteristic function encodes the full distribution of $X$. The characteristic function of a random variable always exists. We can show this by considering a change of variables $x = Q\left(p\right)$ where $Q\left(p\right)$ is the quantile function. So
+\begin{gather}
+p = Q^{-1}\left(x\right) = F_{X}\left(x\right) \\
+\dfrac{dp}{dx} = f_{X}\left(x\right) \\
+dp = f_{X}\left(x\right)dx
+\end{gather}
+Hence
+\begin{equation}
+\int_{-\infty}^{\infty}e^{-itx}f_{X}\left(x\right)dx = \int_{0}^{1}e^{-itQ\left(p\right)}dp
+\end{equation}
+This is a proper integral, and since the magnitude of the integrand $\left|e^{-itQ\left(p\right)}\right|$ is bounded from looking at Euler's formula, this integral exists. \\
+
+If the moment generating function $\phi_{X}\left(t\right)$ of $X$ exists, then the relationship between the characteristic function and the moment generating function is given by
+\begin{gather}
+\varphi_{X}\left(t\right) = \phi_{X}\left(-it\right) \\
+\phi_{X}\left(t\right) = \varphi_{X}\left(-it\right)
+\end{gather}
+
+\subsection{Sums of Random Variables with Characteristic Functions}
+
+Let $X = X_{1} + \dots  + X_{n}$ be a sum of independent random variables. Then
+\begin{align}
+\varphi_{X}\left(t\right) &= \mathbb{E}\left[e^{-it\left(X_{1} + \dots + X_{n}\right)}\right] \\
+&= \mathbb{E}\left[e^{-itX_{1}}\times\dots\times e^{-itX_{n}}\right]
+\end{align}
+By independence,
+\begin{align}
+\varphi_{X}\left(t\right) &= \mathbb{E}\left[e^{-itX_{1}}\right]\times\dots\times\mathbb{E}\left[e^{-itX_{n}}\right] \\
+&= \varphi_{X_{1}}\left(t\right)\times\dots\times\varphi_{X_{n}}\left(t\right)
+\end{align}
+Hence the characteristic function of the sum of independent random variables is just the product of the characteristic functions. This property is shared with the moment generating function.
+
+\subsection{Subindependence}
+
+Using characteristic functions, `subindependence' can be defined as a weaker version of independence and uncorrelatedness. Two random variables $X$ and $Y$ are said to be subindependent if their characteristic functions satisfy
+\begin{equation}
+\varphi_{X+Y}\left(t\right) = \varphi_{X}\left(t\right)\varphi_{Y}\left(t\right)
+\end{equation}
+Hence if $X$ and $Y$ are independent, then they are also subindependent. However if $X$ and $Y$ are subindpendent, they are not necessarily independent, nor even uncorrelated (because the covariance may not exist, for example in the case of Cauchy random variables). However if $X$ and $Y$ are subindependent and the covariance exists, then they are uncorrelated.
+
+\subsection{Characteristic Functions of Gaussians}
+
+The characteristic function of a Gaussian is another (unnormalised) Gaussian. We can show this as follows for a standard Gaussian random variable $X \sim \mathcal{N}\left(0, 1^{2}\right)$. The characteristic function is given by
+\begin{equation}
+\varphi_{X}\left(t\right) = \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-itx}e^{-x^{2}/2}dx
+\end{equation}
+A slight (although not necessary) simplification is to write
+\begin{align}
+\varphi_{X}\left(t\right) &= \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-x^{2}/2}\left(\cos\left(tx\right) - i\sin\left(tx\right)\right)dx \\
+&= \dfrac{1}{\sqrt{2\pi}}\left(\int_{-\infty}^{\infty}e^{-x^{2}/2}\cos\left(tx\right)dx - \green\cancelto{0}{\black i\int_{-\infty}^{\infty}e^{-x^{2}/2}\sin\left(tx\right)dx}\black\right) \\
+&= \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-x^{2}/2}\cos\left(tx\right)dx
+\end{align}
+since $e^{-x^{2}/2}\sin\left(tx\right)$ is an odd function. We then apply the trick of differentiating $\varphi_{X}\left(t\right)$:
+\begin{equation}
+\varphi_{X}'\left(t\right) = \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}-e^{-x^{2}/2}x\sin\left(tx\right)dx
+\end{equation}
+Let $v' = -xe^{-x^{2}/2}$ and $u = \sin\left(tx\right)$ so $v = e^{-x^{2}/2}$ and $u' = t\cos\left(tx\right)$. Differentiating by parts, this gives
+\begin{align}
+\varphi_{X}'\left(t\right) &= \dfrac{1}{\sqrt{2\pi}}\left(\left[uv\right]_{x = -\infty}^{x = \infty} - \int_{-\infty}^{\infty}u'vdx\right) \\
+&= \dfrac{1}{\sqrt{2\pi}}\left(\green\cancelto{0}{\black\left[e^{-x^{2}/2}\sin\left(tx\right)\right]_{x = -\infty}^{x = \infty}}\black - \int_{-\infty}^{\infty}t\cos\left(tx\right)e^{-x^{2}/2}dx\right) \\
+&=  \dfrac{-t}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-x^{2}/2}\cos\left(tx\right)dx \\
+&= -t\varphi_{X}\left(t\right)
+\end{align}
+This is a differential equation with solution $\varphi_{X}\left(t\right) = e^{-t^{2}/2}$, which can be shown through direct verification.
 
 \section{Cumulants}
 
@@ -1708,6 +2089,59 @@ Since $s\geq 0$, then $e^{sX} \geq e^{sa}$ is equivalent to $X \geq a$. Also, $\
 \subsection{Law of Total Cumulance}
 
 \subsection{Edgeworth Series}
+
+\section{Central Limit Theorem}
+
+\subsection{Lindberg-Levy Central Limit Theorem}
+
+Let $X_{1}, X_{2}, \dots, X_{n}$ be random variables that are i.i.d. with $X$, where $\mathbb{E}\left[X\right] = \mu$ and $\operatorname{Var}\left(X\right) = \sigma^{2}$. Define the sum $S_{n} := X_{1} + \dots + X_{n}$. Then
+\begin{equation}
+\dfrac{S_{n} - n\mu}{\sigma\sqrt{n}} \overset{\mathrm{d}}{\to} Z \sim \mathcal{N}\left(0, 1^{2}\right)
+\end{equation}
+as $n\to\infty$. Equivalently, if we define the `normalised' sequence $\widetilde{X}_{n} := \dfrac{X_{n} - \mu}{\sigma}$, then
+\begin{equation}
+\dfrac{1}{\sqrt{n}}\left(\widetilde{X}_{1} + \dots + \widetilde{X}_{n}\right) \overset{\mathrm{d}}{\to} Z \sim \mathcal{N}\left(0, 1^{2}\right) 
+\end{equation}
+as $n\to\infty$. Note that
+\begin{gather}
+\mathbb{E}\left[\widetilde{X}\right] = 0 \\
+\operatorname{Var}\left(\widetilde{X}\right) = \mathbb{E}\left[\widetilde{X}^{2}\right] = 1 \\
+\mathbb{E}\left[\dfrac{\widetilde{X}}{\sqrt{n}}\right] = 0 \\
+\operatorname{Var}\left(\dfrac{\widetilde{X}}{\sqrt{n}}\right) =  \mathbb{E}\left[\dfrac{\widetilde{X}^{2}}{n}\right] = \dfrac{1}{n}
+\end{gather}
+\begin{proof}[\cite{Kallenberg1997}]
+It suffices to show that the characteristic function of the sum $\dfrac{\widetilde{X}_{1}}{\sqrt{n}} + \dots + \dfrac{\widetilde{X}_{n}}{\sqrt{n}}$ converges to the characteristic function of the standard Gaussian distribution as $n\to\infty$. Firstly, an $n$\textsuperscript{th} order Taylor expansion of the characteristic function of an arbitrary random variable $Y$ about $t = 0$ is given by
+\begin{equation}
+\varphi_{Y}\left(t\right) = \sum_{k = 0}^{n}\dfrac{t^{k}\varphi_{Y}^{\left(k\right)}\left(0\right)}{k!} + o\left(t^{n}\right)
+\end{equation}
+where $\varphi_{Y}^{\left(k\right)}\left(t\right)$ denotes the $k$\textsuperscript{th} derivative of $\varphi_{Y}\left(t\right)$. Note that the Little-o notation means that the term $o\left(t^{n}\right)$ goes to zero faster than $t^{n}$ as $t\to 0$. Evaluating the $k$\textsuperscript{th} derivative gives
+\begin{equation}
+\varphi_{Y}^{\left(k\right)}\left(t\right) = \mathbb{E}\left[\left(-iY\right)^{k}e^{-itY}\right]
+\end{equation}
+and in particular $\varphi_{Y}^{\left(k\right)}\left(0\right) = \mathbb{E}\left[\left(-iY\right)^{k}\right]$. Hence
+\begin{equation}
+\varphi_{Y}\left(t\right) = \sum_{k = 0}^{n}\dfrac{\left(-it\right)^{k}\mathbb{E}\left[Y^{k}\right]}{k!} + o\left(t^{n}\right)
+\end{equation}
+and for the random variable $\widetilde{X}/\sqrt{n}$, the second order Taylor expansion is:
+\begin{align}
+\varphi_{\widetilde{X}/\sqrt{n}}\left(t\right) &= 1 + \dfrac{-it\mathbb{E}\left[\widetilde{X}/\sqrt{n}\right]}{1} - \dfrac{t^{2}\mathbb{E}\left[\widetilde{X}^{2}/n\right]}{2} + o\left(\dfrac{t^{2}}{n}\right) \\
+&= 1 - \dfrac{t^{2}}{2n} + o\left(\dfrac{t^{2}}{n}\right)
+\end{align}
+Since the characteristic function of a sum of random variables is the product of the characteristic functions, we apply this and take $n\to\infty$.
+\begin{align}
+\lim_{n\to\infty}\left[\varphi_{\widetilde{X}/\sqrt{n}}\left(t\right)\right]^{n} &= \lim_{n\to\infty}\left[1 - \dfrac{t^{2}}{2n} + o\left(\dfrac{t^{2}}{n}\right)\right]^{n} \\
+&= e^{-t^{2}/2}
+\end{align}
+which gives the characteristic function of the standard Gaussian distribution, where we have also used the fact $\lim_{n\to\infty}\left(1 + \dfrac{x}{n}\right)^{n} = e^{x}$.
+\end{proof}
+The Central Limit Theorem also implies several other equivalent statements, which can be obtained by shifting and scaling the random variables.
+\begin{gather}
+S_{n} - n\mu \overset{\mathrm{d}}{\to} \sigma\sqrt{n}Z \sim \mathcal{N}\left(0, \sigma^{2}n\right) \\
+S_{n} \overset{\mathrm{d}}{\to} \sigma\sqrt{n}Z + n\mu \sim \mathcal{N}\left(n\mu, \sigma^{2}n\right) \\
+\dfrac{S_{n}}{n} \overset{\mathrm{d}}{\to} \dfrac{\sigma\sqrt{n}Z + n\mu}{n}\sim \mathcal{N}\left(\mu, \dfrac{\sigma^{2}}{n}\right)
+\end{gather}
+
+\subsection{Lindberg-Feller Central Limit Theorem}
 
 \section{Multivariate Gaussian Identities}
 
@@ -1994,7 +2428,76 @@ p\left(y\right) = \mathcal{N}_{y}\left(C^{\top}a, B^{-1} + C^{\top}A^{-1}C\right
 
 \section{Stochastic Processes}
 
-\subsection{Second-order Processes}
+A continuous time stochastic process $X\left(t\right)$ assigns a function of time $x\left(t\right)$ to each outcome in the sample space. The function $x\left(t\right)$ is said to be a sample path, ie. a realisation of the stochastic process. At some fixed time $t_{0}$, the variable $X\left(t_{0}\right)$ is a random variable. A discrete time stochastic process $X_{k}$ assigns a sequence to each outcome in the sample space, where similarly for some fixed integer $k_{0}$, the variable $X_{k_{0}}$ is a random variable. Note that $X\left(t_{0}\right)$ and $X_{k_{0}}$ can be discrete or continuous-valued random variables (or both), so we can consider four different types of stochastic processes (excluding hybrids):
+\begin{enumerate}
+\item Continuous-time continuous-valued
+\item Continuous-time discrete-valued
+\item Discrete-time continuous-valued
+\item Discrete-time discrete-valued
+\end{enumerate}
+
+\subsection{Properties of Stochastic Processes}
+
+\subsubsection{Mean Function}
+
+The mean function $\mu_{X}\left(t\right)$ for a continuous time stochastic process $X\left(t\right)$ is defined by
+\begin{equation}
+\mu_{X}\left(t\right) = \mathbb{E}\left[X\left(t\right)\right]
+\end{equation}
+and similarly for a discrete time stochastic process.
+
+\subsubsection{Autocovariance Function}
+
+The autocovariance function of a stochastic process $X\left(t\right)$ is the covariance between the process at time $t$ and the process at time shifted by some $\tau$. Formally,
+\begin{align}
+C_{X}\left(t, \tau\right) &= \operatorname{Cov}\left(X\left(t\right), X\left(t + \tau\right)\right) \\
+&= \mathbb{E}\left[X\left(t\right)X\left(t+\tau\right)\right] - \mu_{X}\left(t\right)\mu_{X}\left(t + \tau\right)
+\end{align}
+An alternative notation instead expresses the covariance at two times $t$ and $s$, in which case
+\begin{equation}
+C_{X}\left(t, s\right) = \mathbb{E}\left[X\left(t\right)X\left(s\right)\right] - \mu_{X}\left(t\right)\mu_{X}\left(s\right)
+\end{equation}
+Analogously for a random sequence at time $m$ with time shift $k$,
+\begin{equation}
+C_{X}\left(m, k\right) = \mathbb{E}\left[X_{m}X_{m + k}\right] - \mu_{X}\left(m\right)\mu_{X}\left(m + k\right)
+\end{equation}
+
+\subsubsection{Autocorrelation Function}
+
+The autocorrelation function of a stochastic process $X\left(t\right)$ for time $t$ and difference $\tau$ is defined as
+\begin{equation}
+R_{X}\left(t, \tau\right) = \mathbb{E}\left[X\left(t\right)X\left(t+\tau\right)\right]
+\end{equation}
+and analogously for a discrete random sequence with time $m$ and difference $k$:
+\begin{equation}
+R_{X}\left(m, k\right) =  \mathbb{E}\left[X_{m}X_{m + k}\right]
+\end{equation}
+It is clear that a zero-mean stochastic process has autocovariance function equal to autocorrelation function. Note that the autocorrelation function is distinction from the autocorrelation coefficient, the latter which refers to a function for the traditional (normalised) correlation coefficient.
+
+\subsubsection{Autocorrelation Coefficient}
+
+The autocorrelation coefficient for a stochastic process $X\left(t\right)$ with times $t$ and $s$ is defined as
+\begin{equation}
+r_{X}\left(t, s\right) = \dfrac{C_{X}\left(t, s\right)}{\sqrt{C_{X}\left(t, t\right)C_{X}\left(s, s\right)}}
+\end{equation}
+which is the correlation coefficient between random variables $X\left(t\right)$ and $X\left(s\right)$. Analogously for a random sequence
+\begin{equation}
+r_{X}\left(m, n\right) = \dfrac{C_{X}\left(m, n\right)}{\sqrt{C_{X}\left(m, m\right)C_{X}\left(n, n\right)}}
+\end{equation}
+
+\subsubsection{Cross-correlation Function}
+
+For two continuous stochastic processes $X\left(t\right)$ and $Y\left(t\right)$, the cross-correlation function with time $t$ and difference $\tau$ is defined as
+\begin{equation}
+R_{XY}\left(t, \tau\right) = \mathbb{E}\left[X\left(t\right)Y\left(t + \tau\right)\right]
+\end{equation}
+For two continuous random sequences $X_{n}$ and $Y_{n}$,
+\begin{equation}
+R_{XY}\left(m, k\right) = \mathbb{E}\left[X_{m}Y_{m + k}\right]
+\end{equation}
+The autocorrelation function can be thought of as a special case of the cross-correlation function where $X$ and $Y$ are identical processes.
+
+\subsubsection{Second-order Processes}
 
 Second-order processes have finite second moments, ie. for a continuous time process:
 \begin{equation}
@@ -2002,13 +2505,42 @@ Second-order processes have finite second moments, ie. for a continuous time pro
 \end{equation}
 for all $t$.
 
-\subsection{Strict Stationarity}
+\subsection{Stationarity}
 
-\subsection{Wide-Sense Stationarity}
+\subsubsection{Strict Stationarity}
+
+Let $X\left(t\right)$ be a continuous time stochastic process where $f_{X\left(t_{1}\right), \dots, X\left(t_{m}\right)}\left(x_{1}, \dots, x_{m}\right)$ is the joint probability density function for the process at the set of time instants $t_{1}, \dots, t_{m}$. The process $X\left(t\right)$ is said to be strictly stationary if and only if for all sets of time instants and any time difference $\tau$,
+\begin{equation}
+f_{X\left(t_{1}\right), \dots, X\left(t_{m}\right)}\left(x_{1}, \dots, x_{m}\right) = f_{X\left(t_{1} + \tau\right), \dots, X\left(t_{m} + \tau\right)}\left(x_{1}, \dots, x_{m}\right)
+\end{equation}
+Let $X_{n}$ be a discrete time random sequence where $p_{X_{n_{1}}, \dots, X_{n_{m}}}\left(x_{1}, \dots, x_{m}\right)$ is the joint probability mass function for the process at the set of integer time instants $n_{1}, \dots, n_{m}$. The process $X_{n}$ is said to be strictly stationary if and only if for all sets of time instants and any time difference $k$,
+\begin{equation}
+p_{X_{n_{1}}, \dots, X_{n_{m}}}\left(x_{1}, \dots, x_{m}\right) = p_{X_{n_{1} + k}, \dots, X_{n_{m} + k}}\left(x_{1}, \dots, x_{m}\right)
+\end{equation}
+
+\subsubsection{Wide-Sense Stationarity}
+
+Wide-sense stationarity (or weak stationarity) is a `weaker' form of strict stationarity. A wide-sense stationary process requires that the mean function be a constant, ie.
+\begin{equation}
+\mathbb{E}\left[X\left(t\right)\right] = \mu_{X}
+\end{equation}
+and the autocorrelation function only depend on the time difference, ie.
+\begin{equation}
+R_{X}\left(t, \tau\right) = R_{X}\left(\tau\right)
+\end{equation}
 
 A wide-sense stationary process does not need to be strictly stationary. For example, a sequence of uncorrelated random variables with the same mean and variance is wide-sense stationary by definition, but it will not be strictly stationary if these random variables are not identically distributed. \\
 
 A strictly stationary process does not always also imply it is wide-sense stationary. For example, a sequence of i.i.d Cauchy random variables is strictly stationary, but not wide-sense stationary because the Cauchy distribution does not have a finite second moment. Generally however, second-order processes which are strictly stationary are also wide-sense stationary.
+
+\subsubsection{Joint Wide-Sense Stationarity}
+
+Two stochastic processes are jointly wide-sense stationary if both processes are wide-sense stationary and additionally the cross-correlation between the two only depends on the time difference, ie.
+\begin{equation}
+R_{XY}\left(t, \tau\right) = R_{XY}\left(\tau\right)
+\end{equation}
+
+\subsection{Gaussian Processes}
 
 \chapter{Bayesian Probability \& Statistics}
 
@@ -2051,6 +2583,8 @@ Cromwell's rule asserts that prior probabilities of zero should be avoided, exce
 An uninformative prior gives no subjective information. An improper prior may be used as an uninformative prior. An improper prior is a prior whose sum or integral does not necessarily sum to 1. From Bayes' theorem, it can be seen that scaling all prior probabilities or densities by some constant will still give the same result for the posterior. So it is still possible to use improper priors in Bayesian inference. An example of an improper prior is a uniform distribution over an infinite interval.
 
 \subsection{Conjugate Priors}
+
+\subsection{Empirical Bayes}
 
 \section{Bayesian Updating}
 
@@ -2128,6 +2662,8 @@ The posterior log odds can be obtain by addition of the log likelihood ratio and
 
 \section{Bayesian Inference}
 
+\subsection{Bayes Estimators}
+
 \subsection{Credible Intervals}
 
 \subsection{Bayesian Regularisation}
@@ -2191,6 +2727,8 @@ ie. it is a weighted average of some probability density functions, and acts as 
 \subsection{Uncountable State Discrete Time Markov Chains}
 
 \subsection{Uncountable State Continuous Time Markov Chains}
+
+\subsection{Gauss-Markov Processes}
 
 \section{Hidden Markov Models}
 
@@ -2307,9 +2845,9 @@ In measure theoretic probability, a probability space is a measure space denoted
 
 The set $\Omega$ contains each elementary event. The event space $\mathcal{F}$ is formed by taking a $\sigma$-algebra of $\Omega$. A typical choice of $\sigma$-algebra is the Borel $\sigma$-algebra. The function $\mathbb{P}: \mathcal{F} \to \left[0, 1\right]$ is called a probability measure, which maps events to probabilities.
 
-\subsection{Probability Axioms}
+\subsubsection{Probability Axioms}
 
-Let $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$ be a probability space with sample space $\Omega$, event space $\mathcal{F}$ and probability measure $\mathbb{P}$.
+Let $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$ be a probability space with sample space $\Omega$, event space $\mathcal{F}$ and probability measure $\mathbb{P}$. The axioms of probability (sometimes known as Kolgomorov's axioms) are:
 \begin{enumerate}
 \item The probability of an event $E \in \mathcal{F}$ is a nonnegative real number
 \begin{equation}
@@ -2348,6 +2886,10 @@ In deriving the above, we saw that the sum in $\mathbb{P}\left(A\right) + \mathb
 \end{equation}
 This can be shown by applying the non-negativity axiom and the monotonicity property to any subset of $\Omega$ since $\mathbb{P}\left(\Omega\right) = 1$.
 \end{itemize}
+
+\subsubsection{Almost Sure Events}
+
+An event $E\in\mathcal{F}$ is said to happen almost surely if the event of $E$ not happening has probability measure zero, that is $\mathbb{P}\left(\overline{E}\right) = 0$. Alternatively, we can say that $E$ has probability measure $\mathbb{P}\left(E\right) = 1$.
 
 \subsection{Lebesgue Integration}
 
@@ -2537,14 +3079,7 @@ Therefore $1 - \mathbb{P}\left(\limsup_{n \to \infty}E_{n}\right) = \lim_{N \to 
 
 \section{Copulas}
 
-A copula is a multivariate probability distribution on support the unit hypercube, with uniform marginal distributions. 	
-
-\begin{figure}[H]
-\includegraphics[width=0.7\textwidth]{figures/copula}\centering
-\caption{A copula in two dimensions. From this it is easier to see that the marginals will be uniform.}
-\end{figure}
-
-An example of a copula is the Frank distribution, with cumulative distribution function
+A copula is a multivariate probability distribution on support the unit hypercube, with uniform marginal distributions. An example of a copula is the Frank distribution, with cumulative distribution function
 \begin{equation}
 H\left(x, y; \psi\right) = \begin{cases}
 \begin{array}{c}
@@ -2564,6 +3099,8 @@ For example with the Frank copula, we can fit it to a distribution of the form $
 \section{Empirical Measures}
 
 \subsection{Empirical Distribution Function}
+
+\section{Order Statistics}
 
 \section{Asymptotic Theory}
 
@@ -2603,12 +3140,6 @@ Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\
 
 \subsection{Bootstrap}
 
-
-
-\section{Gauss-Markov Theorem}
-
-\subsection{Cramer-Rao Bound}
-
 \section{Principal Component Analysis}
 
 \subsection{Principal Component Regression}
@@ -2627,6 +3158,8 @@ Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\
 
 \subsection{It\^{o} Integral}
 
+\section{Stratonovich Integral}
+
 \section{Kolmogorov-Chentsov Continuity Theorem}
 
 \section{Stochastic Differential Equations}
@@ -2634,6 +3167,8 @@ Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\
 \chapter{Combinatorial Probability}
 
 \section{Inclusion-Exclusion Principle}
+
+\section{Pigeonhole Principle}
 
 \section{Partitions}
 
@@ -2649,6 +3184,8 @@ If instead empty partitions are allowed (ie. $n_{1}, \dots, n_{k} \geq 0$), then
 \begin{equation}
 \mathstrut^{n-1}\mathsf{C}_{k - 1} + \sum_{i = 1}^{k - 1}\mathstrut^{k}\mathsf{C}_{i}\times\mathstrut^{n-1}\mathsf{C}_{k - 1 - i} = \sum_{i = 0}^{k - 1}\mathstrut^{k}\mathsf{C}_{i}\times\mathstrut^{n-1}\mathsf{C}_{k - 1 - i}
 \end{equation}
+
+\section{Catalan Numbers \cite{Lange2010}}
 
 \section{Derangements}
 
@@ -2916,6 +3453,22 @@ The symmetrised KL divergence is defined as
 \end{equation}
 where it attains the property that $\operatorname{KL}_{\mathrm{sym}}\left(P\middle\|Q\right) = \operatorname{KL}_{\mathrm{sym}}\left(Q\middle\|P\right)$.
 
+\subsection{Fischer Information Metric}
+
+Consider a family of distributions $f\left(x;\theta\right)$ parametrised by the parameter vector $\theta$. For some particular $\theta'$, the Fischer information metric is defined as the second partial derivative with respect to $\theta'$ of the KL divergence between $f\left(x;\theta\right)$ and $f\left(x;\theta'\right)$ evaluated at $\theta$. That is,
+\begin{align}
+\left.\dfrac{\partial^{2}}{\partial\theta_{i}'\partial\theta_{j}'}\operatorname{KL}\left(f\left(x;\theta\right)\middle\Vert f\left(x;\theta'\right)\right)\right|_{\theta' = \theta} &= \left.\dfrac{\partial^{2}}{\partial\theta_{i}'\partial\theta_{j}'}\left(-\mathbb{E}\left[\log f\left(x;\theta'\right)\right] + \mathbb{E}\left[\log f\left(x;\theta\right)\right]\right)\right|_{\theta' = \theta} \\
+&= -\left.\dfrac{\partial^{2}}{\partial\theta_{i}'\partial\theta_{j}'}\mathbb{E}\left[\log f\left(x;\theta'\right)\right]\right|_{\theta' = \theta} \\
+&= -\int_{\mathcal{X}}f\left(x;\theta\right)\left.\dfrac{\partial^{2}}{\partial\theta_{i}'\partial\theta_{j}'}\log f\left(x;\theta'\right)\right|_{\theta' = \theta}dx \\
+&= -\int_{\mathcal{X}}f\left(x;\theta\right)\dfrac{\partial^{2}}{\partial\theta_{i}\partial\theta_{j}}\log f\left(x;\theta\right)dx \\
+&= -\mathbb{E}\left[\dfrac{\partial^{2}}{\partial\theta_{i}\partial\theta_{j}}\log f\left(x;\theta\right)\right]
+\end{align}
+Note that the Hessian can be formed from the matrix of all second partial derivatives. Then if we treat $\log f\left(x;\theta\right)$ as the log likelihood, then this gives equivalence to the Fisher information matrix. Performing a second order Taylor expansion for the KL divergence in $\theta'$ (call this $D\left(\theta'\right)$ for brevity of notation) about $\theta$ gives
+\begin{align}
+D\left(\theta'\right) \approx \dfrac{1}{2}\left(\theta' - \theta\right)^{\top}\left.\nabla_{\theta'}^{2}\operatorname{KL}\left(f\left(x;\theta\right)\middle\Vert f\left(x;\theta'\right)\right)\right|_{\theta' = \theta}\left(\theta' - \theta\right)
+\end{align}
+where we have used the facts that $D\left(\theta\right) = \operatorname{KL}\left(f\left(x;\theta\right)\middle\Vert f\left(x;\theta\right)\right) = 0$ and is a minimum, so the gradient also vanishes. Then the Fisher information metric may be interpreted as the curvature of the KL divergence with respect to $\theta'$ at $\theta$. The intuition is that the larger the Fisher information (ie. the larger the curvature), the more easily the parameter can be distinguished, hence the more `information' implied by $\theta$.
+
 \section{Maximum Entropy Distributions}
 
 \subsection{Principle of Maximum Entropy}
@@ -2952,9 +3505,7 @@ Suppose however an optimal code is designed using an assumed/approximating distr
 \operatorname{H}_{p, q} \leq \sum_{i}p\left(x_{i}\right)l_{i}^{*}
 \end{equation}
 
-\section{Likelihood Criteria}
-
-\subsection{Fischer Information Metric}
+\section{Information Criteria}
 
 \subsection{Akaike Information Criterion}
 
@@ -3036,6 +3587,9 @@ The BIC is also used as a model selection technique, where we aim to select the 
 
 \subsection{Deviance Information Criterion}
 
+\section{Sanov's Theorem}
+
+\section{Minimum Description Length}
 
 \section{$f$-Divergence}
 
@@ -3260,7 +3814,12 @@ And finally by $\operatorname{Cov}\left(Y_{t}, Y_{t - j}\right) = \operatorname{
 
 \section{$k$-Nearest Neighbours}
 
+\section{Radermacher Complexity}
+
 \section{Neural Networks}
+
+\subsection{Multilayer Perceptrons}
+
 For an input vector $x\in\mathbb{R}^{Nx}$ with $x=\begin{bmatrix}x_{1} & \dots & x_{Nx}\end{bmatrix}^{\top}$, we have an associated (target/observed) output vector $y\in\mathbb{R}^{Ny}$ with $y=\begin{bmatrix}y_{1} & \dots & y_{Ny}\end{bmatrix}^{\top}$. Let there be $L + 1$ layers in the network, with structure given by
 \begin{equation}
 \left\{Nx,N1,N2,\dots,N\ell,\dots,NL\right\} \in \mathbb{N}^{L + 1}
@@ -3521,15 +4080,240 @@ If we find the estimates $\hat{\mathbf{y}}_{j}$ (in terms of the parameters of t
 
 \section{Ensemble Methods}
 
+\subsection{Bagging}
+
+A portmanteau of `bootstrap aggregation', the bagging technique trains several different models separately, and then `votes' for the output on test examples. Consider $k$ different models. In bagging, each of the models has been trained on a dataset which is resampled from the original training data with replacement. In a regression example, suppose the $i$\textsuperscript{th} model has prediction error $\epsilon_{i}$ on the test data, there $\epsilon_{i}$ has zero-mean. Let the expected squared error be $\mathbb{E}\left[\epsilon_{i}^{2}\right] = \operatorname{Var}\left(\epsilon\right) = v$, and let the covariances between errors on different models be $\operatorname{Cov}\left(\epsilon_{i}, \epsilon_{j}\right) = \mathbb{E}\left[\epsilon_{i}\epsilon_{j}\right] = c$. By averaging predictions across the ensemble, the ensemble prediction errors is given by $\dfrac{1}{k}\sum_{i = 1}^{k}\epsilon_{i}$. Then the expected squared error of the ensemble is
+\begin{align}
+\mathbb{E}\left[\left(\dfrac{1}{k}\sum_{i = 1}^{k}\epsilon_{i}\right)^{2}\right] &= \dfrac{1}{k^{2}}\mathbb{E}\left[\sum_{i = 1}^{k}\epsilon_{i}\sum_{j = 1}^{k}\epsilon_{j}\right] \\
+&= \dfrac{1}{k^{2}}\mathbb{E}\left[\sum_{i = 1}^{k}\left(\epsilon_{i}^{2} + \sum_{j: j\neq i}^{k}\epsilon_{i}\epsilon_{j}\right)\right] \\
+&= \dfrac{1}{k}\mathbb{E}\left[\epsilon_{i}^{2} + \sum_{j: j\neq i}^{k}\epsilon_{i}\epsilon_{j}\right] \\
+&= \dfrac{1}{k}\operatorname{Var}\left(\epsilon\right) + \dfrac{k-1}{k}\operatorname{Cov}\left(\epsilon_{i}, \epsilon_{j}\right) \\
+&= \dfrac{1}{k}v + \dfrac{k - 1}{k}c
+\end{align}
+Suppose errors are perfectly correlated and $c = v$ (eg. the exact same training data is used for each model). Then the mean squared error of the ensemble is $v$. On the other hand if errors are perfectly uncorrelated such that $c = 0$, then the mean squared error by the ensemble is only $\dfrac{1}{k}v$. It shows that in this case, the ensemble can never perform worse than any of its members \cite{Goodfellow2016}.
+
 \subsection{Boosting}
 
-\section{Random Forests}
+A generic boosting algorithm takes a `weak learner' (eg. only slightly better than a random 50-50 guess on a classification problem), and produces a sequence of weak learners $G_{m}\left(x\right)$ for $m = 1, \dots, M$ to form a `strong' committee of learners that is a weighting of each weak learner. For a classification problem into $\left\{-1, 1\right\}$, this weighting is given by
+\begin{equation}
+G\left(x\right) = \operatorname{sign}\left(\sum_{m = 1}^{M}\alpha_{m}G_{m}\left(x\right)\right)
+\end{equation}
+At each step $m$, the training data is reweighted to put emphasis on the examples that the previous learner got wrong. For example, in AdaBoost \cite{Hastie2009, Zhou2012} (short for Adaptive Boosting), the weightings for each observation $\left(x_{i}, y_{i}\right)$ out of $N$ observations total start off at $w_{i} = \dfrac{1}{N}$. At each step $m$, the classifier $G_{m}\left(x\right)$ is fitted from the weighted data and the weighted classification error rate $e_{m}$ is computed. The learner weighted is calculated by
+\begin{equation}
+\alpha_{m} = \log\left(\dfrac{1 - e_{m}}{e_{m}}\right)
+\end{equation}
+and then each weight is updated according to
+\begin{equation}
+w_{i} \gets w_{i}\exp\left[\alpha_{m}\mathbb{I}\left(y_{i} \neq G_{m}\left(x_{i}\right)\right)\right]
+\end{equation}
+where $\mathbb{I}\left(y_{i} \neq G_{m}\left(x_{i}\right)\right)$ is an indicator function. Thus we can see that the weight for an observation which the learner got wrong is increased, while the weight for an observation which the learner got correct stays the same. Also note that the learner weighting $\alpha_{m}$ is decreasing in the error rate $e_{m}$.
+
+\subsection{Stacking}
+
+In stacking \cite{Hastie2009, Zhou2012}, there are $M$ `first-level learners', and one `second-level learner'. These learners may be not necessarily be from the same class of learning algorithm. Let the estimate from the $m$\textsuperscript{th} learner be denoted $\hat{f}_{m}\left(x\right)$. Then out out $N$ training observations, let $\hat{f}_{m}^{\left(-i\right)}\left(x\right)$ denote the estimate with the $i$\textsuperscript{th} training observation removed. Thus we can view $\hat{f}_{m}^{\left(-i\right)}\left(x_{i}\right)$ as a `prediction' on $x_{i}$ (since $x_{i}$ was not used in training the learner). The second learner (denoted by $\hat{f}\left(z\right)$ is then trained over a dataset created by the first learners. Each observation of the second learner consists of the `leave-one-out' outputs of the first learners as its outputs, and the original label as its output. Concretely, denote the $i$\textsuperscript{th} training observation of the second learner by $\left(z_{i}. y_{i}\right)$, where
+\begin{equation}
+z_{i} = \left(\hat{f}_{1}^{\left(-i\right)}\left(x_{i}\right), \dots, \hat{f}_{M}^{\left(-i\right)}\left(x_{i}\right)\right)
+\end{equation}
+The leave-one-out approach is to prevent overfitting. Thus, a stacked prediction $\hat{h}\left(x\right)$ is given by $\hat{h}\left(x\right) = \hat{f}\left(z\right)$ where
+\begin{equation}
+z = \left(\hat{f}_{1}\left(x\right), \dots, \hat{f}_{M}\left(x\right)\right)
+\end{equation}
+
+\section{Decision Trees}
+
+\subsection{Random Forests}
 
 
 
 \chapter{Statistical Signal Processing}
 
-\section{Wiener Filtering}
+\section{Random Signals and Systems}
+
+\subsection{Random Linear Time Invariant Systems}
+
+Consider a linear time invariant (LTI) system in discrete time. For a sequence of inputs $u\left(k\right)$, there is a corresponding sequence of outputs $y\left(k\right)$. The linearity property means that for a superposition of inputs $u_{1}\left(k\right) + u_{2}\left(k\right)$, the output is also a superposition $y_{1}\left(k\right) + y_{2}\left(k\right)$. We can construct any input sequence with a superposition of Kronecker deltas
+\begin{equation}
+\delta_{ij} = \begin{cases} 1, & i = j \\ 0, & i\neq j\end{cases}
+\end{equation}
+like so for $\left\{\dots, u\left(0\right), u\left(1\right), u\left(2\right), \dots\right\} =  \left\{\dots, a_{0}, a_{1}, a_{2}, \dots\right\}$:
+\begin{equation}
+u\left(k\right) = \sum_{j = -\infty}^{\infty}a_{k}\delta_{jk} = a_{k}
+\end{equation}
+An impulse response $h\left(k\right)$ is defined as the output $y\left(k\right)$ for a input of a unit pulse at $k = 0$, ie. $u\left(k\right) = \delta_{k,0}$. Then for a `lagged' unit pulse input $u\left(k\right) = \delta_{k,1}$, the output will be $h\left(k - 1\right)$ because it is just the  impulse response lagged by $1$. By superposition, if we apply the input $u\left(k\right) = \delta_{k,0} + \delta_{k,1}$, the output should be $y\left(k\right) = h\left(k\right) + h\left(k - 1\right)$. Generalising, if the input is $u\left(k\right) = \sum_{j = -\infty}^{\infty}a_{k}\delta_{jk}$, then the output should be
+\begin{align}
+y\left(k\right) &= \dots + a_{0}h\left(k\right) + a_{1}h\left(k - 1\right) + \dots \\
+&= \dots + u\left(0\right)h\left(k\right) + u\left(1\right)h\left(k - 1\right) + \dots \\
+&= \sum_{j = -\infty}^{\infty}h\left(k - j\right)u\left(j\right)
+\end{align}
+which is the convolution sum. Note that we can rewrite this as
+\begin{equation}
+y\left(k\right) = \sum_{j = -\infty}^{\infty}h\left(j\right)u\left(k - j\right)
+\end{equation}
+because this would only change the sequence of summation. It follows that if $U\left(k\right)$ is a random sequence input into an LTI system, the random sequence output $Y\left(k\right)$ would be given by
+\begin{equation}
+Y\left(k\right) = \sum_{j = -\infty}^{\infty}h\left(j\right)U\left(k - j\right)
+\end{equation}
+Now if we considered a continuous time LTI system with impulse response $h\left(t\right)$, then by similar arguments (except considering Dirac deltas instead of Kronecker deltas and integrals instead of sums), for a stochastic process input $U\left(t\right)$ the stochastic process output $Y\left(t\right)$ is given by the convolution integral
+\begin{equation}
+Y\left(t\right) = \int_{-\infty}^{\infty}h\left(\tau\right)U\left(t - \tau\right)d\tau
+\end{equation}
+Suppose we have a sampled system, where we observe output $Y\left(t\right)$ at time instants separated by interval $T$, and thus define the random sequence $Y_{k} = Y\left(kT\right)$ for $k = \dots, 0, 1, \dots$. Also suppose the random sequence of inputs $U_{k}$ is held constant over the interval $T$ such that
+\begin{equation}
+U\left(t\right) = U_{k}
+\end{equation}
+for $kT \leq t < \left(k + 1\right)T$. Then for an LTI system defined by $g\left(t\right)$, the output at instant $t = kT$ is
+\begin{align}
+Y\left(kT\right) &= \int_{-\infty}^{\infty}h\left(\tau\right)U\left(kT - \tau\right)d\tau \\
+&= \sum_{j = -\infty}^{\infty}\int_{\left(j - 1\right)T}^{jT}h\left(\tau\right)U\left(kT - \tau\right)d\tau
+\end{align}
+Note that by definition $U\left(kT - \tau\right) = U_{k - j}$ for $\left(j - 1\right)T < \tau \leq jT$ so
+\begin{equation}
+Y\left(kT\right) = \sum_{j = -\infty}^{\infty}\int_{\left(j - 1\right)T}^{jT}h\left(\tau\right)d\tau U_{k - j}
+\end{equation}
+Define $h_{j} = \int_{\left(j - 1\right)T}^{jT}h\left(\tau\right)d\tau$, then
+\begin{equation}
+Y_{k} = \sum_{j = -\infty}^{\infty}h_{j}U_{k - j}
+\end{equation}
+which is a convolution sum in terms of the discrete LTI system defined by $h_{k}$. \\
+
+For a causal system, we should have $h_{k} = 0$ for $k < 0$ (and analogously $h\left(t\right) = 0$ for $t < 0$) otherwise this would imply a response has been `caused' by an input in the future. So a convolution sum can be written as
+\begin{equation}
+Y_{k} = \sum_{j = 0}^{\infty}h_{j}U_{k - j}
+\end{equation}
+Define the shift operator $z$ so that $z^{j}U_{k} := U_{k + j}$ and $z^{-j}U_{k} := U_{k - j}$. Thus
+\begin{gather}
+Y_{k} = \sum_{j = 0}^{\infty}h_{j}z^{-j}U_{k} \\
+\dfrac{Y_{k}}{U_{k}} = \sum_{j = 0}^{\infty}h_{j}z^{-j}
+\end{gather}
+We define $H\left(z\right) := \dfrac{Y_{k}}{U_{k}} = \sum_{j = 0}^{\infty}h_{j}z^{-j}$ and this is the $z$-transform of $h_{k}$. Analogously, a continuous system with impulse response $h\left(t\right)$ has a transfer function which is the Laplace transform $H\left(s\right) = \mathcal{L}\left[h\left(t\right)\right]$. Note that we can also define `strictly causal' systems where $h_{k} = 0$ for $k \leq 0$ and $h\left(t\right) = 0$ for $t \leq 0$, then the transfer function (in the discrete case) becomes
+\begin{equation}
+H\left(z\right) = \sum_{j = 1}^{\infty}h_{j}z^{-j}
+\end{equation}
+
+\subsubsection{Wide Sense Stationarity in LTI Systems}
+
+Suppose the input $X\left(t\right)$ to an LTI system with impulse response $h\left(t\right)$ is a wide sense stationary process. That is, $X\left(t\right)$ has mean function $\mu_{X}$ and autocorrelation function $R_{X}\left(\tau\right)$. Then the output $Y\left(t\right)$ will also be a wide sense stationary process with mean function given by
+\begin{align}
+\mu_{Y} &= \mathbb{E}\left[Y\left(t\right)\right] \\
+&= \mathbb{E}\left[\int_{-\infty}^{\infty}h\left(u\right)X\left(t - u\right)du\right] \\
+&= \int_{-\infty}^{\infty}h\left(u\right)\mathbb{E}\left[X\left(t - u\right)\right]du \\
+&= \mu_{X}\int_{-\infty}^{\infty}h\left(u\right)du
+\end{align}
+and autocorrelation function given by
+\begin{align}
+R_{Y}\left(\tau\right) &= \mathbb{E}\left[Y\left(t\right)Y\left(t-\tau\right)\right] \\
+&= \mathbb{E}\left[\int_{-\infty}^{\infty}h\left(u\right)X\left(t-u\right)du\int_{-\infty}^{\infty}h\left(v\right)X\left(t+\tau-v\right)dv\right] \\
+&= \mathbb{E}\left[\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}h\left(u\right)h\left(v\right)X\left(t-u\right)X\left(t+\tau-v\right)dudv\right] \\
+&= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}h\left(u\right)h\left(v\right)\mathbb{E}\left[X\left(t-u\right)X\left(t+\tau-v\right)\right]dudv \\
+&= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}h\left(u\right)h\left(v\right)R_{X}\left(\tau+u-v\right)dudv
+\end{align}
+The cross-correlation function between $X\left(t\right)$ and $Y\left(t\right)$ is given by
+\begin{align}
+R_{XY}\left(\tau\right) &= \mathbb{E}\left[X\left(t\right)Y\left(t-\tau\right)\right] \\
+&= \mathbb{E}\left[X\left(t\right)\int_{-\infty}^{\infty}h\left(u\right)X\left(t+\tau-u\right)du\right] \\
+&= \int_{-\infty}^{\infty}h\left(u\right)\mathbb{E}\left[X\left(t\right)X\left(t+\tau-u\right)\right]du \\
+&= \int_{-\infty}^{\infty}h\left(u\right)R_{X}\left(\tau-u\right)du
+\end{align}
+and the autocorrelation function of $Y\left(t\right)$ can be related to the cross-correlation function by the substitution $w = -u$:
+\begin{align}
+R_{Y}\left(\tau\right) &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}h\left(u\right)h\left(v\right)R_{X}\left(\tau+u-v\right)dudv \\
+&= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}h\left(-w\right)h\left(v\right)R_{X}\left(\tau-w-v\right)dwdv \\
+&= \int_{-\infty}^{\infty}h\left(-w\right)\green\underbrace{\black\int_{-\infty}^{\infty}h\left(v\right)R_{X}\left(\tau-w-v\right)dv}_{\green R_{XY}\left(\tau-w\right)}\black dw \\
+&= \int_{-\infty}^{\infty}h\left(-w\right)R_{XY}\left(\tau-w\right)dw
+\end{align}
+By the same arguments, if $X_{n}$ is a wide sense stationary random sequence and $h_{n}$ is the impulse response of a discrete LTI system, then the output sequence $Y_{n}$ is also a wide sense stationary random sequence which satisfies
+\begin{gather}
+\mu_{Y} = \mu_{X}\sum_{i = -\infty}^{\infty}h_{i} \\
+R_{Y}\left(k\right) = \sum_{i = -\infty}^{\infty}\sum_{j = -\infty}^{\infty}h_{i}h_{j}R_{X}\left(k + i - j\right) \\
+R_{XY}\left(k\right) = \sum_{i = -\infty}^{\infty}h_{i}R_{X}\left(k - i\right) \\
+R_{Y}\left(k\right) = \sum_{i = -\infty}^{\infty}h_{-i}R_{XY}\left(k - i\right)
+\end{gather}
+
+\section{Power Spectral Density}
+
+Consider sample functions $x\left(t\right)$ of a stationary process $X\left(t\right)$. The Fourier transform of $x\left(t\right)$ usually does not exist because it is not integrable on an infinite domain. However, if we define the truncated sample function
+\begin{equation}
+x_{T}\left(t\right) = \begin{cases} x\left(t\right), & -T\leq t\leq T \\ 0, & \mathrm{elsewhere}\end{cases}
+\end{equation}
+then this truncated sample function has a Fourier transform. Denote this Fourier transform by
+\begin{align}
+\widetilde{x}_{T}\left(f\right) &= \int_{-\infty}^{\infty}x\left(t\right)e^{j2\pi ft}dt \\
+&= \int_{-T}^{T}x\left(t\right)e^{j2\pi ft}dt
+\end{align}
+where $j = \sqrt{-1}$. The power spectral density of $X\left(t\right)$ is a function of frequency $f$ which may be roughly interpreted as the average density of power of frequency content $f$ for sample functions of $X\left(t\right)$. It is defined by
+\begin{align}
+S_{X}\left(f\right) &= \lim_{T\to\infty}\dfrac{1}{2T}\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right] \\
+&= \lim_{T\to\infty}\dfrac{1}{2T}\mathbb{E}\left[\left|\int_{-T}^{T}x\left(t\right)e^{-j2\pi ft}dt\right|^{2}\right]
+\end{align}
+
+\subsection{Wiener-Khintchine Theorem}
+
+The Wiener-Khintchine theorem states that the autocorrelation function and power spectral density of a wide sense stationary stochastic process $X\left(t\right)$ are Fourier transform pairs. That is,
+\begin{gather}
+S_{X}\left(f\right) = \int_{-\infty}^{\infty}R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau \\
+R_{X}\left(\tau\right) = \int_{-\infty}^{\infty}S_{X}\left(f\right)e^{-j2\pi f\tau}df
+\end{gather}
+\begin{proof}
+Begin by writing the expression for $\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right]$.
+\begin{equation}
+\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right] = \mathbb{E}\left[\left|\int_{-T}^{T}x\left(t\right)e^{-j2\pi ft}dt\right|^{2}\right]
+\end{equation}
+The Fourier transform $\widetilde{x}_{T}\left(f\right)$ is a complex valued function of frequency, but since $x\left(t\right)$ is real valued, then the complex conjugate only affects the complex exponential, ie. $\widetilde{x}_{T}^{*}\left(f\right) = \int_{-T}^{T}x\left(t\right)e^{j2\pi ft}dt$. Then use the fact that for complex numbers, $\left|\widetilde{x}_{T}\left(f\right)\right|^{2} = \widetilde{x}_{T}\left(f\right)\widetilde{x}_{T}^{*}\left(f\right)$. Hence
+\begin{align}
+\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right] &= \mathbb{E}\left[\left(\int_{-T}^{T}x\left(t\right)e^{-j2\pi ft}dt\right)\left(\int_{-T}^{T}x\left(t'\right)e^{j2\pi ft'}dt'\right)\right] \\
+&= \mathbb{E}\left[\int_{-T}^{T}\int_{-T}^{T}x\left(t\right)x\left(t'\right)e^{-j2\pi f\left(t-t'\right)}dtdt'\right] \\
+&= \int_{-T}^{T}\int_{-T}^{T}\mathbb{E}\left[x\left(t\right)x\left(t'\right)\right]e^{-j2\pi f\left(t-t'\right)}dtdt' \\
+&= \int_{-T}^{T}\int_{-T}^{T}R_{X}\left(t-t'\right)e^{-j2\pi f\left(t-t'\right)}dtdt'
+\end{align}
+Introduce the change of variables $\tau = t - t'$, noting that the integrand only depends on $\tau$. To determine the limits of integration, we reason that if $-T\leq t \leq T$ and $-T \leq t'\leq T$, then $-2T \leq \tau \leq 2T$. Then a graphical sketch of the region $\Omega$ for $t'$ given by the intersection
+\begin{equation}
+\Omega = \left\{t': t - t' = \tau \cap -T\leq t \leq T \cap -T \leq t'\leq T \cap -2T \leq \tau \leq 2T\right\}
+\end{equation}
+will reveal
+\begin{equation}
+\Omega = \left\{t': \begin{cases} -T \leq t' \leq T - \tau, & \tau \geq 0 \\ -T - \tau \leq t' \leq T, & \tau < 0\end{cases}\right\}
+\end{equation}
+Combining these two cases gives $\Omega = \left\{t': -T \leq t' \leq T - \left|\tau\right|\right\}$. Hence the integral can be written as
+\begin{align}
+\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right] &= \int_{-T}^{T-\left|\tau\right|}\int_{-2T}^{2T}R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau dt' \\
+&= \int_{-2T}^{2T}\int_{-T}^{T-\left|\tau\right|}R_{X}\left(\tau\right)e^{-j2\pi f\tau}dt'd\tau \\
+&= \int_{-2T}^{2T}\left(2T-\left|\tau\right|\right)R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau
+\end{align}
+This can be visually imagined as integrating along the positive (upward sloping) diagonals for all intercepts $\tau$ in the box bounded by $-T\leq t \leq T$ and $-T \leq t'\leq T$. Then 
+\begin{align}
+\dfrac{1}{2T}\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right] &= \dfrac{1}{2T}\int_{-2T}^{2T}\left(2T-\left|\tau\right|\right)R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau \\
+&= \int_{-2T}^{2T}\left(1-\dfrac{\left|\tau\right|}{2T}\right)R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau
+\end{align}
+Define the function
+\begin{equation}
+h_{T}\left(\tau\right) = \begin{cases} 1 -\dfrac{\left|\tau\right|}{2T}, & \left|\tau\right| \leq 2T \\ 0, & \mathrm{elsewhere}\end{cases}
+\end{equation}
+This gives $\lim_{T\to\infty}h_{T}\left(\tau\right) = 1$. The power spectral density is therefore
+\begin{align}
+S_{X}\left(f\right) &= \lim_{T\to\infty}\dfrac{1}{2T}\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right] \\
+&= \lim_{T\to\infty}\int_{-2T}^{2T}\left(1-\dfrac{\left|\tau\right|}{2T}\right)R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau \\
+&= \int_{-\infty}^{\infty}\lim_{T\to\infty}\left(h_{T}\left(\tau\right)\right)R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau \\
+&= \int_{-\infty}^{\infty}R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau
+\end{align}
+which is the Fourier transform of $R_{X}\left(\tau\right)$.
+\end{proof}
+Note that one may define average power of a stochastic process as $\mathbb{E}\left[X\left(t\right)^{2}\right] = R_{X}\left(0\right)$, in which case
+\begin{equation}
+R_{X}\left(0\right) = \int_{-\infty}^{\infty}S_{X}\left(f\right)df
+\end{equation}
+In this sense, the power spectral density can be viewed as the density of average power given for frequency $f$.
+
+\subsection{Discrete Wiener-Khintchine Theorem}
+
+\subsection{Cross Spectral Density}
+
+\subsection{Spectral Density Estimation}
+
+\subsection{Coloured Noise}
+
+\section{Linear Filtering}
+
+\section{Wiener-Kolgomorov Filtering}
 
 \section{Kalman Filtering}
 
@@ -3543,11 +4327,11 @@ The Kalman filter is a special case of the Bayes filter when the dynamic model i
 
 \subsection{Kalman-Bucy Filter}
 
-\section{Particle Filtering}
-
 \section{Kalman Smoother}
 
 \section{Viterbi Algorithm}
+
+\section{Particle Filtering}
 
 \section{Subspace Identification}
 
@@ -3600,7 +4384,7 @@ f^{*} = \dfrac{pb - q}{b}
 
 \section{Black-Scholes Model}
 
-\section{Optional Stopping Theorem}
+\section{Optimal Stopping}
 
 \section{Ruin Theory}
 
