@@ -1,5 +1,5 @@
 ﻿# Stochastics & Statistics
-Notes in probability, statistics, and their applications from the introductory to the advanced level. Always going to be a work in progress.
+Notes in probability, statistics, and their applications from the introductory to the advanced level. Most likely always going to be a work in progress, as there are countless topics that could be included.
 
 ## Contents
 -   [Fundamentals](#fundamentals)
@@ -13,6 +13,7 @@ Notes in probability, statistics, and their applications from the introductory t
     -   [Introductory Statistics](#introductory-statistics)
         -   [Data Generating Processes](#data-generating-processes)
         -   [Descriptive Statistics](#descriptive-statistics)
+        -   [Normal Statistics](#normal-statistics)
         -   [Inferential Statistics](#inferential-statistics)
         -   [Simple Linear Regression](#simple-linear-regression)
         -   [Analysis of Variance](#analysis-of-variance)
@@ -29,6 +30,7 @@ Notes in probability, statistics, and their applications from the introductory t
             Variables](#transformations-of-random-variables)
         -   [Inequalities in Probability](#inequalities-in-probability)
         -   [Notions of Convergence](#notions-of-convergence)
+        -   [Branching Processes](#branching-processes)
     -   [Intermediate Statistics](#intermediate-statistics)
         -   [Least Squares](#least-squares)
         -   [Statistical Decision Theory](#statistical-decision-theory)
@@ -40,6 +42,7 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [James-Stein Estimators](#james-stein-estimators)
         -   [Generalised Linear Models](#generalised-linear-models)
         -   [Gauss-Markov Theorem](#gauss-markov-theorem)
+        -   [Maximum Spacing Estimation](#maximum-spacing-estimation)
     -   [Advanced Probability](#advanced-probability)
         -   [Moments](#moments)
         -   [Probability Generating
@@ -61,8 +64,11 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Bayesian Networks](#bayesian-networks)
         -   [Bayesian Inference](#bayesian-inference)
         -   [Bayesian Classifiers](#bayesian-classifiers)
+        -   [Subjective Probability
+            [@Schervish1995]](#subjective-probability)
     -   [Markov Processes](#markov-processes)
         -   [Markov Chains](#markov-chains)
+        -   [Markov Networks](#markov-networks)
         -   [Hidden Markov Models](#hidden-markov-models)
         -   [Markov Decision Processes](#markov-decision-processes)
         -   [Markov Chain Monte Carlo](#markov-chain-monte-carlo)
@@ -77,7 +83,7 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Copulas](#copulas)
         -   [Empirical Measures](#empirical-measures)
         -   [Order Statistics](#order-statistics)
-        -   [Asymptotic Theory](#asymptotic-theory)
+        -   [Monte-Carlo Methods](#monte-carlo-methods)
         -   [Resampling Methods](#resampling-methods)
         -   [Principal Component
             Analysis](#principal-component-analysis)
@@ -93,6 +99,7 @@ Notes in probability, statistics, and their applications from the introductory t
             Theorem](#kolmogorov-chentsov-continuity-theorem)
         -   [Stochastic Differential
             Equations](#stochastic-differential-equations)
+        -   [Diffusions](#diffusions)
     -   [Combinatorial Probability](#combinatorial-probability)
         -   [Inclusion-Exclusion
             Principle](#inclusion-exclusion-principle)
@@ -136,7 +143,8 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Subspace Identification](#subspace-identification)
         -   [Wavelets](#wavelets)
     -   [Stochastic Control](#stochastic-control)
-        -   [Linear Quadratic Gaussian](#linear-quadratic-gaussian)
+        -   [Linear Quadratic Gaussian
+            Control](#linear-quadratic-gaussian-control)
         -   [Stochastic Model Predictive
             Control](#stochastic-model-predictive-control)
         -   [Stochastic Stability](#stochastic-stability)
@@ -147,5 +155,7 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Optimal Stopping](#optimal-stopping)
         -   [Ruin Theory](#ruin-theory)
     -   [Statistical Physics](#statistical-physics)
+        -   [Maxwell-Boltzmann
+            Distribution](#maxwell-boltzmann-distribution)
         -   [Mean Sojourn Time](#mean-sojourn-time)
         -   [Mean Field Theory](#mean-field-theory)

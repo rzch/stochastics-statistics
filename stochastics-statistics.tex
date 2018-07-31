@@ -499,7 +499,7 @@ The expectation (or expected value) of a random variable can be thought about in
 \item The average realisation of the random variable over an infinite number of trials.
 \item The `center of mass' of the probability distribution.
 \end{itemize}
-The expected value of a random variable $X$ is denoted $\mathbb{E}\left[X\right]$ and for a discrete random variable may be calculated as
+The expected value of a random variable $X$ is a constant denoted $\mathbb{E}\left[X\right]$ and for a discrete random variable may be calculated as
 \begin{equation}
 \mathbb{E}\left[X\right] = \sum_{x = -\infty}^{\infty}x\operatorname{Pr}\left(X = x\right)
 \end{equation}
@@ -535,17 +535,105 @@ This analogously holds for continuous $X$ and $Y$. Since sums and integrals are 
 
 \subsection{Conditional Expectation}
 
+The conditional expectation of $X$ given $Y$ is denoted $\mathbb{E}\left[X\middle|Y\right]$, and may be interpreted in two ways:
+\begin{itemize}
+\item Given a particular value of $Y = y$, the conditional expectation $\mathbb{E}\left[X\middle|Y = y\right]$ is the average of $X$ over all events where $Y = y$. It may be calculated by taking the expectation of the conditional distribution of $X$ given $Y$, ie. for discrete random variables
+\begin{equation}
+\mathbb{E}\left[X\middle|Y = y\right] = \sum_{x}x\operatorname{Pr}\left(X = x\middle|Y = y\right)
+\end{equation}
+For continuous random variables,
+\begin{equation}
+\mathbb{E}\left[X\middle|Y = y\right] = \int_{-\infty}^{\infty}xf_{X|Y}\left(x\middle|Y = y\right)dx
+\end{equation}
+\item The conditional expectation $\mathbb{E}\left[X\middle|Y\right]$ without a particular value of $Y$ is a random variable, because $Y$ is random. For discrete $X$ and $Y$, the random variable $\mathbb{E}\left[X\middle|Y\right]$ is defined to take on value $\mathbb{E}\left[X\middle|Y = y\right]$ with probability $\operatorname{Pr}\left(Y = y\right)$. For continuous $X$ and $Y$, the random variable $\mathbb{E}\left[X\middle|Y\right]$ has density $f_{X|Y}\left(x\middle|Y = y\right)$ at value $\mathbb{E}\left[X\middle|Y = y\right]$.
+\end{itemize}
+
 \subsection{Law of Iterated Expectations}
 
+The law of iterated expectations (also sometimes referred to the law of total expectation) states that the expectation of the random variable $\mathbb{E}\left[X\middle|Y\right]$ (over $Y$) is $\mathbb{E}\left[X\right]$. That is,
+\begin{equation}
+\mathbb{E}\left[\mathbb{E}\left[X\middle|Y\right]\right] = \mathbb{E}\left[X\right]
+\end{equation}
+Sometimes the law is written $\mathbb{E}_{Y}\left[\mathbb{E}_{X}\left[X\middle|Y\right]\right] = \mathbb{E}\left[X\right]$ to explicitly show which variables the expectations are taken with respect to. To prove the law for discrete random variables,
+\begin{align}
+\mathbb{E}\left[\mathbb{E}\left[X\middle|Y\right]\right] &= \sum_{y}\mathbb{E}\left[X\middle|Y = y\right]\operatorname{Pr}\left(Y = y\right) \\
+&= \sum_{y}\sum_{x}x\operatorname{Pr}\left(X = x\middle|Y = y\right)\operatorname{Pr}\left(Y = y\right) \\
+&= \sum_{y}\sum_{x}x\operatorname{Pr}\left(X = x, Y = y\right) \\
+&= \mathbb{E}\left[X\right]
+\end{align}
+This is similarly shown for continuous random variables. The law of iterated expectations can also be extended to when there are more than two random variables. Some variations are:
+\begin{gather}
+\mathbb{E}\left[\mathbb{E}\left[X\middle|Y, Z\right]\right] = \mathbb{E}\left[X\right] \\
+\mathbb{E}\left[\mathbb{E}\left[X\middle|Y, Z\right]\middle|Z\right] = \mathbb{E}\left[X\middle|Z\right]
+\end{gather}
+
 \subsection{Expectation of Indicator Random Variables}
+
+Let $\mathbb{I}_{A}$ be an indicator random variable for event $A$. The expectation of $\mathbb{I}_{A}$ is the probability of $A$, as shown below.
+\begin{align}
+\mathbb{E}\left[\mathbb{I}_{A}\right] &= 0\times \operatorname{Pr}\left(\overline{A}\right) + 1\times \operatorname{Pr}\left(A\right) \\
+&= \operatorname{Pr}\left(A\right)
+\end{align}
 
 \section{Variance}
 
 \subsection{Standard Deviation}
 
+\subsection{Precision}
+
+The precision of a random variable $X$ is defined as the inverse of the variance, ie. $\operatorname{Var}\left(X\right)^{-1} = \dfrac{1}{\operatorname{Var}\left(X\right)}$. Naturally, the more precise a random variable is, the more concentrated it is about its expected value.
+
 \subsection{Covariance}
 
 \subsection{Correlation}
+
+Since the correlation coefficient is standardised, it always lies between $-1$ and $1$. We can show this follows for two random variables $X$ and $Y$. For ease of notation, denote $\mu_{X} := \mathbb{E}\left[X\right]$, $\mu_{Y} := \mathbb{E}\left[Y\right]$, $\sigma_{X} := \operatorname{sd}\left(X\right)$ and $\sigma_{Y} := \operatorname{sd}\left(Y\right)$. Define the `standardised' random variables
+\begin{gather}
+\widetilde{X} := \dfrac{X - \mu_{X}}{\sigma_{X}} \\
+\widetilde{Y} := \dfrac{Y - \mu_{Y}}{\sigma_{Y}}
+\end{gather}
+Then start from the inequality
+\begin{equation}
+\mathbb{E}\left[\left(\widetilde{X}+\widetilde{Y}\right)^{2}\right]\geq 0
+\end{equation}
+Expanding out gives
+\begin{equation}
+\mathbb{E}\left[\widetilde{X}^{2}+2\widetilde{X}\widetilde{Y}+\widetilde{Y}^{2}\right]\geq0
+\end{equation}
+By the linearity of expectation,
+\begin{equation}
+\mathbb{E}\left[\widetilde{X}^{2}\right]+2\mathbb{E}\left[\widetilde{X}\widetilde{Y}\right]+\mathbb{E}\left[\widetilde{Y}^{2}\right]\geq0
+\end{equation}
+Note that by standardisation, $\mathbb{E}\left[\widetilde{X}^{2}\right] = \operatorname{Var}\left(\widetilde{X}\right) = 1$ and $\mathbb{E}\left[\widetilde{Y}^{2}\right] = \operatorname{Var}\left(\widetilde{Y}\right) = 1$ so
+\begin{equation}
+2+2\mathbb{E}\left[\widetilde{X}\widetilde{Y}\right]\geq0
+\end{equation}
+Using the definitions of the standardised random variables, we can show:
+\begin{gather}
+2+2\dfrac{\mathbb{E}\left[XY-X\mu_{Y}-Y\mu_{X}+\mu_{X}\mu_{Y}\right]}{\sigma_{X}\sigma_{Y}}\geq0 \\
+2+2\dfrac{\mathbb{E}\left[XY\right]-\mathbb{E}\left[X\right]\mu_{Y}-\mathbb{E}\left[Y\right]\mu_{X}+\mu_{X}\mu_{Y}}{\sigma_{X}\sigma_{Y}}\geq0 \\
+2+2\dfrac{\mathbb{E}\left[XY\right]-\mu_{X}\mu_{Y}}{\sigma_{X}\sigma_{Y}}\geq0
+\end{gather}
+Then using the definition of the correlation coefficient:
+\begin{equation}
+2+2\dfrac{\operatorname{Corr}\left(X, Y\right)}{\sigma_{X}\sigma_{Y}}\geq0
+\end{equation}
+Hence
+\begin{equation}
+\operatorname{Corr}\left(X, Y\right) \geq -1
+\end{equation}
+Starting from the inequality
+\begin{equation}
+\mathbb{E}\left[\left(\widetilde{X}-\widetilde{Y}\right)^{2}\right]\geq0
+\end{equation}
+and applying the same steps, we get
+\begin{equation}
+\operatorname{Corr}\left(X, Y\right) \leq 1
+\end{equation}
+Therefore combined,
+\begin{equation}
+-1 \leq \operatorname{Corr}\left(X, Y\right) \leq 1
+\end{equation}
 
 \subsection{Subadditivity of Standard Deviations}
 
@@ -710,37 +798,63 @@ Two random variables $X$ and $Y$ are said to be orthogonal if $\mathbb{E}\left[X
 
 \section{Data Generating Processes}
 
-\subsection{Population}
+In random experiments involving the collection of data, we call the random experiment the data generating process. This data generating process completely defines how observations of data are made. This includes all characteristics about the underlying `population' of interest as well as how data is sampled. The data generating process is usually not completely known, and the inherent goal of statistics to be able to deduce facts about the data generating process using data for the purposes of interpretation and prediction.
+
+\subsection{Populations}
+
+The population is the distribution of the particular subject under study for which data is collected.
 
 \subsubsection{Population Parameters}
 
-\subsection{Sample}
+If the population distribution takes on a particular structure, then the population parameters are the structural parameters which define this distribution. For example, a commonly studied population parameter is the population mean, typically denoted $\mu$, which is the expected value of the population distribution. Another example is the population variance and population standard deviation, typically denoted $\sigma^{2}$ and $\sigma$ respectively, which are respectively the variance and standard deviation of the population distribution.
+
+\subsubsection{Nuisance Parameters}
+
+A nuisance parameter is any parameter not of immediate interest but still must be considered in the analysis of another parameter of interest. For example, the population mean may be of primary interest, but the population variance must be considered to conduct inference.
+
+\subsection{Samples}
+
+A sample of size $n$ is a collection of $n$ values sampled from population under the data generating process and may be denoted $X_{1}, X_{2}, \dots, X_{n}$ to indicate the fact that they are random variables. A realisation of a sample of size $n$ may be denoted using $x_{1}, x_{2}, \dots, x_{n}$. A single value of the sample $X_{i}$ or $x_{i}$ may be referred to as an observation.
 
 \subsubsection{Sample Statistics}
 
+A sample statistic (or simply statistic) is anything that is calculated via the sample. Sample statistics may be considered random variables with respect to the data generating process, because the sample itself is considered random.
+
 \subsubsection{Estimators}
 
-\subsubsection{Biasedness}
+An estimator is a sample statistic that is intended to estimate some population parameter of interest. For a population parameter $\theta$, we may denote an estimator for $\theta$ by $\hat{\theta}$.
+
+\subsubsection{Unbiasedness}
+
+An unbiased estimator $\hat{\theta}$ for $\theta$ satisfies
+\begin{equation}
+\mathbb{E}\left[\hat{\theta}\right] = \theta
+\end{equation}
+If $\mathbb{E}\left[\hat{\theta}\right] \neq \theta$, then $\hat{\theta}$ is said to be biased.
 
 \subsubsection{Consistency}
+
+An estimator $\hat{\theta}$ for $\theta$ is said to be consistent if loosely speaking, the estimate $\hat{\theta}$ approaches $\theta$ as the sample size $n$ grows large.
 
 \section{Descriptive Statistics}
 
 \subsection{Measures of Central Tendency}
 
-\subsubsection{Arithmetic Mean}
+\subsubsection{Sample Arithmetic Mean}
 
-\subsubsection{Median}
+\subsubsection{Sample Median}
 
-\subsubsection{Mode}
+\subsubsection{Sample Mode}
 
-\subsubsection{Geometric Mean}
+\subsubsection{Sample Geometric Mean}
 
-\subsubsection{Harmonic Mean}
+\subsubsection{Sample Harmonic Mean}
 
 \subsection{Measures of Dispersion}
 
 \subsubsection{Sample Variance}
+
+\subsubsection{Bessel's Correction}
 
 Suppose we knew the value of the population mean. Then it should be clear that in order to compute an unbiased estimate of the population variance from the sample variance, one should first compute the sum of squared deviations about the population mean $\sum_{i = 1}^{n}{\left(x_{i} - \mu\right)^{2}}$ and then divide by the sample size $n$. However, typically only the sample mean $\bar{x}$ is known, which itself is computed from the sample. So this inherently introduces bias if we were to compute sample variance the same way (we are measuring squared deviations of a sample from a mean which is itself determined by the sample). So to `compensate' for this, we divide by $n - 1$ instead of $n$ to give an unbiased estimate of the sample variance.
 
@@ -774,6 +888,30 @@ While there are many definitions of the signal-to-noise ratio, one such definiti
 
 \subsubsection{Pearson Correlation Coefficient}
 
+\subsubsection{Kendall Rank Correlation Coefficient}
+
+The Kendall rank correlation coefficient (also known by the Kendall $\tau$ coefficient) measures the ordinal associated between two sets of observations. Let $\left(x_{1}, y_{1}\right), \dots, \left(x_{n}, y_{n}\right)$ be the sets of observations which are a realised sample from the distributions of $X$ and $Y$ respectively. Assume that all values in the observations are unique. A pair of observations $\left(x_{i}, y_{i}\right)$ and $\left(x_{j}, y_{j}\right)$ for any $i < j$ is said to be concordant if $x_{i} > x_{j}$ and $y_{i} > y_{j}$, or alternatively if $x_{i} < x_{j}$ and $y_{i} < y_{j}$. Let $n_{c}$ be the number of concordant pairs in the set of observations. A pair of observations $\left(x_{i}, y_{i}\right)$ and $\left(x_{j}, y_{j}\right)$ for any $i < j$ is said to be discordant if $x_{i} > x_{j}$ and $y_{i} < y_{j}$, or alternatively if $x_{i} < x_{j}$ and $y_{i} > y_{j}$. Let $n_{d}$ be the number of discordant pairs in the set of observations. The Kendall $\tau$ coefficient is defined as
+\begin{equation}
+\tau = \dfrac{n_{c} - n_{d}}{n\left(n - 1\right)/2}
+\end{equation}
+Note that
+\begin{itemize}
+\item The term $n\left(n - 1\right)/2$ is the number of pairs in the observations.
+\item Like with the Pearson correlation coefficient, $-1 \leq \tau \leq 1$.
+\end{itemize}
+An explicit expression for $\tau$ is found by noticing $n_{c} - n_{d} = \sum_{i < j}\operatorname{sign}\left(x_{i} - x_{j}\right)\operatorname{sign}\left(y_{i} - y_{j}\right)$:
+\begin{equation}
+\tau = \dfrac{2}{n\left(n - 1\right)}\sum_{i < j}\operatorname{sign}\left(x_{i} - x_{j}\right)\operatorname{sign}\left(y_{i} - y_{j}\right)
+\end{equation}
+
+\subsubsection{Spearman's Rank Correlation Coefficient}
+
+The Spearman's rank correlation coefficient (also known as the Spearman's $\rho$ coefficient) measures the strength of monotonic (not necessarily linear) relationship between two variables. For pairs of observations $\left(x_{1}, y_{1}\right), \dots, \left(x_{n}, y_{n}\right)$, let the ranked variables $\left(r_{xi}, r_{yi}\right)$ denote the ranking of each observation within their respective datasets (ie. $r_{xi}$ is the ranking of observation $x_{i}$ in the dataset for $x$, with $1$ being the smallest and $n$ being the largest). Assume that all values in the observations are unique. The spearman's $\rho$ coefficient is defined by
+\begin{equation}
+\rho = \dfrac{sr_{xy}}{sr_{x}sr_{y}}
+\end{equation}
+where $sr_{xy}$ is the sample covariance between the ranked observations, while $sr_{x}$ and $sr_{y}$ are the sample standard deviations of the ranked $x$ and $y$ variables respectively. Essentially, the Spearman's $\rho$ coefficient is the Pearson correlation coefficient of the ranked variables.
+
 \subsubsection{Contingency Tables}
 
 A contingency table can be used to present the joint probability distribution (or alternatively, relative frequency or absolute frequency distribution) of two variables, and by taking summations across rows and columns to obtain marginal distributions. The layout of a $2\times 2$ contingency table for two random variables $X$, $Y$ taking on values $\left\{0, 1\right\}$ is given below.
@@ -791,6 +929,36 @@ $X = 1$ & $\operatorname{Pr}\left(X = 1, Y = 0\right)$ & $\operatorname{Pr}\left
  \hline
 \end{tabular}
 \end{table}
+
+\section{Normal Statistics}
+
+\subsection{Normal Sample Mean}
+
+\subsubsection{Independence of Normal Sample Mean and Sample Variance}
+
+Let $Z_{1}, \dots, Z_{n}$ be i.i.d. random variables from the standard normal distribution (ie. mean of $0$ and variance of $1$). The sample mean is defined by
+\begin{equation}
+\overline{Z} = \dfrac{1}{n}\sum_{i = 1}^{n}Z_{i}
+\end{equation}
+We first show that the random variables $Z_{i} - \overline{Z}$ and $\overline{Z}$ are independent for any $i = 1, \dots, n$. Because $Z_{i} - \overline{Z}$ and $\overline{Z}$ are jointly normally distributed, it is enough to show that their covariance is zero. Using the definition of covariance and the fact that $\mathbb{E}\left[Z_{i}\right] = \mathbb{E}\left[\overline{Z}\right] = \mathbb{E}\left[Z_{i} - \overline{Z}\right] = 0$:
+\begin{align}
+\operatorname{Cov}\left(\overline{Z}, Z_{i} - \overline{Z}\right) &= \mathbb{E}\left[\overline{Z}\left(Z_{i} - \overline{Z}\right)\right] - \mathbb{E}\left[\overline{Z}\right]\mathbb{E}\left[Z_{i} - \overline{Z}\right] \\
+&= \mathbb{E}\left[\overline{Z}\left(Z_{i} - \overline{Z}\right)\right] \\
+&= \mathbb{E}\left[\overline{Z}Z_{i} - \overline{Z}^{2}\right] \\
+&= \mathbb{E}\left[\dfrac{1}{n}\sum_{j = 1}^{n}Z_{j}Z_{i} - \dfrac{1}{n^{2}}\left(\sum_{j = 1}^{n}Z_{j}\right)\left(\sum_{k = 1}^{n}Z_{k}\right)\right] \\
+&= \mathbb{E}\left[\dfrac{1}{n}\sum_{j = 1}^{n}Z_{j}Z_{i} - \dfrac{1}{n^{2}}\sum_{j = 1}^{n}\sum_{j = 1}^{n}Z_{j}Z_{k}\right] \\
+&= \dfrac{1}{n}\sum_{j = 1}^{n}\mathbb{E}\left[Z_{j}Z_{i}\right] - \dfrac{1}{n^{2}}\sum_{j = 1}^{n}\sum_{j = 1}^{n}\mathbb{E}\left[Z_{j}Z_{k}\right]
+\end{align}
+Note that for standard normal random variables $\mathbb{E}\left[Z_{j}Z_{i}\right] = \operatorname{Var}\left(Z_{i}\right) = 1$ if $i = j$ and $\mathbb{E}\left[Z_{j}Z_{i}\right] = 0$ otherwise. Also $\mathbb{E}\left[Z_{j}Z_{k}\right] = 1$ if $j = k$ and zero otherwise. Hence
+\begin{align}
+\operatorname{Cov}\left(\overline{Z}, Z_{i} - \overline{Z}\right) &= \dfrac{1}{n} - \dfrac{n}{n^{2}} \\
+&= 0
+\end{align}
+Since the sample variance given by
+\begin{equation}
+S = \frac{1}{n - 1}\sum_{i = 1}^{n}\left(Z_{i} - \overline{Z}\right)^{2}
+\end{equation}
+contains a sum over $Z_{i} - \overline{Z}$ but each $Z_{i} - \overline{Z}$ is independent with $\overline{Z}$, it follows that $\overline{Z}$ is independent with $S$. Then for any i.i.d. normal sample $X_{1}, \dots, X_{n}$ from a population with mean $\mu$ and variance $\sigma^{2}$, the sample mean $\overline{X}$ is independent with the sample variance $S_{X}$ because the same argument as above can be applied to the standardised $\dfrac{X_{i} - \mu}{\sigma}$ and $\dfrac{\overline{X} - \mu}{\sigma}$.
 
 \section{Inferential Statistics}
 
@@ -811,17 +979,38 @@ Hence
 \operatorname{Pr}\left(X - t\sigma \leq \mu \leq X + t\sigma\right) = 1 - \alpha
 \end{equation}
 That is, if we obtain a realisation of $X$ and construct the interval $\left[X - t\sigma, X + t\sigma\right]$, then there is $1 - \alpha$ probability that the interval will contain the population mean $\mu$. Note that this probability refers to before the random variable $X$ is realised. Suppose we have already obtained a realisation (call this $x$), then the matter of whether the interval 
-$\left[x - t\sigma, x + t\sigma\right]$ contains $\mu$ is no longer down to probability (it either will contain $\mu$ or it wont. Hence the interval $\left[x - t\sigma, x + t\sigma\right]$ is considered a $\left(1 - \alpha\right)\times 100\%$ confidence interval.
+$\left[x - t\sigma, x + t\sigma\right]$ contains $\mu$ is no longer down to probability (it either will contain $\mu$ or it wont). Hence the interval $\left[x - t\sigma, x + t\sigma\right]$ is considered a $\left(1 - \alpha\right)\times 100\%$ confidence interval.
 
-\subsection{Hypothesis Tests}
+\subsection{Hypothesis Testing}
 
 \subsubsection{Statistical Power}
 
-If we knew all the information about the population and data-generating process, then in principle it is possible to compute power of a particular test. In special cases (ie. if the distributions meet the right assumptions) we can come up with `nice' expressions for power (like an integral) that a computer can evaluate. However in some cases the distributions might be too `unconventional' that we need to resort to asymptotic theory and/or simulations to make estimates. \\
-
-However, the above assumes we know all about the population and data-generating process, which is highly idealised. If we already knew everything, this would defeat the point of using statistics! Also, if we knew that the null were actually true, then the whole notion of power becomes ill-defined. So in practice, while we don't normally come up with numerical estimates of power, we can still reason about how changing our experimental design will affect power. Eg. we'd think that increasing the sample size or choosing a larger $\alpha$ should increase power.
+If we knew all the information about the population and data-generating process, then in principle it is possible to compute power of a particular test. However, this is highly idealised because if the data-generating process were already known, hypothesis tests would not be needed. Also, if it turns out that the null hypotheis were actually true, then the notion of power becomes ill-defined. Rather, we can still reason about how changing our experimental design will affect power, ie. increasing the sample size or choosing a larger $\alpha$ should increase power.
 
 \section{Simple Linear Regression}
+
+In statistical modelling, we specify that the dependent variable $y$ is a function of the independent variable $x$, given by some relationship
+\begin{equation}
+y = f\left(x\right)
+\end{equation}
+However, the `dependent' variable and `independent' variable are unfortunately named so, and need not have anything to do with the probabilistic definitions of the dependence and independence. The word `independent' is used to refer to the ability of the experimenter to choose the values of $x$ when designing an experiment, although in not all cases will be values of $x$ be freely available to be chosen by the experimenter. There are many synonyms that may be used in place of the dependent and independent variable.
+
+\begin{table}[H]\centering
+\begin{tabular}{|c|c|}
+\hline 
+$y$ & $x$ \\
+\hline 
+\hline 
+Dependent variable & Independent variable \\
+Explained variable & Explanatory variable \\
+Label & Feature \\
+Regressand & Regressor \\
+Output variable & Input variable \\
+Response variable & Covariate \\
+Predicted variable & Control variable \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Confidence Intervals of the Conditional Mean}
 
@@ -840,6 +1029,8 @@ However, the above assumes we know all about the population and data-generating 
 \subsection{Continuous Uniform Distribution}
 
 \subsection{Exponential Distribution}
+
+\subsubsection{Hyperexponential Distribution}
 
 \subsection{Gaussian Distribution}
 
@@ -1036,9 +1227,9 @@ f\left(x\right) = \dfrac{\left(n + 1\right)!}{r!\left(n - r\right)!}x^{r}\left(1
 
 The chi-squared distribution with $k$ degrees of freedom is the distribution of the sum of squares of $k$ standard normal random variables. Thus if $Z_{1}, \dots, Z_{k}$ are standard normal random variables, then
 \begin{equation}
-X = Z_{1}^{2} + \dots + Z_{n}^{2}
+X = Z_{1}^{2} + \dots + Z_{k}^{2}
 \end{equation}
-is chi-squared distributed. Let $f\left(x\right)$ be the probability density function of $X$ which has support $\left[0, \infty\right)$. We can see that the following two integrals should be the same (integrating to $1$):
+is chi-squared distributed with $k$ degrees of freedom. This is commonly denoted $X \sim \chi_{k}^{2}$. Let $f\left(x\right)$ be the probability density function of $X$ which has support $\left[0, \infty\right)$. We can see that the following two integrals should be the same (integrating to $1$):
 \begin{equation}
 \int_{0}^{\infty}f\left(x\right)dx = \int_{x = 0}^{x = \infty}\int_{z_{1}^{2} + \dots + z_{n}^{2} = x}\mathcal{N}\left(z_{1}\right)\dots\mathcal{N}\left(z_{n}\right)dz_{1}\dots dz_{n}
 \end{equation}
@@ -1080,15 +1271,146 @@ f_{R}\left(r\right) = \dfrac{e^{-r^{2}/2}r^{k - 1}}{2^{k/2 - 1}\Gamma\left(k/2\r
 \end{equation}
 on support $r \in \left[0, \infty\right)$.
 
+\subsubsection{Rayleigh Distribution}
+
+The Rayleigh distribution is the chi-squared distribution with 2 degrees of freedom (ie. Euclidean norm of two uncorrelated Gaussian random variables). Its PDF is given by
+\begin{align}
+f_{R}\left(r\right) &= \left.\dfrac{e^{-r^{2}/2}r^{k - 1}}{2^{k/2 - 1}\Gamma\left(k/2\right)}\right|_{k = 2}  \\
+&= re^{r^{2}/2}
+\end{align}
+A scale parameter $\sigma > 0$  can be introduced to represent the standard deviation of the two Gaussian random variables.
+\begin{equation}
+f_{R}\left(r\right) = \dfrac{r}{\sigma^{2}}e^{r^{2}/2\sigma^{2}}
+\end{equation}
+Integrating this, we find that the CDF has expression
+\begin{equation}
+F_{R}\left(r\right) = 1 - e^{r^{2}/2\sigma^{2}}
+\end{equation}
+Note that the the PDF of the Rayleigh distribution with $\sigma = 1$ is the vertical reflection (and also the horizontal reflection) of the derivative of the standard Gaussian PDF. That is,
+\begin{equation}
+\left.f_{R}\left(r\right)\right|_{\sigma = 1} = -\left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = r} = \left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = -r}
+\end{equation}
+
 \subsection{$F$-Distribution}
 
-\subsection{Student $t$'s Distribution}
+\subsection{Student's $t$ Distribution}
+
+A Student $t$'s distribution (or simply $t$ distribution) with $k = n - 1$ degrees of freedom can be defined as the distribution of the random variable
+\begin{equation}
+T = \dfrac{\overline{X} - \mu}{S/\sqrt{n}}
+\end{equation}
+where $\overline{X}$ is the sample mean from i.i.d. $X_{1}, \dots, X_{n} \sim \mathcal{N}\left(\mu, \sigma^{2}\right)$ and
+\begin{equation}
+S = \sqrt{\dfrac{\sum_{i = 1}^{n}\left(X_{i} - \overline{X}\right)^{2}}{n - 1}}
+\end{equation}
+is the sample standard deviation. To derive the density of the $t$ distribution, we first show how the $t$ distribution relates to the chi-squared and the normal distribution. The sum of squares of the standardised random variables is given by
+\begin{equation}
+\sum_{i = 1}^{n}Z_{i}^{2} = \sum_{i = 1}^{n}\left(\dfrac{X_{i} - \mu}{\sigma}\right)^{2}
+\end{equation}
+We can make the following rearrangement:
+\begin{align}
+\sum_{i = 1}^{n}\left(X_{i} - \mu\right)^{2} &= \sum_{i = 1}^{n}\left(X_{i} -  \overline{X} + \overline{X} - \mu\right)^{2} \\
+&= \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}+2\sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)\left(\overline{X}-\mu\right)+\sum_{i=1}^{n}\left(\overline{X}-\mu\right)^{2} \\
+&= \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}+2\left(\overline{X}-\mu\right)\green\cancelto{0}{\black\sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)}\black+\sum_{i=1}^{n}\left(\overline{X}-\mu\right)^{2} \\
+&= \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}+n\left(\overline{X}-\mu\right)^{2}
+\end{align}
+Hence
+\begin{align}
+\sum_{i = 1}^{n}\left(\dfrac{X_{i} - \mu}{\sigma}\right)^{2} &= \sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}+n\left(\dfrac{\overline{X}-\mu}{\sigma}\right)^{2} \\
+&= \sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}+\left(\sqrt{n}\dfrac{\overline{X}-\mu}{\sigma}\right)^{2}
+\end{align}
+We reason that as the chi-squared distribution is the sum i.i.d. standard normal random variables, if $Q_{1}\sim\chi_{n_{1}}^{2}$ and $Q_{2}\sim\chi_{n_{2}}^{2}$, then $Q_{3} = Q_{1} + Q_{2} \sim \chi_{n_{1} + n_{2}}^{2}$. Therefore if given some $Q_{3}$ and $Q_{2}$, we deduce that there exists a random variable $Q_{1} \sim \chi_{n_{1}}^{2}$ independent of $Q_{2}$. Notice that the left hand side of the expression above means $\sum_{i = 1}^{n}Z_{i}^{2} \sim \chi_{n}^{2}$. Further note that $\sqrt{n}\dfrac{\overline{X}-\mu}{\sigma} \sim \mathcal{N}\left(0, 1\right)$. Then the term $\sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}$ should be chi-squared distributed with $k = n - 1$ degrees of freedom. Define the random variable
+\begin{equation}
+V = \sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}
+\end{equation}
+and notice that
+\begin{equation}
+V = k\dfrac{S^{2}}{\sigma^{2}}
+\end{equation}
+Hence rearranging $T$ yields
+\begin{align}
+T &= \dfrac{\overline{X} - \mu}{S/\sqrt{n}} \\
+&= \dfrac{\sqrt{n}\left(\overline{X} - \mu\right)}{\sigma\sqrt{V/k}} \\
+&= \dfrac{Z}{\sqrt{V/k}}
+\end{align}
+We derive the $t$ distribution by deriving the distribution of $T = \dfrac{Z}{\sqrt{V/k}}$ where $Z\sim\mathcal{N}\left(0, 1\right)$ and $V\sim\chi_{k}^{2}$ independent of $Z$. In following the same approach taken to derive the ratio distribution, the density of $T$ can be expressed as
+\begin{align}
+f_{T}\left(t\right) &= \int\int_{\left\{ z,v:z/\sqrt{v/k}=t\right\} }f_{Z}\left(z\right)f_{V}\left(v\right)dzdv \\
+&= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f_{Z}\left(z\right)f_{V}\left(v\right)\delta\left(t-\dfrac{z}{\sqrt{v/k}}\right)dzdv
+\end{align}
+where $\delta\left(\cdot\right)$ is the Dirac delta function and the densities $f_{Z}\left(z\right)$ and $f_{V}\left(v\right)$ are respectively
+\begin{gather}
+f_{Z}\left(z\right)=\dfrac{e^{-z^{2}/2}}{\sqrt{2\pi}} \\
+f_{V}\left(v\right)=\dfrac{e^{-v/2}v^{k/2-1}}{2^{k/2}\Gamma\left(k/2\right)}
+\end{gather}
+The support of $f_{V}\left(v\right)$ is $\left[0, \infty\right)$, so
+\begin{equation}
+f_{T}\left(t\right)=\int_{0}^{\infty}\int_{-\infty}^{\infty}f_{Z}\left(z\right)f_{V}\left(v\right)\delta\left(t-\dfrac{z}{\sqrt{v/k}}\right)dzdv
+\end{equation}
+Make the substitution $y = \dfrac{z}{\sqrt{v/k}}$, ie. $z = y\sqrt{v/k}$ and $dz = \sqrt{v/k}dy$.
+\begin{align}
+f_{T}\left(t\right) &= \int_{0}^{\infty}\int_{-\infty}^{\infty}f_{Z}\left(y\sqrt{\dfrac{v}{k}}\right)f_{V}\left(v\right)\delta\left(t-y\right)\sqrt{\dfrac{v}{k}}dydv \\
+&= \int_{0}^{\infty}\sqrt{\dfrac{v}{k}}f_{V}\left(v\right)\int_{-\infty}^{\infty}f_{Z}\left(y\sqrt{\dfrac{v}{k}}\right)\delta\left(t-y\right)dydv
+\end{align}
+Evaluating the inner integral gives
+\begin{equation}
+\int_{-\infty}^{\infty}f_{Z}\left(y\sqrt{\dfrac{v}{k}}\right)\delta\left(t-y\right)dy=f_{Z}\left(t\sqrt{\dfrac{v}{k}}\right)
+\end{equation}
+Hence
+\begin{equation}
+f_{T}\left(t\right)=\int_{0}^{\infty}\sqrt{\dfrac{v}{k}}f_{V}\left(v\right)f_{Z}\left(t\sqrt{\dfrac{v}{k}}\right)dv
+\end{equation}
+Note that $f_{Z}\left(t\sqrt{\dfrac{v}{k}}\right)=\dfrac{\exp\left(-\frac{t^{2}v}{2k}\right)}{\sqrt{2\pi}}$. Substituting the expressions for the densities,
+\begin{align}
+f_{T}\left(t\right) &= \dfrac{1}{\sqrt{k}}\dfrac{1}{\sqrt{2\pi}}\dfrac{1}{2^{k/2}\Gamma\left(k/2\right)}\int_{0}^{\infty}\sqrt{v}\cdot v^{k/2-1}\cdot e^{-v/2}\cdot\exp\left(-\dfrac{t^{2}v}{2k}\right)dv \\
+&= \dfrac{1}{\sqrt{2\pi k}2^{k/2}\Gamma\left(k/2\right)}\int_{0}^{\infty}v^{\frac{k-1}{2}}\cdot\exp\left[-\left(1+\dfrac{t^{2}}{k}\right)\dfrac{v}{2}\right]dv
+\end{align}
+Make the substitution $u = \left(1+\dfrac{t^{2}}{k}\right)\dfrac{v}{2}$ so $dv = 2\left(1+\dfrac{t^{2}}{k}\right)^{-1}du$:
+\begin{align}
+f_{T}\left(t\right) &= \dfrac{1}{\sqrt{\pi k}\Gamma\left(k/2\right)}\dfrac{1}{2^{\frac{k+1}{2}}}\int_{0}^{\infty}\left[2u\left(1+\dfrac{t^{2}}{k}\right)^{-1}\right]^{\frac{k-1}{2}}\cdot e^{-u}\cdot2\left(1+\dfrac{t^{2}}{k}\right)^{-1}du \\
+&= \dfrac{1}{\sqrt{\pi k}\Gamma\left(k/2\right)}\dfrac{2^{\frac{k-1}{2}}\cdot2}{2^{\frac{k+1}{2}}}\left(1+\dfrac{t^{2}}{k}\right)^{\frac{-k+1}{2}-1}\int_{0}^{\infty}u^{\frac{k+1}{2}-1}\cdot e^{-u}du
+\end{align}
+Notice the integral is the Gamma function of $\dfrac{k+1}{2}$ so
+\begin{equation}
+f_{T}\left(t\right)=\dfrac{\left(1+t^{2}/k\right)^{-\frac{\left(k+1\right)}{2}}}{\sqrt{\pi k}\Gamma\left(k/2\right)}\Gamma\left(\dfrac{k+1}{2}\right)
+\end{equation}
+Applying the property of the Beta function, $\operatorname{B}\left(\dfrac{1}{2}, \dfrac{k}{2}\right) = \dfrac{\Gamma\left(1/2\right)\Gamma\left(k/2\right)}{\Gamma\left(\frac{k+1}{2}\right)}$. The term $\Gamma\left(1/2\right)$ evaluates to $\sqrt{\pi}$, so this means the density of the $t$-distribution can be alternatively expressed as
+\begin{equation}
+f_{T}\left(t\right)= \dfrac{1}{\sqrt{k}\operatorname{B}\left(1/2, k/2\right)}\left(1+\dfrac{t^{2}}{k}\right)^{-\frac{\left(k+1\right)}{2}}
+\end{equation}
 
 \subsection{Pareto Distribution}
+
+\subsubsection{Lomax Distribution}
 
 \subsection{Weibull Distribution}
 
 \subsection{Gumbel Distribution}
+
+The Gumbel distribution has support $\mathbb{R}$, scale parameter $\beta > 0$ and location parameter $\mu$, with cumulative distribution function
+\begin{equation}
+F\left(x\right) = \exp\left(-e^{-\frac{x - \mu}{\beta}}\right)
+\end{equation}
+If can be verified that $\lim_{x\to -\infty}F\left(x\right) = 0$ and $\lim_{x\to \infty}F\left(x\right) = 1$. The probability density function is found by the chain rule:
+\begin{align}
+f\left(x\right) &= \dfrac{dF\left(x\right)}{dx} \\
+&= \dfrac{1}{\beta}e^{-\frac{x - \mu}{\beta}}\exp\left(-e^{-\frac{x - \mu}{\beta}}\right) \\
+&= \dfrac{1}{\beta}\exp\left[-\left(\frac{x - \mu}{\beta} + e^{-\frac{x - \mu}{\beta}}\right)\right]
+\end{align}
+The mode of the distribution can be found by taking another derivative.
+\begin{align}
+f'\left(x\right) &= \dfrac{1}{\beta}\left[-\left(\dfrac{1}{\beta} - \dfrac{1}{\beta}e^{-\frac{x - \mu}{\beta}}\right)\exp\left[-\left(\frac{x - \mu}{\beta} + e^{-\frac{x - \mu}{\beta}}\right)\right]\right] \\
+&= -\left(\dfrac{1}{\beta} - \dfrac{1}{\beta}e^{-\frac{x - \mu}{\beta}}\right)f\left(x\right)
+\end{align}
+The mode $\breve{x}$ is found at $f\left(\breve{x}\right) = 0$ which gives
+\begin{equation}
+\dfrac{1}{\beta} = \dfrac{1}{\beta}e^{-\frac{\breve{x} - \mu}{\beta}}
+\end{equation}
+Hence the mode $\breve{x} = \mu$.
+
+\subsection{Logistic Distribution}
+
+\subsubsection{Fisk Distribution}
 
 \section{Families of Discrete Univariate Probability Distributions}
 
@@ -1142,24 +1464,28 @@ which can be used as the moment estimators.
 \section{Random Vectors}
 
 \subsection{Covariance Matrices}
-The covariance matrix $C$ of a random vector $\mathbf{X}$ can be defined by
+The covariance matrix $\mathbf{C}$ of a random vector $\mathbf{X}$ can be defined by
 \begin{equation}
-C = \mathbb{E}\left[\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\right]
+\mathbf{C} = \mathbb{E}\left[\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\right]
 \end{equation}
 Covariance matrices of real random vectors are always positive semi-definite. We can show this by considering an arbitrary real vector $\mathbf{u}$. We have
 \begin{align}
-\mathbf{u}^{\top}C\mathbf{u} &= \mathbf{u}^{\top}\mathbb{E}\left[\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\right]\mathbf{u} \\
+\mathbf{u}^{\top}\mathbf{C}\mathbf{u} &= \mathbf{u}^{\top}\mathbb{E}\left[\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\right]\mathbf{u} \\
 &= \mathbb{E}\left[\mathbf{u}^{\top}\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\mathbf{u}\right]
 \end{align}
 Let $s := \mathbf{u}^{\top}\left(\mathbf{X} - \bar{\mathbf{X}}\right)$ be a zero-mean scalar random variable with variance $\sigma^{2} \geq 0$. Hence
 \begin{align}
-\mathbf{u}^{\top}C\mathbf{u} &= \mathbb{E}\left[ss^{\top}\right] \\
+\mathbf{u}^{\top}\mathbf{C}\mathbf{u} &= \mathbb{E}\left[ss^{\top}\right] \\
 &= \mathbb{E}\left[\left(s - \mathbb{E}\left[s\right]\right)^{2}\right] \\
 &= \mathbb{E}\left[s^{2}\right] \\
 &= \sigma^{2} \\
 &\geq 0
 \end{align}
-Therefore $C$ satisfies the property of a positive semi-definite matrix.
+Therefore $\mathbf{C}$ satisfies the property of a positive semi-definite matrix.
+
+\subsubsection{Precision Matrix}
+
+The precision matrix of a random vector $\mathbf{X}$ is defined as the inverse of the covariance matrix, ie. $\mathbf{C}^{-1}$.
 
 \section{Multivariate Probability Distributions}
 
@@ -1224,6 +1550,8 @@ and in the independent case
 \operatorname{Pr}\left(W = w\right) = \sum_{y = -\infty}^{\infty}\operatorname{Pr}\left(X = w - y\right)\operatorname{Pr}\left(Y = y\right)
 \end{gather}
 
+\subsubsection{Difference of Random Variables}
+
 Consider the difference of two continuous random variables $W = X - Y$. Analogously (by making substitutions $x = w + y$ or $y = -w + x$) we can show
 \begin{gather}
 f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, -w + x\right)dx \\
@@ -1238,7 +1566,7 @@ f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(w + y\right)f_{Y}\left(y
 If $X$ and $Y$ are independent and identically distributed continuous random variables, than the distribution of their difference $W = X - Y$ is symmetric.
 \end{theorem}
 \begin{proof}
-Note that $W$ will necessarily have a mean of zero (assuming $X$ and $Y$ have finite mean). It suffices to show $f_{W}\left(w\right) = f_{W}\left(-w\right)$. Using the formulas above in the independent case,
+Note that $W$ will necessarily have a mean of zero (assuming $X$ and $Y$ have finite mean). If the mean of $W$ is not defined, its probability distribution will still have a `symmetry point' of zero. It suffices to show $f_{W}\left(w\right) = f_{W}\left(-w\right)$. Using the formulas above in the independent case,
 \begin{equation}
 f_{W}\left(-w\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(w + x\right)dx
 \end{equation}
@@ -1252,11 +1580,15 @@ f_{W}\left(-w\right) = \int_{-\infty}^{\infty}f_{Y}\left(y\right)f_{X}\left(w + 
 \end{equation}
 \end{proof}
 
+\subsubsection{Stable Distributions}
+
+A family of distributions is said to be stable if a linear combination of two random variables from that family also has a distribution in that family. Examples of stable distributions are the Gaussian and Cauchy distributions.
+
 \subsection{Strictly Monotonic Transformations}
 
 Let $X$ be a random variable with probability density $f_{X}\left(x\right)$, and let $A$ be the set $A = \left\{x \in\mathbb{R}\middle| f_{X}\left(x\right) > 0\right\}$. Suppose that $Y$ is a transformation of $X$ given by $Y = g\left(X\right)$ such that $g$ is strictly monotonic (either increasing or decreasing) over $A$. We derive the probability density of $Y$, denoted $f_{Y}\left(y\right)$, in terms of $f_{X}\left(x\right)$ and $g$. \\
 
-First assume $g$ is monotonically increasing, so $g^{-1}$ will also be monotonically increasing. The cumulative distribution function of $Y$ is given by
+First assume $g$ is monotonically increasing, so $g^{-1}\left(\cdot\right)$ will also be monotonically increasing. The cumulative distribution function of $Y$ is given by
 \begin{align}
 F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
 &= \operatorname{Pr}\left(g\left(X\right) \leq y\right) \\
@@ -1273,7 +1605,7 @@ Using the chain rule,
 f_{Y}\left(y\right) &= \dfrac{d}{dx}F_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right) \\
 &= f_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right)
 \end{align}
-Now assume $g$ is monotonically decreasing, so $g^{-1}$ is also monotonically decreasing and has the ability to flip an inequality sign. Similar to before, we can write
+Now assume $g$ is monotonically decreasing, so $g^{-1}\left(\cdot\right)$ is also monotonically decreasing and has the ability to flip an inequality sign. Similar to before, we can write
 \begin{align}
 F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
 &= \operatorname{Pr}\left(g\left(X\right) \leq y\right) \\
@@ -1287,7 +1619,7 @@ f_{Y}\left(y\right) &= \dfrac{d}{dy}F_{Y}\left(y\right) \\
 &= -\dfrac{d}{dx}F_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right) \\
 &= -f_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right)
 \end{align}
-Since by monotonically decreasing $g^{-1}$, we have $\dfrac{d}{dy}g^{-1}\left(y\right) < 0$ hence this density is positive. Combining the two cases, we get
+Since by monotonically decreasing $g^{-1}\left(\cdot\right)$, we have $\dfrac{d}{dy}g^{-1}\left(y\right) < 0$ hence this density is positive. Combining the two cases, we get
 \begin{equation}
 f_{Y}\left(y\right) =  f_{X}\left(g^{-1}\left(y\right)\right)\cdot\left|\dfrac{d}{dy}g^{-1}\left(y\right)\right|
 \end{equation}
@@ -1322,6 +1654,94 @@ Taking the variance of both sides of the expansion gives
 \end{align}
 
 \subsection{Independence of Transformed Random Variables}
+
+\subsection{Products of Random Variables}
+
+The product distribution of random variables $X$ and $Y$ is the distribution of $Z = XY$. If $X$ and $Y$ are independent and have probability density functions $f_{X}\left(x\right)$ and $f_{Y}\left(y\right)$ respectively, then
+\begin{equation}
+f_{Z}\left(z\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\dfrac{1}{\left|x\right|}dx
+\end{equation}
+\begin{proof}
+We can express the probability density of $Z$ as the integration of the joint density of $X$ and $Y$ over the region where $XY = Z$.
+\begin{equation}
+f_{Z}\left(z\right) = \int\int_{\left\{x, y: xy = z\right\}}f_{X}\left(x\right)f_{Y}\left(y\right)dydx
+\end{equation}
+Make the substitution $y = z/x$ and rewrite the integral using the Dirac delta function:
+\begin{align}
+f_{Z}\left(z\right) &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\delta\left(xy - z\right)dydx \\
+&= \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\int_{-\infty}^{\infty}\delta\left(xy - z\right)dydx
+\end{align}
+Note the scaling property of the Dirac delta function, that $\delta\left(xy\right) = \dfrac{\delta\left(y\right)}{\left|x\right|}$ (this is to keep the property that $\int_{-\infty}^{\infty}\left|x\right|\delta\left(xy\right)dy = \int_{-\infty}^{\infty}\delta\left(y\right)dy = 1$). Hence
+\begin{equation}
+\int_{-\infty}^{\infty}\delta\left(xy - z\right)dy = \dfrac{1}{\left|x\right|}
+\end{equation}
+and
+\begin{equation}
+f_{Z}\left(z\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\dfrac{1}{\left|x\right|}dx
+\end{equation}
+\end{proof}
+
+Furthermore, for independent $X$ and $Y$, the expectation of $Z = XY$ is
+\begin{equation}
+\mathbb{E}\left[XY\right] = \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+\end{equation}
+\begin{proof}
+Using the definition of covariance,
+\begin{equation}
+\operatorname{Cov}\left(X, Y\right) = \mathbb{E}\left[XY\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+\end{equation}
+Then apply $\operatorname{Cov}\left(X, Y\right) = 0$ due to independence.
+\end{proof}
+
+If $X$ and $Y$ are not independent but have the joint density function $f_{XY}\left(x, y\right)$, then
+\begin{equation}
+f_{Z}\left(z\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, z/x\right)\dfrac{1}{\left|x\right|}dx
+\end{equation}
+
+\subsection{Ratios of Random Variables}
+The ratio distribution of random variables $X$ and $Y$ is the distribution of $W = \dfrac{X}{Y}$. If $X$ and $Y$ are independent and have probability density functions $f_{X}\left(x\right)$ and $f_{Y}\left(y\right)$ respectively, then
+\begin{equation}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\left|y\right|dy
+\end{equation}
+The proof is similar to the derivation of the product distribution.
+\begin{proof}
+We can express the probability density of $W$ as the integration of the joint density of $X$ and $Y$ over the region where $X/Y = W$.
+\begin{equation}
+f_{W}\left(w\right) = \int\int_{\left\{x, y: x/y = w\right\}}f_{X}\left(x\right)f_{Y}\left(y\right)dxdy
+\end{equation}
+Make the substitution $x = wy$ and rewrite the integral using the Dirac delta function:
+\begin{align}
+f_{W}\left(w\right) &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\delta\left(x/y - w\right)dydx \\
+&= \int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\int_{-\infty}^{\infty}\delta\left(x/y - w\right)dxdy
+\end{align}
+By the scaling property of the Dirac delta function,
+\begin{equation}
+\int_{-\infty}^{\infty}\delta\left(x/y - z\right)dx = \left|y\right|
+\end{equation}
+Hence
+\begin{equation}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\left|y\right|dy
+\end{equation}
+\end{proof}
+If $X$ and $Y$ are not independent but have the joint density function $f_{XY}\left(x, y\right)$, then
+\begin{equation}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(wy, y\right)\dfrac{1}{\left|y\right|}dy
+\end{equation}
+
+The mean of the ratio distribution is not as straightforward, but can be approximated using Taylor expansions.
+
+
+\subsection{Decompositions of Random Variables}
+
+The distribution of random variable $Z$ is said to be decomposable if $Z$ can be expressed as the sum of non-constant independent random variables $X$ and $Y$, ie. $Z = X + Y$. If it is not possible, the distribution of $Z$ is said to be indecomposable.
+
+\subsubsection{Divisibility}
+
+The distribution of random variable $Z$ is said to be divisible if $Z$ can be expressed as the sum of independent and identically distributed random variables $X_{1}$ and $X_{2}$. If $Z$ can be expressed as a sum of arbitrarily many i.i.d. random variables, then the distribution of $Z$ is said to be infinitely divisible.
+
+\subsubsection{Cram\'{e}r's Decomposition Theorem}
+
+Cram\'{e}r's decomposition theorem states that if $X$ and $Y$ are independent real-valued random variables whose sum $X + Y$ is a normal random variable, then $X$ and $Y$ must also be normal. By induction, if the sum of finitely many independent random variables is normal, then the summands must be normal. 
 
 \section{Inequalities in Probability}
 
@@ -1683,6 +2103,8 @@ so the event $\left\{X_{n} = 1\right\}$ occurs finitely many times, meaning $\op
 \end{equation}
 because there does not exist a random variable $Y$ with finite expectation such that $\left|X_{n}\right| < Y$ for all $n$.
 
+\section{Branching Processes}
+
 \chapter{Intermediate Statistics}
 
 \section{Least Squares}
@@ -1715,13 +2137,103 @@ because there does not exist a random variable $Y$ with finite expectation such 
 
 \section{Maximum Likelihood Estimation}
 
+\subsection{Log Concavity of Likelihoods}
+
+Sometimes, it is useful to know whether the maximum likelihood problem has a unique solution. Establishing log concavity of the likelihood function can be used to determine this. A function $f: \mathbb{R}^{n}\to\mathbb{R}$ is said to be log concave if $f\left(x\right) > 0$ and $\log f\left(x\right)$ is concave in $x$. This implies $-\log f\left(x\right)$ is convex in $x$. Note that in the context of maximum likelihood, we look for log concavity of the likelihood function in the parameters. A necessary and sufficient condition for log concavity can be obtained by the second derivative of $g\left(x\right) := \log f\left(x\right)$. In the simple case $x\in\mathbb{R}$ and assuming $f\left(x\right)$ is twice differentiable:
+\begin{equation}
+g'\left(x\right) = \dfrac{f'\left(x\right)}{f\left(x\right)}
+\end{equation}
+Using the product rule:
+\begin{align}
+g''\left(x\right) &= -\left[\dfrac{f'\left(x\right)}{f\left(x\right)}\right]^{2} + \dfrac{f''\left(x\right)}{f\left(x\right)} \\
+&= \dfrac{f''\left(x\right)f\left(x\right) - f'\left(x\right)^{2}}{f\left(x\right)^{2}}
+\end{align}
+The condition for concavity of $g\left(x\right)$ is $g''\left(x\right) \leq 0$, so this gives the condition for log concavity of $f\left(x\right)$ as
+\begin{equation}
+f'\left(x\right)^{2} \geq f''\left(x\right)f\left(x\right)
+\end{equation}
+while $f'\left(x\right)^{2} > f''\left(x\right)f\left(x\right)$ for strict log concavity. Another useful result is that log concavity of the cumulative distribution function can be established from log concavity of the density function. This can be useful in cases where observations consist of `greater than' or `less than' some parameter.
+\begin{theorem}
+The cumulative distribution function of a log concave differentiable probability density function is also log concave.
+\end{theorem}
+\begin{proof}
+If $f\left(x\right)$ is a log concave density then $h\left(x\right) := -\log f\left(x\right)$ is convex. The cumulative distribution is
+\begin{align}
+F\left(x\right) &= \int_{-\infty}^{x}f\left(t\right)dt \\
+&= \int_{-\infty}^{x}e^{-h\left(t\right)}dt
+\end{align}
+The derivatives of $F\left(x\right)$ are
+\begin{align}
+F'\left(x\right) &= f\left(x\right) \\
+&= e^{-h\left(x\right)}
+\end{align}
+and
+\begin{align}
+F''\left(x\right) &= -h'\left(x\right)e^{-h\left(x\right)} \\
+&= -h'\left(x\right)f\left(x\right)
+\end{align}
+Consider the case $h'\left(x\right) \geq 0$. Then because $F\left(x\right) > 0$ and $f\left(x\right) > 0$:
+\begin{equation}
+F\left(x\right)F''\left(x\right) = -F\left(x\right)h'\left(x\right)f\left(x\right) \leq 0
+\end{equation}
+and
+\begin{equation}
+F'\left(x\right)^{2} \geq 0
+\end{equation}
+which implies $F'\left(x\right)^{2} \geq F\left(x\right)F''\left(x\right)$, satisfying the log concavity condition. Now consider the case $h'\left(x\right) < 0$. By the property that tangents of a convex function never lie above the graph, we get
+\begin{equation}
+h\left(t\right) \geq h\left(x\right) + h'\left(x\right)\left(t - x\right)
+\end{equation}
+Hence
+\begin{equation}
+\int_{-\infty}^{x}e^{-h\left(t\right)}dt \leq \int_{-\infty}^{x}e^{-h\left(x\right) - h'\left(x\right)\left(t - x\right)
+}dt
+\end{equation}
+We show for the right hand side:
+\begin{align}
+\int_{-\infty}^{x}e^{-h\left(x\right) - h'\left(x\right)\left(t - x\right)
+}dt &= e^{-h\left(x\right) + xh'\left(x\right)}\int_{-\infty}^{x}e^{-th'\left(x\right)}dt \\
+&= e^{-h\left(x\right) + xh'\left(x\right)}\dfrac{e^{-th'\left(x\right)}}{h'\left(x\right)} \\
+&= \dfrac{e^{-h\left(x\right)}}{h'\left(x\right)}
+\end{align}
+Multiplying both sides of the inequality by $-h'\left(x\right)e^{-h\left(x\right)}$:
+\begin{equation}
+-h'\left(x\right)e^{-h\left(x\right)}\int_{-\infty}^{x}e^{-h\left(t\right)}dt \leq e^{-2h\left(x\right)}
+\end{equation}
+which is the same as the log concavity condition:
+\begin{equation}
+F''\left(x\right)F\left(x\right) \leq F\left(x\right)^{2}
+\end{equation}
+\end{proof}
+
+\subsection{Expectation Maximisation Algorithm}
+
+The expectation maximisation (EM) algorithm is suited to more difficult maximum likelihood problems with latent (unobserved values). Assume that the parametric density of complete data $X$ has density $p\left(x\middle|\theta\right)$, while observed data $Y$ has parametric density $p\left(y\middle|\theta\right)$, with the goal of finding the maximum likelihood estimate:
+\begin{equation}
+\hat{\theta}_{\mathrm{MLE}} = \argmax_{\theta\in\Theta}\log p\left(y\middle|\theta\right)
+\end{equation}
+Starting from some initial guess $\hat{\theta}_{0}$ of $\theta$ and until some termination condition, the $k$\textsuperscript{th} iteration of the algorithm consists of the following steps \cite{Gupta2010}:
+\begin{enumerate}
+\item Formulate the conditional probability distribution $p\left(x\middle|y, \hat{\theta}_{k}\right)$ for $X$.
+\item Calculate the conditional expected log-likelihood:
+\begin{align}
+Q\left(\theta;\hat{\theta}_{k}\right) &= \int\log p\left(x\middle|\theta\right)p\left(x\middle|y, \hat{\theta}_{k}\right)dx \\
+&= \mathbb{E}_{X}\left[\log p\left(X\middle|\theta\right) \middle| Y, \hat{\theta}_{k}\right]
+\end{align}
+\item Find
+\begin{equation}
+\hat{\theta}_{k + 1} = \argmax_{\theta\in\Theta}Q\left(\theta;\hat{\theta}_{k}\right) 
+\end{equation}
+\end{enumerate}
+Intuitively, the EM algorithm can be thought to be iteratively making guesses $X$, then this can be used to make a guess about $\theta$, which can be used to make a better guess about $X$, and so on.
+
 \subsection{M-estimators}
 
 M-estimators generalise maximum likelihood estimators. M-estimators are a class of estimators that are obtained by minimisation of a negative sum of logs (of which maximum likelihood estimation is a special case).
 
 \subsection{Extremum Estimators}
 
-Extremum estimators are a class of estimators which further generalise M-estimators. Extremum estimators are obtained by the minimisation of some objective function which depends on the data.
+Extremum estimators are a class of estimators which further generalise M-estimators. Extremum estimators are obtained by the minimisation (or maximisation) of some objective function which depends on the data.
 
 \section{Fisher Information}
 
@@ -1863,23 +2375,23 @@ is said to be efficient. This implies that it is an unbiased estimator with the 
 
 When the response variable $Y$ can take on a $0$ or $1$ (ie. success of fail), the probability that the response equals $1$ can be modelled using logistic regression. For a parameter vector $\beta$ and predictors $x$, this probability takes the form
 \begin{equation}
-P\left(Y = 1\middle| X = x\right) = \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}
+\operatorname{Pr}\left(Y = 1\middle| X = x\right) = \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}
 \end{equation}
 An alternative form is
 \begin{equation}
-P\left(Y = 1\middle| X = x\right) = \dfrac{\exp\left(\beta^{\top}x\right)}{\exp\left(\beta^{\top}x\right) + 1}
+\operatorname{Pr}\left(Y = 1\middle| X = x\right) = \dfrac{\exp\left(\beta^{\top}x\right)}{\exp\left(\beta^{\top}x\right) + 1}
 \end{equation}
-Notice that this probability will be bounded between $0$ and $1$. Denoting $p\left(x\right) := P\left(Y = 1\middle| X = x\right)$, we can rearrange for a `linear form', given as
+Notice that this probability will be bounded between $0$ and $1$. Denoting $p\left(x\right) := \operatorname{Pr}\left(Y = 1\middle| X = x\right)$, we can rearrange for a `linear form', given as
 \begin{equation}
 \ln\left(\dfrac{p\left(x\right)}{1 - p\left(x\right)}\right) = \beta^{\top}x
 \end{equation}
 To fit a logistic regression to some data, we first construct the likelihood (assuming independent samples) as
 \begin{align}
-L\left(\beta\middle|x\right) &= P\left(Y\middle|X = x, \beta\right) \\
-&= \prod_{i = 1}^{n} P\left(y_{i}\middle|X = x_{i}, \beta\right) \\
+L\left(\beta\middle|x\right) &= \operatorname{Pr}\left(Y\middle|X = x, \beta\right) \\
+&= \prod_{i = 1}^{n} \operatorname{Pr}\left(y_{i}\middle|X = x_{i}, \beta\right) \\
 &= \prod_{i = 1}^{n} \left(\dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)^{y_{i}}\left(1 - \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)^{1 - y_{i}}
 \end{align}
-Note that since $y_{i}$ can only be $0$ or $1$, each multiplicand `selects' either the probability of occurrence of $P\left(Y = 1\middle|X = x, \beta\right)$ if $y_{i} = 1$ or $P\left(Y = 0\middle|X = x, \beta\right)$ if $y_{i} = 0$. The log-likelihood is
+Note that since $y_{i}$ can only be $0$ or $1$, each multiplicand `selects' either the probability of occurrence of $\operatorname{Pr}\left(Y = 1\middle|X = x, \beta\right)$ if $y_{i} = 1$ or $\operatorname{Pr}\left(Y = 0\middle|X = x, \beta\right)$ if $y_{i} = 0$. The log-likelihood is
 \begin{equation}
 \log L\left(\beta\middle|x\right) = \sum_{i = 1}^{n} y_{i}\log\left(\dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right) + \sum_{i = 1}^{n}\left(1 - y_{i}\right)\log\left(1 - \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)
 \end{equation}
@@ -1893,6 +2405,8 @@ Hence the maximum-likelihood estimate is the solution to
 \subsection{Multinomial Logistic Regression}
 
 \section{Gauss-Markov Theorem}
+
+\section{Maximum Spacing Estimation}
 
 \chapter{Advanced Probability}
 
@@ -1964,6 +2478,70 @@ Given an positive integer valued random variable $N$ and a sequence of i.i.d. ra
 \begin{equation}
 R = X_{1} +  X_{2} + \dots + X_{N}
 \end{equation}
+\begin{theorem}
+If each term $X$ in a random sum has moment generating function $\phi_{X}\left(s\right)$ and the number of terms $N$ has moment generating function $\phi_{N}\left(s\right)$ which is independent of all the terms, then the random sum $R$ has moment generating function
+\begin{equation}
+\phi_{R}\left(s\right) = \phi_{N}\left(\ln \phi_{X}\left(s\right) \right)
+\end{equation}
+\end{theorem}
+\begin{proof}
+The MGF of $R$ is given by $\phi_{R}\left(s\right) = \mathbb{E}\left[e^{sR}\right]$. Using the law of iterated expectations, this is then
+\begin{equation}
+\phi_{R}\left(s\right) = \sum_{n = 0}^{\infty}\mathbb{E}\left[e^{s\left(X_{1} + \dots + X_{n}\right)}\middle|N = n\right]\operatorname{Pr}\left(N = n\right)
+\end{equation}
+By independence of $N$ from $X_{1}, \dots, X_{N}$, 
+\begin{align}
+\phi_{R}\left(s\right) &= \sum_{n = 0}^{\infty}\mathbb{E}\left[e^{s\left(X_{1} + \dots + X_{n}\right)}\right]\operatorname{Pr}\left(N = n\right) \\
+&= \sum_{n = 0}^{\infty}\mathbb{E}\left[e^{sX_{1}}\right]\times\dots\times\mathbb{E}\left[e^{sX_{n}}\right]\operatorname{Pr}\left(N = n\right) \\
+&= \sum_{n = 0}^{\infty}\left[\phi_{X}\left(x\right)\right]^{n}\operatorname{Pr}\left(N = n\right)
+\end{align}
+Note that we can write $\left[\phi_{X}\left(x\right)\right]^{n} = \left[\exp\left(\ln\phi_{X}\left(x\right)\right)\right]^{n} = \exp\left(\ln\phi_{X}\left(s\right)\cdot n\right)$. Hence
+\begin{equation}
+\phi_{R}\left(s\right) = \sum_{n = 0}^{\infty}\exp\left(\ln\phi_{X}\left(s\right)\cdot n\right)\operatorname{Pr}\left(N = n\right)
+\end{equation}
+This is just the MGF of $N$ evaluated at $\ln\phi_{X}\left(s\right)$. Therefore
+\begin{equation}
+\phi_{R}\left(s\right) = \phi_{N}\left(\ln \phi_{X}\left(s\right) \right)
+\end{equation}
+\end{proof}
+
+\begin{theorem}
+For the random sum of i.i.d. random variables $R = X_{1} + \dots + X_{N}$, we have
+\begin{gather}
+\mathbb{E}\left[R\right] = \mathbb{E}\left[X\right]\mathbb{E}\left[N\right]
+\operatorname{Var}\left(R\right) = \mathbb{E}\left[N\right]\operatorname{Var}\left(X\right) + \operatorname{Var}\left(N\right)\mathbb{E}\left[X\right]^{2}
+\end{gather}
+\end{theorem}
+\begin{proof}
+The MGF of $R$ is $\phi_{R}\left(s\right) = \phi_{N}\left(\ln \phi_{X}\left(s\right) \right)$. By the moment generating property of the MGF, $\mathbb{E}\left[R\right]$ is given by the first derivative of $\phi_{R}\left(s\right)$ evaluated at $s = 0$. By applying the chain rule, this yields
+\begin{align}
+\phi_{R}'\left(s\right) &= \phi_{N}'\left(\ln\phi_{X}\left(s\right)\right)\dfrac{d}{ds}\ln\phi_{X}\left(s\right) \\
+&= \phi_{N}'\left(\ln\phi_{X}\left(s\right)\right)\dfrac{\phi_{X}'\left(s\right)}{\phi_{X}\left(s\right)}
+\end{align}
+Since $\phi_{X}\left(0\right) = \mathbb{E}\left[e^{0}\right] = 1$ and $\phi_{N}'\left(0\right) = \mathbb{E}\left[N\right]$ and $\phi_{X}'\left(0\right) = \mathbb{E}\left[X\right]$, then
+\begin{align}
+\mathbb{E}\left[R\right] &= \phi_{N}'\left(0\right)\phi_{X}'\left(0\right) \\
+&= \mathbb{E}\left[X\right]\mathbb{E}\left[N\right]
+\end{align}
+To find $\operatorname{Var}\left(R\right)$, we first need to find the second moment $\mathbb{E}\left[R^{2}\right]$. The second derivative of $\phi_{R}\left(s\right)$ using the product and quotient rules is
+\begin{align}
+\phi_{R}''\left(s\right) &= \phi_{N}''\left(\ln\phi_{X}\left(s\right)\right)\left(\dfrac{\phi_{X}'\left(s\right)}{\phi_{X}\left(s\right)}\right)^{2} + \phi_{N}'\left(\ln\phi_{X}\left(s\right)\right)\dfrac{d}{ds}\left(\dfrac{\phi_{X}'\left(s\right)}{\phi_{X}\left(s\right)}\right) \\
+&= \phi_{N}''\left(\ln\phi_{X}\left(s\right)\right)\left(\dfrac{\phi_{X}'\left(s\right)}{\phi_{X}\left(s\right)}\right)^{2}+\phi_{N}'\left(\ln\phi_{X}\left(s\right)\right)\dfrac{\phi_{X}\left(s\right)\phi_{X}''\left(s\right)-\phi_{X}'\left(s\right)^{2}}{\phi_{X}\left(s\right)^{2}}
+\end{align}
+Evaluating this at $s = 0$ gives
+\begin{align}
+\mathbb{E}\left[R^{2}\right] &= \phi_{N}''\left(0\right)\left(\dfrac{\phi_{X}'\left(0\right)}{1}\right)^{2}+\phi_{N}'\left(0\right)\dfrac{\phi_{X}''\left(0\right)-\phi_{X}'\left(0\right)^{2}}{1} \\
+&= \mathbb{E}\left[N^{2}\right]\mathbb{E}\left[X\right]^{2}+\mathbb{E}\left[N\right]\left(\mathbb{E}\left[X^{2}\right]-\mathbb{E}\left[X\right]^{2}\right) \\
+&= \mathbb{E}\left[N^{2}\right]\mathbb{E}\left[X\right]^{2}+\mathbb{E}\left[N\right]\operatorname{Var}\left(X\right)
+\end{align}
+Then to get $\operatorname{Var}\left(R\right)$, subtract $\mathbb{E}\left[R\right]^{2} = \mathbb{E}\left[N\right]^{2}\mathbb{E}\left[X\right]^{2}$ from $\mathbb{E}\left[R^{2}\right]$.
+\begin{align}
+\operatorname{Var}\left(R\right) &= \mathbb{E}\left[R^{2}\right] - \mathbb{E}\left[R\right]^{2} \\
+&= \mathbb{E}\left[N^{2}\right]\mathbb{E}\left[X\right]^{2}+\mathbb{E}\left[N\right]\operatorname{Var}\left(X\right) - \mathbb{E}\left[N\right]^{2}\mathbb{E}\left[X\right]^{2} \\
+&= \mathbb{E}\left[N\right]\operatorname{Var}\left(X\right) + \left(\mathbb{E}\left[N^{2}\right] - \mathbb{E}\left[N\right]^{2}\right)\mathbb{E}\left[X\right]^{2} \\
+&= \mathbb{E}\left[N\right]\operatorname{Var}\left(X\right) + \operatorname{Var}\left(N\right)\mathbb{E}\left[X\right]^{2}
+\end{align}
+\end{proof}
 
 \subsection{Chernoff Bound}
 
@@ -2654,7 +3232,37 @@ The posterior log odds can be obtain by addition of the log likelihood ratio and
 \operatorname{logit}\left(\operatorname{Pr}\left(A\middle|B\right)\right) = \log\left(\dfrac{\operatorname{Pr}\left(B\middle|A\right)}{\operatorname{Pr}\left(B\middle|\overline{A}\right)}\right) + \operatorname{logit}\left(\operatorname{Pr}\left(A\right)\right)
 \end{gather}
 
-\subsection{Bayes Filter}
+\subsection{Bayes Filters \cite{Thrun2005}}
+
+Consider a discrete time stochastic process for a state variable $x_{k}$, where the evolution of the state can be expressed with the distribution $p\left(x_{k + 1}\middle|x_{k}\right)$. The state $x_{k}$ is not directly measured but instead another variable $z_{k}$ is observed with the distribution $p\left(z_{k}\middle|x_{k}\right)$. The task in Bayes filtering is to recover the distribution for $x_{k}$ given only measurements up to an including $z_{k}$. From Bayes' theorem we can write
+\begin{align}
+p\left(x_{k}\middle|z_{k}\right) &= \dfrac{p\left(z_{k}\middle|x_{k}\right)p\left(x_{k}\right)}{p\left(z_{k}\right)} \\
+&\propto p\left(z_{k}\middle|x_{k}\right)p\left(x_{k}\right)
+\end{align}
+It is evident that we need only be concerned with finding $p\left(z_{k}\middle|x_{k}\right)p\left(x_{k}\right)$, because it is the same as the posterior $p\left(x_{k}\middle|z_{k}\right)$ up to a normalising constant. Since the observation distribution $p\left(z_{k}\middle|x_{k}\right)$ is assumed given, then $p\left(x_{k}\right)$ is the only remaining distribution required. From the update density $p\left(x_{k}\middle|x_{k - 1}\right)$ we can perform marginalisation:
+\begin{equation}
+p\left(x_{k}\right) = \int p\left(x_{k}\middle|x_{k - 1}\right)p\left(x_{k - 1}\right)dx_{k - 1}
+\end{equation}
+Note that this means the distribution $p\left(x_{k - 1}\right)$ is needed, thus the algorithm requires an initial guess of the state given by $p\left(x_{0}\right)$. When an input $u_{k}$ is involved in the state evolution, this allows for the distributions $p\left(x_{k + 1}\middle|x_{k}, u_{k}\right)$ and $p\left(z_{k}\middle|x_{k}, u_{k}\right)$ to be given. We require
+\begin{equation}
+p\left(x_{k}\middle|z_{k}, u_{k}\right) \propto p\left(z_{k}\middle|x_{k}, u_{k}\right)p\left(x_{k}\middle|u_{k}\right)
+\end{equation}
+We assume that $p\left(x_{k}\middle|u_{k}\right) = p\left(x_{k}\right)$, ie. the input has no effect on the current state (only the subsequent state) however $u_{k}$ is still allowed to be a deterministic function of $x_{k}$ because
+\begin{equation}
+p\left(x_{k}\middle|u_{k}\right) = \dfrac{p\left(u_{k}\middle|x_{k}\right)p\left(x_{k}\right)}{p\left(u_{k}\right)} = p\left(x_{k}\right)
+\end{equation}
+Then
+\begin{equation}
+p\left(x_{k}\middle|z_{k}, u_{k}\right) \propto p\left(z_{k}\middle|x_{k}, u_{k}\right)p\left(x_{k}\right)
+\end{equation}
+and $p\left(x_{k}\right)$ can be obtained by
+\begin{equation}
+p\left(x_{k}\right) = \int\int p\left(x_{k}\middle|x_{k - 1}, u_{k - 1}\right)p\left(x_{k - 1}, u_{k - 1}\right)dx_{k - 1}du_{k - 1}
+\end{equation}
+As before if $u_{k - 1}$ is a deterministic function of $x_{k - 1}$ and $x_{k - 1}$ is unaffected by $u_{k - 1}$ then
+\begin{equation}
+p\left(x_{k}\right) = \int p\left(x_{k}\middle|x_{k - 1}, u_{k - 1}\right)p\left(x_{k - 1}\right)dx_{k - 1}
+\end{equation}
 
 \section{Bayesian Networks}
 
@@ -2716,6 +3324,8 @@ ie. it is a weighted average of some probability density functions, and acts as 
 
 \section{Bayesian Classifiers}
 
+\section{Subjective Probability \cite{Schervish1995}}
+
 \chapter{Markov Processes}
 
 \section{Markov Chains}
@@ -2729,6 +3339,8 @@ ie. it is a weighted average of some probability density functions, and acts as 
 \subsection{Uncountable State Continuous Time Markov Chains}
 
 \subsection{Gauss-Markov Processes}
+
+\section{Markov Networks}
 
 \section{Hidden Markov Models}
 
@@ -3100,9 +3712,14 @@ For example with the Frank copula, we can fit it to a distribution of the form $
 
 \subsection{Empirical Distribution Function}
 
+\subsection{Glivenko-Cantelli Theorem}
+
 \section{Order Statistics}
 
-\section{Asymptotic Theory}
+\subsection{Fisher–Tippett–Gnedenko Theorem \cite{David2005}}
+
+
+\section{Monte-Carlo Methods}
 
 \section{Resampling Methods}
 
@@ -3138,7 +3755,72 @@ Hence
 Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\right)^{2}$ is an unbiased estimator of the population variance, and so $\dfrac{1}{n\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\right)^{2}$ is an unbiased estimator of the variance of the sample mean.
 \end{proof}
 
-\subsection{Bootstrap}
+\subsection{Bootstrap \cite{Wasserman2013}}
+
+The bootstrap method can be used to compute standard errors of very general estimators. Let $T_{n} = g\left(X_{1}, \dots, X_{n}\right)$ be a statistic. In order to estimate $\operatorname{Var}\left(T_{n}\right)$ with respect to the data generating process (which is not presumed known), we compute
+\begin{equation}
+\hat{\operatorname{Var}}\left(T_{n}\right) = \dfrac{1}{N}\sum_{i = 1}^{N}\left(T_{n, i}^{*} - \overline{T}_{n}^{*}\right)^{2}
+\end{equation}
+where $T_{n, i}^{*} = g\left(X_{1, i}^{*}, \dots, X_{n, i}^{*}\right)$, is the statistic calculated from the $i$\textsuperscript{th} resample of the data from the empirical distribution function defined by the original data $X_{1}, \dots, X_{n}$. $\overline{T}_{n}^{*}$ is the sample mean of the statistic across all simulations. Hence the bootstrap estimate contains two levels of approximation. The first approximation is made by using the empirical distribution to replace the data generating process. The second level of approximation is by estimating the variance of $T_{n}$ with respect to the empirical distribution by using a Monte Carlo average.
+
+\subsection{Bootstrap Confidence Intervals}
+
+\subsubsection{Normal Bootstrap Interval}
+
+By assuming $T_{n}$ is normally distributed, a simple confidence interval can be formed using $T_{n} \pm z_{\alpha/2}\sqrt{\hat{\operatorname{Var}}\left(T_{n}\right)}$.
+
+\subsubsection{Pivotal Bootstrap Interval}
+
+Let $\theta$ denote the population parameter for $T$ and let $\hat{\theta}_{n}$ denote the sample statistic. Define the pivot $R_{n} = \hat{\theta}_{n} - \theta$ which can be thought of as a `zeroed' random variable. Let $\hat{\theta}_{n, 1}^{*}, \dots, \hat{\theta}_{n, N}^{*}$ denote resampled bootstrap replications of $\hat{\theta}_{n}$. There exists some CDF of the pivot
+\begin{equation}
+F_{R_{n}}\left(r\right) = \operatorname{Pr}\left(R_{n} \leq r\right)
+\end{equation}
+Then $F_{R_{n}}^{-1}\left(\cdot\right)$ is the quantile function and there exists some $a, b$ such that
+\begin{gather}
+F_{R_{n}}^{-1}\left(1 - \dfrac{\alpha}{2}\right) = \hat{\theta}_{n} - a \\
+F_{R_{n}}^{-1}\left(\dfrac{\alpha}{2}\right) = \hat{\theta}_{n} - b
+\end{gather}
+We can then show
+\begin{align}
+\operatorname{Pr}\left(a \leq \theta \leq b\right) &= \operatorname{Pr}\left(\hat{\theta}_{n} - b \leq R_{n} \leq \hat{\theta}_{n} - a\right) \\
+&= F_{R_{n}}\left(\hat{\theta}_{n} - a\right) - F_{R_{n}}\left(\hat{\theta}_{n} - b\right) \\
+&= F_{R_{n}}\left(F_{R_{n}}^{-1}\left(1 - \dfrac{\alpha}{2}\right)\right) - F_{R_{n}}\left(F_{R_{n}}^{-1}\left(\dfrac{\alpha}{2}\right)\right) \\
+&= 1 - \alpha
+\end{align}
+Hence $\left(a, b\right)$ is an exact confidence interval. We estimate $a$ and $b$ by first estimating $F_{R_{n}}\left(r\right)$ from resampling:
+\begin{equation}
+\hat{F}_{R_{n}}\left(r\right) = \dfrac{1}{N}\sum_{i = 1}^{N}\mathbb{I}\left(R_{n, i}^{*} \leq r\right)
+\end{equation}
+where $\mathbb{I}\left(\cdot\right)$ is the indicator and $R_{n, i}^{*} := \hat{\theta}_{n, i}^{*} - \hat{\theta}_{n}$. Let $r_{\alpha}^{*}$ denote the $\alpha$ sample quantile from resampled bootstrap replications of $R_{n, 1}^{*}, \dots, R_{n, N}^{*}$ and similarly let $\theta_{\alpha}^{*}$ denote the $\alpha$ sample quantile from resampled bootstrap replications of $\hat{\theta}_{n, 1}^{*}, \dots, \hat{\theta}_{n, N}^{*}$. Then $b$ may be estimated by
+\begin{equation}
+\hat{b} = \hat{\theta}_{n} - \hat{F}_{R_{n}}^{-1}\left(\dfrac{\alpha}{2}\right) = \hat{\theta}_{n} - r_{\alpha/2}^{*}
+\end{equation}
+Likewise, $a$ can be estimated by
+\begin{equation}
+\hat{a} = \hat{\theta}_{n} - \hat{F}_{R_{n}}^{-1}\left(1 - \dfrac{\alpha}{2}\right) = \hat{\theta}_{n} - r_{1 - \alpha/2}^{*}
+\end{equation}
+Note that $r_{\alpha}^{*} = \theta_{\alpha}^{*} - \hat{\theta}_{n}$ because  $R_{n, i}^{*} := \hat{\theta}_{n, i}^{*} - \hat{\theta}_{n}$. Hence a $1 - \alpha$ pivotal bootstrap confidence interval is given by $\left(2\hat{\theta}_{n} - \hat{\theta}_{1 - \alpha/2}^{*}, 2\hat{\theta}_{n} - \hat{\theta}_{ \alpha/2}^{*}\right)$.
+
+\subsubsection{Percentile Bootstrap Interval}
+
+The percentile bootstrap interval is an `intuitive' interval using percentiles from the bootstrapped distribution. This is justified as follows. Assume there exists a monotonic transformation $m\left(\cdot\right)$ such that the random variable formed by $U := m\left(T\right)$ is normally distributed with $U \sim \mathcal{N}\left(\phi, c^{2}\right)$ where $\phi := m\left(\theta\right)$ is the monotonically transformed population parameter. Note that we do not suppose that we know $m\left(\cdot\right)$, only that it exists. A confidence interval for $\phi$ would be given by $U \pm cz_{\alpha/2}$ since
+\begin{align}
+\operatorname{Pr}\left(U - cz_{\alpha/2} \leq \phi \leq U + cz_{\alpha/2}\right) &= \operatorname{Pr}\left(-z_{\alpha/2} \leq \dfrac{U - \phi}{c} \leq z_{\alpha/2}\right) \\
+&= 1 - \alpha
+\end{align}
+The estimates of $U \pm cz_{\alpha/2}$ would come from bootstrapping. Denote $U_{i}^{*} = m\left(\theta_{n, i}^{*}\right)$ during resampling and let $u_{\alpha}^{*}$ be the $\alpha$ sample quantile of the resampled bootstrap replications of $U_{1}^{*}, \dots, U_{N}^{*}$. So then
+\begin{align}
+1 - \alpha &= \operatorname{Pr}\left(U - cz_{\alpha/2} \leq \phi \leq U + cz_{\alpha/2}\right) \\
+&\approx \operatorname{Pr}\left(u_{\alpha/2}^{*} \leq \phi \leq u_{1 - \alpha/2}^{*}\right) \\
+&\approx \operatorname{Pr}\left(m\left(u_{\alpha/2}^{*}\right) \leq m\left(\phi\right) \leq m\left(u_{1 - \alpha/2}^{*}\right)\right)
+\end{align}
+Since the monotonic transformation preserves quantiles, then
+\begin{equation}
+\operatorname{Pr}\left(m\left(u_{\alpha/2}^{*}\right) \leq m\left(\theta\right) \leq m\left(u_{1 - \alpha/2}^{*}\right)\right) = \operatorname{Pr}\left(\theta_{\alpha/2}^{*} \leq \phi \leq \theta_{1 - \alpha/2}^{*}\right)
+\end{equation}
+So the percentile bootstrap interval is given by $\left(\theta_{\alpha/2}^{*}, \theta_{1 - \alpha/2}^{*}\right)$.
+
+\subsection{Permutation Tests}
 
 \section{Principal Component Analysis}
 
@@ -3163,6 +3845,8 @@ Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\
 \section{Kolmogorov-Chentsov Continuity Theorem}
 
 \section{Stochastic Differential Equations}
+
+\section{Diffusions}
 
 \chapter{Combinatorial Probability}
 
@@ -3258,20 +3942,34 @@ We regard the occurrence of the event $X = 0$ as containing more information tha
 For a pair of discrete random variables $X$ and $Y$ with joint probability mass function $p\left(x, y\right)$, the joint entropy is defined as
 \begin{align}
 \operatorname{H}\left[X, Y\right] &= -\mathbb{E}\left[\log p\left(X, Y\right)\right] \\
-&= \sum_{i}\sum_{j}p\left(i, j\right)\log\dfrac{1}{p\left(i, j\right)}
+&= \sum_{x}\sum_{y}p\left(x, y\right)\log\dfrac{1}{p\left(x, y\right)}
 \end{align}
+This generalises to discrete random vectors $\mathbf{X}$ so that
+\begin{equation}
+\operatorname{H}\left[\mathbf{X}\right] = -\mathbb{E}\left[\log p\left(\mathbf{X}\right)\right]
+\end{equation}
 
 \subsection{Conditional Entropy}
 
 For a pair of discrete random variables $X$ and $Y$ with joint probability mass function $p\left(x, y\right)$ and conditional distribution $p\left(y\middle|x\right)$, the conditional entropy is defined as
 \begin{align}
-\operatorname{H}\left[Y\middle|X\right] &= - \mathbb{E}\left[p\left(Y\middle|X\right)\right] \\
-&= \sum_{i}\sum_{j}p\left(i, j\right)\log\dfrac{1}{p\left(j\middle|i\right)}
+\operatorname{H}\left[Y\middle|X\right] &= - \mathbb{E}\left[\log p\left(Y\middle|X\right)\right] \\
+&= \sum_{x}\sum_{y}p\left(x, y\right)\log\dfrac{1}{p\left(y\middle|x\right)} \\
+&= \sum_{x}p\left(x\right)\sum_{y}p\left(y\middle|x\right)\log\dfrac{1}{p\left(y\middle|x\right)}
 \end{align}
+If $X$ and $Y$ are independent, then $p\left(y\middle|x\right) = p\left(y\right)$ and
+\begin{equation}
+\operatorname{H}\left[Y\middle|X\right] = \operatorname{H}\left[Y\right]
+\end{equation}
+The conditional entropy of $X$ on itself is
+\begin{align}
+\operatorname{H}\left[X\middle|X\right] = 0
+\end{align}
+since $p\left(x\middle|x\right) = \operatorname{Pr}\left(X = x\middle|X = x\right) = 1$. This is in agreement with the intuition that knowing $X$ reveals perfect information about $X$.
 
-\subsection{Chain Rule for Entropy}
+\subsection{Chain Rule of Entropy}
 
-The chain rule for entropy says that
+The chain rule of entropy says that
 \begin{equation}
 \operatorname{H}\left[X, Y\right] = \operatorname{H}\left[X\right]+ \operatorname{H}\left[Y\middle|X\right]
 \end{equation}
@@ -3288,10 +3986,72 @@ A corollary is that if $X$ and $Y$ are independent,
 \begin{equation}
 \operatorname{H}\left[X, Y\right] = \operatorname{H}\left[X\right]+ \operatorname{H}\left[Y\right]
 \end{equation}
-and if $X$ and $Y$ are independent and identical,
+and if $X$ and $Y$ are independent and identically distributed,
 \begin{equation}
 \operatorname{H}\left[X, Y\right] = 2\operatorname{H}\left[X\right]
 \end{equation}
+This generalises to discrete random vectors $\mathbf{X}$ and $\mathbf{Y}$ so that
+\begin{equation}
+\operatorname{H}\left[\mathbf{X}, \mathbf{Y}\right] = \operatorname{H}\left[\mathbf{X}\right]+ \operatorname{H}\left[\mathbf{Y}\middle|\mathbf{X}\right]
+\end{equation}
+
+\subsection{Entropy of Functions}
+
+Let $X$ be a discrete random variable, and let $g\left(X\right)$ be a function of $X$. By the chain rule of entropy,
+\begin{align}
+\operatorname{H}\left[X, g\left(X\right)\right] &= \operatorname{H}\left[X\right] + \operatorname{H}\left[g\left(X\right)\middle|X\right] \\
+&= \operatorname{H}\left[X\right]
+\end{align}
+since $\operatorname{H}\left[g\left(X\right)\middle|X\right] = 0$ (ie. all information about $g\left(X\right)$ is revealed through $X$). Also by the chain rule of entropy,
+\begin{align}
+\operatorname{H}\left[X, g\left(X\right)\right] &= \operatorname{H}\left[g\left(X\right)\right] + \operatorname{H}\left[X\middle|g\left(X\right)\right] \\
+&\geq \operatorname{H}\left[g\left(X\right)\right]
+\end{align}
+since $\operatorname{H}\left[X\middle|g\left(X\right)\right]  \geq 0$. Hence this gives the inequality for entropy of functions of random variables:
+\begin{equation}
+\operatorname{H}\left[g\left(X\right)\right] \leq \operatorname{H}\left[X\right]
+\end{equation}
+This is intuitive because the distribution of $g\left(X\right)$ cannot be any less informative than $X$ itself. In the extreme case where $g\left(X\right)$ equals a constant, then $\operatorname{H}\left[g\left(X\right)\right] = 0$. This generalises to functions of random vectors so that
+\begin{equation}
+\operatorname{H}\left[g\left(\mathbf{X}\right)\right] \leq \operatorname{H}\left[\mathbf{X}\right]
+\end{equation}
+
+\subsubsection{Entropy of Sums}
+
+Suppose there are two independent random variables $X$ and $Y$, and their sum is $Z = X + Y$. We can obtain upper and lower bounds on $\operatorname{H}\left[Z\right]$. Firstly, we can show
+\begin{align}
+\operatorname{H}\left[Z\middle|X\right] &= \sum_{x}\operatorname{Pr}\left(X = x\right)\sum_{z}\operatorname{Pr}\left(Z = z\middle|X = x\right)\log\dfrac{1}{\operatorname{Pr}\left(Z = z\middle|X = x\right)} \\
+&= \sum_{x}\operatorname{Pr}\left(X = x\right)\sum_{z}\operatorname{Pr}\left(Y = z - x\middle|X = x\right)\log\dfrac{1}{\operatorname{Pr}\left(Y = z - x\middle|X = x\right)} \\
+&= \sum_{x}\operatorname{Pr}\left(X = x\right)\sum_{y}\operatorname{Pr}\left(Y = y\middle|X = x\right)\log\dfrac{1}{\operatorname{Pr}\left(Y = y\middle|X = x\right)} \\
+&= \operatorname{H}\left[Y\middle|X\right]
+\end{align}
+This shows that after knowing $X$, the uncertainty in information about $Z$ is due to $Y$. Then since $X$ and $Y$ are independent, $\operatorname{H}\left[Y\middle|X\right] = \operatorname{H}\left[Y\right]$. Then by the inequality $\operatorname{H}\left[Z\right] \geq \operatorname{H}\left[Z\middle|X\right]$ that conditioning never increases entropy (shown using mutual information), we can write
+\begin{equation}
+\operatorname{H}\left[Y\right] \leq \operatorname{H}\left[Z\right]
+\end{equation}
+and similarly 
+\begin{equation}
+\operatorname{H}\left[X\right] \leq \operatorname{H}\left[Z\right]
+\end{equation}
+Combining both cases gives $\max\left\{\operatorname{H}\left[X\right], \operatorname{H}\left[Y\right]\right\} \leq \operatorname{H}\left[Z\right]$. The interpretation of this is the intuitive idea that adding a random variable to another never reduces the uncertainty. This can also be visualised using the convolution, which smoothes out the density and makes it less concentrated, increasing the entropy. An upper bound can be obtained by first using the chain rule of entropy to write
+\begin{align}
+\operatorname{H}\left[X, Z\right] &= \operatorname{H}\left[Z\right] + \operatorname{H}\left[X\middle|Z\right] \\
+&= \operatorname{H}\left[X\right] + \operatorname{H}\left[Z\middle|X\right]
+\end{align}
+Hence
+\begin{align}
+\operatorname{H}\left[Z\right] &= \operatorname{H}\left[X\right] + \operatorname{H}\left[Z\middle|X\right] - \operatorname{H}\left[X\middle| Z\right] \\
+&= \operatorname{H}\left[X\right] + \operatorname{H}\left[Y\right] - \operatorname{H}\left[X\middle| Z\right]
+\end{align}
+since $\operatorname{H}\left[Z\middle|X\right] = \operatorname{H}\left[Y\right]$ as established above. Then since $\operatorname{H}\left[X\middle| Z\right] \geq 0$, then
+\begin{equation}
+\operatorname{H}\left[Z\right] \leq \operatorname{H}\left[X\right] + \operatorname{H}\left[Y\right]
+\end{equation}
+We can even establish conditions on $X$ and $Y$ for equality to hold. Since $Z = X + Y$ is a function of $\left(X, Y\right)$, then $\operatorname{H}\left[Z\right] \leq \operatorname{H}\left[X, Y\right]$ and by the chain rule of entropy $\operatorname{H}\left[X, Y\right] = \operatorname{H}\left[X\right] + \operatorname{H}\left[X\middle| Y\right] = \operatorname{H}\left[X\right] + \operatorname{H}\left[Y\right]$ due to independence. Therefore
+\begin{equation}
+\operatorname{H}\left[Z\right] \leq \operatorname{H}\left[X, Y\right] = \operatorname{H}\left[X\right] + \operatorname{H}\left[Y\right]
+\end{equation}
+and equality holds if we can show $\operatorname{H}\left[Z\right] = \operatorname{H}\left[X, Y\right]$. This requires that $\left(X, Y\right)$ be a function of $Z$, which implies that $X$ or $Y$ be constant.
 
 \subsection{Cross Entropy}
 
@@ -3408,7 +4168,31 @@ Consider two discrete random variables $X$, $Y$ with joint probability mass func
 \begin{equation}
 \operatorname{MI}\left(X;Y\right) = \sum_{x}\sum_{y}p\left(x, y\right)\log\dfrac{p\left(x, y\right)}{p\left(x\right)p\left(y\right)}
 \end{equation}
-We can see that if $X$ and $Y$ are independent, ie. $p\left(x, y\right) = p\left(x\right)p\left(y\right)$, then the mutual information will be zero. In that sense, we can think of mutual information as information loss by assuming independence of random variables.
+We can see that if $X$ and $Y$ are independent, ie. $p\left(x, y\right) = p\left(x\right)p\left(y\right)$, then the mutual information will be zero. In that sense, we can think of mutual information as information loss by assuming independence of random variables. Mutual information can be rewritten as
+\begin{align}
+\operatorname{MI}\left(X;Y\right) &= \sum_{x}\sum_{y}p\left(x, y\right)\log\dfrac{p\left(x\middle|y\right)}{p\left(x\right)} \\
+&= \sum_{x}\sum_{y}p\left(x, y\right)\log p\left(x\middle|y\right) - \sum_{x}\sum_{y}p\left(x, y\right)\log p\left(x\right) \\
+&= \sum_{x}\sum_{y}p\left(x, y\right)p\left(x\right)\log p\left(x\middle|y\right) - \sum_{x}p\left(x\right)\log p\left(x\right) \\
+&= \operatorname{H}\left[X\right] - \operatorname{H}\left[X\middle|Y\right]
+\end{align}
+By symmetry we can also show
+\begin{equation}
+\operatorname{MI}\left(X;Y\right) = \operatorname{H}\left[Y\right] - \operatorname{H}\left[Y\middle|X\right]
+\end{equation}
+Hence in this way, $\operatorname{MI}\left(X;Y\right)$ can be thought of as the information gain about $X$ from knowing $Y$, and likewise about $Y$ from knowing $X$. By using the chain rule of entropy, we have
+\begin{equation}
+\operatorname{MI}\left(X;Y\right) = \operatorname{H}\left[X\right] + \operatorname{H}\left[Y\right] - \operatorname{H}\left[X, Y\right]
+\end{equation}
+Also note that
+\begin{equation}
+\operatorname{MI}\left(X;X\right) = \operatorname{H}\left[X\right] - \operatorname{H}\left[X\middle|X\right] = \operatorname{H}\left[X\right] - 0 =  \operatorname{H}\left[X\right]
+\end{equation}
+Given that $\operatorname{MI}\left(X;Y\right) \geq 0$ by Gibb's inequality, we can also write
+\begin{gather}
+\operatorname{H}\left[X\right] \geq \operatorname{H}\left[X\middle|Y\right] \\
+\operatorname{H}\left[Y\right] \geq \operatorname{H}\left[Y\middle|X\right]
+\end{gather}
+which expresses that conditioning never increases entropy.
 
 \subsection{Asymptotic Equipartition Property for the KL Divergence}
 
@@ -3476,7 +4260,7 @@ where we have used the facts that $D\left(\theta\right) = \operatorname{KL}\left
 The principle of maximum entropy roughly states that, given limited information about a prior, then the best choice of prior distribution (out of all possible priors which satisfy the limited information given) is the distribution with maximum entropy. Intuitively, this distribution makes the least number of assumptions about the variable in question.
 
 \subsection{Maximum Entropy Distributions on Bounded Support}
-For any discrete distribution on support $\left\{a, a + 1, \dots, b - 1, b\right\}$, the discrete uniform distribution has the maximum entropy. For any continuous distribution on support $\left[a, b\right]$, the continuous uniform distribution has the maximum entropy. This agrees with the intuition that the uniform distributions contain the most amount of `surprise' (ie. everything is equally likely0.
+For any discrete distribution on support $\left\{a, a + 1, \dots, b - 1, b\right\}$, the discrete uniform distribution has the maximum entropy. For any continuous distribution on support $\left[a, b\right]$, the continuous uniform distribution has the maximum entropy. This agrees with the intuition that the uniform distributions contain the most amount of `surprise' (ie. everything is equally likely).
 
 \subsection{Maximum Entropy Distributions on Unbounded Support}
 
@@ -3570,12 +4354,12 @@ If our criterion is to minimise the expected prediction error on validation data
 \begin{equation}
 V_{N}\left(\theta, \mathcal{D}_{N}\right)  = -\dfrac{1}{N}\log\mathcal{L}\left(\theta; \mathcal{D}_{N}\right)
 \end{equation}
-The best estimate of $\mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right]$ is $-\dfrac{1}{N}\log\mathcal{L}\left(\hat{\theta}_{N}; \mathcal{D}_{N}\right)$ itself, while the asymptotic covariance $C$ is the inverse of the Fisher information (ie. in this case $C = \nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)^{-1}$). Therefore an estimate of the expected prediction error is
+The best estimate of $\mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right]$ is $-\dfrac{1}{N}\log\mathcal{L}\left(\hat{\theta}_{N}; \mathcal{D}_{N}\right)$ itself (which becomes increasingly better for large $N$), while the asymptotic covariance $C$ is the inverse of the Fisher information (ie. in this case $C = \nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)^{-1}$). Therefore an estimate of the expected prediction error is
 \begin{align}
 \widehat{\mathbb{E}}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right] &= -\dfrac{1}{N}\max_{\theta}\log\mathcal{L}\left(\theta; \mathcal{D}_{N}\right) + \dfrac{\operatorname{trace}\left(\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)^{-1}\right)}{N} \\
 &= -\dfrac{1}{N}\log\mathcal{L}\left(\hat{\theta}_{N}; \mathcal{D}_{N}\right) + \dfrac{\dim\left(\hat{\theta}_{N}\right)}{N}
 \end{align}
-this is the same as the expression above for AIC (up to a constant). Intuitively, the AIC aims to trade off between a high likelihood and low model complexity (measured by the number of parameters) by introducing a penalty on the number of parameters, since too high model complexity may lead to overfitting or loss in interpretability of the model. The AIC can be used for model selection, where we select the model with the lowest AIC. There also exist formulae for corrected AIC based on sample size $N$ \cite{Claeskens2008}.
+this is the same as the expression above for AIC (up to multiplication by a constant). Intuitively, the AIC aims to trade off between a high likelihood and low model complexity (measured by the number of parameters) by introducing a penalty on the number of parameters, since too high model complexity may lead to overfitting or loss in interpretability of the model. The AIC can be used for model selection, where we select the model with the lowest AIC. There also exist formulae for corrected AIC based on sample size $N$ \cite{Claeskens2008}.
 
 \subsection{Bayesian Information Criterion}
 
@@ -3805,8 +4589,47 @@ And finally by $\operatorname{Cov}\left(Y_{t}, Y_{t - j}\right) = \operatorname{
 
 \chapter{Machine Learning}
 
-
 \section{Classification Problems}
+
+\subsection{Datasets}
+
+\subsection{Performance Metrics in Classification \cite{Goodfellow2016}}
+
+\subsubsection{Accuracy}
+
+The accuracy of a classifier is the proportion of examples that the classifier gets correct.
+
+\subsubsection{Error Rate}
+
+The accuracy of a classifier is the proportion of examples that the classifier gets incorrect, which is the complement of accuracy.
+
+\subsubsection{Bayes Error}
+
+The Bayes error rate is the irreducible part of error rate on new examples, even with infinite training data and knowledge of the true underlying distribution. This may be because the system is inherently stochastic.
+
+\subsubsection{Precision}
+
+Suppose there is a binary classifier that detects an event. The precision is the proportion of detections that were correct. Let $E$ represent the event to be detected and $D$ the event of a detection. Then by Bayes' theorem, the precision can be thought to be ideally estimating
+\begin{equation}
+\operatorname{Pr}\left(E\middle|D\right) = \dfrac{\operatorname{Pr}\left(D\middle|E\right)\operatorname{Pr}\left(E\right)}{\operatorname{Pr}\left(D\right)}
+\end{equation}
+where $\operatorname{Pr}\left(D\middle|E\right)$ would be referred as the power.
+
+\subsubsection{Recall}
+
+For a binary classifier that detects an event, recall is the proportion of true events that were detected, ie. it estimates $\operatorname{Pr}\left(D\middle|E\right)$. This is akin to the power of a statistical test.
+
+\subsubsection{Precision/Recall $F$-score}
+
+Given precision $p$ and recall $r$, an `$F$-score' can be calculated by
+\begin{equation}
+F = \dfrac{2pr}{p + r}
+\end{equation}
+which is a way to quantitatively trade between precision and recall, where a model with higher $F$-score is preferred.
+
+\subsubsection{Coverage}
+
+A classifier may also be coded so that it can refuse to make a decision (eg. if it is not certain enough about a particular example). The coverage is defined as the fraction of examples for which the classifier is able to make a decision.
 
 \subsection{Confusion Matrices}
 
@@ -4094,7 +4917,7 @@ Suppose errors are perfectly correlated and $c = v$ (eg. the exact same training
 
 \subsection{Boosting}
 
-A generic boosting algorithm takes a `weak learner' (eg. only slightly better than a random 50-50 guess on a classification problem), and produces a sequence of weak learners $G_{m}\left(x\right)$ for $m = 1, \dots, M$ to form a `strong' committee of learners that is a weighting of each weak learner. For a classification problem into $\left\{-1, 1\right\}$, this weighting is given by
+A generic boosting algorithm takes a `weak learner' (eg. only slightly better than a random 50-50 guess on a classification problem), and produces a sequence of weak learners $G_{m}\left(x\right)$ for $m = 1, \dots, M$ to form a `strong' committee of learners that is a weighting of each weak learner. An example is that for a classification problem into classes $\left\{-1, 1\right\}$, this weighting is given by
 \begin{equation}
 G\left(x\right) = \operatorname{sign}\left(\sum_{m = 1}^{M}\alpha_{m}G_{m}\left(x\right)\right)
 \end{equation}
@@ -4106,11 +4929,11 @@ and then each weight is updated according to
 \begin{equation}
 w_{i} \gets w_{i}\exp\left[\alpha_{m}\mathbb{I}\left(y_{i} \neq G_{m}\left(x_{i}\right)\right)\right]
 \end{equation}
-where $\mathbb{I}\left(y_{i} \neq G_{m}\left(x_{i}\right)\right)$ is an indicator function. Thus we can see that the weight for an observation which the learner got wrong is increased, while the weight for an observation which the learner got correct stays the same. Also note that the learner weighting $\alpha_{m}$ is decreasing in the error rate $e_{m}$.
+where $\mathbb{I}\left(y_{i} \neq G_{m}\left(x_{i}\right)\right)$ is an indicator function. The weightings can be re-normalised if needed. Thus we can see that the weight for an observation which the learner got wrong is increased, while the weight for an observation which the learner got correct stays the same. Also note that the learner weighting $\alpha_{m}$ is decreasing in the error rate $e_{m}$.
 
 \subsection{Stacking}
 
-In stacking \cite{Hastie2009, Zhou2012}, there are $M$ `first-level learners', and one `second-level learner'. These learners may be not necessarily be from the same class of learning algorithm. Let the estimate from the $m$\textsuperscript{th} learner be denoted $\hat{f}_{m}\left(x\right)$. Then out out $N$ training observations, let $\hat{f}_{m}^{\left(-i\right)}\left(x\right)$ denote the estimate with the $i$\textsuperscript{th} training observation removed. Thus we can view $\hat{f}_{m}^{\left(-i\right)}\left(x_{i}\right)$ as a `prediction' on $x_{i}$ (since $x_{i}$ was not used in training the learner). The second learner (denoted by $\hat{f}\left(z\right)$ is then trained over a dataset created by the first learners. Each observation of the second learner consists of the `leave-one-out' outputs of the first learners as its outputs, and the original label as its output. Concretely, denote the $i$\textsuperscript{th} training observation of the second learner by $\left(z_{i}. y_{i}\right)$, where
+In stacking \cite{Hastie2009, Zhou2012}, there are $M$ `first-level learners', and one `second-level learner'. These learners may be not necessarily be from the same class of learning algorithm. Let the estimate from the $m$\textsuperscript{th} learner be denoted $\hat{f}_{m}\left(x\right)$. Then out out $N$ training observations, let $\hat{f}_{m}^{\left(-i\right)}\left(x\right)$ denote the estimate with the $i$\textsuperscript{th} training observation removed. Thus we can view $\hat{f}_{m}^{\left(-i\right)}\left(x_{i}\right)$ as a `prediction' on $x_{i}$ (since $x_{i}$ was not used in training the learner). The second learner (denoted by $\hat{f}\left(z\right)$ is then trained over a dataset created by the first learners. Each observation of the second learner consists of the `leave-one-out' outputs of the first learners as its inputs, and the original label as its output. Concretely, denote the $i$\textsuperscript{th} training observation of the second learner by $\left(z_{i}. y_{i}\right)$, where
 \begin{equation}
 z_{i} = \left(\hat{f}_{1}^{\left(-i\right)}\left(x_{i}\right), \dots, \hat{f}_{M}^{\left(-i\right)}\left(x_{i}\right)\right)
 \end{equation}
@@ -4265,7 +5088,7 @@ The Fourier transform $\widetilde{x}_{T}\left(f\right)$ is a complex valued func
 &= \int_{-T}^{T}\int_{-T}^{T}\mathbb{E}\left[x\left(t\right)x\left(t'\right)\right]e^{-j2\pi f\left(t-t'\right)}dtdt' \\
 &= \int_{-T}^{T}\int_{-T}^{T}R_{X}\left(t-t'\right)e^{-j2\pi f\left(t-t'\right)}dtdt'
 \end{align}
-Introduce the change of variables $\tau = t - t'$, noting that the integrand only depends on $\tau$. To determine the limits of integration, we reason that if $-T\leq t \leq T$ and $-T \leq t'\leq T$, then $-2T \leq \tau \leq 2T$. Then a graphical sketch of the region $\Omega$ for $t'$ given by the intersection
+Introduce the change of variables $\tau = t - t'$, noting that the integrand only depends on $\tau$. To determine the limits of integration, we reason that if $-T\leq t \leq T$ and $-T \leq t'\leq T$, then $-2T \leq \tau \leq 2T$. Then a graphical sketch on the $t$-$t'$ plane of the region $\Omega$ for $t'$ given by the intersection
 \begin{equation}
 \Omega = \left\{t': t - t' = \tau \cap -T\leq t \leq T \cap -T \leq t'\leq T \cap -2T \leq \tau \leq 2T\right\}
 \end{equation}
@@ -4311,6 +5134,8 @@ In this sense, the power spectral density can be viewed as the density of averag
 
 \subsection{Coloured Noise}
 
+\subsection{Spectral Factorisation Theorem}
+
 \section{Linear Filtering}
 
 \section{Wiener-Kolgomorov Filtering}
@@ -4339,7 +5164,7 @@ The Kalman filter is a special case of the Bayes filter when the dynamic model i
 
 \chapter{Stochastic Control}
 
-\section{Linear Quadratic Gaussian}
+\section{Linear Quadratic Gaussian Control}
 
 \section{Stochastic Model Predictive Control}
 
@@ -4389,6 +5214,8 @@ f^{*} = \dfrac{pb - q}{b}
 \section{Ruin Theory}
 
 \chapter{Statistical Physics}
+
+\section{Maxwell-Boltzmann Distribution}
 
 \section{Mean Sojourn Time}
 
