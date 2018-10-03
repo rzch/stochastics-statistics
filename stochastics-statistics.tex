@@ -66,7 +66,7 @@ The complementary event of $A$ is denoted $\overline{A}$. This is the event that
 
 The relative complement of event $A$ with respect to event $B$ is denoted $B\setminus A$. This is the event of $B$ occurring, but not $A$ occurring. We have the relation
 \begin{equation}
-B\setminus A = \overline{B}\cap A
+B\setminus A = B\cap \overline{A}
 \end{equation}
 
 \subsubsection{Venn Diagrams}
@@ -483,7 +483,7 @@ and
 
 \subsubsection{Conditional Random Variables}
 
-A `conditional random variable' denoted $X|Y$ can be informally defined as the random variable which has the conditional distribution of $X$ given $Y$ as its distribution function.
+A `conditional random variable' denoted $X|Y$ can be informally defined as the random variable which has its own distribution function the conditional distribution of $X$ given $Y$.
 
 \subsection{Support of a Distribution}
 
@@ -494,7 +494,7 @@ The support of a distribution for a random variable is the set of values for whi
 
 \section{Expectation}
 
-The expectation (or expected value) of a random variable can be thought about in several ways:
+The expectation (or expected value, or mean) of a random variable can be thought about in several ways:
 \begin{itemize}
 \item The average realisation of the random variable over an infinite number of trials.
 \item The `center of mass' of the probability distribution.
@@ -545,8 +545,22 @@ For continuous random variables,
 \begin{equation}
 \mathbb{E}\left[X\middle|Y = y\right] = \int_{-\infty}^{\infty}xf_{X|Y}\left(x\middle|Y = y\right)dx
 \end{equation}
-\item The conditional expectation $\mathbb{E}\left[X\middle|Y\right]$ without a particular value of $Y$ is a random variable, because $Y$ is random. For discrete $X$ and $Y$, the random variable $\mathbb{E}\left[X\middle|Y\right]$ is defined to take on value $\mathbb{E}\left[X\middle|Y = y\right]$ with probability $\operatorname{Pr}\left(Y = y\right)$. For continuous $X$ and $Y$, the random variable $\mathbb{E}\left[X\middle|Y\right]$ has density $f_{X|Y}\left(x\middle|Y = y\right)$ at value $\mathbb{E}\left[X\middle|Y = y\right]$.
+This form of the conditional expectation may be treated as a deterministic function in the realisation $y$.
+\item The conditional expectation $\mathbb{E}\left[X\middle|Y\right]$ without being given a particular value of $Y$ is a random variable, because $Y$ is random. For discrete $X$ and $Y$, the random variable $\mathbb{E}\left[X\middle|Y\right]$ is defined to take on value $\mathbb{E}\left[X\middle|Y = y\right]$ with probability $\operatorname{Pr}\left(Y = y\right)$. For continuous $X$ and $Y$, the random variable $\mathbb{E}\left[X\middle|Y\right]$ has density $f_{X|Y}\left(x\middle|Y = y\right)$ at value $\mathbb{E}\left[X\middle|Y = y\right]$.
 \end{itemize}
+The conditional expectation of $X$ conditional on its own realisation $X = x$ becomes $x$, ie. $\mathbb{E}\left[X\middle|X = x\right] = x$, because given $X = x$, we expect that $X$ naturally can only be $x$. We can show this more formally (for the case of a discrete random variable $X$) by using the facts that $\operatorname{Pr}\left(X = x \middle| X = x\right) = 1$ and $\operatorname{Pr}\left(X = x' \middle| X = x\right) = 0$ when $x' \neq x$:
+\begin{align}
+\mathbb{E}\left[X\middle|X = x\right] &= \sum_{x'}x'\operatorname{Pr}\left(X = x' \middle| X = x\right) \\
+&= x
+\end{align}
+It can then be reasoned that $\mathbb{E}\left[X\middle|X\right] = X$, because by the definition above $X$ is the random variable which takes on value $\mathbb{E}\left[X\middle|X = x\right] = x$ with probability $\operatorname{Pr}\left(X = x\right)$. Generalising this, we can say that for a function $f\left(\cdot\right)$, we have
+\begin{equation}
+\mathbb{E}\left[f\left(X\right)\middle|X = x\right] = f\left(x\right)
+\end{equation}
+and
+\begin{equation}
+\mathbb{E}\left[f\left(X\right)\middle|X\right] = f\left(X\right)
+\end{equation}
 
 \subsection{Law of Iterated Expectations}
 
@@ -577,7 +591,41 @@ Let $\mathbb{I}_{A}$ be an indicator random variable for event $A$. The expectat
 
 \section{Variance}
 
+The variance of a random variable $X$ measures the spread of the distribution of $X$ about its mean. Realisations of a random variable with high variance can be thought to deviate far from its mean on average, while realisations of a random variable with low variance are expected to be concentrated close to the mean. The variance of $X$ is defined as
+\begin{equation}
+\operatorname{Var}\left(X\right) = \mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)^{2}\right] 
+\end{equation}
+We can interpret $\left(X - \mathbb{E}\left[X\right]\right)^{2}$ as the squared deviation of $X$ from its mean, and so $\operatorname{Var}\left(X\right)$ is the expected squared deviation of $X$ from its mean. Another way to interpret the variance of a random variable is that it gives an idea of the `uncertainty'. That is, the more uncertain a random variable is, the more spread out its distribution becomes and so the harder it is to predict. An alternative formula for the variance is
+\begin{equation}
+\operatorname{Var}\left(X\right) = \mathbb{E}\left[X^{2}\right] - \mathbb{E}\left[X\right]^{2}
+\end{equation}
+This can be shown as follows. Starting by expanding the original definition given for the variance,
+\begin{equation}
+\operatorname{Var}\left(X\right) = \mathbb{E}\left[X^{2} - 2X\mathbb{E}\left[X\right] + \mathbb{E}\left[X\right]^{2}\right] 
+\end{equation}
+Then using the linearity of expectation:
+\begin{equation}
+\operatorname{Var}\left(X\right) = \mathbb{E}\left[X^{2}\right] - 2\mathbb{E}\left[X\mathbb{E}\left[X\right]\right] + \mathbb{E}\left[\mathbb{E}\left[X\right]^{2}\right] 
+\end{equation}
+Note that $\mathbb{E}\left[X\mathbb{E}\left[X\right]\right] = \mathbb{E}\left[X\right]^{2}$ and $\mathbb{E}\left[\mathbb{E}\left[X\right]^{2}\right] = \mathbb{E}\left[X\right]^{2}$ as $\mathbb{E}\left[X\right]$ is treated as a `constant' with respect to the distribution of $X$, and so can be taken outside of the expectation. Hence
+\begin{align}
+\operatorname{Var}\left(X\right) &= \mathbb{E}\left[X^{2}\right] - 2\mathbb{E}\left[X\right]^{2} + \mathbb{E}\left[X\right]^{2} \\
+&= \mathbb{E}\left[X^{2}\right] - \mathbb{E}\left[X\right]^{2}
+\end{align}
+The variance is always non-negative, because $\left(X - \mathbb{E}\left[X\right]\right)^{2}$ is always non-negative. If $X$ is scaled by a constant $a$, then
+\begin{align}
+\operatorname{Var}\left(aX\right) &= \mathbb{E}\left[\left(aX - \mathbb{E}\left[aX\right]\right)^{2}\right] \\
+&= a^{2}\mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)^{2}\right] \\
+&= a^{2}\operatorname{Var}\left(X\right)
+\end{align}
+
 \subsection{Standard Deviation}
+
+The units of the variance $\operatorname{Var}\left(X\right)$ is in the squared units of $X$. A quantity which measures a random variable's dispersion about its mean but in the same units as the random variable is the standard deviation. The standard deviation is defined as the square root of the variance, ie.
+\begin{equation}
+\operatorname{sd}\left(X\right) = \sqrt{\operatorname{Var}\left(X\right)}
+\end{equation}
+Like the variance, the standard deviation is also always non-negative. The standard deviation is useful because since it is in the same units as the random variable, it is more easily interpretable.
 
 \subsection{Precision}
 
@@ -585,9 +633,51 @@ The precision of a random variable $X$ is defined as the inverse of the variance
 
 \subsection{Covariance}
 
+The covariance of a pair of random variables $X$ and $Y$ gives a measure of how closely the two random variables are related (in terms of their realisations). The covariance is defined by
+\begin{equation}
+\operatorname{Cov}\left(X, Y\right) = \mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)\left(Y - \mathbb{E}\left[Y\right]\right)\right]
+\end{equation}
+This expectation is taken over the joint distribution of $X$ and $Y$. If a realisation of $X$ being `high' (ie. above the mean) means that a realisation of $Y$ is likely to also be high, and vice-versa ($Y$ being high means $X$ is likely to be high), and also that $X$ being low means $Y$ is likely to be low and vice-versa, then the sign of $\left(X - \mathbb{E}\left[X\right]\right)\left(Y - \mathbb{E}\left[Y\right]\right)$ is more likely to be positive and hence the covariance will be positive. We may say that the random variables `move together'. In the opposing case, ie. the sign of $\left(X - \mathbb{E}\left[X\right]\right)\left(Y - \mathbb{E}\left[Y\right]\right)$ is more likely to be negative, then the covariance will be negative and we can interpret the random variables as `moving against' each other. An alternative expression for the covariance is
+\begin{equation}
+\operatorname{Cov}\left(X, Y\right) = \mathbb{E}\left[XY\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+\end{equation}
+This can be shown by expanding the original definition given:
+\begin{align}
+\operatorname{Cov}\left(X, Y\right) &= \mathbb{E}\left[XY - \mathbb{E}\left[X\right]Y - X\mathbb{E}\left[Y\right] + \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]\right] \\
+&= \mathbb{E}\left[XY\right] - \mathbb{E}\left[\mathbb{E}\left[X\right]Y\right] - \mathbb{E}\left[X\mathbb{E}\left[Y\right]\right] + \mathbb{E}\left[\mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]\right] \\
+&= \mathbb{E}\left[XY\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] + \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] \\
+&= \mathbb{E}\left[XY\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+\end{align}
+where we have used the linearity of expectation and the facts that $\mathbb{E}\left[X\right]$ and $\mathbb{E}\left[Y\right]$ are treated as constant with respect to the joint distribution over $X$ and $Y$, so hence may be taken outside of the respective expectations. Also note that if we take the covariance between $X$ and itself:
+\begin{align}
+\operatorname{Cov}\left(X, X\right) &= \mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)^{2}\right] \\
+&= \operatorname{Var}\left(X\right)
+\end{align}
+which becomes the variance of $X$.
+
+\subsection{Variance of Sums}
+
+For the sum of random variables $Z = X + Y$, the variance of $Z$ is given by
+\begin{equation}
+\operatorname{Var}\left(Z\right) = \operatorname{Var}\left(X\right) + 2\operatorname{Cov}\left(XY\right) + \operatorname{Var}\left(Y\right)
+\end{equation}
+This is shown using the properties of the expectation, and definitions of the variance and covariance.
+\begin{align}
+\operatorname{Var}\left(Z\right) &= \mathbb{E}\left[Z^{2}\right] - \mathbb{E}\left[Z\right]^{2} \\
+&= \mathbb{E}\left[\left(X + Y\right)^{2}\right] - \mathbb{E}\left[X + Y\right]^{2} \\
+&= \mathbb{E}\left[X^{2}\right] + 2\mathbb{E}\left[XY\right] + \mathbb{E}\left[Y^{2}\right] - \mathbb{E}\left[X\right]^{2} - 2\mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] - \mathbb{E}\left[Y\right]^{2} \\
+&= \left(\mathbb{E}\left[X^{2}\right] - \mathbb{E}\left[X\right]^{2}\right) + 2\left(\mathbb{E}\left[XY\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]\right) + \left(\mathbb{E}\left[Y^{2}\right] - \mathbb{E}\left[Y\right]^{2}\right) \\
+&= \operatorname{Var}\left(X\right) + 2\operatorname{Cov}\left(XY\right) + \operatorname{Var}\left(Y\right)
+\end{align}
+
 \subsection{Correlation}
 
-Since the correlation coefficient is standardised, it always lies between $-1$ and $1$. We can show this follows for two random variables $X$ and $Y$. For ease of notation, denote $\mu_{X} := \mathbb{E}\left[X\right]$, $\mu_{Y} := \mathbb{E}\left[Y\right]$, $\sigma_{X} := \operatorname{sd}\left(X\right)$ and $\sigma_{Y} := \operatorname{sd}\left(Y\right)$. Define the `standardised' random variables
+The correlation coefficient is a `standardised' covariance. Given random variables $X$, $Y$ and their standard deviations $\operatorname{sd}\left(X\right)$ and $\operatorname{sd}\left(Y\right)$, the correlation coefficient between $X$ and $Y$ is defined as
+\begin{equation}
+\operatorname{Corr}\left(X, Y\right) = \dfrac{\operatorname{Cov}\left(X, Y\right)}{\operatorname{sd}\left(X\right)\operatorname{sd}\left(Y\right)}
+\end{equation}
+
+As the correlation coefficient is standardised, it always lies between $-1$ and $1$. We can show this follows for two random variables $X$ and $Y$. For ease of notation, denote $\mu_{X} := \mathbb{E}\left[X\right]$, $\mu_{Y} := \mathbb{E}\left[Y\right]$, $\sigma_{X} := \operatorname{sd}\left(X\right)$ and $\sigma_{Y} := \operatorname{sd}\left(Y\right)$. Define the `standardised' random variables
 \begin{gather}
 \widetilde{X} := \dfrac{X - \mu_{X}}{\sigma_{X}} \\
 \widetilde{Y} := \dfrac{Y - \mu_{Y}}{\sigma_{Y}}
@@ -614,11 +704,11 @@ Using the definitions of the standardised random variables, we can show:
 2+2\dfrac{\mathbb{E}\left[XY\right]-\mathbb{E}\left[X\right]\mu_{Y}-\mathbb{E}\left[Y\right]\mu_{X}+\mu_{X}\mu_{Y}}{\sigma_{X}\sigma_{Y}}\geq0 \\
 2+2\dfrac{\mathbb{E}\left[XY\right]-\mu_{X}\mu_{Y}}{\sigma_{X}\sigma_{Y}}\geq0
 \end{gather}
-Then using the definition of the correlation coefficient:
+Then using the definition of the covariance:
 \begin{equation}
 2+2\dfrac{\operatorname{Corr}\left(X, Y\right)}{\sigma_{X}\sigma_{Y}}\geq0
 \end{equation}
-Hence
+Hence using the definition of the correlation coefficient
 \begin{equation}
 \operatorname{Corr}\left(X, Y\right) \geq -1
 \end{equation}
@@ -634,6 +724,7 @@ Therefore combined,
 \begin{equation}
 -1 \leq \operatorname{Corr}\left(X, Y\right) \leq 1
 \end{equation}
+The correlation coefficient allows for pairs of random variables with different units/scales to be compared.
 
 \subsection{Subadditivity of Standard Deviations}
 
@@ -656,6 +747,35 @@ We know the last inequality holds, because correlations are upper bounded by $1$
 \end{equation}
 
 \subsection{Conditional Variance}
+
+The conditional variance of $X$ given $Y$, denoted $\operatorname{Var}\left(X\middle|Y\right)$ may informally be thought of as the variance of the conditional random variable $X|Y$. Formally, the definition of the conditional variance is analogous to the definition of the variance except the expectations are conditioned on $Y$:
+\begin{equation}
+\operatorname{Var}\left(X\middle|Y\right) = \mathbb{E}\left[\left(X - \mathbb{E}\left[X\middle|Y\right]\right)^{2}\middle| Y\right]
+\end{equation}
+We can show that an analogous alternative formula holds for the conditional variance:
+\begin{equation}
+\operatorname{Var}\left(X\middle|Y\right) = \mathbb{E}\left[X^{2}\middle|Y\right] - \mathbb{E}\left[X\middle| Y\right]^{2}
+\end{equation}
+This is done by first expanding and using the linearity of expectation:
+\begin{align}
+\operatorname{Var}\left(X\middle|Y\right) &= \mathbb{E}\left[X^{2} - 2\mathbb{E}\left[X\middle|Y\right]X + \mathbb{E}\left[X\middle|Y\right]^{2}\middle|Y\right] \\
+&= \mathbb{E}\left[X^{2}\middle|Y\right] - 2\mathbb{E}\left[\mathbb{E}\left[X\middle|Y\right]X\middle|Y\right] + \mathbb{E}\left[\mathbb{E}\left[X\middle|Y\right]^{2}\middle|Y\right]
+\end{align}
+Now since $\mathbb{E}\left[X\middle|Y\right]$ is a random variable on the same sample space as $Y$, we can take the term out of the expectation conditioned on $Y$, giving
+\begin{align}
+\operatorname{Var}\left(X\middle|Y\right) &= \mathbb{E}\left[X^{2}\middle|Y\right] -2\mathbb{E}\left[X\middle| Y\right]^{2} + \mathbb{E}\left[X\middle| Y\right]^{2} \\
+&= \mathbb{E}\left[X^{2}\middle|Y\right] - \mathbb{E}\left[X\middle| Y\right]^{2}
+\end{align}
+
+As with conditional expectation, the conditional variance with supplied realisation of $y$, denoted $\operatorname{Var}\left(X\middle|Y = y\right)$, may be thought of as a deterministic function in $y$. \\
+
+The conditional variance of $X$ given $X$ can be shown to be
+\begin{align}
+\operatorname{Var}\left(X\middle|X\right) &= \mathbb{E}\left[X^{2}\middle|X\right] - \mathbb{E}\left[X\middle|X\right]^{2} \\
+&= X^{2} - X^{2} \\
+&= 0
+\end{align}
+Intuitively, if given a value of $X$, there should be no more uncertainty surrounding $X$, hence why the conditional variance is zero.
 
 \subsection{Law of Total Variance}
 
@@ -686,8 +806,7 @@ Then finally recognising $\operatorname{Var}\left(\mathbb{E}\left[Y\middle|X\rig
 
 \subsection{Conditional Covariance}
 
-The conditional covariance between random variables $X$ and $Y$ on $Z$ is denoted $\operatorname{Cov}\left(X, Y\middle| Z\right)$. It is taken as the covariance between the conditional random variables $X|Z$ and $Y|Z$.
-
+The conditional covariance between random variables $X$ and $Y$ on $Z$ is denoted $\operatorname{Cov}\left(X, Y\middle| Z\right)$. It is taken (informally) as the covariance between the conditional random variables $X|Z$ and $Y|Z$. It is defined as
 \begin{equation}
 \operatorname{Cov}\left(X, Y\middle| Z\right) = \mathbb{E}\left[\left(X - \mathbb{E}\left[X\middle| Z\right]\right)\left(Y - \mathbb{E}\left[Y\middle| Z\right]\right)\middle|Z\right]
 \end{equation}
@@ -701,6 +820,7 @@ The same way $\mathbb{E}\left[XY\middle|X\right] = X\mathbb{E}\left[Y\middle|X\r
 \operatorname{Cov}\left(X, Y\middle| Z\right) &= \mathbb{E}\left[XY\middle|Z\right] - \mathbb{E}\left[X\middle|Z\right]\mathbb{E}\left[Y\middle|Z\right] - \mathbb{E}\left[Y\middle|Z\right]\mathbb{E}\left[X\middle|Z\right] +\mathbb{E}\left[1\middle|Z\right]\mathbb{E}\left[X\middle| Z\right]\mathbb{E}\left[Y\middle| Z\right] \\
  &= \mathbb{E}\left[XY\middle|Z\right] - \mathbb{E}\left[X\middle|Z\right]\mathbb{E}\left[Y\middle|Z\right]
 \end{align}
+As with conditional expectations, the term $\operatorname{Cov}\left(X, Y\middle| Z\right)$ may be treated as a random variable on the same sample space as $Z$, whereas $\operatorname{Cov}\left(X, Y\middle| Z = z\right)$ is a function of the realisation $z$.
 
 \subsection{Law of Total Covariance}
 The Law of Total Covariance says that
@@ -733,7 +853,7 @@ The Law of Total Variance is a special case of the Law of Total Covariance where
 
 \subsection{Independent Events}
 
-Two events $A$ and $B$ are independent if any information about the occurrence of $B$  does not affect the probability of occurrence of $A$. That is, 
+Intuitively, two events $A$ and $B$ are independent if any information about the occurrence of $B$  does not affect the probability of occurrence of $A$. That is, 
 \begin{equation}
 \operatorname{Pr}\left(A\middle|B\right) = \operatorname{Pr}\left(A\right)
 \end{equation}
@@ -754,12 +874,62 @@ This says the joint probabilities of $A$ and $B$ can be found by multiplying the
 
 \subsection{Independent Random Variables}
 
-Subadditivity of the standard deviation is also more straightforward to show in the case where $X$ and $Y$ are independent (or simply uncorrelated). We firstly derive what is known as the subadditivity property of the square root function. For any two scalars $a, b \geq 0$:
+Extending the definition of independent events, two (discrete) random variables $X$ and $Y$ are independent if the events $X = x$ and $Y = y$ are independent for all possible combinations of realisations $x$ and $y$. Hence the joint probability is the product of the marginal probabilities:
+\begin{equation}
+\operatorname{Pr}\left(X = x \cap Y = y\right) = \operatorname{Pr}\left(X = x\right)\operatorname{Pr}\left(Y = y\right)
+\end{equation}
+for all $x$ and $y$. That is, if we can find at least one pair of $x$ and $y$ such that
+\begin{equation}
+\operatorname{Pr}\left(X = x \cap Y = y\right) \neq \operatorname{Pr}\left(X = x\right)\operatorname{Pr}\left(Y = y\right)
+\end{equation}
+then $X$ and $Y$ are dependent. For the case of continuous random variables $X$ and $Y$, the definition of independence naturally extends to being that the joint density is the product of the marginal probabilities, ie.
+\begin{equation}
+f_{XY}\left(x, y\right) = f_{X}\left(x\right)f_{Y}\left(y\right)
+\end{equation}
+for all $x$ and $y$.
+
+\subsubsection{Independent and Identically Distributed Random Variables}
+
+If a collection of $n$ random variables $X_{1}, X_{2}, \dots, X_{n}$ all have the same distribution and are all independent (ie. the joint distribution of $X_{1}, X_{2}, \dots, X_{n}$ is the product of the marginal distributions of $X_{1}, X_{2}, \dots, X_{n}$), then the collection of random variables is said to be independent and identically distributed (i.i.d.).
+
+\subsection{Uncorrelatedness}
+
+If two random variables $X$ and $Y$ have a covariance (hence also correlation) of zero, then they are said to be uncorrelated. We can show that if $X$ and $Y$ are independent, then they will always be uncorrelated. From the definition of covariance:
+\begin{align}
+\operatorname{Cov}\left(X, Y\right) &= \mathbb{E}\left[XY\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] \\
+&= \sum_{x}\sum_{y}xy\operatorname{Pr}\left(X = x \cap Y = y\right) - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+\end{align}
+Using independence, then
+\begin{align}
+\operatorname{Cov}\left(X, Y\right) &= \sum_{x}\sum_{y}xy\operatorname{Pr}\left(X = x\right)\operatorname{Pr}\left(Y = y\right) - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] \\
+&= \sum_{x}x\operatorname{Pr}\left(X = x\right)\sum_{y}y\operatorname{Pr}\left(Y = y\right) - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] \\
+&= \left(\sum_{x}x\operatorname{Pr}\left(X = x\right)\right)\left(\sum_{y}y\operatorname{Pr}\left(Y = y\right)\right) - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] \\
+&= \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] \\
+&= 0
+\end{align}
+However, the reverse is not true. If $X$ and $Y$ are uncorrelated, then this does not necessarily mean that they are independent. A simple counterexample to show this is a continuous random variable $X$ with distribution
+\begin{equation}
+f_{X}\left(x\right) = \begin{cases} \dfrac{1}{2}, & x\in\left[-1, 1\right] \\ 0, & \mathrm{elsewhere}\end{cases}
+\end{equation}
+and $Y = X^{2}$. Then $X$ and $Y$ are clearly dependent. However it can be seen that $\mathbb{E}\left[X\right] = 0$ and $\mathbb{E}\left[XY\right] = 0$. The latter is reasoned by considering
+\begin{align}
+\mathbb{E}\left[XY\right] &= \mathbb{E}\left[X^{3}\right] \\
+&= \int_{-1}^{1}\dfrac{x^{3}}{2}dx \\
+&= 0
+\end{align}
+since $\dfrac{x^{3}}{2}$ is an odd function. Therefore
+\begin{align}
+\operatorname{Cov}\left(X, Y\right) &= \mathbb{E}\left[XY\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] \\
+&= 0
+\end{align}
+
+Subadditivity of the standard deviation is also more straightforward to show in the case where $X$ and $Y$ are uncorrelated. We firstly derive what is known as the subadditivity property of the square root function. For any two scalars $a, b \geq 0$:
 \begin{align}
 \left(\sqrt{a} + \sqrt{b}\right)^{2} &= a + 2\sqrt{ab} + b \\
-\sqrt{a} + \sqrt{b} &= \sqrt{a + 2\sqrt{ab} + b} \geq \sqrt{a + b}
+\sqrt{a} + \sqrt{b} &= \sqrt{a + 2\sqrt{ab} + b} \\
+&\geq \sqrt{a + b}
 \end{align}
-Since $\sqrt{ab} \geq 0$, then
+since $\sqrt{ab} \geq 0$. Then
 \begin{equation}
 \sqrt{a + b} \leq \sqrt{a} + \sqrt{b}
 \end{equation}
@@ -768,12 +938,6 @@ In fact, we can tell this only holds with equality if and only if $a = 0$ or $b 
 \sqrt{\operatorname{Var}\left(Z\right)} \leq \sqrt{\operatorname{Var}\left(X\right)} + \sqrt{\operatorname{Var}\left(Y\right)}
 \end{equation}
 which yields the subadditivity property for the standard deviation.
-
-\subsubsection{Independent and Identically Distributed Random Variables}
-
-
-\subsection{Uncorrelatedness}
-
 
 \subsection{Conditional Independence}
 
@@ -792,7 +956,7 @@ Similarly, two random variables $X$ and $Y$ are conditionally independent on a t
 
 \subsection{Orthogonality \cite{Yates2005}}
 
-Two random variables $X$ and $Y$ are said to be orthogonal if $\mathbb{E}\left[XY\right] = 0$. If $X$ and $Y$ are zero-mean and uncorrelated, then they are also orthogonal.
+Two random variables $X$ and $Y$ are said to be orthogonal if $\mathbb{E}\left[XY\right] = 0$. If $X$ and $Y$ are uncorrelated and at least one of them is zero-mean, then they are also orthogonal.
 
 \chapter{Introductory Statistics}
 
@@ -834,7 +998,7 @@ If $\mathbb{E}\left[\hat{\theta}\right] \neq \theta$, then $\hat{\theta}$ is sai
 
 \subsubsection{Consistency}
 
-An estimator $\hat{\theta}$ for $\theta$ is said to be consistent if loosely speaking, the estimate $\hat{\theta}$ approaches $\theta$ as the sample size $n$ grows large.
+An estimator $\hat{\theta}$ for $\theta$ is said to be consistent if loosely speaking, the estimate $\hat{\theta}$ gets closer to the population parameter $\theta$ as the sample size $n$ grows large.
 
 \section{Descriptive Statistics}
 
@@ -842,13 +1006,106 @@ An estimator $\hat{\theta}$ for $\theta$ is said to be consistent if loosely spe
 
 \subsubsection{Sample Arithmetic Mean}
 
+The sample arithmetic mean $\overline{x}$ (usually referred to as just the sample mean) of a sample $x_{1}, \dots, x_{n}$ is defined as
+\begin{equation}
+\overline{x} = \dfrac{1}{n}\sum_{i = 1}^{n}x_{i}
+\end{equation}
+The sample mean is the most typical estimate of the population mean. Suppose that $X_{1}, \dots, X_{n}$ is a random sample with each $X_{i}$ drawn from a probability distribution with mean $\mathbb{E}\left[X_{i}\right] = \mu$. We can then show that the estimator for the sample mean
+\begin{equation}
+\overline{X} = \dfrac{1}{n}\sum_{i = 1}^{n}X_{i}
+\end{equation}
+is an unbiased estimator for the population parameter $\mu$ as follows:
+\begin{align}
+\mathbb{E}\left[\overline{X}\right] &= \mathbb{E}\left[\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}\right] \\
+&= \dfrac{1}{n}\sum_{i = 1}^{n}\mathbb{E}\left[X_{i}\right] \\
+&= \dfrac{1}{n}n\mu \\
+&= \mu
+\end{align}
+The sample mean of a dataset also has the property that it is the value which minimises the average sum of squared deviations from that value:
+\begin{equation}
+\overline{x} = \argmin_{c}\dfrac{1}{n}\sum_{i = 1}^{n}\left(x_{i} - c\right)^{2}
+\end{equation}
+To show this, take the derivative:
+\begin{equation}
+\dfrac{\partial}{\partial c}\dfrac{1}{n}\sum_{i = 1}^{n}\left(x_{i} - c\right)^{2} = -\dfrac{1}{n}\sum_{i = 1}^{n}2\left(x_{i} - c\right)
+\end{equation}
+Setting the derivative to zero and solving gives:
+\begin{gather}
+-\dfrac{1}{n}\sum_{i = 1}^{n}2\left(x_{i} - c^{*}\right) = 0 \\
+\dfrac{nc^{*}}{n} = \dfrac{1}{n}\sum_{i = 1}^{n}x_{i} \\
+c^{*} = \overline{x}
+\end{gather}
+
+\subsubsection{Median}
+
+Let $F\left(x\right)$ be a cumulative distribution function. The median $\widetilde{x}$ of the distribution is defined as the value at which $F\left(\widetilde{x}\right) = \dfrac{1}{2}$ (ie. the value which splits the distribution `in half'). A distribution may have more than one median (ie. if there are multiple values for which $F\left(x\right) = \dfrac{1}{2}$.
+
 \subsubsection{Sample Median}
+
+The sample median $\widetilde{x}$ of a sample $x_{1}, \dots, x_{n}$ is the `middle value' of the sample. To be more precise, suppose we can sort the sample so that
+\begin{equation}
+x_{\left(1\right)} \leq \dots \leq x_{\left(n\right)}
+\end{equation}
+Then if $n$ is odd, the median is defined as
+\begin{equation}
+\widetilde{x} = x_{\left(\frac{n + 1}{2}\right)}
+\end{equation}
+If $n$ is even, then the median is defined as the average of the two `middle values':
+\begin{equation}
+\widetilde{x} = \dfrac{x_{\left(\lfloor\frac{n + 1}{2}\rfloor\right)} + x_{\left(\lceil\frac{n + 1}{2}\rceil\right)}}{2}
+\end{equation}
+The sample median can be useful as a measure of central tendency when there are extreme outliers in the sample, which would otherwise have a greater effect on the sample mean than the sample median.
+
+\subsubsection{Mode}
+
+Let $f\left(x\right)$ be a probability density function. The mode $\breve{x}$ of the distribution is the `peak' of the distribution, that is $\breve{x} = \max_{x}f\left(x\right)$. Some distributions may have multiple local peaks, at which $\dfrac{df\left(x\right)}{dx} = 0$ (supposing that $f\left(x\right)$ is differentiable). We then say that the distribution is multimodal. If there is only a single local peak, then the distribution is said to be unimodal. This definition is analogous to discrete probability distributions, we take the value which has the highest probability mass associated to it.
 
 \subsubsection{Sample Mode}
 
+The sample mode of a sample $x_{1}, x_{2}, \dots, x_{n}$ is the most frequently occurring value in the sample. A sample may have more than one mode.
+
 \subsubsection{Sample Geometric Mean}
 
+The sample geometric mean $\overline{x}_{\mathrm{G}}$ of a sample $x_{1}, \dots, x_{n}$ is defined as
+\begin{equation}
+\overline{x}_{\mathrm{G}} = \left(\prod_{i = 1}^{n}x_{i}\right)^{1/n}
+\end{equation}
+Note that the product $\prod_{i = 1}^{n}x_{i}$ should be non-negative in order for the geometric mean to be real-valued. Hence the geometric mean is most applicable for giving a valid indication of central tendency if all values in the sample are positive. \\
+
+The geometric mean is applicable for averaging over compounding growth rates. To illustrate, suppose we have growth rates $g_{1}, \dots, g_{n}$ such that the overall compounded growth is $\prod_{i = 1}^{n}\left(1 + g_{i}\right)$. Taking the geometric mean shall give
+\begin{equation}
+\left(\prod_{i = 1}^{n}\left(1 + g_{i}\right)\right)^{1/n} = 1 + \overline{g}
+\end{equation}
+and note that
+\begin{equation}
+\prod_{i = 1}^{n}\left(1 + g_{i}\right) = \left(1 + \overline{g}\right)^{n}
+\end{equation}
+so that a growth rate of $\overline{g}$ over $n$ periods gives an equivalent compounded growth. \\
+
+The geometric mean is also applicable for averaging normalised results. To illustrate, suppose we have two data sets $x_{1}, \dots, x_{n}$ and $y_{1}, \dots, y_{n}$. We have a choice of constructing normalised data sets using either $x_{i}$ or $y_{i}$ as reference values (ie. $y_{1}/x_{1}, \dots, y_{n}/x_{n}$ or $x_{1}/y_{1}, \dots, x_{n}/y_{n}$ respectively). However, we have
+\begin{equation}
+\dfrac{\left(\prod_{i = 1}^{n}x_{i}\right)^{1/n}}{\left(\prod_{i = 1}^{n}y_{i}\right)^{1/n}} = \left(\prod_{i = 1}^{n}\dfrac{x_{i}}{y_{i}}\right)^{1/n}
+\end{equation}
+and
+\begin{equation}
+\dfrac{\left(\prod_{i = 1}^{n}y_{i}\right)^{1/n}}{\left(\prod_{i = 1}^{n}x_{i}\right)^{1/n}} = \left(\prod_{i = 1}^{n}\dfrac{y_{i}}{x_{i}}\right)^{1/n}
+\end{equation}
+Hence, regardless of which sample is used as the reference values, the geometric mean preserves the relative ordering of the averaged data.
+
 \subsubsection{Sample Harmonic Mean}
+
+The sample harmonic mean $\overline{x}_{\mathrm{H}}$ of a sample $x_{1}, \dots, x_{n}$ is defined as
+\begin{equation}
+\overline{x}_{\mathrm{H}} = \left(\dfrac{1}{n}\sum_{i = 1}^{n}x_{i}^{-1}\right)^{-1}
+\end{equation}
+Hence the sample harmonic mean is the reciprocal of the sample arithmetic mean of the reciprocals. \\
+
+The harmonic mean can be applicable in certain cases for averaging rates and ratios. To illustrate, suppose we have a sample $x_{1}, \dots, x_{n}$ where each $x_{i} = \dfrac{a}{b_{i}}$ is a ratio of two quantities with the numerator is kept constant for each value. We desire the `true' average of the ratio, being $na/\sum_{i = 1}^{n}b_{i}$. Then taking the harmonic mean gives
+\begin{align}
+\left(\dfrac{1}{n}\sum_{i = 1}^{n}x_{i}^{-1}\right)^{-1} &= \left(\dfrac{1}{n}\cdot\dfrac{\sum_{i = 1}^{n}b_{i}}{a}\right)^{-1} \\
+&= \left(\dfrac{\sum_{i = 1}^{n}b_{i}}{na}\right)^{-1} \\
+&= \dfrac{na}{\sum_{i = 1}^{n}b_{i}}
+\end{align}
 
 \subsection{Measures of Dispersion}
 
@@ -869,9 +1126,9 @@ The coefficient of variation is a standardised measure of dispersion relative to
 
 \subsubsection{Range}
 
-\subsubsection{Interquartile Range}
-
 \subsubsection{Percentile}
+
+\subsubsection{Interquartile Range}
 
 \subsubsection{Frequency Distribution}
 
@@ -929,6 +1186,12 @@ $X = 1$ & $\operatorname{Pr}\left(X = 1, Y = 0\right)$ & $\operatorname{Pr}\left
  \hline
 \end{tabular}
 \end{table}
+
+\subsection{Measures of Shape}
+
+\subsubsection{Skewness}
+
+\subsubsection{Kurtosis}
 
 \section{Normal Statistics}
 
@@ -1424,6 +1687,57 @@ Hence the mode $\breve{x} = \mu$.
 
 \subsection{Binomial Distribution}
 
+The cumulative binomial distribution can be written as a sum:
+\begin{align}
+F\left(x\right) &= \operatorname{Pr}\left(X \leq x\right) \\
+&= \sum_{i = 0}^{x}\operatorname{Pr}\left(X = i\right) \\
+&= \sum_{i = 0}^{x}f\left(i\right) \\
+&= \sum_{i = 0}^{x}\mathstrut^{n}\mathsf{C}_{i}p^{i}\left(1 - p\right)^{n - i}
+\end{align}
+An alternate form of the expression for the cumulative binomial distribution is the regularised incomplete Beta function:
+\begin{align}
+F\left(k\right) &= \dfrac{\operatorname{B}\left(1 - p; n - k, k + 1\right)}{\operatorname{B}\left(n - k, k + 1\right)} \\
+&= \dfrac{1}{\operatorname{B}\left(n - k, k + 1\right)}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt \\
+&= \dfrac{\Gamma\left(n + 1\right)}{\Gamma\left(n - k\right)\Gamma\left(k + 1\right)}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt \\
+&= \dfrac{n!}{\left(n - k - 1\right)!k!}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt \\
+&= \left(n - k\right)\begin{pmatrix}n \\ k\end{pmatrix}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt
+\end{align}
+This can be shown by repeated application of integration by parts on the Beta integral. Let $u = \left(1 - t\right)^{k}$ and $v' = t^{n - k - 1}$, then $u' = -k\left(1 - t\right)^{k - 1}$ and $v = \dfrac{1}{n - k}t^{n - k}$. So
+\begin{align}
+\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt &= \left[uv\right]_{0}^{1 - p} - \int_{0}^{1 - p}u'vdt \\
+&= \dfrac{1}{n - k}\left[\left(1 - t\right)^{k}t^{n - k}\right]_{t = 0}^{t = 1 - p} + \int_{0}^{1 - p}\dfrac{k}{n - k}t^{n - k}\left(1 - t\right)^{k - 1}dt \\
+&= \dfrac{1}{n - k}p^{k}\left(1 - p\right)^{n - k} + \dfrac{k}{n - k}\int_{0}^{1 - p}\left(1 - t\right)^{k - 1}t^{n - k}dt
+\end{align}
+Repeating this again on the resultant Beta integral, we will have
+\begin{multline}
+\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt = \dfrac{1}{n - k}p^{k}\left(1 - p\right)^{n - k} + \dfrac{k}{\left(n - k\right)\left(n - k + 1\right)}p^{k - 1}\left(1 - p\right)^{n - k + 1} \\
+ + \dfrac{k\left(k - 1\right)}{\left(n - k\right)\left(n - k + 1\right)}\int_{0}^{1 - p}\left(1 - t\right)^{k - 2}t^{n - k + 1}dt
+\end{multline}
+and we will eventually end up with the series
+\begin{multline}
+\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt = \dfrac{1}{n - k}p^{k}\left(1 - p\right)^{n - k} + \dfrac{k}{\left(n - k\right)\left(n - k + 1\right)}p^{k - 1}\left(1 - p\right)^{n - k + 1} \\
+ + \dfrac{k\left(k - 1\right)}{\left(n - k\right)\left(n - k + 1\right)\left(n - k + 2\right)}p^{k - 2}\left(1 - p\right)^{n - k + 2} + \dots + \dfrac{k\times\dots\times 2}{\left(n - k\right)\times\dots\times\left(n - 1\right)}p^{1}\left(1 - p\right)^{n - 1} \\
+  + \dfrac{k!}{\left(n - k\right)\times\dots\times\left(n - 1\right)}\int_{0}^{1 - p}\left(1 - t\right)^{0}t^{n - 1}dt
+\end{multline}
+with $\int_{0}^{1 - p}\left(1 - t\right)^{0}t^{n - 1}dt = \dfrac{1}{n}\left(1 - p\right)^{n}$. Note then that this series can be represented compactly as
+\begin{equation}
+\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt = \sum_{j = 0}^{k}\dfrac{k!}{\left(k - j\right)!}\dfrac{\left(n - k\right)!}{\left(n - k\right)\left(n - k + j\right)!}p^{k - j}\left(1 - p\right)^{n - k + j}
+\end{equation}
+Via cancellations, we see that
+\begin{align}
+\left(n - k\right)\begin{pmatrix}n \\ k\end{pmatrix}\dfrac{k!}{\left(k - j\right)!}\dfrac{\left(n - k\right)!}{\left(n - k\right)\left(n - k + j\right)!} &= \dfrac{n!}{\left(k - j\right)!\left(n - k + j\right)!} \\
+&= \begin{pmatrix}n \\ k - j\end{pmatrix}
+\end{align}
+Hence
+\begin{equation}
+\left(n - k\right)\begin{pmatrix}n \\ k\end{pmatrix}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt = \sum_{j = 0}^{k}\begin{pmatrix}n \\ k - j\end{pmatrix}p^{k - j}\left(1 - p\right)^{n - k + j}
+\end{equation}
+Then replace $k - j$ with $i$ in the sum to obtain the expression for the cumulative binomial distribution:
+\begin{align}
+F\left(k\right) &= \left(n - k\right)\begin{pmatrix}n \\ k\end{pmatrix}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt \\
+&= \sum_{i = 0}^{k}\begin{pmatrix}n \\ i\end{pmatrix}p^{i}\left(1 - p\right)^{n - i}
+\end{align}
+
 \subsection{Poisson Distribution}
 
 \subsection{Skellam Distribution}
@@ -1463,21 +1777,47 @@ which can be used as the moment estimators.
 
 \section{Random Vectors}
 
+\subsection{Multivariate Medians}
+
+The notion of median and sample median can be generalised to multivariate domains in several ways.
+
+\subsubsection{Marginal Median}
+
+Suppose that the random vector $\mathbf{X} \in \mathbb{R}^{d}$ has marginal cumulative distribution functions $F_{1}\left(x_{1}\right), \dots, F_{d}\left(x_{D}\right)$. Then the marginal median $\mathbf{m} = \begin{bmatrix} m_{1} & \dots & m_{d}\end{bmatrix}^{\top}$ can be defined as the value(s) for which
+\begin{equation}
+F_{1}\left(m_{1}\right) = \dots = F_{d}\left(m_{d}\right) = \dfrac{1}{2}
+\end{equation}
+Likewise, if we have a random sample of vectors $\mathbf{X}_{1}, \dots, \mathbf{X}_{n}$, then the sample marginal median can be defined as the the vector which has as each of its components the univariate median of the sample in the corresponding dimension.
+
+\subsubsection{Medoid}
+
+For a random sample of vectors $\mathbf{X}_{1}, \dots, \mathbf{X}_{n}$, the medoid $\mathbf{c}^{*}$ on a distance function $d\left(\mathbf{a}, \mathbf{b}\right)$ (eg. the Euclidean norm between two vectors) is defined as the vector from the sample that is closest on average to all others:
+\begin{equation}
+\mathbf{c}^{*} = \argmin_{\mathbf{c} \in \left\{\mathbf{X}_{1}, \dots, \mathbf{X}_{n}\right\}}\sum_{i = 1}^{d}d\left(\mathbf{X}_{i} - \mathbf{c}\right)
+\end{equation}
+
+\subsubsection{Spatial Median}
+
+For a random sample of vectors $\mathbf{X}_{1}, \dots, \mathbf{X}_{n}$, the spatial median $\mathbf{a}^{*}$ on a norm $\left\Vert\cdot\right\Vert$ (eg. the Euclidean norm) is defined as the vector which minimises the average distance to each point:
+\begin{equation}
+\mathbf{a}^{*} = \argmin_{\mathbf{a}} \dfrac{1}{n}\sum_{i = 1}^{n}\left\Vert \mathbf{X}_{i} - \mathbf{a}\right\Vert
+\end{equation}
+
 \subsection{Covariance Matrices}
 The covariance matrix $\mathbf{C}$ of a random vector $\mathbf{X}$ can be defined by
 \begin{equation}
-\mathbf{C} = \mathbb{E}\left[\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\right]
+\mathbf{C} = \mathbb{E}\left[\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)^{\top}\right]
 \end{equation}
 Covariance matrices of real random vectors are always positive semi-definite. We can show this by considering an arbitrary real vector $\mathbf{u}$. We have
 \begin{align}
-\mathbf{u}^{\top}\mathbf{C}\mathbf{u} &= \mathbf{u}^{\top}\mathbb{E}\left[\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\right]\mathbf{u} \\
-&= \mathbb{E}\left[\mathbf{u}^{\top}\left(\mathbf{X} - \bar{\mathbf{X}}\right)\left(\mathbf{X} - \bar{\mathbf{X}}\right)^{\top}\mathbf{u}\right]
+\mathbf{u}^{\top}\mathbf{C}\mathbf{u} &= \mathbf{u}^{\top}\mathbb{E}\left[\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)^{\top}\right]\mathbf{u} \\
+&= \mathbb{E}\left[\mathbf{u}^{\top}\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)^{\top}\mathbf{u}\right]
 \end{align}
-Let $s := \mathbf{u}^{\top}\left(\mathbf{X} - \bar{\mathbf{X}}\right)$ be a zero-mean scalar random variable with variance $\sigma^{2} \geq 0$. Hence
+Let $Y := \mathbf{u}^{\top}\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)$ be a zero-mean scalar random variable with variance $\sigma^{2} \geq 0$. Hence
 \begin{align}
-\mathbf{u}^{\top}\mathbf{C}\mathbf{u} &= \mathbb{E}\left[ss^{\top}\right] \\
-&= \mathbb{E}\left[\left(s - \mathbb{E}\left[s\right]\right)^{2}\right] \\
-&= \mathbb{E}\left[s^{2}\right] \\
+\mathbf{u}^{\top}\mathbf{C}\mathbf{u} &= \mathbb{E}\left[YY^{\top}\right] \\
+&= \mathbb{E}\left[\left(Y - \mathbb{E}\left[Y\right]\right)^{2}\right] \\
+&= \mathbb{E}\left[Y^{2}\right] \\
 &= \sigma^{2} \\
 &\geq 0
 \end{align}
@@ -1655,6 +1995,24 @@ Taking the variance of both sides of the expansion gives
 
 \subsection{Independence of Transformed Random Variables}
 
+If $X$ and $Y$ are independent random variables, then the transformed random variables $f\left(X\right)$ and $g\left(Y\right)$ are also independent. This is shown by first using the definition of independence that for sets $A$ and $B$, 
+\begin{equation}
+\operatorname{Pr}\left(X \in A \cap Y \in B\right) = \operatorname{Pr}\left(X \in A\right)\operatorname{Pr}\left(Y \in B\right)
+\end{equation}
+Then note the equivalence of events
+\begin{gather}
+\left\{f\left(X\right) \in A\right\} \equiv \left\{X \in f^{-1}\left(A\right)\right\} \\
+\left\{g\left(Y\right) \in B\right\} \equiv \left\{Y \in g^{-1}\left(B\right)\right\}
+\end{gather}
+So
+\begin{align}
+\operatorname{Pr}\left(f\left(X\right) \in A \cap g\left(Y\right) \in B\right) &= \operatorname{Pr}\left(X \in f^{-1}\left(A\right) \cap Y \in g^{-1}\left(B\right)\right) \\
+&=  \operatorname{Pr}\left(X \in f^{-1}\left(A\right)\right)\operatorname{Pr}\left(Y \in g^{-1}\left(B\right)\right) \\
+&= \operatorname{Pr}\left(f\left(X\right) \in A\right)\operatorname{Pr}\left(g\left(Y\right) \in B\right)
+\end{align}
+
+Note that if $X$ and $Y$ were dependent, then $f\left(X\right)$ and $g\left(Y\right)$ need not necessarily be dependent. A trivial counter example is a case where $f\left(X\right)$ is a constant.
+
 \subsection{Products of Random Variables}
 
 The product distribution of random variables $X$ and $Y$ is the distribution of $Z = XY$. If $X$ and $Y$ are independent and have probability density functions $f_{X}\left(x\right)$ and $f_{Y}\left(y\right)$ respectively, then
@@ -1728,8 +2086,43 @@ If $X$ and $Y$ are not independent but have the joint density function $f_{XY}\l
 f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(wy, y\right)\dfrac{1}{\left|y\right|}dy
 \end{equation}
 
-The mean of the ratio distribution is not as straightforward, but can be approximated using Taylor expansions.
-
+The mean of the ratio distribution (even in the independent case) is not as straightforward compared to the product distribution, however can be approximated using Taylor expansions. To illustrate, we first develop an extension of Gauss' approximation theorem to a nonlinear function in two variables, $f\left(x, y\right)$. Suppose random variables $X$ and $Y$ have means $\mu_{X}$ and $\mu_{Y}$ respectively with $\mu_{Y} \neq 0$. Then a second order Taylor series approximation of $f\left(X, Y\right)$ about the mean $\left(\mu_{X}, \mu_{Y}\right)$ gives
+\begin{multline}
+f\left(X, Y\right) \approx f\left(\mu_{X}, \mu_{Y}\right) + \left.\nabla f\left(x, y\right)^{\top}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix} + \\
+\dfrac{1}{2}\begin{bmatrix} X - \mu_{X} & Y - \mu_{Y}\end{bmatrix}\left.\nabla^{2} f\left(x, y\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix}
+\end{multline}
+If we take the expectation of this, the first order term vanishes because
+\begin{equation}
+\mathbb{E}\left[\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix}\right] = \begin{bmatrix} \mu_{X} - \mu_{X} \\ \mu_{Y} - \mu_{Y}\end{bmatrix}
+\end{equation}
+We are then left with
+\begin{multline}
+\mathbb{E}\left[f\left(X, Y\right)\right] \approx f\left(\mu_{X}, \mu_{Y}\right) + \dfrac{1}{2}\mathbb{E}\left[\left(X - \mu_{X}\right)^{2}\right]\left.\left(\dfrac{\partial^{2}f\left(x, y\right)}{\partial x^{2}}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)} \\
++\mathbb{E}\left[\left(X - \mu_{X}\right)\left(Y - \mu_{Y}\right)\right]\left.\left(\dfrac{\partial^{2}f\left(x, y\right)}{\partial x \partial y}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)} + \mathbb{E}\left[\left(Y - \mu_{Y}\right)^{2}\right]\left.\left(\dfrac{\partial^{2}f\left(x, y\right)}{\partial y^{2}}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}
+\end{multline}
+For the case $f\left(x, y\right) = \dfrac{x}{y}$, the second partial derivatives evaluate to
+\begin{gather}
+\dfrac{\partial^{2}f\left(x, y\right)}{\partial x^{2}} = 0 \\
+\dfrac{\partial^{2}f\left(x, y\right)}{\partial x \partial y} = -\dfrac{1}{y^{2}} \\
+\dfrac{\partial^{2}f\left(x, y\right)}{\partial y^{2}} = \dfrac{2x}{y^{3}}
+\end{gather}
+Hence
+\begin{align}
+\mathbb{E}\left[\dfrac{X}{Y}\right] &\approx \dfrac{\mu_{X}}{\mu_{Y}} - \mathbb{E}\left[\left(X - \mu_{X}\right)\left(Y - \mu_{Y}\right)\right]\dfrac{1}{\mu_{Y}^{2}} + \mathbb{E}\left[\left(Y - \mu_{Y}\right)^{2}\right]\dfrac{\mu_{X}}{\mu_{Y}^{3}} \\
+&\approx \dfrac{\mathbb{E}\left[X\right]}{\mathbb{E}\left[Y\right]} - \dfrac{\operatorname{Cov}\left(X, Y\right)}{\mathbb{E}\left[Y\right]^{2}} + \operatorname{Var}\left(Y\right)\dfrac{\mathbb{E}\left[X\right]}{\mathbb{E}\left[Y\right]^{3}}
+\end{align}
+To approximate the variance, taking a first order Taylor approximation (for simplicity) gives
+\begin{align}
+\operatorname{Var}\left(f\left(X, Y\right)\right) &\approx \operatorname{Var}\left(f\left(\mu_{X}, \mu_{Y}\right) + \left.\nabla f\left(x, y\right)^{\top}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix}\right) \\
+&\approx \operatorname{Var}\left(X\left.\dfrac{\partial f\left(x, y\right)}{\partial x}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)} + Y\left.\dfrac{\partial f\left(x, y\right)}{\partial y}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\right) \\
+&\begin{multlined}\approx \left.\left(\dfrac{\partial f\left(x, y\right)}{\partial x}\right)^{2}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\operatorname{Var}\left(X\right) \\
++ 2\left.\left(\dfrac{\partial f\left(x, y\right)}{\partial x}\cdot\dfrac{\partial f\left(x, y\right)}{\partial y}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\operatorname{Cov}\left(X, Y\right) + \left.\left(\dfrac{\partial f\left(x, y\right)}{\partial y}\right)^{2}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\operatorname{Var}\left(Y\right) \end{multlined}
+\end{align}
+Again by treating $f\left(x, y\right) = \dfrac{x}{y}$, 
+\begin{align}
+\operatorname{Var}\left(\dfrac{X}{Y}\right) &\approx \dfrac{1}{\mu_{Y}^{2}}\operatorname{Var}\left(X\right) - 2\dfrac{\mu_{X}}{\mu_{Y}^{3}}\operatorname{Cov}\left(X, Y\right) + \dfrac{\mu_{X}^{2}}{\mu_{Y}^{4}}\operatorname{Var}\left(Y\right) \\
+&\approx \dfrac{\operatorname{Var}\left(X\right)}{\mathbb{E}\left[Y\right]^{2}} - 2\dfrac{\mathbb{E}\left[X\right]}{\mathbb{E}\left[Y\right]^{3}}\operatorname{Cov}\left(X, Y\right) + \dfrac{\mathbb{E}\left[X\right]^{2}}{\mathbb{E}\left[Y\right]^{4}}\operatorname{Var}\left(Y\right)
+\end{align}
 
 \subsection{Decompositions of Random Variables}
 
@@ -1746,6 +2139,34 @@ Cram\'{e}r's decomposition theorem states that if $X$ and $Y$ are independent re
 \section{Inequalities in Probability}
 
 \subsection{Boole's Inequality}
+
+Also known as the union bound, Boole's inequality generalises the addition law of probability. It states that for events $A_{1}, A_{2}, A_{3}, \dots$:
+\begin{equation}
+\operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i}\right) \leq \sum_{i = 1}^{n}\operatorname{Pr}\left(A_{i}\right)
+\end{equation}
+\begin{proof}
+Starting with the base case, we clearly have for $n = 1$:
+\begin{equation}
+\operatorname{Pr}\left(A_{1}\right) \leq \operatorname{Pr}\left(A_{1}\right)
+\end{equation}
+For the induction step, suppose for some $n \geq 1$:
+\begin{equation}
+\operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i}\right) \leq \sum_{i = 1}^{n}\operatorname{Pr}\left(A_{i}\right)
+\end{equation}
+By letting $A := \bigcup_{i = 1}^{n}A_{i}$ and $B := A_{n + 1}$ and using the addition law of probability,
+\begin{equation}
+\operatorname{Pr}\left(\bigcup_{i = 1}^{n + 1}A_{i}\right) = \operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i}\right) + \operatorname{Pr}\left(A_{n + 1}\right) -  \operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i} \cap A_{n + 1}\right)
+\end{equation}
+Since $\operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i} \cap A_{n + 1}\right) \geq 0$, then
+\begin{equation}
+\operatorname{Pr}\left(\bigcup_{i = 1}^{n + 1}A_{i}\right) \leq \operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i}\right) + \operatorname{Pr}\left(A_{n + 1}\right)
+\end{equation}
+and because it is given $\operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i}\right) \leq \sum_{i = 1}^{n}\operatorname{Pr}\left(A_{i}\right)$, we have
+\begin{align}
+\operatorname{Pr}\left(\bigcup_{i = 1}^{n + 1}A_{i}\right) &\leq \sum_{i = 1}^{n}\operatorname{Pr}\left(A_{i}\right) + \operatorname{Pr}\left(A_{n + 1}\right) \\
+&\leq \sum_{i = 1}^{n + 1}\operatorname{Pr}\left(A_{i}\right)
+\end{align}
+\end{proof}
 
 \subsection{Comparison of Random Variables}
 
@@ -1793,6 +2214,10 @@ f\left(\int p\left(x\right) x dx\right) \leq \int f\left(x\right)p\left(x\right)
 where $p\left(x\right) \geq 0$ and $\int p\left(x\right) dx = 1$. Recognise that the above inequality pertains to the expected value of a random variable $X$ with probability density $p\left(x\right)$, and a convex function $f\left(x\right)$. We can write
 \begin{equation}
 f\left(\mathbb{E}\left[X\right]\right) \leq \mathbb{E}\left[f\left(X\right)\right]
+\end{equation}
+Jensen's inequality generalises to real convex functions of a random vector:
+\begin{equation}
+f\left(\mathbb{E}\left[\mathbf{X}\right]\right) \leq \mathbb{E}\left[f\left(\mathbf{X}\right)\right]
 \end{equation}
 
 \subsection{Markov's Inequality}
@@ -1867,16 +2292,16 @@ We can use this result to bound probabilities of $X$ being greater than some val
 
 \subsection{Chebychev's Inequality}
 
-Let $X$ be a random variable with finite mean $\mu$ and non-zero standard deviation $\sigma$. Then for any $k > 0$
+Let $X$ be a random variable with finite mean $\mu$ and non-zero standard deviation $\sigma$. Then for any $k > 0$, Chebychev's inequality (also known as the Bienaym\'{e}-Chebychev inequality) states that
 \begin{equation}
 \operatorname{Pr}\left(\left|X - \mu\right| \geq k\sigma\right) \leq \dfrac{1}{k^{2}}
 \end{equation}
 In words, this states that the probability of $X$ being at least $k$ standard deviations away from the mean can be no more than $\dfrac{1}{k^{2}}$.
 \begin{proof}
-Let a random variable $Y$ be $Y = \left(X - \mu\right)^{2}$ and let $a = \left(k\sigma\right)^{2}$. Then applying Markov's inequality
+Let a random variable $Y$ be defined as $Y = \left(X - \mu\right)^{2}$ and let $a = \left(k\sigma\right)^{2}$. Then applying Markov's inequality
 \begin{gather}
 \operatorname{Pr}\left(Y \geq a\right) \leq \dfrac{\mathbb{E}\left[Y\right]}{a} \\
-\operatorname{Pr}\left(\left(X - \mu\right)^{2} \geq k^{2}\sigma^{2}\right) \leq \dfrac{\mathbb{E}\left[\left(X - \mu\right)^{2}\right]}{k^{2}\sigma^{2}} \\
+\operatorname{Pr}\left(\left(X - \mu\right)^{2} \geq k^{2}\sigma^{2}\right) \leq \dfrac{\mathbb{E}\left[\left(X - \mu\right)^{2}\right]}{k^{2}\sigma^{2}}
 \end{gather}
 The event inside the probability is equivalent to $\left|X - \mu\right| \geq k\sigma$ and the numerator on the right hand side is the definition of variance $\sigma^{2}$. So
 \begin{equation}
@@ -1889,13 +2314,211 @@ Note that this inequality is only useful for when $k > 1$, because when $0 < k \
 \end{equation}
 Chebychev's inequality can be used to bound probabilities within a certain number of standard deviations from the mean, for very general distributions. Obtaining more knowledge of the distribution (such as information the distribution is normal) will often lead to tighter (ie. smaller) bounds.
 
+\subsubsection{Multivariate Chebychev's Inequality}
+
+If $\mathbf{X}$ is an $n$-dimensional random vector with mean $\mathbb{E}\left[\mathbf{X}\right] = \boldsymbol{\mu}$ and covariance matrix $\operatorname{Cov}\left(\mathbf{X}\right) = \Sigma$, then multivariate Chebychev's inequality states that for any $k > 0$:
+\begin{equation}
+\operatorname{Pr}\left(\sqrt{\left(\mathbf{X} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X} - \boldsymbol{\mu}\right)} > k\right) \leq \dfrac{n}{k^{2}}
+\end{equation}
+\begin{proof}
+Define the random variable $Y = \left(\mathbf{X} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X} - \boldsymbol{\mu}\right)$. By positive definiteness of $\Sigma$ and hence $\Sigma^{-1}$, $Z$ is positive so
+\begin{align}
+\operatorname{Pr}\left(\sqrt{\left(\mathbf{X} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X} - \boldsymbol{\mu}\right)} > k\right) &= \operatorname{Pr}\left(\sqrt{Y} > k\right) \\
+&= \operatorname{Pr}\left(Y > k^{2}\right) \\
+&\leq \dfrac{\mathbb{E}\left[Y\right]}{k^{2}}
+\end{align}
+where the Markov inequality is applied in the last step. We then have
+\begin{equation}
+\mathbb{E}\left[Y\right] = \mathbb{E}\left[\left(\mathbf{X} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X} - \boldsymbol{\mu}\right)\right]
+\end{equation}
+Since $Y$ is univariate,
+\begin{equation}
+\mathbb{E}\left[Y\right] = \mathbb{E}\left[\operatorname{trace}\left(\left(\mathbf{X} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X} - \boldsymbol{\mu}\right)\right)\right]
+\end{equation}
+Because the trace is invariant to cyclic permutations,
+\begin{equation}
+\mathbb{E}\left[Y\right] = \mathbb{E}\left[\operatorname{trace}\left(\Sigma^{-1}\left(\mathbf{X} - \boldsymbol{\mu}\right)^{\top}\left(\mathbf{X} - \boldsymbol{\mu}\right)\right)\right]
+\end{equation}
+Then use the fact the trace is a linear operator:
+\begin{equation}
+\mathbb{E}\left[Y\right] = \operatorname{trace}\left(\Sigma^{-1}\mathbb{E}\left[\left(\mathbf{X} - \boldsymbol{\mu}\right)^{\top}\left(\mathbf{X} - \boldsymbol{\mu}\right)\right]\right)
+\end{equation}
+And lastly by using the definition of the covariance matrix and the trace of the identity:
+\begin{align}
+\mathbb{E}\left[Y\right] &= \operatorname{trace}\left(\Sigma^{-1}\Sigma\right) \\
+&= \operatorname{trace}\left(I\right) \\
+&= n
+\end{align}
+Therefore
+\begin{equation}
+\operatorname{Pr}\left(\sqrt{\left(\mathbf{X} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X} - \boldsymbol{\mu}\right)} > k\right) \leq \dfrac{n}{k^{2}}
+\end{equation}
+\end{proof}
+
+\subsection{Cantelli's Inequality}
+For a random variable $X$ with expectation $\mu$ and variance $\sigma^{2}$, Cantelli's inequality states that for $\delta > 0$:
+\begin{equation}
+\operatorname{Pr}\left(\left|X - \mu\right| \geq \delta\right) =  \dfrac{2\sigma^{2}}{\sigma^{2} + \delta^{2}}
+\end{equation}
+\begin{proof}
+Consider the probability $\operatorname{Pr}\left(X - \mu > \lambda\right)$ for the case where $\lambda > 0$. Define $Y := X - \mu$ so that $\mathbb{E}\left[Y\right] = 0$ and $\operatorname{Var}\left(Y\right) = \sigma^{2}$. Then for any $u \geq 0$:
+\begin{align}
+\operatorname{Pr}\left(X - \mu \geq \lambda\right) &= \operatorname{Pr}\left(Y \geq \lambda\right) \\
+&= \operatorname{Pr}\left(Y + u \geq \lambda + u\right) \\
+&\leq \operatorname{Pr}\left(\left(Y + u\right)^{2} \geq \left(\lambda + u\right)^{2}\right)
+\end{align}
+where the last inequality comes from recognising that $\lambda + u$ is positive, but $Y + u$ can generally be negative, so the event $\left\{Y + u \geq \lambda + u\right\} \subseteq \left\{\left(Y + u\right)^{2} \geq \left(\lambda + u\right)^{2}\right\}$. Then applying Markov's inequality on the non-negative random variable $\left(Y - u\right)^{2}$,
+\begin{align}
+\operatorname{Pr}\left(X - \mu \geq \lambda\right) &\leq \dfrac{\mathbb{E}\left[\left(Y + u\right)^{2}\right]}{\left(\lambda + u\right)^{2}} \\
+&\leq \dfrac{\mathbb{E}\left[Y^{2} + Yu + u^{2}\right]}{\left(\lambda + u\right)^{2}} \\
+&\leq \dfrac{\mathbb{E}\left[Y^{2}\right] + \mathbb{E}\left[Yu\right] + \mathbb{E}\left[u^{2}\right]}{\left(\lambda + u\right)^{2}} \\
+&\leq \dfrac{\operatorname{Var}\left(Y\right) + u^{2}}{\left(\lambda + u\right)^{2}} \\
+&\leq \dfrac{\sigma^{2} + u^{2}}{\left(\lambda + u\right)^{2}}
+\end{align}
+To make this bound as tight as possible, we find the value $u^{*} \geq 0$ that minimises the left hand side. Differentiating,
+\begin{align}
+\dfrac{d}{du}\left(\dfrac{\sigma^{2} + u^{2}}{\left(\lambda + u\right)^{2}}\right) &= \dfrac{d}{du}\left(\sigma^{2}\left(\lambda + u\right)^{2} + u^{2}\left(\lambda + u\right)^{-2}\right) \\
+&= -2\sigma^{2}\left(\lambda + u\right)^{-3} + 2u\left(\lambda + u\right)^{-2} - 2u^{2}\left(\lambda + u\right)^{3}
+\end{align}
+Setting the derivative to zero and solving:
+\begin{gather}
+\dfrac{2u^{*}}{\left(\lambda + u^{*}\right)^{2}} - \dfrac{2u^{*2}}{\left(\lambda + u^{*}\right)^{2}} - \dfrac{2\sigma^{2}}{\left(\lambda + u^{*}\right)^{3}} = 0 \\
+u^{*}\left(\lambda + u^{*}\right) - u^{*2} - \sigma^{2} = 0 \\
+u^{*}\lambda - \sigma^{2} = 0 \\
+u^{*} = \dfrac{\sigma^{2}}{\lambda}
+\end{gather}
+Hence substituting $u^{*}$:
+\begin{align}
+\operatorname{Pr}\left(X - \mu \geq \lambda\right) &\leq \dfrac{\sigma^{2}+\sigma^{4}/\lambda^{2}}{\left(\lambda+\sigma^{2}/\lambda\right)^{2}} \\
+&\leq \dfrac{\sigma^{2}+\sigma^{4}/\lambda^{2}}{\lambda^{2}+2\sigma^{2}+\sigma^{4}/\lambda^{2}} \\
+&\leq \dfrac{\lambda^{2}\sigma^{2}+\sigma^{4}}{\lambda^{4}+2\sigma^{2}\lambda^{2}+\sigma^{4}} \\
+&\leq \dfrac{\sigma^{2}\left(\lambda^{2}+\sigma^{2}\right)}{\left(\lambda^{2}+\sigma^{2}\right)^{2}} \\
+&\leq  \dfrac{\sigma^{2}}{\lambda^{2}+\sigma^{2}}
+\end{align}
+Now suppose $\lambda < 0$, then define $\alpha := -\lambda > 0$ and $Z = -Y$. Then as above,
+\begin{align}
+\operatorname{Pr}\left(X - \mu < \lambda\right) &= \operatorname{Pr}\left(Y < \lambda\right) \\
+&= \operatorname{Pr}\left(Z > \alpha\right) \\
+&\leq \dfrac{\sigma^{2}}{\alpha^{2}+\sigma^{2}} \\
+&\leq \dfrac{\sigma^{2}}{\lambda^{2}+\sigma^{2}}
+\end{align}
+To combine both cases, define $\delta := \left|\lambda\right| > 0$, then
+\begin{align}
+\operatorname{Pr}\left(\left|X - \mu\right| \geq \delta\right) &= \operatorname{Pr}\left(X - \mu \geq \delta \cup X - \mu \leq -\delta\right) \\
+&= \operatorname{Pr}\left(X - \mu \geq \delta\right) + \operatorname{Pr}\left(X - \mu < -\delta\right) \\
+&\leq \dfrac{\sigma^{2}}{\delta^{2}+\sigma^{2}} + \dfrac{\sigma^{2}}{\delta^{2}+\sigma^{2}} \\
+&\leq \dfrac{2\sigma^{2}}{\delta^{2}+\sigma^{2}}
+\end{align}
+\end{proof}
+
 \subsection{Cauchy-Schwarz Inequality}
+
+By viewing random variables as objects which assign a number to every outcome in a random experiment, they can be treated as points on a vector space. An inner product between random variables $X$ and $Y$ can be defined as
+\begin{equation}
+\left\langle X, Y\right\rangle := \mathbb{E}\left[XY\right]
+\end{equation}
+We can show that this satisfies the definition of an inner product space because of the linearity of expectation, and also because $\mathbb{E}\left[X^{2}\right] = 0$ implies $\operatorname{Pr}\left(X = 0\right) = 1$ (ie. a value of $0$ is assigned to every outcome in the random experiment) and vice-versa. The latter is shown by considering
+\begin{align}
+\mathbb{E}\left[X^{2}\right] &= \operatorname{Var}\left(X\right) + \mathbb{E}\left[X\right]^{2} \\
+&= 0
+\end{align}
+which can only be satisfied if $\operatorname{Var}\left(X\right) = 0$ since we must have $0 \leq \mathbb{E}\left[X\right]^{2} = -\operatorname{Var}\left(X\right) \leq 0$. The converse is more obvious to show, just by using the definition of mean and variance. Applying the Cauchy-Schwarz inequality to this inner product gives
+\begin{equation}
+\mathbb{E}\left[XY\right]^{2} \leq \mathbb{E}\left[X^{2}\right]\mathbb{E}\left[Y^{2}\right]
+\end{equation}
+This can also be used to show the inequality for the correlation coefficient:
+\begin{align}
+\operatorname{Cov}\left(X, Y\right)^{2} &= \mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)\left(Y - \mathbb{E}\left[Y\right]\right)\right] \\
+&\leq \mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)^{2}\right]\mathbb{E}\left[\left(Y - \mathbb{E}\left[Y\right]\right)^{2}\right] \\
+&\leq \operatorname{Var}\left(X\right)\operatorname{Var}\left(Y\right)
+\end{align}
+Hence
+\begin{gather}
+-\sqrt{\operatorname{Var}\left(X\right)\operatorname{Var}\left(Y\right)} \leq \operatorname{Cov}\left(X, Y\right) \leq \sqrt{\operatorname{Var}\left(X\right)\operatorname{Var}\left(Y\right)} \\
+-1 \leq \operatorname{Corr}\left(X, Y\right) \leq 1
+\end{gather}
 
 \subsection{H\"{o}lder's Inequality}
 
+For random variables $X$, $Y$ and some $p > 1$, $q > 1$ such that $\dfrac{1}{p} + \dfrac{1}{q} = 1$, H\"{o}lder's inequality for probability states that
+\begin{equation}
+\mathbb{E}\left[\left|XY\right|\right]\leq\mathbb{E}\left[\left|X\right|^{p}\right]^{1/p}\mathbb{E}\left[\left|Y\right|^{q}\right]^{1/q}
+\end{equation}
+\begin{proof}
+If the left hand side is zero (ie. $\operatorname{Pr}\left(X = 0\right) = 1$ or $\operatorname{Pr}\left(Y = 0\right) = 1$), then by applying similar reasoning as for the Cauchy-Schwarz inequality, the right hand side must also be zero, satisfying H\"{o}lder's inequality. We then focus on the case where the left hand side is positive. For some positive $a$, $b$, there exist $s$, $t$ such that $a = e^{s/p}$ and $b = e^{t/q}$. Since $\exp\left(\cdot\right)$ is a convex function, then by $p^{-1} + q^{-1} = 1$:
+\begin{equation}
+e^{p^{-1}s + q^{-1}t} \leq p^{-1}e^{s} + q^{-1}e^{t}
+\end{equation}
+Then applying the definitions of $a$ and $b$, this gives what is known as Young's inequality for products:
+\begin{equation}
+ab \leq \dfrac{a^{p}}{p} + \dfrac{b^{q}}{q}
+\end{equation}
+which is satisfied when $a = 0$ or $b = 0$ as well as for positive $a$, $b$. Then let $a = \dfrac{\left|X\right|}{\mathbb{E}\left[\left|X\right|^{p}\right]^{1/p}}$ and $b = \dfrac{\left|Y\right|}{\mathbb{E}\left[\left|Y\right|^{q}\right]^{1/q}}$ so that
+\begin{equation}
+\dfrac{\left|XY\right|}{\mathbb{E}\left[\left|X\right|^{p}\right]^{1/p}\mathbb{E}\left[\left|Y\right|^{q}\right]^{1/q}}\leq\dfrac{1}{p}\dfrac{\left|X\right|^{p}}{\mathbb{E}\left[\left|X\right|^{p}\right]}+\dfrac{1}{q}\dfrac{\left|Y\right|^{q}}{\mathbb{E}\left[\left|Y\right|^{q}\right]}
+\end{equation}
+Taking the expectation of both sides,
+\begin{align}
+\dfrac{\mathbb{E}\left[\left|XY\right|\right]}{\mathbb{E}\left[\left|X\right|^{p}\right]^{1/p}\mathbb{E}\left[\left|Y\right|^{q}\right]^{1/q}} &\leq \dfrac{1}{p}\dfrac{\mathbb{E}\left[\left|X\right|^{p}\right]}{\mathbb{E}\left[\left|X\right|^{p}\right]}+\dfrac{1}{q}\dfrac{\mathbb{E}\left[\left|Y\right|^{q}\right]}{\mathbb{E}\left[\left|Y\right|^{q}\right]} \\
+&\leq \dfrac{1}{p} + \dfrac{1}{q} \\
+&\leq 1
+\end{align}
+Therefore
+\begin{equation}
+\mathbb{E}\left[\left|XY\right|\right]\leq\mathbb{E}\left[\left|X\right|^{p}\right]^{1/p}\mathbb{E}\left[\left|Y\right|^{q}\right]^{1/q}
+\end{equation}
+\end{proof}
+
 \subsection{Minkowski's Inequality}
 
+For random variables $X$, $Y$ and some $p \geq 1$, Minkowski's inequality for probability states that
+\begin{equation}
+\mathbb{E}\left[\left|X + Y\right|^{p}\right]^{1/p} \leq \mathbb{E}\left[\left|X\right|^{p}\right]^{1/p} + \mathbb{E}\left[\left|Y\right|^{p}\right]^{1/p}
+\end{equation}
+\begin{proof}
+It suffices to show that for non-negative $X$ and $Y$ that
+\begin{equation}
+\mathbb{E}\left[\left(X^{1/p} + Y^{1/p}\right)^{p}\right] \leq \left(\mathbb{E}\left[X\right]^{1/p} + \mathbb{E}\left[Y\right]\right)^{p}
+\end{equation}
+because then we can then simply replace $X$ with $\left|X\right|^{p}$ and $Y$ with $\left|Y\right|^{p}$, then take both sides to the power of $1/p$ to obtain Minkowski's inequality. Introduce the function $f\left(x, y\right) = \left(x^{1/p} + y^{1/p}\right)^{p}$, which we will show is concave. Taking the partial derivatives (up to second order):
+\begin{align}
+\dfrac{\partial f\left(x,y\right)}{\partial x} &= p\cdot\dfrac{1}{p}x^{1/p-1}\left(x^{1/p}+y^{1/p}\right)^{p-1} \\
+&= x^{1/p-1}\left(x^{1/p}+y^{1/p}\right)^{p-1}
+\end{align}
+and
+\begin{align}
+\dfrac{\partial^{2}f\left(x,y\right)}{\partial x^{2}} &= x^{1/p-1}\left(p-1\right)\cdot\dfrac{1}{p}x^{1/p-1}\left(x^{1/p}+y^{1/p}\right)^{p-2}+\left(\dfrac{1}{p}-1\right)x^{1/p-2}\left(x^{1/p}+y^{1/p}\right)^{p-1} \\
+&= \dfrac{p-1}{p}x^{2/p-2}\left(x^{1/p}+y^{1/p}\right)^{p-2}-\dfrac{p-1}{p}x^{1/p-2}\left(x^{1/p}+y^{1/p}\right)\left(x^{1/p}+y^{1/p}\right)^{p-2} \\
+&= \dfrac{p-1}{p}\left(x^{1/p}+y^{1/p}\right)^{p-2}\left[x^{2/p-2}-x^{1/p-2}\left(x^{1/p}+y^{1/p}\right)\right] \\
+&= \dfrac{1-p}{p}\left(x^{1/p}+y^{1/p}\right)^{p-2}x^{1/p-2}y^{1/p}
+\end{align}
+which is negative since $p \geq 1$. By symmetry, an analogous expression can be found for $\dfrac{\partial^{2}f\left(x,y\right)}{\partial y^{2}}$. Also,
+\begin{equation}
+\dfrac{\partial^{2}f\left(x,y\right)}{\partial x\partial y}=\dfrac{p-1}{p}x^{1/p-1}y^{1/p-1}\left(x^{1/p}+y^{1/p}\right)^{p-2}
+\end{equation}
+We can then show negative semi-definiteness of the Hessian of $f\left(x, y\right)$, since
+\begin{gather}
+\left(\dfrac{\partial^{2}f\left(x,y\right)}{\partial x\partial y}\right)^{2}=\left(\dfrac{p-1}{p}\right)^{2}\left(x^{1/p}+y^{1/p}\right)^{2p-4}x^{2/p-2}y^{2/p-2} \\
+\dfrac{\partial^{2}f\left(x,y\right)}{\partial x^{2}}\dfrac{\partial^{2}f\left(x,y\right)}{\partial y^{2}}=\left(\dfrac{p-1}{p}\right)^{2}\left(x^{1/p}+y^{1/p}\right)^{2p-4}x^{2/p-2}y^{2/p-2}
+\end{gather}
+which gives $\left(\dfrac{\partial^{2}f\left(x,y\right)}{\partial x\partial y}\right)^{2} = \dfrac{\partial^{2}f\left(x,y\right)}{\partial x^{2}}\dfrac{\partial^{2}f\left(x,y\right)}{\partial y^{2}}$. Hence $f\left(x, y\right)$ is concave (or equivalently, $-f\left(x, y\right)$ is convex. Using Jensen's inequality,
+\begin{equation}
+f\left(\mathbb{E}\left[X\right], \mathbb{E}\left[Y\right]\right) \geq \mathbb{E}\left[f\left(X, Y\right)\right]
+\end{equation}
+therefore
+\begin{equation}
+\mathbb{E}\left[\left(X^{1/p} + Y^{1/p}\right)^{p}\right] \leq \left(\mathbb{E}\left[X\right]^{1/p} + \mathbb{E}\left[Y\right]\right)^{p}
+\end{equation}
+as required.
+\end{proof}
+
 \subsection{Lyapunov's Inequality}
+
+Lyapunov's inequality for probability can be derived from H\"{o}lder's inequality. First let $0 < \alpha < \beta$ and choose $p = \beta/\alpha > 1$ and $q = \beta/\left(\beta - \alpha\right) > 1$, noting that this satisfies $p^{-1} + q^{-1} = 1$. Then apply H\"{o}lder's inequality to the random variable $\left|X\right|^{\alpha}$ and the degenerate random variable $1$ to yield
+\begin{equation}
+\mathbb{E}\left[\left|X\right|^{\alpha}\right]\leq\mathbb{E}\left[\left|X\right|^{\beta}\right]^{\alpha/\beta}
+\end{equation}
+for $0 < \alpha \leq \beta$, noting that this inequality is trivially satisfied (with equality) when $\alpha = \beta$.
 
 \section{Notions of Convergence}
 
@@ -2107,23 +2730,88 @@ because there does not exist a random variable $Y$ with finite expectation such 
 
 \chapter{Intermediate Statistics}
 
-\section{Least Squares}
-
-\subsection{Ordinary Least Squares}
-
-\subsection{Total Least Squares}
-
-\subsection{Deming Regression}
-
-\subsection{Weighted Least Squares}
-
-\subsection{Generalised Least Squares}
-
-\subsection{Regularised Least Squares}
-
-\subsection{Recursive Least Squares}
-
 \section{Statistical Decision Theory}
+
+\subsection{Optimal Prediction}
+
+Suppose we have to make a prediction about the realisation of a random variable $Y$, which has the probability density function $f_{Y}\left(y\right)$. One reasonable choice of the prediction $\hat{Y}$ is the value which minimises the expected squared deviation of the realisation of the prediction, ie.
+\begin{align}
+\hat{Y} &= \argmin_{c}\mathbb{E}\left[\left(Y - c\right)^{2}\right] \\
+&= \argmin_{c}\int_{-\infty}^{\infty}f_{Y}\left(y\right)\left(y - c\right)^{2}dy
+\end{align}
+We can derive $\hat{Y}$ by taking the derivative (supposing sufficient regularity to do so):
+\begin{align}
+\dfrac{\partial}{\partial c}\int_{-\infty}^{\infty}f_{Y}\left(y\right)\left(y - c\right)^{2}dy &= \int_{-\infty}^{\infty}f_{Y}\left(y\right)\dfrac{\partial}{\partial c}\left(y - c\right)^{2}dy \\
+&= -\int_{-\infty}^{\infty}f_{Y}\left(y\right)2\left(y - c\right)dy
+\end{align}
+Setting the derivative to zero:
+\begin{gather}
+\int_{-\infty}^{\infty}f_{Y}\left(y\right)\left(y - \hat{Y}\right)dy = 0 \\
+\int_{-\infty}^{\infty}f_{Y}\left(y\right)ydy = \hat{Y}\int_{-\infty}^{\infty}f_{Y}\left(y\right)dy \\
+\hat{Y} = \int_{-\infty}^{\infty}f_{Y}\left(y\right)ydy \\
+\hat{Y} = \mathbb{E}\left[Y\right]
+\end{gather}
+Hence the expectation of $Y$ (if it exists) is the optimal prediction in this sense. The same can be analogously shown if $Y$ is a discrete random variable. In most cases arising in statistics, the true distribution of $Y$ will not be known, nor even it's population mean. If however we have a sample drawn from the distribution of $Y$, we can take the sample mean to give an unbiased estimate of $\mathbb{E}\left[Y\right]$. These optimal predictions can also be conditional on predictors $X$, in which case we take the conditional expectation. It can be analogously shown that the optimal prediction conditional on predictors $X$ defined as
+\begin{align}
+\hat{Y}|X &= \argmin_{c}\mathbb{E}\left[\left(Y - c\right)^{2}\middle|X\right] \\
+&= \argmin_{c}\int_{-\infty}^{\infty}f_{Y|X}\left(y\right)\left(y - c\right)^{2}dy
+\end{align}
+is equal to
+\begin{equation}
+\hat{Y}|X = \mathbb{E}\left[Y\middle|X\right]
+\end{equation}
+Hence this justifies estimating the conditional mean from a sample for predictive or modelling purposes. We choose the model regression function to ideally give a good estimate of
+\begin{equation}
+f\left(x\right) = \mathbb{E}\left[Y\middle| X = x\right]
+\end{equation}
+If we instead change the prediction criterion to minimising the expected absolute deviation:
+\begin{equation}
+\hat{Y} = \argmin_{c}\mathbb{E}\left[\left|Y - c\right|\right]
+\end{equation}
+then we can derive an alternative prediction rule by first writing (supposing that $Y$ is a continuous random variable):
+\begin{align}
+\mathbb{E}\left[\left|Y - c\right|\right] &= \int_{-\infty}^{\infty}f_{Y}\left(y\right)\left|y - c\right|dy \\
+&= \int_{-\infty}^{c}f_{Y}\left(y\right)\left(c - y\right)dy + \int_{c}^{\infty}f_{Y}\left(y\right)\left(y - c\right)dy
+\end{align}
+We seek to find the value for which the right derivative of the first term equals the negative of the left derivative of the second term (the whole term is not differentiable everywhere). We can further split this into
+\begin{gather}
+\int_{-\infty}^{c}f_{Y}\left(y\right)\left(c - y\right)dy = c\int_{-\infty}^{c}f_{Y}\left(y\right)dy - \int_{-\infty}^{c}f_{Y}\left(y\right)ydy \\
+\int_{c}^{\infty}f_{Y}\left(y\right)\left(y - c\right)dy = \int_{c}^{\infty}f_{Y}\left(y\right)ydy - c\int_{c}^{\infty}f_{Y}\left(y\right)dy
+\end{gather}
+Note that by the Fundamental Theorem of Calculus, we have
+\begin{align}
+\dfrac{\partial }{\partial c}\int_{c}^{\infty}f_{Y}\left(y\right)dy &= \dfrac{\partial }{\partial c}\left(\lim_{y \to \infty}F_{Y}\left(y\right) - F_{Y}\left(c\right)\right) \\
+&= \dfrac{\partial }{\partial c}\left(1 - F_{Y}\left(c\right)\right) \\
+&= -f_{Y}\left(c\right)
+\end{align}
+where $F_{Y}\left(y\right)$ is the cumulative distribution function of $Y$. Similarly, $\dfrac{\partial }{\partial c}\int_{c}^{\infty}f_{Y}\left(y\right)ydy = -f_{Y}\left(c\right)c$ and by the product rule, $\dfrac{\partial }{\partial c}c\int_{c}^{\infty}f_{Y}\left(y\right)dy = \int_{c}^{\infty}f_{Y}\left(y\right)dy - cf_{Y}\left(c\right)$. Using these to take the derivative the terms above we obtain
+\begin{align}
+\dfrac{\partial }{\partial c}\int_{-\infty}^{c}f_{Y}\left(y\right)\left(c - y\right)dy &= cf_{Y}\left(c\right) + \int_{-\infty}^{c}f_{Y}\left(y\right)dy - f_{Y}\left(c\right)c \\
+&= \int_{-\infty}^{c}f_{Y}\left(y\right)dy
+\end{align}
+and
+\begin{align}
+\dfrac{\partial }{\partial c}\int_{c}^{\infty}f_{Y}\left(y\right)\left(y - c\right)dy &= -f_{Y}\left(c\right)c - \int_{c}^{\infty}f_{Y}\left(y\right)dy + cf_{Y}\left(c\right) \\
+&= - \int_{c}^{\infty}f_{Y}\left(y\right)dy
+\end{align}
+Therefore we find the value of $c$ for which
+\begin{equation}
+\int_{-\infty}^{c}f_{Y}\left(y\right)dy = \int_{c}^{\infty}f_{Y}\left(y\right)dy
+\end{equation}
+This value happens to be the median $m_{Y}$ of $Y$, since at the median,
+\begin{gather}
+\int_{-\infty}^{m_{Y}}f_{Y}\left(y\right)dy = \dfrac{1}{2} \\
+\int_{m_{Y}}^{\infty}f_{Y}\left(y\right)dy = \dfrac{1}{2}
+\end{gather}
+So the optimal prediction is the population median
+\begin{equation}
+\hat{Y} = m_{Y}
+\end{equation}
+If we have a sample drawn from the population of $Y$, then we may estimate the population median using the sample median. Likewise, if given a predictor $x$, it can be shown via roughly the same steps that the ideal predictive function is the conditional median (ie. median of the conditional distribution):
+\begin{align}
+f\left(x\right) &= \argmin_{c}\mathbb{E}\left[\left|Y - c\right|\middle|X = x\right] \\
+&= m_{Y|X = x}
+\end{align}
 
 \subsection{Maximum Likelihood Hypothesis Testing}
 
@@ -2135,7 +2823,206 @@ because there does not exist a random variable $Y$ with finite expectation such 
 
 \subsection{Receiver Operating Characteristic}
 
+\subsection{Uncertainty Quantification}
+
+Uncertainty quantification is the science of characterising uncertainty (ie. the distribution of errors, in a statistical sense) for a model.
+
+\subsubsection{Propagation of Errors}
+
+Consider a generally nonlinear model $f\left(x\right)$ in the explanatory variables $x$, where $x$ is a vector of dimension $n$. However, it is known that we obtain or measure $x$ with some error $\varepsilon$ with $\operatorname{Cov}\left(\varepsilon\right) = \Sigma$, so that we have the random vector $\mathbf{X} := x + \varepsilon$. We then ask how this error propagates through to the estimate $f\left(\mathbf{X}\right)$. Suppose $\varepsilon$ is a continuous random variable and $f\left(x\right)$ is differentiable. Then by a first order Taylor series approximation,
+\begin{align}
+f\left(x + \varepsilon\right) &\approx f\left(x\right) + \sum_{i = 1}^{n}\dfrac{\partial f}{\partial x_{i}}\varepsilon_{i} \\
+&\approx f\left(x\right) + \nabla f\left(x\right)^{\top}\varepsilon
+\end{align}
+So then we can approximate the variance of $f\left(x + \varepsilon\right)$ by
+\begin{align}
+\operatorname{Var}\left(f\left(x + \varepsilon\right)\right) &\approx \operatorname{Var}\left(f\left(x\right) + \nabla f\left(x\right)^{\top}\varepsilon\right) \\
+&\approx \operatorname{Cov}\left(\nabla f\left(x\right)^{\top}\varepsilon\right) \\
+&\approx \nabla f\left(x\right)^{\top}\operatorname{Cov}\left(\varepsilon\right)\nabla f\left(x\right) \\
+&\approx \nabla f\left(x\right)^{\top}\Sigma\nabla f\left(x\right)
+\end{align}
+More generally, suppose we have a vector-valued nonlinear model $\mathbf{f}\left(x\right)$, then let $\mathbf{J} = \dfrac{\partial \mathbf{f}}{\partial x}$ denote the Jacobian matrix. Then the first order Taylor series approximation is
+\begin{equation}
+\mathbf{f}\left(x + \varepsilon\right) \approx \mathbf{f}\left(x\right) + \mathbf{J}\varepsilon
+\end{equation}
+and by the same vein, an approximation of the error propagation is
+\begin{equation}
+\operatorname{Cov}\left(\mathbf{f}\left(x + \varepsilon\right)\right) \approx \mathbf{J}\Sigma\mathbf{J}^{\top}
+\end{equation}
+Even more generally, suppose we have a composition of nonlinear mappings $\mathbf{g}\circ \mathbf{f}\left(x\right)$. Then taking the Jacobian matrix $\dfrac{\partial \mathbf{g}}{\partial \mathbf{f}}$ we come up with the approximation
+\begin{equation}
+\operatorname{Cov}\left(\mathbf{g}\circ\mathbf{f}\left(x + \varepsilon\right)\right) \approx \dfrac{\partial \mathbf{g}}{\partial \mathbf{f}}\mathbf{J}\Sigma\mathbf{J}^{\top}\dfrac{\partial \mathbf{g}}{\partial \mathbf{f}}^{\top}
+\end{equation}
+We can in this way approximate the error propagation through an arbitrary amount of nested nonlinear models by chaining Jacobians, keeping in mind that the approximation may get worse and worse through multiple compositions.
+
+\section{Least Squares}
+
+\subsection{Ordinary Least Squares}
+
+Suppose we have $n$ data pairs consisting of regressors $\mathbf{x}_{i}$ (vectors) and scalar responses $y_{i}$. The task is to fit a linear model of the form $\hat{y}_{i} = \hat{\beta}^{\top}\mathbf{x}_{i}$ where $\hat{\beta}$ is an estimated $d$-dimensional vector of parameters. We use the least squares cost function
+\begin{align}
+V\left(\beta\right) &= \dfrac{1}{2}\sum_{i = 1}^{n}\left(y_{i} - \hat{y}_{i}\right)^{2} \\
+&= \dfrac{1}{2}\sum_{i = 1}^{n}\left(y_{i} - \beta^{\top}\mathbf{x}_{i}\right)^{2}
+\end{align}
+Using matrix notation, this problem can be written down more compactly. Denote by the matrices $\mathbf{X}$ and $\mathbf{Y}$:
+\begin{gather}
+\mathbf{X} = \begin{bmatrix}
+\mathbf{x}_{1}^{\top} \\ \vdots \\ \mathbf{x}_{n}^{\top}
+\end{bmatrix} \\
+\mathbf{Y} = \begin{bmatrix} y_{1} & \dots & y_{n} \end{bmatrix}^{\top}
+\end{gather}
+Hence $\mathbf{X}$ is a `tall' matrix and $\mathbf{Y}$ is actually a column vector. Note that if we wish to include a constant in the regression function, ie. $\hat{y}_{i} = \beta_{0} + \beta_{1}x_{i,1} + \dots + \beta_{d - 1}x_{i, d - 1}$, then we may simply let the first element of $\mathbf{x}_{i}$ be equal to $1$. Using this matrix notation, we can rewrite the least squares problem as
+\begin{align}
+\hat{\beta} &= \argmin_{\beta}V\left(\beta\right) \\
+ &= \argmin_{\beta}\dfrac{1}{2}\left(\mathbf{Y} - \mathbf{X}\beta\right)^{\top}\left(\mathbf{Y} - \mathbf{X}\beta\right)
+\end{align}
+Expanding out the quadratic cost function,
+\begin{equation}
+V\left(\beta\right) = \dfrac{1}{2}\mathbf{Y}^{\top}\mathbf{Y} - \mathbf{Y}^{\top}\mathbf{X}\beta + \dfrac{1}{2}\beta^{\top}\mathbf{X}^{\top}\mathbf{X}\beta
+\end{equation}
+Taking the derivative:
+\begin{equation}
+\nabla V\left(\beta\right) = -\mathbf{X}^{\top}\mathbf{Y} + \mathbf{X}^{\top}\mathbf{X}\beta
+\end{equation}
+Setting this to zero and solving obtains the ordinary least squares estimator.
+\begin{gather}
+-\mathbf{X}^{\top}\mathbf{Y} + \mathbf{X}^{\top}\mathbf{X}\hat{\beta} = 0 \\
+\hat{\beta} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y}
+\end{gather}
+
+\subsection{Total Least Squares}
+
+\subsection{Deming Regression}
+
+\subsection{Weighted Least Squares}
+
+In the case where we `trust' some observations more than others, we can modify the least squares criterion with weightings. Introduce weights $w_{i} > 0$ for each observation $i = 1, \dots, n$. The weighted linear least squares cost function becomes
+\begin{align}
+V\left(\beta\right) &= \dfrac{1}{2}\sum_{i = 1}^{n}w_{i}\left(y_{i} - \beta^{\top}\mathbf{x}_{i}\right)^{2}
+\end{align}
+Note that only the relative values of the weights matter. For example, we may set all $w_{i} = 1$ by default and adjust $w_{i} < 1$ for observations we do not trust or $w_{i} > 1$ for observations we really trust. Using matrix notation, denote by $\mathbf{W}$ the diagonal weighting matrix:
+\begin{equation}
+\mathbf{W} = \begin{bmatrix}
+w_{1} & & \\ & \ddots & \\ & & w_{n}
+\end{bmatrix}
+\end{equation}
+Then
+\begin{equation}
+V\left(\beta\right) = \dfrac{1}{2}\left(\mathbf{Y} - \mathbf{X}\beta\right)^{\top}\mathbf{W}\left(\mathbf{Y} - \mathbf{X}\beta\right)
+\end{equation}
+Solving for the estimator $\hat{\beta}$ takes similar steps as for ordinary least squares, and yields
+\begin{equation}
+\hat{\beta} = \left(\mathbf{X}^{\top}\mathbf{W}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{W}\mathbf{Y}
+\end{equation}
+Note that if $w_{1} = \dots = w_{n}$, then the problem effectively reduces to ordinary least squares.
+
+\subsection{Generalised Least Squares}
+
+\subsection{Regularised Least Squares}
+
+\subsection{Recursive Least Squares}
+
+\subsection{Gauss-Newton Algorithm}
+
+The Gauss-Newton algorithm is a method for solving nonlinear least squares problems. It is based on the Newton method of finding local optima, however it does not require computation of the Hessian (which can be unwieldy for particular nonlinear functions). Suppose we have $n$ data pairs $\left(x_{i}, y_{i}\right)$ and would like to fit a nonlinear model $f\left(x_{i}, \theta\right)$ with respect to a $d$-dimensional vector of parameters $\theta$. Then define the residuals
+\begin{equation}
+r_{i}\left(\theta\right) = y_{i} - f\left(x_{i}, \theta\right)
+\end{equation}
+and the residual vector
+\begin{equation}
+r\left(\theta\right) = \begin{bmatrix} r_{1}\left(\theta\right) & \dots & r_{n}\left(\theta\right) \end{bmatrix}^{\top}
+\end{equation}
+Then the least squares problem is to minimise (half) the sum of squared residuals $V\left(\theta\right)$:
+\begin{align}
+\theta^{*} &= \argmin_{\theta}V\left(\theta\right) \\
+&= \argmin_{\theta}\dfrac{1}{2}\sum_{i = 1}^{n}r_{i}\left(\theta\right)^{2} \\
+&= \argmin_{\theta}\dfrac{1}{2}\left\Vert r\left(\theta\right)\right\Vert^{2}
+\end{align}
+Define the Jacobian matrix as
+\begin{align}
+\mathbf{J}\left(\theta\right) &= \dfrac{\partial r\left(\theta\right)}{\partial \theta} \\
+&= \begin{bmatrix}\partial r_{1}/\partial\theta_{1} & \dots & \partial r_{1}/\partial\theta_{d}\\
+\vdots & \ddots & \vdots\\
+\partial r_{n}/\partial\theta_{1} & \dots & \partial r_{n}/\partial\theta_{d}
+\end{bmatrix} \\
+&= \begin{bmatrix}
+\nabla r_{1}\left(\theta\right)^{\top} \\ \vdots \\ \nabla r_{n}\left(\theta\right)
+\end{bmatrix}
+\end{align}
+Taking the derivative of the least squares cost function, we have by the chain rule
+\begin{align}
+\nabla V\left(\theta\right) &= \dfrac{1}{2}\sum_{i = 1}^{n}2r_{i}\left(\theta\right)\nabla r_{i}\left(\theta\right) \\
+&= \begin{bmatrix} \nabla r_{1}\left(\theta\right) & \dots & r_{n}\left(\theta\right)\end{bmatrix}^{\top} \begin{bmatrix} r_{1}\left(\theta\right) \\ \vdots \\ r_{n}\left(\theta\right) \end{bmatrix} \\
+&= \mathbf{J}\left(\theta\right)^{\top}r\left(\theta\right)
+\end{align}
+We also obtain the Hessian of the least squares cost function by the product rule
+\begin{align}
+\nabla^{2}V\left(\theta\right) &= \sum_{i = 1}^{n}\nabla r_{i}\left(\theta\right)\nabla r_{i}\left(\theta\right)^{\top} + \sum_{i = 1}^{n}r_{i}\left(\theta\right)\nabla^{2}r_{i}\left(\theta\right) \\
+&= \begin{bmatrix} \nabla r_{1}\left(\theta\right) & \dots & r_{n}\left(\theta\right)\end{bmatrix}^{\top} \begin{bmatrix} \nabla r_{1}\left(\theta\right)^{\top} \\ \vdots \\ \nabla r_{n}\left(\theta\right)^{\top} \end{bmatrix} + \sum_{i = 1}^{n}r_{i}\left(\theta\right)\nabla^{2}r_{i}\left(\theta\right) \\
+&= \mathbf{J}\left(\theta\right)^{\top}\mathbf{J}\left(\theta\right) + \sum_{i = 1}^{n}r_{i}\left(\theta\right)\nabla^{2}r_{i}\left(\theta\right)
+\end{align}
+In the Gauss-Newton algorithm, the approximation is made on the Hessian
+\begin{equation}
+\nabla^{2}V\left(\theta\right) \approx \mathbf{J}\left(\theta\right)^{\top}\mathbf{J}\left(\theta\right)
+\end{equation}
+This approximation is reasonable if the residuals $r_{i}\left(\theta\right)$ are small, which are what we are trying to make small with the objective of least squares. Using this approximation to an update step identical to the Newton algorithm, the parameter update $\theta_{k + 1}$ after $k$ iterations is given by
+\begin{equation}
+\theta_{k + 1} = \theta_{k} - \left(\mathbf{J}\left(\theta_{k}\right)^{\top}\mathbf{J}\left(\theta_{k}\right)\right)^{-1}\mathbf{J}\left(\theta_{k}\right)^{\top}r\left(\theta_{k}\right)
+\end{equation}
+
+\subsection{Levenberg-Marquardt Algorithm}
+
+Also known as damped least squares, the Levenberg-Marquardt algorithm finds a middle ground between gradient descent and the Gauss-Newton algorithm. The update step is given by
+\begin{equation}
+\theta_{k + 1} = \theta_{k} - \left(\mathbf{J}\left(\theta_{k}\right)^{\top}\mathbf{J}\left(\theta_{k}\right) + \lambda I\right)^{-1}\mathbf{J}\left(\theta_{k}\right)^{\top}r\left(\theta_{k}\right)
+\end{equation}
+where $\lambda$ is known as the damping parameter. Note that if $\lambda$ is small, the update will be closer to the Levenberg-Marquardt algorithm. If $\lambda$ is relatively large, then the update direction will be closer to the (steepest) gradient descent direction. The choice of parameter $\lambda$ can be made adaptive, so that it starts off larger (where the Hessian approximation made by the Levenberg-Marquardt algorithm may not be as valid), and reduces over the number of iterations. An alternative update is given by
+\begin{equation}
+\theta_{k + 1} = \theta_{k} - \left(\mathbf{J}\left(\theta_{k}\right)^{\top}\mathbf{J}\left(\theta_{k}\right) + \lambda \operatorname{diag}\left\{\mathbf{J}\left(\theta_{k}\right)^{\top}\mathbf{J}\left(\theta_{k}\right)\right\}\right)^{-1}\mathbf{J}\left(\theta_{k}\right)^{\top}r\left(\theta_{k}\right)
+\end{equation}
+where $\operatorname{diag}\left\{\mathbf{J}\left(\theta_{k}\right)^{\top}\mathbf{J}\left(\theta_{k}\right)\right\}$ is a diagonal matrix containing only the main diagonal of $\mathbf{J}\left(\theta_{k}\right)^{\top}\mathbf{J}\left(\theta_{k}\right)$. This version of the update makes it so that the damping term is of the same scale as $\mathbf{J}\left(\theta_{k}\right)^{\top}\mathbf{J}\left(\theta_{k}\right)$.
+
+\section{Estimation Theory}
+
+\subsection{Asymptotic Consistency}
+
+\subsection{Minimum Mean Square Error Estimators}
+
+\subsection{Minimum Variance Unbiased Estimators}
+
+\subsection{Gauss-Markov Theorem}
+
 \section{Maximum Likelihood Estimation}
+
+\subsection{Maximum Likelihood Justification of Least Squares}
+
+Suppose we have data consisting of $n$ data pairs with regressors $x_{i}$ and observations $y_{i}$ along with a model $f\left(x_{i}; \theta\right)$ which is parametrised by the parameter vector $\theta$ to be estimated. If we assume the data generating process
+\begin{equation}
+Y_{i} = f\left(x_{i}; \theta\right) + \varepsilon_{i}
+\end{equation}
+with Gaussian errors $\varepsilon \sim \mathcal{N}\left(0, \sigma^{2}\right)$, then $Y_{i} \sim \mathcal{N}\left(f\left(x_{i}; \theta\right), \sigma^{2}\right)$ and the likelihood under an i.i.d. assumption on each $Y_{i}$ is given by
+\begin{align}
+\mathcal{L}\left(\theta\middle|Y_{1}, \dots, Y_{n}\right) &= p\left(Y_{1}, \dots, Y_{n}\middle|\theta\right) \\
+&= p\left(Y_{1}\middle|\theta\right)\dots p\left(Y_{n}\middle|\theta\right) \\
+&= \prod_{i = 1}^{n}p\left(Y_{i}\middle|\theta\right) \\
+&= \prod_{i = 1}^{n}\dfrac{1}{\sigma\sqrt{2\pi}}\exp\left(-\dfrac{\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2}}{2\sigma^{2}}\right)
+\end{align}
+The log-likelihood is given by
+\begin{equation}
+\log\mathcal{L}\left(\theta\middle|Y_{1}, \dots, Y_{m}\right) = -\sum_{i = 1}^{n}\dfrac{1}{2\sigma^{2}}\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2} - \sum_{i = 1}^{n}\log\left(\sigma\sqrt{2\pi}\right)
+\end{equation}
+and maximising the log-likelihood with respect to the parameters,
+\begin{align}
+\argmax_{\theta}\log\mathcal{L}\left(\theta\middle|Y_{1}, \dots, Y_{n}\right) &= \argmax_{\theta}\left\{-\sum_{i = 1}^{n}\dfrac{1}{2\sigma^{2}}\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2} - \sum_{i = 1}^{n}\log\left(\sigma\sqrt{2\pi}\right)\right\} \\
+&= \argmin_{\theta}\left\{\sum_{i = 1}^{n}\dfrac{1}{2\sigma^{2}}\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2} + \sum_{i = 1}^{n}\log\left(\sigma\sqrt{2\pi}\right)\right\} \\
+&= \argmin_{\theta}\sum_{i = 1}^{n}\dfrac{1}{2\sigma^{2}}\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2} \\
+&= \argmin_{\theta}\dfrac{1}{2}\sum_{i = 1}^{n}\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2}
+\end{align}
+so we arrive at the least squares cost function. Hence the least squares fitting problem can be interpreted as a maximum likelihood problem under an i.i.d. assumption on the observations $Y_{i}$ and Gaussian errors $\varepsilon_{i}$. If the standard deviation on the errors is allowed to vary such that $\operatorname{sd}\left(\varepsilon_{i}\right) = \sigma_{i}$, then the estimation problem becomes
+\begin{equation}
+\theta^{*} = \argmin_{\theta}\dfrac{1}{2}\sum_{i = 1}^{n}\dfrac{\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2}}{\sigma_{i}^{2}}
+\end{equation}
+and the formulation becomes equivalent to weighted least squares.
 
 \subsection{Log Concavity of Likelihoods}
 
@@ -2363,9 +3250,13 @@ An estimator that achieves the Cramer-Rao bound with equality, ie.
 \end{equation}
 is said to be efficient. This implies that it is an unbiased estimator with the `least variance'. The maximum likelihood estimator can be shown to be asymptotically efficient (ie. as data size $n \to \infty$).
 
-\section{Maximum a Posteriori Estimation}
+\section{James-Stein Estimation}
 
-\section{James-Stein Estimators}
+\subsection{Stein's Lemma}
+
+\subsection{Stein's Example}
+
+\subsection{James-Stein Estimator}
 
 \section{Generalised Linear Models}
 
@@ -2404,10 +3295,6 @@ Hence the maximum-likelihood estimate is the solution to
 
 \subsection{Multinomial Logistic Regression}
 
-\section{Gauss-Markov Theorem}
-
-\section{Maximum Spacing Estimation}
-
 \chapter{Advanced Probability}
 
 \section{Moments}
@@ -2418,8 +3305,25 @@ The $n$\textsuperscript{th} moment of a random variable $X$ is defined as $\math
 \end{equation}
 If $X$ is instead a discrete random variable with probability mass function $\operatorname{Pr}\left(X = x\right)$, then
 \begin{equation}
-\mathbb{E}\left[X^{n}\right] = \sum_{s = -\infty}^{\infty}x^{n}\operatorname{Pr}\left(X = x\right)
+\mathbb{E}\left[X^{n}\right] = \sum_{x = -\infty}^{\infty}x^{n}\operatorname{Pr}\left(X = x\right)
 \end{equation}
+
+\subsection{Central Moments}
+
+The $n$\textsuperscript{th} central moment of a random variable $X$ is defined as $\mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)^{n}\right]$. It is equivalent to the $n$\textsuperscript{th} moment of a random variable defined as $Y := X - \mu$ where $\mu := \mathbb{E}\left[X\right]$. Thus for a continuous random variable,
+\begin{equation}
+\mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)^{n}\right] = \int_{-\infty}^{\infty}\left(x - \mu\right)^{n}f_{X}\left(x\right)dx
+\end{equation}
+Note that the second central moment is identical to the definition of the variance.
+
+\subsection{Standardised Moments}
+
+The $n$\textsuperscript{th} standardised moment of a random variable $X$ is defined as the $n$\textsuperscript{th} central moment of $X$ divided by the $n$\textsuperscript{th} power of the standard deviation $\sigma$ of $X$. That is,
+\begin{align}
+\dfrac{\mathbb{E}\left[\left(X - \mu\right)^{n}\right]}{\sigma^{n}} &= \dfrac{\mathbb{E}\left[\left(X - \mu\right)^{n}\right]}{\left(\sqrt{\mathbb{E}\left[\left(X - \mu\right)^{2}\right]}\right)^{n}} \\
+&= \dfrac{\mathbb{E}\left[\left(X - \mu\right)^{n}\right]}{\mathbb{E}\left[\left(X - \mu\right)^{2}\right]^{n/2}}
+\end{align}
+By definition, the second standardised moment is $1$. The third standardised moment is used to define the skewness of $X$, while the fourth standardised moment is used to define the kurtosis of $X$.
 
 \subsection{Moment Generating Functions}
 
@@ -2570,7 +3474,113 @@ Since $s\geq 0$, then $e^{sX} \geq e^{sa}$ is equivalent to $X \geq a$. Also, $\
 
 \subsection{Hoeffding's Lemma}
 
+Hoeffding's lemma bounds the moment generating function $\mathbb{E}\left[e^{\lambda X}\right]$ of a bounded random variable $X$.
+\begin{lemma}
+Let $X$ be a random variable with expectation $\mathbb{E}\left[X\right] = 0$ and is bounded by $a \leq X \leq b$ almost surely. Then for all $\lambda \in \mathbb{R}$,
+\begin{equation}
+\mathbb{E}\left[e^{\lambda X}\right] \leq \exp\left[\dfrac{\lambda^{2}\left(b - a\right)^{2}}{8}\right]
+\end{equation}
+\end{lemma}
+\begin{proof}
+Since $e^{\lambda X}$ is convex in $X$, taking a convex combination of $e^{\lambda a}$ and $e^{\lambda b}$ gives for all $a \leq X \leq b$:
+\begin{equation}
+e^{\lambda X} \leq \dfrac{b - X}{b - a}e^{\lambda a} + \dfrac{X - a}{b - a}e^{\lambda b}
+\end{equation}
+Taking the expectation of both sides:
+\begin{equation}
+\mathbb{E}\left[e^{\lambda X}\right] \leq \dfrac{b - \mathbb{E}\left[X\right]}{b - a}e^{\lambda a} + \dfrac{\mathbb{E}\left[X\right] - a}{b - a}e^{\lambda b}
+\end{equation}
+Since $\mathbb{E}\left[X\right] = 0$, then
+\begin{equation}
+\mathbb{E}\left[e^{\lambda X}\right] \leq \dfrac{b}{b - a}e^{\lambda a} - \dfrac{a}{b - a}e^{\lambda b}
+\end{equation}
+Now by letting $h = \lambda\left(b - a\right)$, $p = \dfrac{-a}{b - a}$ and $L\left(h\right) = -hp + \ln\left(1 - p + pe^{h}\right)$, we can show that $\dfrac{b}{b - a}e^{\lambda a} - \dfrac{a}{b - a}e^{\lambda b} = e^{L\left(h\right)}$ as follows:
+\begin{align}
+e^{L\left(h\right)} &= e^{-hp + \ln\left(1 - p + pe^{h}\right)} \\
+&= e^{-hp}e^{\ln\left(1 - p + pe^{h}\right)} \\
+&= \left(1 - p + pe^{h}\right)e^{-hp} \\
+&= \left(1 + \dfrac{a}{b - a} - \dfrac{a}{b - a}e^{\lambda\left(b - a\right)}\right)\exp\left[-\lambda\left(b - a\right)\dfrac{-a}{b - a}\right] \\
+&= \left(\dfrac{b}{b - a} - \dfrac{a}{b - a}e^{\lambda\left(b - a\right)}\right)e^{\lambda a} \\
+&= \dfrac{b}{b - a}e^{\lambda a} - \dfrac{a}{b - a}e^{\lambda b}
+\end{align}
+Differentiating $L\left(h\right)$, we find
+\begin{equation}
+L'\left(h\right) = -p + \dfrac{pe^{h}}{1 - p + pe^{h}}
+\end{equation}
+and by the product rule
+\begin{align}
+L''\left(h\right) &= \dfrac{pe^{h}}{1 - p + pe^{h}} + \dfrac{pe^{h}\left(pe^{h}\right)}{-\left(1 - p + pe^{h}\right)^{2}} \\
+&= \dfrac{pe^{h}}{1 - p + pe^{h}}\left(1 - \dfrac{pe^{h}}{1 - p + pe^{h}} \right)
+\end{align}
+Note that $L\left(0\right) = 0$ and $L'\left(0\right) = 0$. Letting $t = \dfrac{pe^{h}}{1 - p + pe^{h}}$, we also see that
+\begin{align}
+L''\left(h\right) &= t\left(1 - t\right) \\
+&\leq \dfrac{1}{4}
+\end{align}
+which can be deduced by considering the graph of the parabola $t\left(1 - t\right)$. By applying Taylor's theorem about zero, we have for some $\theta\in\left(0, 1\right)$:
+\begin{align}
+L\left(h\right) &= L\left(0\right) + hL'\left(0\right) + \dfrac{1}{2}h^{2}L''\left(\theta h\right) \\
+&= \dfrac{1}{2}h^{2}L''\left(\theta h\right) \\
+&\leq \dfrac{1}{8}\lambda^{2}\left(b - a\right)^{2}
+\end{align}
+Therefore
+\begin{align}
+\mathbb{E}\left[e^{\lambda X}\right] &\leq \dfrac{b}{b - a}e^{\lambda a} - \dfrac{a}{b - a}e^{\lambda b} \\
+&\leq e^{L\left(h\right)} \\
+&\leq \exp\left[\dfrac{\lambda^{2}\left(b - a\right)^{2}}{8}\right]
+\end{align}
+\end{proof}
+
 \subsection{Hoeffding's Inequality}
+
+Hoeffding's lemma can be used to derive Hoeffding's inequality for a sum of bounded independent random variables (they need not necessarily be identical).
+\begin{theorem}
+Let $X_{1}, \dots, X_{n}$ be independent random variables bounded by $a_{i} \leq X_{i} \leq b_{i}$ almost surely for all $i = 1, \dots, n$. Let $S = \sum_{i = 1}^{n}X_{i}$. Then for all $t > 0$, 
+\begin{equation}
+\operatorname{Pr}\left(\left|S - \mathbb{E}\left[S\right]\right| \geq t\right) \leq 2\exp\left[-\dfrac{2t^{2}}{\sum_{i = 1}^{n}\left(b_{i} - a_{i}\right)^{2}} \right]
+\end{equation}
+\end{theorem}
+\begin{proof}
+For any random variable $Z$ and $s > 0$,
+\begin{equation}
+\operatorname{Pr}\left(Z \geq t\right) = \operatorname{Pr}\left(e^{sZ} \geq e^{st}\right)
+\end{equation}
+since $e^{sz}$ is monotonically increasing in $z$. Then apply Markov's inequality to the non-negative random variable $e^{sZ}$:
+\begin{align}
+\operatorname{Pr}\left(e^{sZ} \geq e^{st}\right) &\leq \dfrac{\mathbb{E}\left[e^{sZ}\right]}{e^{st}} \\
+&\leq e^{-st}\mathbb{E}\left[e^{sZ}\right]
+\end{align}
+Choose $Z = S - \mathbb{E}\left[S\right]$, so
+\begin{align}
+\operatorname{Pr}\left(\sum_{i = 1}^{n}\left(X_{i} - \mathbb{E}\left[X_{i}\right]\right) \geq t\right) &\leq e^{-st}\mathbb{E}\left[\exp\left[s\sum_{i = 1}^{n}\left(X_{i} - \mathbb{E}\left[X_{i}\right]\right)\right]\right]	 \\
+&\leq e^{-st}\mathbb{E}\left[\prod_{i = 1}^{n}\exp\left[s\left(X_{i} - \mathbb{E}\left[X_{i}\right]\right)\right]\right] \\
+&\leq e^{-st}\prod_{i = 1}^{n}\mathbb{E}\left[\exp\left[s\left(X_{i} - \mathbb{E}\left[X_{i}\right]\right)\right]\right]
+\end{align}
+where the latter is due to independence of all the $X_{i}$. Note that $\mathbb{E}\left[\exp\left[s\left(X_{i} - \mathbb{E}\left[X_{i}\right]\right)\right]\right]$ is the moment generating function of $X_{i} - \mathbb{E}\left[X_{i}\right]$. Hence applying Hoeffding's lemma,
+\begin{align}
+\operatorname{Pr}\left(\sum_{i = 1}^{n}\left(X_{i} - \mathbb{E}\left[X_{i}\right]\right) \geq t\right) &\leq e^{-st}\prod_{i = 1}^{n}\exp\left[\dfrac{s^{2}\left(b_{i} - a_{i}\right)^{2}}{8}\right] \\
+&\leq \exp\left[-st + s^{2}\sum_{i = 1}^{n}\dfrac{\left(b_{i} - a_{i}\right)^{2}}{8}\right]
+\end{align}
+We can choose the value of $s > 0$ which gives the best bound. This amounts to minimising the term $-st + s^{2}\sum_{i = 1}^{n}\dfrac{\left(b_{i} - a_{i}\right)^{2}}{8}$, which is a quadratic in $s$ with coefficents $\sum_{i = 1}^{n}\dfrac{\left(b_{i} - a_{i}\right)^{2}}{8}$ and $-t$. Hence the choice of
+\begin{equation}
+s = \dfrac{4t}{\sum_{i = 1}^{n}\left(b_{i} - a_{i}\right)^{2}}
+\end{equation}
+minimises the upper bound. Substituting this value of $s$ gives
+\begin{align}
+\operatorname{Pr}\left(S - \mathbb{E}\left[S\right] \geq t\right)  &= \operatorname{Pr}\left(\sum_{i = 1}^{n}\left(X_{i} - \mathbb{E}\left[X_{i}\right]\right) \geq e^{st}\right) \\
+&\leq \exp\left[-\dfrac{4t^{2}}{\sum_{i = 1}^{n}\left(b_{i} - a_{i}\right)^{2}} + \dfrac{16t^{2}}{\left[\sum_{i = 1}^{n}\left(b_{i} - a_{i}\right)^{2}\right]^{2}}\sum_{i = 1}^{n}\dfrac{\left(b_{i} - a_{i}\right)^{2}}{8}\right] \\
+&\leq \exp\left[-\dfrac{2t^{2}}{\sum_{i = 1}^{n}\left(b_{i} - a_{i}\right)^{2}} \right]
+\end{align}
+Instead if we chose $Z = -S + \mathbb{E}\left[S\right]$, we get
+\begin{align}
+\operatorname{Pr}\left(-S + \mathbb{E}\left[S\right] \geq t\right) &= \operatorname{Pr}\left(S - \mathbb{E}\left[S\right] \leq -t\right) \\
+&\leq \exp\left[-\dfrac{2t^{2}}{\sum_{i = 1}^{n}\left(b_{i} - a_{i}\right)^{2}} \right]
+\end{align}
+therefore combining these two inequalities using Boole's inequality gives
+\begin{equation}
+\operatorname{Pr}\left(\left|S - \mathbb{E}\left[S\right]\right| \geq t\right) \leq 2\exp\left[-\dfrac{2t^{2}}{\sum_{i = 1}^{n}\left(b_{i} - a_{i}\right)^{2}} \right]
+\end{equation}
+\end{proof}
 
 \section{Probability Generating Functions}
 
@@ -2580,6 +3590,25 @@ The probability generating function of a discrete random variable $X$ taking on 
 &= \sum_{x = 0}^{\infty}z^{x}\operatorname{Pr}\left(X = x\right)
 \end{align}
 which is the $z$-transform of the probability mass function.
+
+\begin{theorem}
+Let $X = X_{1} + \dots + X_{n}$ be a sum of independent non-negative random variables. Then
+\begin{equation}
+\psi_{X}\left(z\right) = \psi_{X_{1}}\left(z\right)\times\dots\times \psi_{X_{n}}\left(z\right)
+\end{equation} 
+\end{theorem}
+\begin{proof}
+By definition,
+\begin{align}
+\psi_{X}\left(z\right) &= \mathbb{E}\left[z^{X_{1} + \dots + X_{n}}\right] \\
+&= \mathbb{E}\left[z^{X_{1}}\times\dots\times z^{X_{n}}\right]
+\end{align}
+Using independence,
+\begin{align}
+\psi_{X}\left(z\right) &= \mathbb{E}\left[z^{X_{1}}\right]\times\dots\times \mathbb{E}\left[z^{X_{n}}\right] \\
+&= \psi_{X_{1}}\left(z\right)\times\dots\times \psi_{X_{n}}\left(z\right)
+\end{align}
+\end{proof}
 
 \section{Characteristic Functions}
 
@@ -2662,15 +3691,115 @@ This is a differential equation with solution $\varphi_{X}\left(t\right) = e^{-t
 
 \section{Cumulants}
 
-\subsection{Cumulant Generating Functions}
+\subsection{Cumulant Generating Functions \cite{Small2010}}
+
+The cumulant generating function $K_{X}\left(t\right)$ of a random variable $X$ is defined as the natural logarithm of the moment generating function.
+\begin{equation}
+K_{X}\left(t\right) = \log\phi_{X}\left(t\right)
+\end{equation}
+By a Taylor series expansion about $t = 0$, the cumulant generating function can be written as
+\begin{equation}
+K_{X}\left(t\right) = \kappa_{0} + \kappa_{1}t + \kappa_{2}\dfrac{t^{2}}{2!} + \kappa_{3}\dfrac{t^{3}}{3!} + \dots
+\end{equation}
+The $n$\textsuperscript{th} cumulant of $X$ is then defined as the $n$\textsuperscript{th} coefficient of the series expansion for $K_{X}\left(t\right)$, which is $\kappa_{n}$. This is the same as taking the $n$\textsuperscript{th} derivative of $K\left(t\right)$ and evaluating at zero. Note that $\kappa_{0} = 0$ since $\phi_{X}\left(0\right) = 1$.
+
+\begin{theorem}
+Let $X = X_{1} + \dots  + X_{n}$ be a sum of independent random variables. Then
+\begin{align}
+K_{X}\left(t\right) = K_{X_{1}}\left(t\right) + \dots + K_{X_{n}}\left(t\right)
+\end{align}
+\end{theorem}
+\begin{proof}
+Using the definition of the cumulant generating function and the property of the moment generating function for the sum $X$,
+\begin{align}
+K_{X}\left(t\right) &= \log\phi_{X}\left(t\right) \\
+&= \log\prod_{i = 1}^{n}\phi_{X_{i}}\left(t\right) \\
+&= \sum_{i = 1}^{n}\log\phi_{X_{i}}\left(t\right) \\
+&= \sum_{i = 1}^{n}K_{X_{i}}\left(t\right)
+\end{align}
+\end{proof}
+
+\subsubsection{Relation Between Moments and Cumulants}
+
+The relation between moments and cumulants can be analysed as follows. Denote the $n$\textsuperscript{th} moment of $X$ by $\mu_{n}$. A Taylor series expansion of the moment generating function can be written as
+\begin{equation}
+\phi_{X}\left(t\right) = 1 + \mu_{1}t + \mu_{2}\dfrac{t^{2}}{2!} + \mu_{3}\dfrac{t^{3}}{3!} + \dots
+\end{equation}
+then writing $\phi_{X}\left(t\right) = \exp K\left(t\right) $ gives
+\begin{align}
+1 + \mu_{1}t + \mu_{2}\dfrac{t^{2}}{2!} + \mu_{3}\dfrac{t^{3}}{3!} + \dots &= \exp\left(\kappa_{1}t + \kappa_{2}\dfrac{t^{2}}{2!} + \kappa_{3}\dfrac{t^{3}}{3!} + \dots\right) \\
+&= \exp\left(\kappa_{1}t\right)\exp\left(\kappa_{2}\dfrac{t^{2}}{2!}\right)\exp\left(\kappa_{3}\dfrac{t^{3}}{3!}\right)\dots \\
+&= \prod_{i = 1}^{n}exp\left(\kappa_{i}\dfrac{t^{i}}{i!}\right)
+\end{align}
+Using the series expansion for $e^{x} = 1 + x + \dfrac{x^{2}}{2!} + \dfrac{x^{3}}{3!} + \dots$,
+\begin{equation}
+1 + \mu_{1}t + \mu_{2}\dfrac{t^{2}}{2!} + \mu_{3}\dfrac{t^{3}}{3!} + \dots = \prod_{i = 1}^{n}\left(1 + \kappa_{i}\dfrac{t^{i}}{i!} + \kappa_{i}^{2}\dfrac{t^{2i}}{2!\left(i!\right)^{2}} + \dots\right)
+\end{equation}
+Collecting powers of $t$ and equating, we can see that
+\begin{align}
+\mu_{1}t &= \kappa_{1}t \\
+\mu_{2}\dfrac{t^{2}}{2!} &= \dfrac{\left(\kappa_{1}^{2} + \kappa_{2}\right)t^{2}}{2!} \\
+\mu_{3}\dfrac{t^{3}}{3!} &= \dfrac{\kappa_{3}t^{3}}{3!} + \dfrac{\kappa_{1}^{3}t^{3}}{3!} + \kappa_{1}t\dfrac{\kappa_{2}t^{2}}{2!}
+\end{align}
+Hence
+\begin{align}
+\mu_{1} &= \kappa_{1} \\
+\mu_{2} &= \kappa_{1}^{2} + \kappa_{2} \\
+\mu_{3} &= \kappa_{3} + 3\kappa_{1}\kappa_{2} + \kappa_{1}^{3}
+\end{align}
+From this, we get $\kappa_{2} = \mu_{2} - \kappa_{1}^{2} = \mathbb{E}\left[X^{2}\right] - \mathbb{E}\left[X\right]^{2}$ which is the same as the variance of $X$. The third cumulant is given by
+\begin{equation}
+\kappa_{3} = \mu_{3} - 3\kappa_{1}\kappa_{2} - \kappa_{1}^{3}
+\end{equation}
+which is identical to the third central moment because
+\begin{align}
+\mathbb{E}\left[\left(X - \mu_{1}\right)^{3}\right] &= \mathbb{E}\left[X^{3} - 3X^{2}\mu_{1} + 3X\mu_{1}^{2} - \mu_{1}^{3}\right] \\
+&= \mathbb{E}\left[X^{3}\right] - 3\mu_{1}\left(\mathbb{E}\left[X^{2}\right] - \mu_{1}^{2}\right) - \mu_{1}^{3} \\
+&= \mathbb{E}\left[X^{3}\right] - 3\mu_{1}\operatorname{Var}\left(X\right) - \mu_{1}^{3} \\
+&= \mu_{3} - 3\kappa_{1}\kappa_{2} - \kappa_{1}^{3}
+\end{align}
+However, $n$\textsuperscript{th} cumulants higher than the third are generally not equal to the $n$\textsuperscript{th} central moments.
 
 \subsection{Law of Total Cumulance}
 
-\subsection{Edgeworth Series}
+The Law of Total Cumulance generalises the Law of Iterated Expectations and the Law of Total Covariance.
+
+\subsection{Edgeworth Series Expansions}
+
+The (probabilists') Hermite polynomials are a polynomial sequence defined by
+\begin{equation}
+\operatorname{He}_{n}\left(x\right) = \left(-1\right)^{n}e^{x^{2}/2}\dfrac{d^{n}}{dx^{n}}e^{-x^{2}/2}
+\end{equation}
+The first few Hermite polynomials obtained via evaluation are as follows.
+\begin{align}
+\operatorname{He}_{0}\left(x\right) &= e^{x^{2}/2}e^{-x^{2}/2} \\
+&= 1
+\end{align}
+\begin{align}
+\operatorname{He}_{1}\left(x\right) &= -e^{x^{2}/2}\times -xe^{-x^{2}/2} \\
+&= x
+\end{align}
+\begin{align}
+\operatorname{He}_{2}\left(x\right) &= e^{x^{2}/2}\times -\dfrac{d}{dx}xe^{-x^{2}/2} \\
+&= e^{x^{2}/2}\left(x^{2}e^{-x^{2}/2} - e^{-x^{2}/2}\right) \\
+&= x^{2} - 1
+\end{align}
+A recurrence relation can also be obtained for the Hermite polynomials. Note that
+\begin{align}
+\operatorname{He}_{n - 1}'\left(x\right) &= \left(-1\right)^{n-1}\dfrac{d}{dx}\left[e^{x^{2}/2}\dfrac{d^{n-1}}{dx^{n-1}}e^{-x^{2}/2}\right] \\
+&= \left(-1\right)^{n-1}xe^{x^{2}/2}\dfrac{d^{n-1}}{dx^{n-1}}e^{-x^{2}/2} + \left(-1\right)^{n-1}e^{x^{2}/2}\dfrac{d^{n}}{dx^{n}}e^{-x^{2}/2} \\
+&= x\operatorname{He}_{n-1}\left(x\right) - \left(-1\right)^{n}e^{x^{2}/2}\dfrac{d^{n}}{dx^{n}}e^{-x^{2}/2} \\
+&= x\operatorname{He}_{n-1}\left(x\right) - \operatorname{He}_{n}\left(x\right)
+\end{align}
+Hence
+\begin{equation}
+\operatorname{He}_{n + 1}\left(x\right) = x\operatorname{He}_{n}\left(x\right)
+- \operatorname{He}_{n}\left(x\right)
+\end{equation}
 
 \section{Central Limit Theorem}
 
-\subsection{Lindberg-Levy Central Limit Theorem}
+\subsection{Lindberg-Levy Central Limit Theorem \cite{Kallenberg1997}}
 
 Let $X_{1}, X_{2}, \dots, X_{n}$ be random variables that are i.i.d. with $X$, where $\mathbb{E}\left[X\right] = \mu$ and $\operatorname{Var}\left(X\right) = \sigma^{2}$. Define the sum $S_{n} := X_{1} + \dots + X_{n}$. Then
 \begin{equation}
@@ -2687,7 +3816,7 @@ as $n\to\infty$. Note that
 \mathbb{E}\left[\dfrac{\widetilde{X}}{\sqrt{n}}\right] = 0 \\
 \operatorname{Var}\left(\dfrac{\widetilde{X}}{\sqrt{n}}\right) =  \mathbb{E}\left[\dfrac{\widetilde{X}^{2}}{n}\right] = \dfrac{1}{n}
 \end{gather}
-\begin{proof}[\cite{Kallenberg1997}]
+\begin{proof}
 It suffices to show that the characteristic function of the sum $\dfrac{\widetilde{X}_{1}}{\sqrt{n}} + \dots + \dfrac{\widetilde{X}_{n}}{\sqrt{n}}$ converges to the characteristic function of the standard Gaussian distribution as $n\to\infty$. Firstly, an $n$\textsuperscript{th} order Taylor expansion of the characteristic function of an arbitrary random variable $Y$ about $t = 0$ is given by
 \begin{equation}
 \varphi_{Y}\left(t\right) = \sum_{k = 0}^{n}\dfrac{t^{k}\varphi_{Y}^{\left(k\right)}\left(0\right)}{k!} + o\left(t^{n}\right)
@@ -3268,7 +4397,11 @@ p\left(x_{k}\right) = \int p\left(x_{k}\middle|x_{k - 1}, u_{k - 1}\right)p\left
 
 \subsection{Factor Graphs}
 
+\subsection{Probabilistic Graphical Models}
+
 \section{Bayesian Inference}
+
+\subsection{Maximum a Posteriori Estimation}
 
 \subsection{Bayes Estimators}
 
@@ -3277,6 +4410,168 @@ p\left(x_{k}\right) = \int p\left(x_{k}\middle|x_{k - 1}, u_{k - 1}\right)p\left
 \subsection{Bayesian Regularisation}
 
 \subsection{Bayesian Linear Regression \cite{Rasmussen2006}}
+
+Consider a linear model of the form with weights $\mathbf{w}$:
+\begin{equation}
+f\left(x\right) = x^{\top}\mathbf{w}
+\end{equation}
+with the data generating process
+\begin{equation}
+y=f\left(x\right)+\varepsilon
+\end{equation}
+where the noise distribution is given by $\varepsilon\sim\mathcal{N}\left(0,\sigma_{\mathrm{n}}^{2}\right)$. Denote the data by $\mathcal{D}=\left(X,\mathbf{y}\right)$ where $X =\begin{bmatrix}x_{1} & x_{2} & \dots & x_{n}\end{bmatrix}$ consists of the feature vectors $x_{1}, \dots, x_{n}$ aggregated column-wise and $\mathbf{y}$ is a vector of responses. Constructing the likelihood under an i.i.d. assumption:
+\begin{align}
+\mathcal{L}\left(\mathcal{D}\middle|X,\mathbf{w}\right) &= p\left(\mathbf{y}\middle|X,\mathbf{w}\right) \\
+&= \prod_{i=1}^{n}p\left(y_{i}\middle|x_{i},\mathbf{w}\right)
+\end{align}
+Since $\varepsilon_{i}\sim\mathcal{N}\left(0,\sigma_{\mathrm{n}}^{2}\right)$, then each
+\begin{align}
+y_{i} &= f\left(x_{i}\right)+\varepsilon_{i} \\
+&\sim \mathcal{N}\left(f\left(x_{i}\right),\sigma_{\mathrm{n}}^{2}\right) \\
+&\sim \mathcal{N}\left(x_{i}^{\top}\mathbf{w},\sigma_{\mathrm{n}}^{2}\right)
+\end{align}
+The form of the Gaussian density is given by
+\begin{equation}
+p\left(y_{i}\middle|x_{i},\mathbf{w}\right)=\dfrac{1}{\sigma_{\mathrm{n}}\sqrt{2\pi}}\exp\left[-\dfrac{\left(y_{i}-x_{i}^{\top}\mathbf{w}\right)^{2}}{2\sigma_{\mathrm{n}}^{2}}\right]
+\end{equation}
+hence the likelihood becomes
+\begin{align}
+\prod_{i=1}^{n}p\left(y_{i}\middle|x_{i},\mathbf{w}\right) &= \prod_{i=1}^{n}\dfrac{1}{\sigma_{\mathrm{n}}\sqrt{2\pi}}\exp\left[-\dfrac{\left(y_{i}-x_{i}^{\top}\mathbf{w}\right)^{2}}{2\sigma_{\mathrm{n}}^{2}}\right] \\
+&= \dfrac{1}{\sigma_{\mathrm{n}}\sqrt{2\pi}}\exp\left[-\sum_{i=1}^{n}\dfrac{\left(y_{i}-x_{i}^{\top}\mathbf{w}\right)^{2}}{2\sigma_{\mathrm{n}}^{2}}\right] \\
+&= \dfrac{1}{\sigma_{\mathrm{n}}\sqrt{2\pi}}\exp\left[-\dfrac{1}{2\sigma_{\mathrm{n}}^{2}}\sum_{i=1}^{n}\left(y_{i}-x_{i}^{\top}\mathbf{w}\right)^{2}\right] \\
+&= \dfrac{1}{\sigma_{\mathrm{n}}\sqrt{2\pi}}\exp\left[-\dfrac{1}{2\sigma_{\mathrm{n}}^{2}}\sum_{i=1}^{n}\left\Vert \mathbf{y}-X^{\top}\mathbf{w}\right\Vert ^{2}\right]
+\end{align}
+Therefore the likelihood can be written compactly as
+\begin{equation}
+p\left(\mathbf{y}\middle|X,\mathbf{w}\right)=\mathcal{N}\left(X^{\top}\mathbf{w},\sigma_{\mathrm{n}}^{2}I\right)
+\end{equation}
+Suppose the prior for the weights is a Gaussian:
+\begin{gather}
+\mathbf{w}\sim\mathcal{N}\left(\mathbf{0},\Sigma_{\mathrm{p}}\right) \\
+p\left(\mathbf{w}\right)\propto\exp\left(-\dfrac{1}{2}\mathbf{w}^{\top}\Sigma_{\mathrm{p}}^{-1}\mathbf{w}\right)
+\end{gather}
+By Bayes' theorem, then the posterior distribution for the weights is
+\begin{equation}
+p\left(\mathbf{w}\middle|\mathbf{y},X\right)=\dfrac{p\left(\mathbf{y}\middle|X,\mathbf{w}\right)p\left(\mathbf{w}\middle|X\right)}{p\left(\mathbf{y}\middle|X\right)}
+\end{equation}
+where $\mathbf{w}$ and $\mathbf{y}$ are the variables being exchanged, and all conditioned on $X$. Since we can assume that $X$ and $\mathbf{w}$ are independent, then
+\begin{equation}
+p\left(\mathbf{w}\middle|\mathbf{y},X\right)=\dfrac{p\left(\mathbf{y}\middle|X,\mathbf{w}\right)p\left(\mathbf{w}\right)}{p\left(\mathbf{y}\middle|X\right)}
+\end{equation}
+This can be rewritten as
+\begin{equation}
+p\left(\mathbf{w}\middle|\mathbf{y},X\right)=\dfrac{p\left(\mathbf{y}\middle|X,\mathbf{w}\right)p\left(\mathbf{w}\right)}{\int p\left(\mathbf{y}\middle|X,\mathbf{w}\right)p\left(\mathbf{w}\right)d\mathbf{w}}
+\end{equation}
+to express that the marginal likelihood $p\left(\mathbf{y}\middle|X\right)$ is obtained via marginalisation of the likelihood multiplied by prior. Hence $p\left(\mathbf{y}\middle|X\right)$ is a constant with respect to $\mathbf{w}$, and the posterior is proportional to the numerator:
+\begin{align}
+p\left(\mathbf{w}\middle|\mathbf{y},X\right) &\propto p\left(\mathbf{y}\middle|X,\mathbf{w}\right)p\left(\mathbf{w}\right) \\
+&\propto \exp\left[-\dfrac{1}{2\sigma_{\mathrm{n}}^{2}}\left(\mathbf{y}-X^{\top}\mathbf{w}\right)^{\top}\left(\mathbf{y}-X^{\top}\mathbf{w}\right)\right]\exp\left(-\dfrac{1}{2}\mathbf{w}^{\top}\Sigma_{\mathrm{p}}^{-1}\mathbf{w}\right) \\
+&\propto \exp\left[-\dfrac{1}{2}\left[\dfrac{\left(\mathbf{y}-X^{\top}\mathbf{w}\right)^{\top}\left(\mathbf{y}-X^{\top}\mathbf{w}\right)}{\sigma_{\mathrm{n}}^{2}}+\mathbf{w}^{\top}\Sigma_{\mathrm{p}}^{-1}\mathbf{w}\right]\right] \\
+&\propto \exp\left[-\dfrac{1}{2}\left[\dfrac{1}{\sigma_{\mathrm{n}}^{2}}\left(\mathbf{y}^{\top}\mathbf{y}-\mathbf{y}^{\top}X^{\top}\mathbf{w}-\mathbf{w}^{\top}X\mathbf{y}+\mathbf{w}^{\top}XX^{\top}\mathbf{w}+\mathbf{w}^{\top}\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}\mathbf{w}\right)\right]\right] \\
+&\propto \exp\left[-\dfrac{1}{2}\left[\mathbf{w}^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\mathbf{w}+\dfrac{\mathbf{y}^{\top}\mathbf{y}-\mathbf{y}^{\top}X^{\top}\mathbf{w}-\mathbf{w}^{\top}X\mathbf{y}}{\sigma_{\mathrm{n}}^{2}}\right]\right]
+\end{align}
+We now complete the square by first writing
+\begin{multline}
+p\left(\mathbf{w}\middle|\mathbf{y},X\right) \propto \exp\left[-\dfrac{1}{2}\left[\mathbf{w}^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\mathbf{w}\right.\right. \\
+-\dfrac{1}{\sigma_{\mathrm{n}}^{2}}\mathbf{y}^{\top}X^{\top}\green\underbrace{\black\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)^{-1}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)}_{\green I}\black\mathbf{w} \\ 
+\left.\left.-\dfrac{1}{\sigma_{\mathrm{n}}^{2}}\mathbf{w}^{\top}\green\underbrace{\black \left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)^{-1}}_{\green I}\black X\mathbf{y}+\dfrac{\mathbf{y}^{\top}\mathbf{y}}{\sigma_{\mathrm{n}}^{2}}\right]\right]
+\end{multline}
+Define $\overline{\mathbf{w}} := \dfrac{1}{\sigma_{\mathrm{n}}^{2}}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)^{-1}X\mathbf{y}$ and by noting that $XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}$ is symmetric, we have $\overline{\mathbf{w}}^{\top}=\dfrac{1}{\sigma_{\mathrm{n}}^{2}}\mathbf{y}^{\top}X^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)^{-1}$. Then we can see that
+\begin{multline}
+p\left(\mathbf{w}\middle|\mathbf{y},X\right) \propto \exp\left[-\dfrac{1}{2}\left[\mathbf{w}^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\mathbf{w}\right.\right. \\
+-\green\underbrace{\black\dfrac{1}{\sigma_{\mathrm{n}}^{2}}\mathbf{y}^{\top}X^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)^{-1}}_{\green \overline{\mathbf{w}}^{\top}}\black\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\mathbf{w} \\ 
+\left.\left.-\mathbf{w}^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\green\underbrace{\black \dfrac{1}{\sigma_{\mathrm{n}}^{2}}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)^{-1} X\mathbf{y}}_{\green \overline{\mathbf{w}}}\black +\dfrac{\mathbf{y}^{\top}\mathbf{y}}{\sigma_{\mathrm{n}}^{2}}\right]\right]
+\end{multline}
+and we can finish completing the square by writing
+\begin{align}
+p\left(\mathbf{w}\middle|\mathbf{y},X\right) &\begin{multlined}\propto\exp\left[-\dfrac{1}{2}\left[\left(\mathbf{w}-\overline{\mathbf{w}}\right)^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\left(\mathbf{w}-\overline{\mathbf{w}}\right) \right.\right. \\
+\left.\left. -\overline{\mathbf{w}}^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\overline{\mathbf{w}}+\dfrac{\mathbf{y}^{\top}\mathbf{y}}{\sigma_{\mathrm{n}}^{2}}\right]\right]
+\end{multlined} \\
+&\begin{multlined} \propto\exp\left[-\dfrac{1}{2}\left[\left(\mathbf{w}-\overline{\mathbf{w}}\right)^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\left(\mathbf{w}-\overline{\mathbf{w}}\right) \right.\right. \\
+\left.\left. -\dfrac{1}{\sigma_{\mathrm{n}}^{4}}\mathbf{y}^{\top}X^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)^{-1}X\mathbf{y}+\dfrac{\mathbf{y}^{\top}\mathbf{y}}{\sigma_{\mathrm{n}}^{2}}\right]\right]
+\end{multlined} \\
+&\propto\exp\left[-\dfrac{1}{2}\left(\mathbf{w}-\overline{\mathbf{w}}\right)^{\top}\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)\left(\mathbf{w}-\overline{\mathbf{w}}\right)\right]
+\end{align}
+where the terms not involving $\mathbf{w}$ have been ignored due to proportionality. Hence it can be deduced
+\begin{equation}
+p\left(\mathbf{w}\middle|\mathbf{y},X\right)=\mathcal{N}\left(\overline{\mathbf{w}},\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)^{-1}\right)
+\end{equation}
+For ease of notation, let $A=\left(\dfrac{XX^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}\right)$ so that $\overline{\mathbf{w}}=\dfrac{1}{\sigma_{\mathrm{n}}^{2}}A^{-1}X\mathbf{y}$ and
+\begin{equation}
+p\left(\mathbf{w}\middle|\mathbf{y},X\right)=\mathcal{N}\left(\dfrac{1}{\sigma_{\mathrm{n}}^{2}}A^{-1}X\mathbf{y},A^{-1}\right)
+\end{equation}
+This posterior distribution represents a distribution over the possible linear models. To obtain a predictive distribution $f_{*} := f\left(x_{*}\right)$ at a test point $x_{*}$, we can integrate over the posterior:
+\begin{equation}
+p\left(f_{*}\middle|x_{*},X,\mathbf{y}\right)=\int p\left(f_{*}\middle|x_{*},\mathbf{w},X,\mathbf{y}\right)p\left(\mathbf{w}\middle|x_{*},X,\mathbf{y}\right)d\mathbf{w}
+\end{equation}
+By the i.i.d. assumption, $p\left(f_{*}\middle|x_{*},\mathbf{w},X,\mathbf{y}\right) = p\left(f_{*}\middle|x_{*},\mathbf{w}\right)$ and also by independence of the weights and the test point, $p\left(\mathbf{w}\middle|x_{*},X,\mathbf{y}\right) = p\left(\mathbf{w}\middle|X,\mathbf{y}\right)$ which gives
+\begin{equation}
+p\left(f_{*}\middle|x_{*},X,\mathbf{y}\right)= \int p\left(f_{*}\middle|x_{*},\mathbf{w}\right)p\left(\mathbf{w}\middle|X,\mathbf{y}\right)d\mathbf{w}
+\end{equation}
+where $p\left(\mathbf{w}\middle|X,\mathbf{y}\right)$ as above and $p\left(f_{*}\middle|x_{*},\mathbf{w}\right) = \mathcal{N}\left(x_{*}^{\top}\mathbf{w}, \sigma_{\mathrm{n}}^{2}\right)$. But rather than evaluating the integral, note that $f_{*}$ is just a linear transformation of the random variable $\mathbf{w}$, given by $f_{*}=x_{*}^{\top}\mathbf{w}$. By using the property of affine transformations of Gaussian random variables, this gives
+\begin{equation}
+p\left(f_{*}\middle|x_{*},X,\mathbf{y}\right)=\mathcal{N}\left(\dfrac{1}{\sigma_{\mathrm{n}}^{2}}x_{*}^{\top}A^{-1}X\mathbf{y},x_{*}^{\top}A^{-1}x_{*}\right)
+\end{equation}
+
+\subsubsection{Bayesian Basis Function Linear Regression}
+
+A regression model can be linear in a basis of $x$, denoted $\boldsymbol{\phi}\left(x\right)$, given by
+\begin{equation}
+f\left(x\right)=\boldsymbol{\phi}\left(x\right)^{\top}\mathbf{w}
+\end{equation}
+Defining the data matrix aggregated column-wise $\boldsymbol{\Phi}=\begin{bmatrix}\boldsymbol{\phi}\left(x_{1}\right) & \boldsymbol{\phi}\left(x_{2}\right) & \dots & \boldsymbol{\phi}\left(x_{n}\right)\end{bmatrix}$, the predictive distribution for a test point $x_{*}$ is now given by
+\begin{equation}
+p\left(f_{*}\middle|x_{*},X,\mathbf{y}\right)=\mathcal{N}\left(\dfrac{1}{\sigma_{\mathrm{n}}^{2}}\boldsymbol{\phi}\left(x_{*}\right)^{\top}A^{-1}\boldsymbol{\Phi}\mathbf{y},\boldsymbol{\phi}\left(x_{*}\right)^{\top}A^{-1}\boldsymbol{\phi}\left(x_{*}\right)\right)
+\end{equation}
+where $A=\dfrac{\boldsymbol{\Phi}\boldsymbol{\Phi}^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}}{\sigma_{\mathrm{n}}^{2}}$. Denote $\boldsymbol{\phi}_{*} := \boldsymbol{\phi}\left(x_{*}\right)$ for convenience. We can show that the mean can be written as
+\begin{equation}
+\dfrac{1}{\sigma_{\mathrm{n}}^{2}}\boldsymbol{\phi}_{*}^{\top}A^{-1}\boldsymbol{\Phi}\mathbf{y}=\boldsymbol{\phi}_{*}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\Phi}\left(K+\sigma_{\mathrm{n}}^{2}I\right)^{-1}\mathbf{y}
+\end{equation}
+where $K=\boldsymbol{\Phi}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\Phi}$. To do this, it suffices to show that
+\begin{equation}
+\dfrac{A^{-1}\boldsymbol{\Phi}}{\sigma_{\mathrm{n}}^{2}}=\Sigma_{\mathrm{p}}\boldsymbol{\Phi}\left(K+\sigma_{\mathrm{n}}^{2}I\right)^{-1}
+\end{equation}
+Using the definition of $A$:
+\begin{gather}
+\left(\boldsymbol{\Phi}\boldsymbol{\Phi}^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}\right)^{-1}\boldsymbol{\Phi}=\Sigma_{\mathrm{p}}\boldsymbol{\Phi}\left(K+\sigma_{\mathrm{n}}^{2}I\right)^{-1} \\
+\boldsymbol{\Phi}\left(K+\sigma_{\mathrm{n}}^{2}I\right)=\left(\boldsymbol{\Phi}\boldsymbol{\Phi}^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}\right)\Sigma_{\mathrm{p}}\boldsymbol{\Phi} \\
+\boldsymbol{\Phi}\left(\boldsymbol{\Phi}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\Phi}+\sigma_{\mathrm{n}}^{2}I\right)=\left(\boldsymbol{\Phi}\boldsymbol{\Phi}^{\top}+\sigma_{\mathrm{n}}^{2}\Sigma_{\mathrm{p}}^{-1}\right)\Sigma_{\mathrm{p}}\boldsymbol{\Phi} \\
+\boldsymbol{\Phi}\boldsymbol{\Phi}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\Phi}+\sigma_{\mathrm{n}}^{2}\boldsymbol{\Phi}=\boldsymbol{\Phi}\boldsymbol{\Phi}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\Phi}+\sigma_{\mathrm{n}}^{2}\boldsymbol{\Phi}
+\end{gather}
+as required. We also find an alternative form for the predictive covariance. Again using the definition of $A$:
+\begin{equation}
+\boldsymbol{\phi}_{*}^{\top}A^{-1}\boldsymbol{\phi}_{*}=\boldsymbol{\phi}_{*}^{\top}\left(\Sigma_{\mathrm{p}}^{-1}+\boldsymbol{\Phi}\sigma_{\mathrm{n}}^{-2}I\boldsymbol{\Phi}^{\top}\right)^{-1}\boldsymbol{\phi}_{*}
+\end{equation}
+Now apply the matrix inversion lemma:
+\begin{equation}
+\left(Z+UWV^{\top}\right)^{-1}=Z^{-1}-Z^{-1}U\left(W^{-1}+V^{\top}Z^{-1}U\right)^{-1}V^{\top}Z^{-1}
+\end{equation}
+using
+\begin{gather}
+Z=\Sigma_{\mathrm{p}}^{-1} \\
+U=\boldsymbol{\Phi} \\
+W=\sigma_{\mathrm{n}}^{-2}I \\
+V=\boldsymbol{\Phi}
+\end{gather}
+to give
+\begin{equation}
+A^{-1}=\Sigma_{\mathrm{p}}-\Sigma_{\mathrm{p}}\boldsymbol{\Phi}\left(\sigma_{\mathrm{n}}I+\boldsymbol{\Phi}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\Phi}\right)^{-1}\boldsymbol{\Phi}^{\top}\Sigma_{\mathrm{p}}
+\end{equation}
+Then use the definition of $K$:
+\begin{equation}
+A^{-1}=\Sigma_{\mathrm{p}}-\Sigma_{\mathrm{p}}\boldsymbol{\Phi}\left(K+\sigma_{\mathrm{n}}^{2}I\right)^{-1}\boldsymbol{\Phi}^{\top}\Sigma_{\mathrm{p}}
+\end{equation}
+Hence an alternative form for the predictive covariance is
+\begin{equation}
+\boldsymbol{\phi}_{*}^{\top}A^{-1}\boldsymbol{\phi}_{*}=\boldsymbol{\phi}_{*}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\phi}_{*}-\boldsymbol{\phi}_{*}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\Phi}\left(K+\sigma_{\mathrm{n}}^{2}I\right)^{-1}\boldsymbol{\Phi}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\phi}_{*}
+\end{equation}
+The predictive distribution has the new form
+\begin{equation}
+p\left(f_{*}\middle|x_{*},X,\mathbf{y}\right)=\mathcal{N}\left(\blue\boldsymbol{\phi}_{*}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\Phi}\black\left(\blue K\black +\sigma_{\mathrm{n}}^{2}I\right)^{-1}\mathbf{y}, \blue\boldsymbol{\phi}_{*}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\phi}_{*}\black-\blue\boldsymbol{\phi}_{*}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\Phi}\black\left(\blue K\black+\sigma_{\mathrm{n}}^{2}I\right)^{-1}\blue\boldsymbol{\Phi}^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\phi}_{*}\black\right)
+\end{equation}
+Note that the terms in \blue blue \black will be of the form $\boldsymbol{\phi}\left(x\right)^{\top}\Sigma_{\mathrm{p}}\boldsymbol{\phi}\left(x'\right)$ where $x$ and $x'$ can be either from the test set or training set.
+
+\subsection{Type II Maximum Likelihood}
 
 \subsection{Hierarchical Bayes Modelling \cite{Rasmussen2006}}
 
@@ -3320,7 +4615,7 @@ p\left(\mathbf{y}\middle|X\right) = \sum_{i}p\left(\mathbf{y}\middle|X, \mathcal
 \end{equation}
 ie. it is a weighted average of some probability density functions, and acts as a normalising constant for the posterior of $\mathcal{H}_{i}$.
 
-\subsection{Berstein-von Mises Theorem}
+\section{Berstein-von Mises Theorem}
 
 \section{Bayesian Classifiers}
 
@@ -3695,7 +4990,7 @@ A copula is a multivariate probability distribution on support the unit hypercub
 \begin{equation}
 H\left(x, y; \psi\right) = \begin{cases}
 \begin{array}{c}
-\dfrac{1}{\psi}\log\left(1+\dfrac{\left(e^{\psi x}-1\right)\left(e^{\phi y}-1\right)}{e^{\psi}-1}\right)\\
+\dfrac{1}{\psi}\log\left(1+\dfrac{\left(e^{\psi x}-1\right)\left(e^{\psi y}-1\right)}{e^{\psi}-1}\right)\\
 xy,
 \end{array} & \begin{array}{c}
 \psi\neq0\\
@@ -3716,10 +5011,75 @@ For example with the Frank copula, we can fit it to a distribution of the form $
 
 \section{Order Statistics}
 
+\subsection{Distribution of a Single Order Statistic}
+
+Let $X_{1}, \dots, X_{n}$ be i.i.d. random variables with cumulative distribution function $F\left(x\right)$. If a sample of these random variables are arranged in ascending order denoted as follows:
+\begin{equation}
+X_{\left(1\right)} \leq \dots \leq X_{\left(k\right)} \leq \dots \leq X_{\left(n\right)}
+\end{equation}
+then we call $X_{\left(k\right)}$ the $k$\textsuperscript{th} order statistic. The cumulative distribution of $X_{\left(k\right)}$, denoted $F_{\left(k\right)}$, can be expressed in terms of $F\left(x\right)$. By definition,
+\begin{equation}
+F_{\left(k\right)}\left(x\right) = \operatorname{Pr}\left(X_{\left(r\right)} \leq x\right)
+\end{equation}
+which can be rewritten as
+\begin{equation}
+F_{\left(k\right)}\left(x\right) = \operatorname{Pr}\left(X_{\left(1\right)} \leq \dots \leq X_{\left(k\right)} \leq x\right)
+\end{equation}
+This is the probability that at least $k$ out of the $X_{1}, \dots, X_{n}$ are less than or equal to $x$, which can be formulated using the upper cumulative binomial probability with `success' probability $F\left(x\right)$.
+\begin{equation}
+F_{\left(k\right)}\left(x\right) = \sum_{i = k}^{n}\begin{pmatrix}n \\ i\end{pmatrix}F\left(x\right)^{i}\left[1 - F\left(x\right)\right]^{n - i}
+\end{equation}
+or a lower cumulative binomial probability with success probability $1 - F\left(x\right)$, by making the change of variables $j = n - i$:
+\begin{equation}
+F_{\left(k\right)}\left(x\right) = \sum_{j = 0}^{n - k}\begin{pmatrix}n \\ j\end{pmatrix}\left[1 - F\left(x\right)\right]^{j}F\left(x\right)^{n - j}
+\end{equation}
+Using the alternative form of the cumulative binomial distribution in terms of the regularised incomplete Beta function, this gives
+\begin{equation}
+F_{\left(k\right)}\left(x\right) = \dfrac{1}{\operatorname{B}\left(k, n - k + 1\right)}\int_{0}^{F\left(x\right)}t^{k - 1}\left(1 - t\right)^{n - k}dt
+\end{equation}
+If $X$ is continuous with probability density function $f\left(x\right)$, this form can be used to derive the probability density function of the $k$\textsuperscript{th} order statistic using the Fundamental Theorem of Calculus:
+\begin{align}
+f_{\left(k\right)}\left(x\right) &= \dfrac{dF_{\left(k\right)}\left(x\right)}{dx} \\
+&= \dfrac{1}{\operatorname{B}\left(k, n - k + 1\right)}\dfrac{d}{dx}\int_{0}^{F\left(x\right)}t^{k - 1}\left(1 - t\right)^{n - k}dt \\
+&= \dfrac{1}{\operatorname{B}\left(k, n - k + 1\right)}\dfrac{dF_{\left(k\right)}\left(x\right)}{dx}\dfrac{d}{dF_{\left(k\right)}\left(x\right)}\int_{0}^{F\left(x\right)}t^{k - 1}\left(1 - t\right)^{n - k}dt \\
+&= \dfrac{1}{\operatorname{B}\left(k, n - k + 1\right)}f\left(x\right)F\left(x\right)^{k - 1}\left[1 - F\left(x\right)\right]^{n - k} \\
+&= \dfrac{n!}{\left(k - 1\right)!\left(n - k\right)!}F\left(x\right)^{k - 1}\left[1 - F\left(x\right)\right]^{n - k}f\left(x\right)
+\end{align}
+
 \subsection{Fisher–Tippett–Gnedenko Theorem \cite{David2005}}
 
 
 \section{Monte-Carlo Methods}
+
+\subsection{Importance Sampling}
+
+Suppose Monte-Carlo sampling is used to estimate some quantity $\mu = \mathbb{E}\left[H\left(\mathbf{X}\right)\right]$ where $\mathbf{X}$ is a random vector with density $f\left(\mathbf{x}\right)$ and $H\left(\cdot\right)$ is a real-valued function. Then a straightforward estimator using $N$ i.i.d. samples $\mathbf{X}$ drawn from the density $f\left(\mathbf{x}\right)$ is
+\begin{equation}
+\hat{\mu} = \dfrac{1}{N}\sum_{i = 1}^{N}H\left(\mathbf{X}_{i}\right)
+\end{equation}
+However, there are some densities which may be `difficult' to sample from, such that the variance of $\hat{\mu}$ will be impractically large. This may arise for example in rare event simulation, where $H\left(\cdot\right)$ is an indicator function for a rare event $A$ and $\hat{\mu}$ is an estimator for $\operatorname{Pr}\left(A\right)$. Since $A$ is rare, a plain Monte-Carlo sample as above may not event yield a single occurrence of $A$. The idea behind importance sampling is to re-weight the sampling density in hope of reducing the variance of $\hat{\mu}$. This is done as follows. We call $f\left(\mathbf{x}\right)$ the \textit{target} or \textit{nominal} density, and introduce a density $g\left(\mathbf{x}\right)$ called the \textit{proposal} or \textit{importance} density. The density $g\left(\mathbf{x}\right)$ must satisfy the property that $H\left(\mathbf{x}\right)f\left(\mathbf{x}\right) = 0$ wherever $g\left(\mathbf{x}\right) = 0$. This is so that
+\begin{align}
+\mu &= \int H\left(\mathbf{x}\right)f\left(\mathbf{x}\right) d\mathbf{x} \\
+&= \int_{\left\{H\left(\mathbf{x}\right)f\left(\mathbf{x}\right) \neq 0 \right\}} H\left(\mathbf{x}\right)f\left(\mathbf{x}\right) d\mathbf{x} \\
+&= \int_{\left\{g\left(\mathbf{x}\right) \neq 0 \right\}} H\left(\mathbf{x}\right)\dfrac{f\left(\mathbf{x}\right)}{g\left(\mathbf{x}\right)}g\left(\mathbf{x}\right) d\mathbf{x} \\
+&= \mathbb{E}_{g}\left[H\left(\mathbf{X}\right)\dfrac{f\left(\mathbf{X}\right)}{g\left(\mathbf{X}\right)}\right]
+\end{align}
+Hence we can sample from the density $g\left(\mathbf{x}\right)$ and estimate the average of the random variable $H\left(\mathbf{X}\right)\dfrac{f\left(\mathbf{X}\right)}{g\left(\mathbf{X}\right)}$. This gives the unbiased importance sampling estimator from $N$ i.i.d. samples of $\mathbf{X}$ drawn from $g\left(\mathbf{x}\right)$:
+\begin{equation}
+\hat{\mu}_{\mathrm{IS}} = \dfrac{1}{N}\sum_{i = 1}^{N}H\left(\mathbf{X}_{i}\right)\dfrac{f\left(\mathbf{X}_{i}\right)}{g\left(\mathbf{X}_{i}\right)}
+\end{equation}
+By slight abuse of nomenclature, the weighting ratio $w\left(\mathbf{x}\right) = \dfrac{f\left(\mathbf{X}\right)}{g\left(\mathbf{X}\right)}$ is called the \textit{likelihood ratio}. There is an optimal choice of importance density $g^{*}\left(\mathbf{x}\right)$ which minimises $\operatorname{Var}_{g}\left(\hat{\mu}_{\mathrm{IS}}\right)$. It can be shown that the optimal importance density is
+\begin{align}
+g^{*}\left(\mathbf{x}\right) &= \dfrac{H\left(\mathbf{x}\right)f\left(\mathbf{x}\right)}{\int H\left(\mathbf{x}\right)f\left(\mathbf{x}\right)d\mathbf{x}} \\
+&= \dfrac{H\left(\mathbf{x}\right)f\left(\mathbf{x}\right)}{\mu}
+\end{align}
+Note that this implicitly requires either $H\left(\mathbf{x}\right) \geq 0$ or $H\left(\mathbf{x}\right) \leq 0$ (ie. it does not ever switch signs) to guarantee that the density $g^{*}\left(\mathbf{x}\right) \geq 0$. With this, we can show that when samples of $\mathbf{X}$ are drawn i.i.d. from $g^{*}\left(\mathbf{x}\right)$:
+\begin{align}
+\operatorname{Var}_{g^{*}}\left(\hat{\mu}_{\mathrm{IS}}\right) &= \operatorname{Var}_{g^{*}}\left(\dfrac{1}{N}\sum_{i = 1}^{N}H\left(\mathbf{X}_{i}\right)\dfrac{f\left(\mathbf{X}_{i}\right)}{g^{*}\left(\mathbf{X}_{i}\right)}\right) \\
+&= \operatorname{Var}_{g^{*}}\left(\dfrac{1}{N}\sum_{i = 1}^{N}\mu\right) \\
+&= 0
+\end{align}
+This means that just a single sample will yield the desired $\mu$. However it is usually not possible to find $g^{*}\left(\mathbf{x}\right)$ because it requires $\mu$ itself. In practice, good importance sampling densities are chosen to be `close' to the minimum variance density $g^{*}\left(\mathbf{x}\right)$ \cite{Kroese2011}.
 
 \section{Resampling Methods}
 
@@ -3832,6 +5192,8 @@ So the percentile bootstrap interval is given by $\left(\theta_{\alpha/2}^{*}, \
 
 \section{Rao-Blackwell Estimators}
 
+\section{Optimal Experimental Design}
+
 \chapter{Stochastic Calculus}
 
 \section{Martingales}
@@ -3869,9 +5231,30 @@ If instead empty partitions are allowed (ie. $n_{1}, \dots, n_{k} \geq 0$), then
 \mathstrut^{n-1}\mathsf{C}_{k - 1} + \sum_{i = 1}^{k - 1}\mathstrut^{k}\mathsf{C}_{i}\times\mathstrut^{n-1}\mathsf{C}_{k - 1 - i} = \sum_{i = 0}^{k - 1}\mathstrut^{k}\mathsf{C}_{i}\times\mathstrut^{n-1}\mathsf{C}_{k - 1 - i}
 \end{equation}
 
+\subsection{Stirling Numbers of the Second Kind}
+
 \section{Catalan Numbers \cite{Lange2010}}
 
 \section{Derangements}
+
+A rearrangement of a set such that no element appears in its original position is called a derangement. The number of derangements of a set of size $n$ is denoted $!n$. The number of derangements can be counted by considering the following problem: each element in $\left\{1, \dots, n\right\}$ is to be assigned a label from $1, \dots, n$. We are interested in the number of ways to assigned labels in which no element is assigned its own label. That is, each element has exactly one `forbidden' label which it cannot be assigned. Suppose element $1$ is assigned an arbitrary label $i \neq 1$. There are $n - 1$ such possibilities. Then we can group the remaining possibilities pertaining to element $i$ as follows:
+\begin{itemize}
+\item Element $i$ is reciprocally assigned label $1$. Then the remaining possibilities becomes the same as with $n - 2$ elements and $n - 2$ labels.
+\item Element $i$ is not assigned label $1$. Then remaining possibilities becomes the same as with $n - 1$ elements and $n - 1$ labels, because each element still has exactly one forbidden label (label $1$ acts as element $i$'s forbidden label).
+\end{itemize}
+Hence the recurrence relation is obtained for the number of derangements $!n$:
+\begin{equation}
+!n = \left(n - 1\right)\left[!\left(n - 2\right) + !\left(n  - 1\right)\right]
+\end{equation}
+Letting $!0 = 1$ and $!1 = 0$, then this defines the entirety of the sequence in $n$ for the number of derangements. \\
+
+An explicit formula for the number of derangements can also be obtained via the inclusion-exclusion principle. In a rearrangement of a set, we call an element which remains it its original position `fixed'. There are $n!$ possibilities in which there are at least zero fixed elements (same as the number of arrangements). There are $\mathstrut^{n}\mathsf{C}_{1}\left(n - 1\right)!$ possibilities in which there are at least one fixed element (because there are $\mathstrut^{n}\mathsf{C}_{1}$ ways to choose one fixed element and $\left(n  -1\right)!$ arrangements of the remaining $n - 1$ elements). Hence we can develop the general formula that there are $\mathstrut^{n}\mathsf{C}_{i}\left(n - i\right)!$ arrangements in which there are at least $i$ fixed elements. Applying the inclusion exclusion principle:
+\begin{align}
+!n &= n! - \mathstrut^{n}\mathsf{C}_{1}\left(n - 1\right)! + \mathstrut^{n}\mathsf{C}_{2}\left(n - 2\right)! - \dots \\
+&= \sum_{i = 0}^{n}\left(-1\right)^{i}\mathsf{C}_{i}\left(n - i\right)! \\
+&= \sum_{i = 0}^{n}\left(-1\right)^{i}\dfrac{n!}{i!\left(n - 1\right)!}\left(n - i\right)! \\
+&= n!\sum_{i = 0}^{n}\dfrac{\left(-1\right)}{i!}
+\end{align}
 
 \part{Applications}
 
@@ -3894,7 +5277,7 @@ Note that since $0 \leq P\left(x_{i}\right) \leq 1$, then entropy is non-negativ
 \item Entropy can be thought of as a measure of uncertainty (in a separate way to variance). The larger the entropy, the more uncertainty in the random variable. A deterministic variable is the most certain kind of random variable, and has an entropy of zero (minimum uncertainty) since $\log 1 = 0$.
 \item Entropy measured in bits can be thought of as the lower bound on the number of bits it requires to transmit/store the outcome of an experiment. For example, in the deterministic case we require no bits because we already know the outcome of all experiments. Consider the outcome of a fair coin toss, with probability mass function
 \begin{equation}
-P\left(X = x\right) = \begin{cases}
+\operatorname{Pr}\left(X = x\right) = \begin{cases}
 \begin{array}{c}
 0.5,\\
 0.5,\\
@@ -3907,7 +5290,7 @@ x=1\\
 \end{equation}
 The calculation of entropy yields $\operatorname{H}\left[X\right] = 1$ bit. This agrees with the intuition that it requires a minimum of 1 bit to convey the outcome of a fair coin toss (ie. 0 for tails, 1 for heads). In the case of an unfair coin, for example with the probability mass function
 \begin{equation}
-P\left(X = x\right) = \begin{cases}
+\operatorname{Pr}\left(X = x\right) = \begin{cases}
 \begin{array}{c}
 0.25,\\
 0.75,\\
@@ -3923,7 +5306,7 @@ The calculation of entropy for this distribution yields $\operatorname{H}\left[X
 Now imagine an experiment with four possible outcomes distributed uniformly (eg. two fair coin tosses). The calculation of entropy does not depend on the events, only the associated probabilities. So in the case the probabilities are $\left\{0.25, 0.25, 0.25, 0.25\right\}$, the entropy works out to be $2$ bits. Once again this agrees with the intuition that it would take a minimum of $2$ bits to store the outcome of two fair coin tosses.
 \item Lastly, entropy can also be thought of as the expected value of a random variable that expresses the amount of information contained in each event (the random variable in question being $-\log P\left(X\right)$). To illustrate, consider the random variable with distribution
 \begin{equation}
-P\left(X = x\right) = \begin{cases}
+\operatorname{Pr}\left(X = x\right) = \begin{cases}
 \begin{array}{c}
 0.05,\\
 0.95,\\
@@ -4381,6 +5764,8 @@ The BIC is also used as a model selection technique, where we aim to select the 
 
 \subsection{Hellinger Distance}
 
+\section{Information Geometry}
+
 \chapter{Econometrics}
 
 \section{Model Specification}
@@ -4498,7 +5883,7 @@ A VAR model is a generalisation of the AR model, and is denoted by  $VAR\left(p\
 \begin{equation}
 X_{t} = c + \sum_{i = 1}^{p}A_{i}X_{t - i} + \varepsilon_{t}
 \end{equation}
-where $X_{t}$ is a stochastic vector, $c$ is a constant vector, $A_{1}, \dots, A_{p}$ are square matrix parameters, and $\varepsilon_{t}$ is a zero-mean vector error term with no correlation across time, ie. $\operatorname{E}\left[\varepsilon_{t}\varepsilon_{t - k}^{\top}\right] = 0$ for any non-zero $k$.
+where $X_{t}$ is a stochastic vector, $c$ is a constant vector, $A_{1}, \dots, A_{p}$ are square matrix parameters, and $\varepsilon_{t}$ is a zero-mean vector error term with no correlation across time, ie. $\mathbb{E}\left[\varepsilon_{t}\varepsilon_{t - k}^{\top}\right] = 0$ for any non-zero $k$.
 
 \subsection{Nonlinear Autoregressive Exogeneous (NARX) Models}
 A NARX model is a generalisation of the AR model, and is denoted by $NARX\left(p, b\right)$. The model is defined by
@@ -4535,7 +5920,7 @@ Consider an AR(1) model
 \begin{equation}
 \mathbb{E}\left[Y_{t} \middle|\mathcal{F}_{t-1}\right] = \beta_{0} + \beta_{1}Y_{t - 1}
 \end{equation}
-with $\left|\beta_{1}\right| < 1$. Using the Law of Expectations,
+with $\left|\beta_{1}\right| < 1$. Using the Law of Iterated Expectations,
 \begin{equation}
 \mathbb{E}\left[Y_{t}\right] = \beta_{0} + \beta_{1}\mathbb{E}\left[Y_{t - 1}\right]
 \end{equation}
@@ -4633,11 +6018,7 @@ A classifier may also be coded so that it can refuse to make a decision (eg. if 
 
 \subsection{Confusion Matrices}
 
-\subsection{Vapnik-Chervonenkis Dimension}
-
 \section{$k$-Nearest Neighbours}
-
-\section{Radermacher Complexity}
 
 \section{Neural Networks}
 
@@ -4946,7 +6327,11 @@ z = \left(\hat{f}_{1}\left(x\right), \dots, \hat{f}_{M}\left(x\right)\right)
 
 \subsection{Random Forests}
 
+\section{Statistical Learning Theory}
 
+\subsection{Vapnik-Chervonenkis Dimension}
+
+\subsection{Radermacher Complexity}
 
 \chapter{Statistical Signal Processing}
 
@@ -5068,8 +6453,12 @@ where $j = \sqrt{-1}$. The power spectral density of $X\left(t\right)$ is a func
 S_{X}\left(f\right) &= \lim_{T\to\infty}\dfrac{1}{2T}\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right] \\
 &= \lim_{T\to\infty}\dfrac{1}{2T}\mathbb{E}\left[\left|\int_{-T}^{T}x\left(t\right)e^{-j2\pi ft}dt\right|^{2}\right]
 \end{align}
+The power spectral density $S_{X}\left(\phi\right)$ of a wide-sense stationary random sequence $X_{n}$ is also defined similarly as
+\begin{equation}
+S_{X}\left(\phi\right) = \lim_{L\to\infty}\dfrac{1}{2L + 1}\mathbb{E}\left[\left|\sum_{n = -L}^{L}X_{n}e^{-j2\pi\phi n}\right|^{2}\right]
+\end{equation}
 
-\subsection{Wiener-Khintchine Theorem}
+\subsection{Wiener-Khintchine Theorem \cite{Yates2005}}
 
 The Wiener-Khintchine theorem states that the autocorrelation function and power spectral density of a wide sense stationary stochastic process $X\left(t\right)$ are Fourier transform pairs. That is,
 \begin{gather}
@@ -5088,7 +6477,7 @@ The Fourier transform $\widetilde{x}_{T}\left(f\right)$ is a complex valued func
 &= \int_{-T}^{T}\int_{-T}^{T}\mathbb{E}\left[x\left(t\right)x\left(t'\right)\right]e^{-j2\pi f\left(t-t'\right)}dtdt' \\
 &= \int_{-T}^{T}\int_{-T}^{T}R_{X}\left(t-t'\right)e^{-j2\pi f\left(t-t'\right)}dtdt'
 \end{align}
-Introduce the change of variables $\tau = t - t'$, noting that the integrand only depends on $\tau$. To determine the limits of integration, we reason that if $-T\leq t \leq T$ and $-T \leq t'\leq T$, then $-2T \leq \tau \leq 2T$. Then a graphical sketch on the $t$-$t'$ plane of the region $\Omega$ for $t'$ given by the intersection
+Introduce the change of variables $\tau = t - t'$, noting that the integrand then only depends on $\tau$. To determine the limits of integration, we reason that if $-T\leq t \leq T$ and $-T \leq t'\leq T$, then $-2T \leq \tau \leq 2T$. Then a graphical sketch on the $t$-$t'$ plane of the region $\Omega$ for $t'$ given by the intersection
 \begin{equation}
 \Omega = \left\{t': t - t' = \tau \cap -T\leq t \leq T \cap -T \leq t'\leq T \cap -2T \leq \tau \leq 2T\right\}
 \end{equation}
@@ -5098,8 +6487,7 @@ will reveal
 \end{equation}
 Combining these two cases gives $\Omega = \left\{t': -T \leq t' \leq T - \left|\tau\right|\right\}$. Hence the integral can be written as
 \begin{align}
-\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right] &= \int_{-T}^{T-\left|\tau\right|}\int_{-2T}^{2T}R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau dt' \\
-&= \int_{-2T}^{2T}\int_{-T}^{T-\left|\tau\right|}R_{X}\left(\tau\right)e^{-j2\pi f\tau}dt'd\tau \\
+\mathbb{E}\left[\left|\widetilde{x}_{T}\left(f\right)\right|^{2}\right] &= \int_{-2T}^{2T}\int_{-T}^{T-\left|\tau\right|}R_{X}\left(\tau\right)e^{-j2\pi f\tau}dt'd\tau \\
 &= \int_{-2T}^{2T}\left(2T-\left|\tau\right|\right)R_{X}\left(\tau\right)e^{-j2\pi f\tau}d\tau
 \end{align}
 This can be visually imagined as integrating along the positive (upward sloping) diagonals for all intercepts $\tau$ in the box bounded by $-T\leq t \leq T$ and $-T \leq t'\leq T$. Then 
@@ -5124,17 +6512,63 @@ Note that one may define average power of a stochastic process as $\mathbb{E}\le
 \begin{equation}
 R_{X}\left(0\right) = \int_{-\infty}^{\infty}S_{X}\left(f\right)df
 \end{equation}
-In this sense, the power spectral density can be viewed as the density of average power given for frequency $f$.
+In this sense, the power spectral density can be viewed as taking the role of a density function. So for a given frequency $f$, the power spectral density gives an indication of the contribution of that frequency to average power.
 
-\subsection{Discrete Wiener-Khintchine Theorem}
+\subsection{Discrete-Time Wiener-Khintchine Theorem}
+
+The discrete-Ttme Wiener-Khintchine theorem is the discrete-time analogue to the Wiener-Khintchine theorem involving the connection between the autocorrelation and power spectral density of random sequences by the discrete-time Fourier transform. For a wide-sense stationary random sequence $X_{n}$, the autocorrelation function $R_{X}\left(k\right)$ and power spectral density $S_{X}\left(\phi\right)$ form a discrete-time Fourier transform pair:
+\begin{gather}
+S_{X}\left(\phi\right) = \sum_{k = -\infty}^{\infty}R_{X}\left(k\right)e^{-j2\pi\phi k} \\
+R_{X}\left(k\right) = \int_{-1/2}^{1/2}S_{X}\left(\phi\right)e^{j2\pi\phi k}d\phi
+\end{gather}
+The proof is analogous to continuous time.
+\begin{proof}
+First write
+\begin{align}
+\mathbb{E}\left[\left|\sum_{n=-L}^{L}X_{n}e^{-j2\pi\phi n}\right|^{2}\right] &= \mathbb{E}\left[\left(\sum_{n=-L}^{L}X_{n}e^{-j2\pi\phi n}\right)\left(\sum_{n'=-L}^{L}X_{n'}e^{j2\pi\phi n'}\right)\right] \\
+&= \mathbb{E}\left[\sum_{n=-L}^{L}\sum_{n'=-L}^{L}X_{n}X_{n'}e^{-j2\pi\phi\left(n-n'\right)}\right] \\
+&= \sum_{n=-L}^{L}\sum_{n'=-L}^{L}\mathbb{E}\left[X_{n}X_{n'}\right]e^{-j2\pi\phi\left(n-n'\right)} \\
+&= \sum_{n=-L}^{L}\sum_{n'=-L}^{L}R_{X}\left(n-n'\right)e^{-j2\pi\phi\left(n-n'\right)}
+\end{align}
+Analogous to continuous time, introduce a change of variables $\eta = n - n'$ so that
+\begin{align}
+\mathbb{E}\left[\left|\sum_{n=-L}^{L}X_{n}e^{-j2\pi\phi n}\right|^{2}\right] &= \sum_{\eta=-2L}^{2L}\sum_{n'=-L}^{L-\left|\eta\right|}R_{X}\left(\eta\right)e^{-j2\pi\phi\eta} \\
+&= \sum_{\eta=-2L}^{2L}\left(2L+1-\left|\eta\right|\right)R_{X}\left(\eta\right)e^{-j2\pi\phi\eta}
+\end{align}
+noting that $\sum_{n'=-L}^{L-\left|\eta\right|} = 2L + 1 - \left|\eta\right|$. So now
+\begin{equation}
+\dfrac{1}{2L+1}\mathbb{E}\left[\left|\sum_{n=-L}^{L}X_{n}e^{-j2\pi\phi n}\right|^{2}\right]=\sum_{\eta=-2L}^{2L}\left(1-\dfrac{\left|\eta\right|}{2L+1}\right)R_{X}\left(\eta\right)e^{-j2\pi\phi\eta}
+\end{equation}
+Introduce the function
+\begin{equation}
+h_{L}\left(\eta\right)= \begin{cases} 1-\dfrac{\left|\eta\right|}{2L+1}, & \left|\eta\right| \leq 2L + 1 \\ 0, & \mathrm{elsewhere}\end{cases}
+\end{equation}
+where we have that $\lim_{L\to\infty}h_{L}\left(\eta\right) = 1$. Then
+\begin{align}
+S_{X}\left(\phi\right) &= \lim_{L\to\infty}\dfrac{1}{2L+1}\mathbb{E}\left[\left|\sum_{n=-L}^{L}X_{n}e^{-j2\pi\phi n}\right|^{2}\right] \\
+&= \lim_{L\to\infty}\sum_{\eta=-2L}^{2L}h_{L}\left(\eta\right)R_{X}\left(\eta\right)e^{-j2\pi\phi\eta} \\
+&= \sum_{\eta=-\infty}^{\infty}R_{X}\left(\eta\right)e^{-j2\pi\phi\eta}
+\end{align}
+which is the discrete-time Fourier transform of the autocorrelation function of $X_{n}$, $R_{X}\left(\eta\right)$.
+\end{proof}
 
 \subsection{Cross Spectral Density}
 
-\subsection{Spectral Density Estimation}
+The cross spectral density $S_{XY}\left(f\right)$ of two jointly wide-sense stationary processes $X\left(t\right)$ and $Y\left(t\right)$ is the Fourier transform of the cross-correlation $R_{XY}\left(\tau\right)$.
+\begin{equation}
+S_{XY}\left(f\right) = \int_{-\infty}^{\infty}R_{XY}\left(\tau\right)e^{-j2\pi f\tau}d\tau
+\end{equation}
+
+The cross spectral density $S_{XY}\left(\phi\right)$ of two jointly wide-sense random sequences $X_{n}$ and $Y_{n}$ is the Fourier transform of the cross-correlation $R_{XY}\left(k\right)$.
+\begin{equation}
+S_{XY}\left(\phi\right) = \sum_{k = -\infty}^{\infty}R_{XY}\left(\tau\right)e^{-j2\pi \phi k}
+\end{equation}
 
 \subsection{Coloured Noise}
 
 \subsection{Spectral Factorisation Theorem}
+
+\section{Spectral Density Estimation}
 
 \section{Linear Filtering}
 
@@ -5158,11 +6592,15 @@ The Kalman filter is a special case of the Bayes filter when the dynamic model i
 
 \section{Particle Filtering}
 
-\section{Subspace Identification}
-
 \section{Wavelets}
 
 \chapter{Stochastic Control}
+
+\section{System Identification}
+
+\subsection{Identification of Linear State Space Systems}
+
+\subsection{Subspace Identification}
 
 \section{Linear Quadratic Gaussian Control}
 
@@ -5220,6 +6658,8 @@ f^{*} = \dfrac{pb - q}{b}
 \section{Mean Sojourn Time}
 
 \section{Mean Field Theory}
+
+\section{Fokker-Planck Equations}
 
 %\nocite{*} % adds all entries in the bib file to the bibliography
 \bibliography{prob_stats_references}{}
