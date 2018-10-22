@@ -941,6 +941,7 @@ which yields the subadditivity property for the standard deviation.
 
 \subsection{Conditional Independence}
 
+\subsubsection{Conditionally Independent Events}
 Two events $A$ and $B$ are conditionally independent on a third event $C$ if the knowledge of $C$ makes events $A$ and $B$ independent (hence their joint probability conditional on $C$ can be obtained by multiplying the marginal conditional probabilities):
 \begin{equation}
 \operatorname{Pr}\left(A\cap B\middle|C\right) = \operatorname{Pr}\left(A\middle|C\right)\operatorname{Pr}\left(B\middle|C\right)
@@ -950,9 +951,14 @@ By rearranging this and applying the definition of conditional probability, an a
 \dfrac{\operatorname{Pr}\left(A\cap B\middle|C\right)}{\operatorname{Pr}\left(B\middle|C\right)} = \operatorname{Pr}\left(A\middle|C\right) \\
 \operatorname{Pr}\left(A\middle|B \cap C\right) = \operatorname{Pr}\left(A\middle|C\right)
 \end{gather}
-Note that $A$ and $B$ may or may not be independent without $C$. Also, if $A$ and $B$ are not conditionally independent on $C$, then they are conditionally dependent on $C$. \\
+Note that $A$ and $B$ may or may not be independent without $C$. Also, if $A$ and $B$ are not conditionally independent on $C$, then they are conditionally dependent on $C$.
 
-Similarly, two random variables $X$ and $Y$ are conditionally independent on a third random variable $Z$ if the conditional random variables $X|Z$ and $Y|Z$ are independent. 
+\subsubsection{Conditionally Independent Random Variables}
+
+Similarly, two random variables $X$ and $Y$ are conditionally independent on a third random variable $Z$ if the conditional random variables $X|Z$ and $Y|Z$ are independent. Or more formally (for the case of continuous random variables),
+\begin{equation}
+f_{XY|Z}\left(x, y\right) = f_{X|Z}\left(x\right)f_{Y|Z}\left(y\right)
+\end{equation}
 
 \subsection{Orthogonality \cite{Yates2005}}
 
@@ -1126,9 +1132,13 @@ The coefficient of variation is a standardised measure of dispersion relative to
 
 \subsubsection{Range}
 
-\subsubsection{Percentile}
+\subsubsection{Percentiles}
+
+\subsubsection{Quartiles}
 
 \subsubsection{Interquartile Range}
+
+\subsubsection{Quantiles}
 
 \subsubsection{Frequency Distribution}
 
@@ -1271,6 +1281,7 @@ Regressand & Regressor \\
 Output variable & Input variable \\
 Response variable & Covariate \\
 Predicted variable & Control variable \\
+Prediction & Predictor \\
 \hline
 \end{tabular}
 \end{table}
@@ -1284,6 +1295,318 @@ Predicted variable & Control variable \\
 \section{Method of Moments}
 
 \chapter{Intermediate Probability}
+
+\section{Transformations of Random Variables}
+
+\subsection{Linear Transformations of Random Variables}
+
+Suppose random variable $X$ has probability density function $f_{X}\left(x\right)$ and cumulative distribution function $F_{X}\left(x\right)$. Define the linearly transformed random variable $Y = aX + b$. We derive expressions for the density function $f_{Y}\left(y\right)$ and cumulative distribution $F_{Y}\left(y\right)$. Firstly by definition of the cumulative distribution,
+\begin{align}
+F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
+&= \operatorname{Pr}\left(aX + b \leq y\right) \\
+&= \operatorname{Pr}\left(X \leq \dfrac{y - b}{a}\right) \\
+&= F_{X}\left(\dfrac{y - b}{a}\right)
+\end{align}
+Differentiating using the chain rule, the probability density function becomes
+\begin{equation}
+f_{Y}\left(y\right) = \dfrac{1}{a}f_{X}\left(\dfrac{y - b}{a}\right)
+\end{equation}
+
+\subsection{Parametric Distributions}
+
+A probability distribution may belong to a `family' of distributions, characterised by a common functional form that is parametrised. A probability distribution parametrised in $\theta$ may be denoted $f\left(x; \theta\right)$.
+
+\subsubsection{Scale Parameters}
+
+A scale parameter `stretches' the distribution. If a particular distribution with scale parameter $\theta$ has density $f\left(x\right)$, then the distribution with scale parameter $a\theta$ has density $f\left(x/a\right)/a$.
+
+\subsubsection{Rate Parameters}
+
+The reciprocal of a scale parameter may be referred to as a rate parameter (ie. it `concentrates' the distribution). Hence if a particular distribution with rate parameter $\theta$ has density $f\left(x\right)$, then the distribution with rate parameter $b\theta$ has density $bf\left(bx\right)$.
+
+\subsubsection{Location Parameters}
+
+A location parameter `shifts' the distribution. This means that if a particular distribution with location parameter $\theta$ has density $f\left(x\right)$, then the distribution with location parameter $\theta + c$ has density $f\left(x - c\right)$. Families of distributions may typically be parametrised in terms of the mean, median or mode as a location parameter. 
+
+\subsubsection{Shape Parameters}
+
+Any parameter of a distribution which is neither a scale/rate nor location parameter may be referred to as a shape parameter.
+
+\subsection{Sums of Random Variables}
+
+Consider the sum of two continuous random variables $W = X + Y$. The PDF of $W$ can be defined as
+\begin{equation}
+f_{W}\left(w\right) = \int\int_{\left\{x,y: x + y = w\right\}}f_{XY}\left(x, y\right)dxdy
+\end{equation}
+We can then just integrate along the straight line $x + y = w$ and make a substitution of either $x = w - y$ or $y = w - x$ (which influences the integrating variable). This gives rise to two alternative formulas.
+\begin{gather}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, w-x\right)dx \\
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(w - y, y\right)dy
+\end{gather}
+If $X$ and $Y$ are independent, then
+\begin{gather}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(w-x\right)dx \\
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(w - y\right)f_{Y}\left(y\right)dy
+\end{gather}
+Note that that $f_{W}\left(\cdot\right)$ is a convolution of $f_{X}\left(\cdot\right)$ and $f_{Y}\left(\cdot\right)$. \\
+
+For the case of the sum of two discrete random variables $W = X + Y$, the analogous formulae are
+\begin{gather}
+\operatorname{Pr}\left(W = w\right) = \sum_{x = -\infty}^{\infty}\operatorname{Pr}\left(X = x, Y = w - x\right) \\
+\operatorname{Pr}\left(W = w\right) = \sum_{y = -\infty}^{\infty}\operatorname{Pr}\left(X = w - y, Y = y\right)
+\end{gather}
+and in the independent case
+\begin{gather}
+\operatorname{Pr}\left(W = w\right) = \sum_{x = -\infty}^{\infty}\operatorname{Pr}\left(X = x\right)\operatorname{Pr}\left(Y = w - x\right) \\
+\operatorname{Pr}\left(W = w\right) = \sum_{y = -\infty}^{\infty}\operatorname{Pr}\left(X = w - y\right)\operatorname{Pr}\left(Y = y\right)
+\end{gather}
+
+\subsubsection{Difference of Random Variables}
+
+Consider the difference of two continuous random variables $W = X - Y$. Analogously (by making substitutions $x = w + y$ or $y = -w + x$) we can show
+\begin{gather}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, -w + x\right)dx \\
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(w + y, y\right)dy
+\end{gather}
+and in the independent case
+\begin{gather}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(-w + x\right)dx \\
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(w + y\right)f_{Y}\left(y\right)dy
+\end{gather}
+\begin{theorem}
+If $X$ and $Y$ are independent and identically distributed continuous random variables, than the distribution of their difference $W = X - Y$ is symmetric.
+\end{theorem}
+\begin{proof}
+Note that $W$ will necessarily have a mean of zero (assuming $X$ and $Y$ have finite mean). If the mean of $W$ is not defined, its probability distribution will still have a `symmetry point' of zero. It suffices to show $f_{W}\left(w\right) = f_{W}\left(-w\right)$. Using the formulas above in the independent case,
+\begin{equation}
+f_{W}\left(-w\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(w + x\right)dx
+\end{equation}
+Since $X$ and $Y$ are identical, $f_{X}\left(x\right) = f_{Y}\left(x\right)$ so
+\begin{equation}
+f_{W}\left(-w\right) = \int_{-\infty}^{\infty}f_{Y}\left(x\right)f_{X}\left(w + x\right)dx
+\end{equation}
+`Renaming' the integrating variable to $y$ yields
+\begin{equation}
+f_{W}\left(-w\right) = \int_{-\infty}^{\infty}f_{Y}\left(y\right)f_{X}\left(w + y\right)dy = f_{W}\left(w\right)
+\end{equation}
+\end{proof}
+
+\subsubsection{Stable Distributions}
+
+A family of distributions is said to be stable if a linear combination of two random variables from that family also has a distribution in that family. Examples of stable distributions are the Gaussian and Cauchy distributions.
+
+\subsection{Strictly Monotonic Transformations}
+
+Let $X$ be a random variable with probability density $f_{X}\left(x\right)$, and let $A$ be the set $A = \left\{x \in\mathbb{R}\middle| f_{X}\left(x\right) > 0\right\}$. Suppose that $Y$ is a transformation of $X$ given by $Y = g\left(X\right)$ such that $g$ is strictly monotonic (either increasing or decreasing) over $A$. We derive the probability density of $Y$, denoted $f_{Y}\left(y\right)$, in terms of $f_{X}\left(x\right)$ and $g$. \\
+
+First assume $g$ is monotonically increasing, so $g^{-1}\left(\cdot\right)$ will also be monotonically increasing. The cumulative distribution function of $Y$ is given by
+\begin{align}
+F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
+&= \operatorname{Pr}\left(g\left(X\right) \leq y\right) \\
+&= \operatorname{Pr}\left(X \leq g^{-1}\left(y\right)\right) \\
+&= F_{X}\left(g^{-1}\left(y\right)\right)
+\end{align}
+Differentiating $F_{Y}\left(y\right)$ with respect to $y$ gives the density of $Y$:
+\begin{align}
+f_{Y}\left(y\right) &= \dfrac{d}{dy}F_{Y}\left(y\right)\\
+&= \dfrac{d}{dy}F_{X}\left(g^{-1}\left(y\right)\right)
+\end{align}
+Using the chain rule,
+\begin{align}
+f_{Y}\left(y\right) &= \dfrac{d}{dx}F_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right) \\
+&= f_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right)
+\end{align}
+Now assume $g$ is monotonically decreasing, so $g^{-1}\left(\cdot\right)$ is also monotonically decreasing and has the ability to flip an inequality sign. Similar to before, we can write
+\begin{align}
+F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
+&= \operatorname{Pr}\left(g\left(X\right) \leq y\right) \\
+&= \operatorname{Pr}\left(X \geq g^{-1}\left(y\right)\right) \\
+&= 1 - F_{X}\left(g^{-1}\left(y\right)\right)
+\end{align}
+Now differentiating $F_{Y}$ gives 
+\begin{align}
+f_{Y}\left(y\right) &= \dfrac{d}{dy}F_{Y}\left(y\right) \\
+&= -\dfrac{d}{dy}F_{X}\left(g^{-1}\left(y\right)\right) \\
+&= -\dfrac{d}{dx}F_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right) \\
+&= -f_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right)
+\end{align}
+Since by monotonically decreasing $g^{-1}\left(\cdot\right)$, we have $\dfrac{d}{dy}g^{-1}\left(y\right) < 0$ hence this density is positive. Combining the two cases, we get
+\begin{equation}
+f_{Y}\left(y\right) =  f_{X}\left(g^{-1}\left(y\right)\right)\cdot\left|\dfrac{d}{dy}g^{-1}\left(y\right)\right|
+\end{equation}
+
+\subsection{Inverse Transform Sampling}
+
+\subsection{Gauss' Approximation Theorem \cite{Blom1989}}
+
+For a differentiable function $g\left(X\right)$ of a single random variable $X$, we can make the approximations
+\begin{gather}
+\mathbb{E}\left[g\left(X\right)\right] \approx g\left(\mathbb{E}\left[X\right]\right) \\
+\operatorname{Var}\left(g\left(X\right)\right) \approx \operatorname{Var}\left(X\right)g'\left(\mathbb{E}\left[X\right]\right)^{2}
+\end{gather}
+This is achieved using a first-order Taylor series expansion of $g\left(X\right)$ about $m := \operatorname{E}\left[X\right]$ as follows
+\begin{equation}
+g\left(X\right) \approx g\left(m\right) + \left(X - m\right)g'\left(m\right)
+\end{equation}
+Taking the expectations of both sides gives
+\begin{align}
+\mathbb{E}\left[g\left(X\right)\right] &\approx \mathbb{E}\left[g\left(m\right)\right] + \mathbb{E}\left[\left(X - m\right)g'\left(m\right)\right] \\
+&\approx \mathbb{E}\left[g\left(\mathbb{E}\left[X\right]\right)\right] + \mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)\right]g'\left(\mathbb{E}\left[X\right]\right) \\
+&\approx g\left(\mathbb{E}\left[X\right]\right) + \left(\mathbb{E}\left[X\right] - \mathbb{E}\left[X\right]\right)g'\left(\mathbb{E}\left[X\right]\right) \\
+&\approx g\left(\mathbb{E}\left[X\right]\right)
+\end{align}
+Taking the variance of both sides of the expansion gives
+\begin{align}
+\operatorname{Var}\left(g\left(X\right)\right) &\approx \operatorname{Var}\left(g\left(m\right) + \left(X - m\right)g'\left(m\right)\right) \\
+&\approx \operatorname{Var}\left(\left(X - m\right)g'\left(m\right)\right) \\
+&\approx \operatorname{Var}\left(X - m\right)g'\left(m\right)^{2} \\
+&\approx \operatorname{Var}\left(X\right)g'\left(m\right)^{2} \\
+&\approx \operatorname{Var}\left(X\right)g'\left(\mathbb{E}\left[X\right]\right)^{2} 
+\end{align}
+
+\subsection{Independence of Transformed Random Variables}
+
+If $X$ and $Y$ are independent random variables, then the transformed random variables $f\left(X\right)$ and $g\left(Y\right)$ are also independent. This is shown by first using the definition of independence that for sets $A$ and $B$, 
+\begin{equation}
+\operatorname{Pr}\left(X \in A \cap Y \in B\right) = \operatorname{Pr}\left(X \in A\right)\operatorname{Pr}\left(Y \in B\right)
+\end{equation}
+Then note the equivalence of events
+\begin{gather}
+\left\{f\left(X\right) \in A\right\} \equiv \left\{X \in f^{-1}\left(A\right)\right\} \\
+\left\{g\left(Y\right) \in B\right\} \equiv \left\{Y \in g^{-1}\left(B\right)\right\}
+\end{gather}
+So
+\begin{align}
+\operatorname{Pr}\left(f\left(X\right) \in A \cap g\left(Y\right) \in B\right) &= \operatorname{Pr}\left(X \in f^{-1}\left(A\right) \cap Y \in g^{-1}\left(B\right)\right) \\
+&=  \operatorname{Pr}\left(X \in f^{-1}\left(A\right)\right)\operatorname{Pr}\left(Y \in g^{-1}\left(B\right)\right) \\
+&= \operatorname{Pr}\left(f\left(X\right) \in A\right)\operatorname{Pr}\left(g\left(Y\right) \in B\right)
+\end{align}
+
+Note that if $X$ and $Y$ were dependent, then $f\left(X\right)$ and $g\left(Y\right)$ need not necessarily be dependent. A trivial counter example is a case where $f\left(X\right)$ is a constant.
+
+\subsection{Products of Random Variables}
+
+The product distribution of random variables $X$ and $Y$ is the distribution of $Z = XY$. If $X$ and $Y$ are independent and have probability density functions $f_{X}\left(x\right)$ and $f_{Y}\left(y\right)$ respectively, then
+\begin{equation}
+f_{Z}\left(z\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\dfrac{1}{\left|x\right|}dx
+\end{equation}
+\begin{proof}
+We can express the probability density of $Z$ as the integration of the joint density of $X$ and $Y$ over the region where $XY = Z$.
+\begin{equation}
+f_{Z}\left(z\right) = \int\int_{\left\{x, y: xy = z\right\}}f_{X}\left(x\right)f_{Y}\left(y\right)dydx
+\end{equation}
+Make the substitution $y = z/x$ and rewrite the integral using the Dirac delta function:
+\begin{align}
+f_{Z}\left(z\right) &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\delta\left(xy - z\right)dydx \\
+&= \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\int_{-\infty}^{\infty}\delta\left(xy - z\right)dydx
+\end{align}
+Note the scaling property of the Dirac delta function, that $\delta\left(xy\right) = \dfrac{\delta\left(y\right)}{\left|x\right|}$ (this is to keep the property that $\int_{-\infty}^{\infty}\left|x\right|\delta\left(xy\right)dy = \int_{-\infty}^{\infty}\delta\left(y\right)dy = 1$). Hence
+\begin{equation}
+\int_{-\infty}^{\infty}\delta\left(xy - z\right)dy = \dfrac{1}{\left|x\right|}
+\end{equation}
+and
+\begin{equation}
+f_{Z}\left(z\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\dfrac{1}{\left|x\right|}dx
+\end{equation}
+\end{proof}
+
+Furthermore, for independent $X$ and $Y$, the expectation of $Z = XY$ is
+\begin{equation}
+\mathbb{E}\left[XY\right] = \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+\end{equation}
+\begin{proof}
+Using the definition of covariance,
+\begin{equation}
+\operatorname{Cov}\left(X, Y\right) = \mathbb{E}\left[XY\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+\end{equation}
+Then apply $\operatorname{Cov}\left(X, Y\right) = 0$ due to independence.
+\end{proof}
+
+If $X$ and $Y$ are not independent but have the joint density function $f_{XY}\left(x, y\right)$, then
+\begin{equation}
+f_{Z}\left(z\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, z/x\right)\dfrac{1}{\left|x\right|}dx
+\end{equation}
+
+\subsection{Ratios of Random Variables}
+The ratio (or quotient) distribution of random variables $X$ and $Y$ is the distribution of $W = \dfrac{X}{Y}$. If $X$ and $Y$ are independent and have probability density functions $f_{X}\left(x\right)$ and $f_{Y}\left(y\right)$ respectively, then
+\begin{equation}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\left|y\right|dy
+\end{equation}
+The proof is similar to the derivation of the product distribution.
+\begin{proof}
+We can express the probability density of $W$ as the integration of the joint density of $X$ and $Y$ over the region where $X/Y = W$.
+\begin{equation}
+f_{W}\left(w\right) = \int\int_{\left\{x, y: x/y = w\right\}}f_{X}\left(x\right)f_{Y}\left(y\right)dxdy
+\end{equation}
+Make the substitution $x = wy$ and rewrite the integral using the Dirac delta function:
+\begin{align}
+f_{W}\left(w\right) &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\delta\left(x/y - w\right)dydx \\
+&= \int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\int_{-\infty}^{\infty}\delta\left(x/y - w\right)dxdy
+\end{align}
+By the scaling property of the Dirac delta function,
+\begin{equation}
+\int_{-\infty}^{\infty}\delta\left(x/y - z\right)dx = \left|y\right|
+\end{equation}
+Hence
+\begin{equation}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\left|y\right|dy
+\end{equation}
+\end{proof}
+If $X$ and $Y$ are not independent but have the joint density function $f_{XY}\left(x, y\right)$, then
+\begin{equation}
+f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(wy, y\right)\dfrac{1}{\left|y\right|}dy
+\end{equation}
+
+The mean of the ratio distribution (even in the independent case) is not as straightforward compared to the product distribution, however can be approximated using Taylor expansions. To illustrate, we first develop an extension of Gauss' approximation theorem to a nonlinear function in two variables, $f\left(x, y\right)$. Suppose random variables $X$ and $Y$ have means $\mu_{X}$ and $\mu_{Y}$ respectively with $\mu_{Y} \neq 0$. Then a second order Taylor series approximation of $f\left(X, Y\right)$ about the mean $\left(\mu_{X}, \mu_{Y}\right)$ gives
+\begin{multline}
+f\left(X, Y\right) \approx f\left(\mu_{X}, \mu_{Y}\right) + \left.\nabla f\left(x, y\right)^{\top}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix} + \\
+\dfrac{1}{2}\begin{bmatrix} X - \mu_{X} & Y - \mu_{Y}\end{bmatrix}\left.\nabla^{2} f\left(x, y\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix}
+\end{multline}
+If we take the expectation of this, the first order term vanishes because
+\begin{equation}
+\mathbb{E}\left[\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix}\right] = \begin{bmatrix} \mu_{X} - \mu_{X} \\ \mu_{Y} - \mu_{Y}\end{bmatrix}
+\end{equation}
+We are then left with
+\begin{multline}
+\mathbb{E}\left[f\left(X, Y\right)\right] \approx f\left(\mu_{X}, \mu_{Y}\right) + \dfrac{1}{2}\mathbb{E}\left[\left(X - \mu_{X}\right)^{2}\right]\left.\left(\dfrac{\partial^{2}f\left(x, y\right)}{\partial x^{2}}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)} \\
++\mathbb{E}\left[\left(X - \mu_{X}\right)\left(Y - \mu_{Y}\right)\right]\left.\left(\dfrac{\partial^{2}f\left(x, y\right)}{\partial x \partial y}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)} + \mathbb{E}\left[\left(Y - \mu_{Y}\right)^{2}\right]\left.\left(\dfrac{\partial^{2}f\left(x, y\right)}{\partial y^{2}}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}
+\end{multline}
+For the case $f\left(x, y\right) = \dfrac{x}{y}$, the second partial derivatives evaluate to
+\begin{gather}
+\dfrac{\partial^{2}f\left(x, y\right)}{\partial x^{2}} = 0 \\
+\dfrac{\partial^{2}f\left(x, y\right)}{\partial x \partial y} = -\dfrac{1}{y^{2}} \\
+\dfrac{\partial^{2}f\left(x, y\right)}{\partial y^{2}} = \dfrac{2x}{y^{3}}
+\end{gather}
+Hence
+\begin{align}
+\mathbb{E}\left[\dfrac{X}{Y}\right] &\approx \dfrac{\mu_{X}}{\mu_{Y}} - \mathbb{E}\left[\left(X - \mu_{X}\right)\left(Y - \mu_{Y}\right)\right]\dfrac{1}{\mu_{Y}^{2}} + \mathbb{E}\left[\left(Y - \mu_{Y}\right)^{2}\right]\dfrac{\mu_{X}}{\mu_{Y}^{3}} \\
+&\approx \dfrac{\mathbb{E}\left[X\right]}{\mathbb{E}\left[Y\right]} - \dfrac{\operatorname{Cov}\left(X, Y\right)}{\mathbb{E}\left[Y\right]^{2}} + \operatorname{Var}\left(Y\right)\dfrac{\mathbb{E}\left[X\right]}{\mathbb{E}\left[Y\right]^{3}}
+\end{align}
+To approximate the variance, taking a first order Taylor approximation (for simplicity) gives
+\begin{align}
+\operatorname{Var}\left(f\left(X, Y\right)\right) &\approx \operatorname{Var}\left(f\left(\mu_{X}, \mu_{Y}\right) + \left.\nabla f\left(x, y\right)^{\top}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix}\right) \\
+&\approx \operatorname{Var}\left(X\left.\dfrac{\partial f\left(x, y\right)}{\partial x}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)} + Y\left.\dfrac{\partial f\left(x, y\right)}{\partial y}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\right) \\
+&\begin{multlined}\approx \left.\left(\dfrac{\partial f\left(x, y\right)}{\partial x}\right)^{2}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\operatorname{Var}\left(X\right) \\
++ 2\left.\left(\dfrac{\partial f\left(x, y\right)}{\partial x}\cdot\dfrac{\partial f\left(x, y\right)}{\partial y}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\operatorname{Cov}\left(X, Y\right) + \left.\left(\dfrac{\partial f\left(x, y\right)}{\partial y}\right)^{2}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\operatorname{Var}\left(Y\right) \end{multlined}
+\end{align}
+Again by treating $f\left(x, y\right) = \dfrac{x}{y}$, 
+\begin{align}
+\operatorname{Var}\left(\dfrac{X}{Y}\right) &\approx \dfrac{1}{\mu_{Y}^{2}}\operatorname{Var}\left(X\right) - 2\dfrac{\mu_{X}}{\mu_{Y}^{3}}\operatorname{Cov}\left(X, Y\right) + \dfrac{\mu_{X}^{2}}{\mu_{Y}^{4}}\operatorname{Var}\left(Y\right) \\
+&\approx \dfrac{\operatorname{Var}\left(X\right)}{\mathbb{E}\left[Y\right]^{2}} - 2\dfrac{\mathbb{E}\left[X\right]}{\mathbb{E}\left[Y\right]^{3}}\operatorname{Cov}\left(X, Y\right) + \dfrac{\mathbb{E}\left[X\right]^{2}}{\mathbb{E}\left[Y\right]^{4}}\operatorname{Var}\left(Y\right)
+\end{align}
+
+\subsection{Decompositions of Random Variables}
+
+The distribution of random variable $Z$ is said to be decomposable if $Z$ can be expressed as the sum of non-constant independent random variables $X$ and $Y$, ie. $Z = X + Y$. If it is not possible, the distribution of $Z$ is said to be indecomposable.
+
+\subsubsection{Divisibility}
+
+The distribution of random variable $Z$ is said to be divisible if $Z$ can be expressed as the sum of independent and identically distributed random variables $X_{1}$ and $X_{2}$. If $Z$ can be expressed as a sum of arbitrarily many i.i.d. random variables, then the distribution of $Z$ is said to be infinitely divisible.
+
+\subsubsection{Cram\'{e}r's Decomposition Theorem}
+
+Cram\'{e}r's decomposition theorem states that if $X$ and $Y$ are independent real-valued random variables whose sum $X + Y$ is a normal random variable, then $X$ and $Y$ must also be normal. By induction, if the sum of finitely many independent random variables is normal, then the summands must be normal. 
+
 
 \section{Families of Continuous Univariate Probability Distributions}
 
@@ -1554,8 +1877,6 @@ Note that the the PDF of the Rayleigh distribution with $\sigma = 1$ is the vert
 \left.f_{R}\left(r\right)\right|_{\sigma = 1} = -\left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = r} = \left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = -r}
 \end{equation}
 
-\subsection{$F$-Distribution}
-
 \subsection{Student's $t$ Distribution}
 
 A Student $t$'s distribution (or simply $t$ distribution) with $k = n - 1$ degrees of freedom can be defined as the distribution of the random variable
@@ -1586,7 +1907,7 @@ We reason that as the chi-squared distribution is the sum i.i.d. standard normal
 \begin{equation}
 V = \sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}
 \end{equation}
-and notice that
+and notice that from the definition of $S$:
 \begin{equation}
 V = k\dfrac{S^{2}}{\sigma^{2}}
 \end{equation}
@@ -1641,6 +1962,74 @@ Applying the property of the Beta function, $\operatorname{B}\left(\dfrac{1}{2},
 \begin{equation}
 f_{T}\left(t\right)= \dfrac{1}{\sqrt{k}\operatorname{B}\left(1/2, k/2\right)}\left(1+\dfrac{t^{2}}{k}\right)^{-\frac{\left(k+1\right)}{2}}
 \end{equation}
+
+\subsection{$F$-Distribution}
+
+Suppose $U$ and $V$ are independent Chi-squared random variables, with degrees of freedom $n$ and $m$ respectively. The $F$-distribution can be defined as the distribution of the random variable
+\begin{equation}
+X = \dfrac{U/m}{V/n}
+\end{equation}
+Alternatively, we may characterise the $F$-distribution as follows. Recall as shown in the derivation of the $t$ distribution that for a $m+1$ sample of normal random variables $Y_{1}, \dots, Y_{m + 1}$ with variance $\sigma^{2}$, the standardised sample variance follows a Chi-squared distribution with $m$ degrees of freedom:
+\begin{equation}
+\dfrac{1}{\sigma^{2}} \sum_{i = 1}^{m + 1}\left(Y_{i} - \overline{Y}\right)^{2} \sim \chi_{m}^{2}
+\end{equation}
+So letting $\dfrac{1}{\sigma^{2}} \sum_{i = 1}^{m + 1}\left(Y_{i} - \overline{Y}\right)^{2} = U$, then
+\begin{align}
+\dfrac{U}{m} &= \dfrac{1}{\sigma^{2}}\cdot\dfrac{1}{m}\sum_{i = 1}^{m + 1}\left(Y_{i} - \overline{Y}\right)^{2} \\
+&= \dfrac{S_{Y}^{2}}{\sigma^{2}}
+\end{align}
+where $S_{Y}^{2}$ is the sample variance. Likewise, if we have an $n + 1$ sample of normal random variables $W_{1}, \dots, W_{n + 1}$ with variance $\varsigma^{2}$ and sample variance $S_{W}^{2}$, then
+\begin{equation}
+\dfrac{V}{n} = \dfrac{S_{W}^{2}}{\varsigma^{2}}
+\end{equation}
+Therefore we may characterise the $F$-distribution as the distribution of
+\begin{equation}
+X = \dfrac{S_{Y}^{2}/\sigma^{2}}{S_{W}^{2}/\varsigma^{2}}
+\end{equation}
+which is the standardised ratio of sample variances from two independent normal samples of different sizes. To obtain the probability density function, we use the expression for the ratio distribution of independent Chi-squared random variables. For simplicity, we first find the distribution of $X' = \dfrac{U}{V}$ (ie. suppose that $m = 1, n = 1$). Using the ratio distribution, the density of $X'$ in terms of the densities $f_{U}\left(u\right)$ and $f_{V}\left(v\right)$ for $U$ and $V$ respectively is
+\begin{align}
+f_{X'}\left(x\right) &= \int_{-\infty}^{\infty}f_{U}\left(uv\right)f_{V}\left(v\right)\left|v\right|dv \\
+&= \int_{0}^{\infty}f_{U}\left(uv\right)f_{V}\left(v\right)vdv
+\end{align}
+since Chi-squared random variables are always non-negative. Applying the expression for the Chi-squared distribution, we get
+\begin{align}
+f_{X'}\left(x\right) &= \int_{0}^{\infty}\dfrac{e^{-xv/2}\left(xv\right)^{m/2 - 1}}{2^{m/2}\Gamma\left(m/2\right)}\cdot\dfrac{-e^{v/2}v^{n/2 - 1}}{2^{n/2}\Gamma\left(n/2\right)}vdv \\
+&= \dfrac{x^{m/2 - 1}}{2^{\left(m + n\right)/2}\Gamma\left(m/2\right)\Gamma\left(n/2\right)}\int_{0}^{\infty}v^{\left(m + n\right)/2-2}ve^{-v\left(x + 1\right)/2}dv \\
+&= \dfrac{x^{m/2 - 1}}{2^{\left(m + n\right)/2}\Gamma\left(m/2\right)\Gamma\left(n/2\right)}\int_{0}^{\infty}v^{\left(m + n\right)/2-1}e^{-v\left(x + 1\right)/2}dv
+\end{align}
+Make the substitution $t = v\left(x + 1\right)/2$ so that $v = t\left(\dfrac{x + 1}{2}\right)^{-1}$ and $dv = \left(\dfrac{x + 1}{2}\right)^{-1}dt$:
+\begin{align}
+f_{X'}\left(x\right) &= \dfrac{x^{m/2 - 1}}{2^{\left(m + n\right)/2}\Gamma\left(m/2\right)\Gamma\left(n/2\right)}\int_{0}^{\infty}t^{\left(m + n\right)/2-1}\left(\dfrac{x + 1}{2}\right)^{-\left(m + n\right)/2 + 1}e^{-t}\left(\dfrac{x + 1}{2}\right)^{-1}dt \\
+&= \dfrac{x^{m/2 - 1}}{2^{\left(m + n\right)/2}\Gamma\left(m/2\right)\Gamma\left(n/2\right)}\left(\dfrac{x + 1}{2}\right)^{-\left(m + n\right)/2}\int_{0}^{\infty}t^{\left(m + n\right)/2-1}e^{-t}dt
+\end{align}
+Recognise that the integral becomes a Gamma integral, so using the definition of the Gamma function,
+\begin{align}
+f_{X'}\left(x\right) &= \dfrac{x^{m/2 - 1}\Gamma\left(\left(m + n\right)/2\right)}{2^{\left(m + n\right)/2}\Gamma\left(m/2\right)\Gamma\left(n/2\right)}\left(\dfrac{x + 1}{2}\right)^{-\left(m + n\right)/2} \\
+&= \dfrac{x^{m/2 - 1}\Gamma\left(\left(m + n\right)/2\right)}{\Gamma\left(m/2\right)\Gamma\left(n/2\right)\left(x + 1\right)^{\left(m + n\right)/2}} 
+\end{align}
+Since $X = X'\dfrac{m}{n}$ then by the scaling properties of the density function
+\begin{align}
+f_{X}\left(x\right) &= \dfrac{m}{n}f_{X'}\left(\dfrac{m}{n}x\right) \\
+&= \dfrac{m}{n}\cdot\dfrac{\left(xm/n\right)^{m/2 - 1}\Gamma\left(\left(m + n\right)/2\right)}{\Gamma\left(m/2\right)\Gamma\left(n/2\right)\left(xm/n + 1\right)^{\left(m + n\right)/2}} \\
+&= \dfrac{x^{m/2 - 1}\left(m/n\right)^{m/2}\Gamma\left(\left(m + n\right)/2\right)}{\Gamma\left(m/2\right)\Gamma\left(n/2\right)\left(xm/n + 1\right)^{\left(m + n\right)/2}}
+\end{align}
+Using the definition of the Beta function, we can write an alternative expression for this density parametrised in two degrees of freedom $m$ and $n$:
+\begin{equation}
+f_{X}\left(x\right) = \dfrac{x^{m/2 - 1}\left(m/n\right)^{m/2}}{\operatorname{B}\left(m/2, n/2\right)\left(xm/n + 1\right)^{\left(m + n\right)/2}}
+\end{equation}
+An expression can be derived for the cumulative distribution function, $F_{X}\left(x\right)$. Firstly,
+\begin{align}
+F_{X}\left(x\right) &= \int_{-\infty}^{x}f_{X}\left(r\right)dr \\
+&= \int_{0}^{x}\dfrac{r^{m/2 - 1}\left(m/n\right)^{m/2}}{\operatorname{B}\left(m/2, n/2\right)\left(rm/n + 1\right)^{\left(m + n\right)/2}}dr
+\end{align}
+Make the change of variables $s = \dfrac{mr}{mr + n}$ so that rearranging gives $r = \dfrac{n}{m}\cdot\dfrac{s}{1 - s}$ and $\dfrac{dr}{ds} = \dfrac{n}{m}\cdot\dfrac{1}{\left(1 - s\right)^{2}}$ by the quotient rule. Then
+\begin{align}
+F_{X}\left(x\right) &= \dfrac{1}{\operatorname{B}\left(m/2, n/2\right)}\int_{0}^{\frac{mx}{mx + n}}\dfrac{s^{m/2 - 1}\left(1 - s\right)^{-m/2 + 1}\left(n/m\right)^{m/2 - 1}\left(m/n\right)^{m/2}}{\left(\frac{s + 1 - s}{1 - s}\right)^{\left(m + n\right)/2}}\cdot\dfrac{n}{m}\cdot\dfrac{ds}{\left(1 - s\right)^{2}} \\
+&= \dfrac{1}{\operatorname{B}\left(m/2, n/2\right)}\int_{0}^{\frac{mx}{mx + n}}\dfrac{s^{m/2 - 1}\left(1 - s\right)^{-m/2 + 1}}{\left(1 - s\right)^{-\left(m + n\right)/2 + 2}}ds \\
+&= \dfrac{1}{\operatorname{B}\left(m/2, n/2\right)}\int_{0}^{\frac{mx}{mx + n}}s^{m/2 - 1}\left(1 - s\right)^{n/2 - 1}ds \\
+&= \dfrac{\operatorname{B}\left(\frac{mx}{mx + n}; m/2, n/2\right)}{\operatorname{B}\left(m/2, n/2\right)}
+\end{align}
+which is a regularised incomplete Beta function.
 
 \subsection{Pareto Distribution}
 
@@ -1858,284 +2247,6 @@ Thus the joint probability mass function can be expressed as
 + \operatorname{Pr}\left(X \leq x - 1, Y \leq y - 1\right) \end{multlined} \\
 &= F\left(x, y\right) - F\left(x, y - 1\right) - F\left(x - 1, y\right) + F\left(x - 1, y - 1\right)
 \end{align}
-
-\section{Transformations of Random Variables}
-
-\subsection{Sums of Random Variables}
-
-Consider the sum of two continuous random variables $W = X + Y$. The PDF of $W$ can be defined as
-\begin{equation}
-f_{W}\left(w\right) = \int\int_{\left\{x,y: x + y = w\right\}}f_{XY}\left(x, y\right)dxdy
-\end{equation}
-We can then just integrate along the straight line $x + y = w$ and make a substitution of either $x = w - y$ or $y = w - x$ (which influences the integrating variable). This gives rise to two alternative formulas.
-\begin{gather}
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, w-x\right)dx \\
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(w - y, y\right)dy
-\end{gather}
-If $X$ and $Y$ are independent, then
-\begin{gather}
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(w-x\right)dx \\
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(w - y\right)f_{Y}\left(y\right)dy
-\end{gather}
-Note that that $f_{W}\left(\cdot\right)$ is a convolution of $f_{X}\left(\cdot\right)$ and $f_{Y}\left(\cdot\right)$. \\
-
-For the case of the sum of two discrete random variables $W = X + Y$, the analogous formulae are
-\begin{gather}
-\operatorname{Pr}\left(W = w\right) = \sum_{x = -\infty}^{\infty}\operatorname{Pr}\left(X = x, Y = w - x\right) \\
-\operatorname{Pr}\left(W = w\right) = \sum_{y = -\infty}^{\infty}\operatorname{Pr}\left(X = w - y, Y = y\right)
-\end{gather}
-and in the independent case
-\begin{gather}
-\operatorname{Pr}\left(W = w\right) = \sum_{x = -\infty}^{\infty}\operatorname{Pr}\left(X = x\right)\operatorname{Pr}\left(Y = w - x\right) \\
-\operatorname{Pr}\left(W = w\right) = \sum_{y = -\infty}^{\infty}\operatorname{Pr}\left(X = w - y\right)\operatorname{Pr}\left(Y = y\right)
-\end{gather}
-
-\subsubsection{Difference of Random Variables}
-
-Consider the difference of two continuous random variables $W = X - Y$. Analogously (by making substitutions $x = w + y$ or $y = -w + x$) we can show
-\begin{gather}
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, -w + x\right)dx \\
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(w + y, y\right)dy
-\end{gather}
-and in the independent case
-\begin{gather}
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(-w + x\right)dx \\
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(w + y\right)f_{Y}\left(y\right)dy
-\end{gather}
-\begin{theorem}
-If $X$ and $Y$ are independent and identically distributed continuous random variables, than the distribution of their difference $W = X - Y$ is symmetric.
-\end{theorem}
-\begin{proof}
-Note that $W$ will necessarily have a mean of zero (assuming $X$ and $Y$ have finite mean). If the mean of $W$ is not defined, its probability distribution will still have a `symmetry point' of zero. It suffices to show $f_{W}\left(w\right) = f_{W}\left(-w\right)$. Using the formulas above in the independent case,
-\begin{equation}
-f_{W}\left(-w\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(w + x\right)dx
-\end{equation}
-Since $X$ and $Y$ are identical, $f_{X}\left(x\right) = f_{Y}\left(x\right)$ so
-\begin{equation}
-f_{W}\left(-w\right) = \int_{-\infty}^{\infty}f_{Y}\left(x\right)f_{X}\left(w + x\right)dx
-\end{equation}
-`Renaming' the integrating variable to $y$ yields
-\begin{equation}
-f_{W}\left(-w\right) = \int_{-\infty}^{\infty}f_{Y}\left(y\right)f_{X}\left(w + y\right)dy = f_{W}\left(w\right)
-\end{equation}
-\end{proof}
-
-\subsubsection{Stable Distributions}
-
-A family of distributions is said to be stable if a linear combination of two random variables from that family also has a distribution in that family. Examples of stable distributions are the Gaussian and Cauchy distributions.
-
-\subsection{Strictly Monotonic Transformations}
-
-Let $X$ be a random variable with probability density $f_{X}\left(x\right)$, and let $A$ be the set $A = \left\{x \in\mathbb{R}\middle| f_{X}\left(x\right) > 0\right\}$. Suppose that $Y$ is a transformation of $X$ given by $Y = g\left(X\right)$ such that $g$ is strictly monotonic (either increasing or decreasing) over $A$. We derive the probability density of $Y$, denoted $f_{Y}\left(y\right)$, in terms of $f_{X}\left(x\right)$ and $g$. \\
-
-First assume $g$ is monotonically increasing, so $g^{-1}\left(\cdot\right)$ will also be monotonically increasing. The cumulative distribution function of $Y$ is given by
-\begin{align}
-F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
-&= \operatorname{Pr}\left(g\left(X\right) \leq y\right) \\
-&= \operatorname{Pr}\left(X \leq g^{-1}\left(y\right)\right) \\
-&= F_{X}\left(g^{-1}\left(y\right)\right)
-\end{align}
-Differentiating $F_{Y}\left(y\right)$ with respect to $y$ gives the density of $Y$:
-\begin{align}
-f_{Y}\left(y\right) &= \dfrac{d}{dy}F_{Y}\left(y\right)\\
-&= \dfrac{d}{dy}F_{X}\left(g^{-1}\left(y\right)\right)
-\end{align}
-Using the chain rule,
-\begin{align}
-f_{Y}\left(y\right) &= \dfrac{d}{dx}F_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right) \\
-&= f_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right)
-\end{align}
-Now assume $g$ is monotonically decreasing, so $g^{-1}\left(\cdot\right)$ is also monotonically decreasing and has the ability to flip an inequality sign. Similar to before, we can write
-\begin{align}
-F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
-&= \operatorname{Pr}\left(g\left(X\right) \leq y\right) \\
-&= \operatorname{Pr}\left(X \geq g^{-1}\left(y\right)\right) \\
-&= 1 - F_{X}\left(g^{-1}\left(y\right)\right)
-\end{align}
-Now differentiating $F_{Y}$ gives 
-\begin{align}
-f_{Y}\left(y\right) &= \dfrac{d}{dy}F_{Y}\left(y\right) \\
-&= -\dfrac{d}{dy}F_{X}\left(g^{-1}\left(y\right)\right) \\
-&= -\dfrac{d}{dx}F_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right) \\
-&= -f_{X}\left(g^{-1}\left(y\right)\right)\cdot\dfrac{d}{dy}g^{-1}\left(y\right)
-\end{align}
-Since by monotonically decreasing $g^{-1}\left(\cdot\right)$, we have $\dfrac{d}{dy}g^{-1}\left(y\right) < 0$ hence this density is positive. Combining the two cases, we get
-\begin{equation}
-f_{Y}\left(y\right) =  f_{X}\left(g^{-1}\left(y\right)\right)\cdot\left|\dfrac{d}{dy}g^{-1}\left(y\right)\right|
-\end{equation}
-
-\subsection{Inverse Transform Sampling}
-
-\subsection{Gauss' Approximation Theorem \cite{Blom1989}}
-
-For a differentiable function $g\left(X\right)$ of a single random variable $X$, we can make the approximations
-\begin{gather}
-\mathbb{E}\left[g\left(X\right)\right] \approx g\left(\mathbb{E}\left[X\right]\right) \\
-\operatorname{Var}\left(g\left(X\right)\right) \approx \operatorname{Var}\left(X\right)g'\left(\mathbb{E}\left[X\right]\right)^{2}
-\end{gather}
-This is achieved using a first-order Taylor series expansion of $g\left(X\right)$ about $m := \operatorname{E}\left[X\right]$ as follows
-\begin{equation}
-g\left(X\right) \approx g\left(m\right) + \left(X - m\right)g'\left(m\right)
-\end{equation}
-Taking the expectations of both sides gives
-\begin{align}
-\mathbb{E}\left[g\left(X\right)\right] &\approx \mathbb{E}\left[g\left(m\right)\right] + \mathbb{E}\left[\left(X - m\right)g'\left(m\right)\right] \\
-&\approx \mathbb{E}\left[g\left(\mathbb{E}\left[X\right]\right)\right] + \mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)\right]g'\left(\mathbb{E}\left[X\right]\right) \\
-&\approx g\left(\mathbb{E}\left[X\right]\right) + \left(\mathbb{E}\left[X\right] - \mathbb{E}\left[X\right]\right)g'\left(\mathbb{E}\left[X\right]\right) \\
-&\approx g\left(\mathbb{E}\left[X\right]\right)
-\end{align}
-Taking the variance of both sides of the expansion gives
-\begin{align}
-\operatorname{Var}\left(g\left(X\right)\right) &\approx \operatorname{Var}\left(g\left(m\right) + \left(X - m\right)g'\left(m\right)\right) \\
-&\approx \operatorname{Var}\left(\left(X - m\right)g'\left(m\right)\right) \\
-&\approx \operatorname{Var}\left(X - m\right)g'\left(m\right)^{2} \\
-&\approx \operatorname{Var}\left(X\right)g'\left(m\right)^{2} \\
-&\approx \operatorname{Var}\left(X\right)g'\left(\mathbb{E}\left[X\right]\right)^{2} 
-\end{align}
-
-\subsection{Independence of Transformed Random Variables}
-
-If $X$ and $Y$ are independent random variables, then the transformed random variables $f\left(X\right)$ and $g\left(Y\right)$ are also independent. This is shown by first using the definition of independence that for sets $A$ and $B$, 
-\begin{equation}
-\operatorname{Pr}\left(X \in A \cap Y \in B\right) = \operatorname{Pr}\left(X \in A\right)\operatorname{Pr}\left(Y \in B\right)
-\end{equation}
-Then note the equivalence of events
-\begin{gather}
-\left\{f\left(X\right) \in A\right\} \equiv \left\{X \in f^{-1}\left(A\right)\right\} \\
-\left\{g\left(Y\right) \in B\right\} \equiv \left\{Y \in g^{-1}\left(B\right)\right\}
-\end{gather}
-So
-\begin{align}
-\operatorname{Pr}\left(f\left(X\right) \in A \cap g\left(Y\right) \in B\right) &= \operatorname{Pr}\left(X \in f^{-1}\left(A\right) \cap Y \in g^{-1}\left(B\right)\right) \\
-&=  \operatorname{Pr}\left(X \in f^{-1}\left(A\right)\right)\operatorname{Pr}\left(Y \in g^{-1}\left(B\right)\right) \\
-&= \operatorname{Pr}\left(f\left(X\right) \in A\right)\operatorname{Pr}\left(g\left(Y\right) \in B\right)
-\end{align}
-
-Note that if $X$ and $Y$ were dependent, then $f\left(X\right)$ and $g\left(Y\right)$ need not necessarily be dependent. A trivial counter example is a case where $f\left(X\right)$ is a constant.
-
-\subsection{Products of Random Variables}
-
-The product distribution of random variables $X$ and $Y$ is the distribution of $Z = XY$. If $X$ and $Y$ are independent and have probability density functions $f_{X}\left(x\right)$ and $f_{Y}\left(y\right)$ respectively, then
-\begin{equation}
-f_{Z}\left(z\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\dfrac{1}{\left|x\right|}dx
-\end{equation}
-\begin{proof}
-We can express the probability density of $Z$ as the integration of the joint density of $X$ and $Y$ over the region where $XY = Z$.
-\begin{equation}
-f_{Z}\left(z\right) = \int\int_{\left\{x, y: xy = z\right\}}f_{X}\left(x\right)f_{Y}\left(y\right)dydx
-\end{equation}
-Make the substitution $y = z/x$ and rewrite the integral using the Dirac delta function:
-\begin{align}
-f_{Z}\left(z\right) &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\delta\left(xy - z\right)dydx \\
-&= \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\int_{-\infty}^{\infty}\delta\left(xy - z\right)dydx
-\end{align}
-Note the scaling property of the Dirac delta function, that $\delta\left(xy\right) = \dfrac{\delta\left(y\right)}{\left|x\right|}$ (this is to keep the property that $\int_{-\infty}^{\infty}\left|x\right|\delta\left(xy\right)dy = \int_{-\infty}^{\infty}\delta\left(y\right)dy = 1$). Hence
-\begin{equation}
-\int_{-\infty}^{\infty}\delta\left(xy - z\right)dy = \dfrac{1}{\left|x\right|}
-\end{equation}
-and
-\begin{equation}
-f_{Z}\left(z\right) = \int_{-\infty}^{\infty}f_{X}\left(x\right)f_{Y}\left(z/x\right)\dfrac{1}{\left|x\right|}dx
-\end{equation}
-\end{proof}
-
-Furthermore, for independent $X$ and $Y$, the expectation of $Z = XY$ is
-\begin{equation}
-\mathbb{E}\left[XY\right] = \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
-\end{equation}
-\begin{proof}
-Using the definition of covariance,
-\begin{equation}
-\operatorname{Cov}\left(X, Y\right) = \mathbb{E}\left[XY\right] - \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
-\end{equation}
-Then apply $\operatorname{Cov}\left(X, Y\right) = 0$ due to independence.
-\end{proof}
-
-If $X$ and $Y$ are not independent but have the joint density function $f_{XY}\left(x, y\right)$, then
-\begin{equation}
-f_{Z}\left(z\right) = \int_{-\infty}^{\infty}f_{XY}\left(x, z/x\right)\dfrac{1}{\left|x\right|}dx
-\end{equation}
-
-\subsection{Ratios of Random Variables}
-The ratio distribution of random variables $X$ and $Y$ is the distribution of $W = \dfrac{X}{Y}$. If $X$ and $Y$ are independent and have probability density functions $f_{X}\left(x\right)$ and $f_{Y}\left(y\right)$ respectively, then
-\begin{equation}
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\left|y\right|dy
-\end{equation}
-The proof is similar to the derivation of the product distribution.
-\begin{proof}
-We can express the probability density of $W$ as the integration of the joint density of $X$ and $Y$ over the region where $X/Y = W$.
-\begin{equation}
-f_{W}\left(w\right) = \int\int_{\left\{x, y: x/y = w\right\}}f_{X}\left(x\right)f_{Y}\left(y\right)dxdy
-\end{equation}
-Make the substitution $x = wy$ and rewrite the integral using the Dirac delta function:
-\begin{align}
-f_{W}\left(w\right) &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\delta\left(x/y - w\right)dydx \\
-&= \int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\int_{-\infty}^{\infty}\delta\left(x/y - w\right)dxdy
-\end{align}
-By the scaling property of the Dirac delta function,
-\begin{equation}
-\int_{-\infty}^{\infty}\delta\left(x/y - z\right)dx = \left|y\right|
-\end{equation}
-Hence
-\begin{equation}
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{X}\left(wy\right)f_{Y}\left(y\right)\left|y\right|dy
-\end{equation}
-\end{proof}
-If $X$ and $Y$ are not independent but have the joint density function $f_{XY}\left(x, y\right)$, then
-\begin{equation}
-f_{W}\left(w\right) = \int_{-\infty}^{\infty}f_{XY}\left(wy, y\right)\dfrac{1}{\left|y\right|}dy
-\end{equation}
-
-The mean of the ratio distribution (even in the independent case) is not as straightforward compared to the product distribution, however can be approximated using Taylor expansions. To illustrate, we first develop an extension of Gauss' approximation theorem to a nonlinear function in two variables, $f\left(x, y\right)$. Suppose random variables $X$ and $Y$ have means $\mu_{X}$ and $\mu_{Y}$ respectively with $\mu_{Y} \neq 0$. Then a second order Taylor series approximation of $f\left(X, Y\right)$ about the mean $\left(\mu_{X}, \mu_{Y}\right)$ gives
-\begin{multline}
-f\left(X, Y\right) \approx f\left(\mu_{X}, \mu_{Y}\right) + \left.\nabla f\left(x, y\right)^{\top}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix} + \\
-\dfrac{1}{2}\begin{bmatrix} X - \mu_{X} & Y - \mu_{Y}\end{bmatrix}\left.\nabla^{2} f\left(x, y\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix}
-\end{multline}
-If we take the expectation of this, the first order term vanishes because
-\begin{equation}
-\mathbb{E}\left[\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix}\right] = \begin{bmatrix} \mu_{X} - \mu_{X} \\ \mu_{Y} - \mu_{Y}\end{bmatrix}
-\end{equation}
-We are then left with
-\begin{multline}
-\mathbb{E}\left[f\left(X, Y\right)\right] \approx f\left(\mu_{X}, \mu_{Y}\right) + \dfrac{1}{2}\mathbb{E}\left[\left(X - \mu_{X}\right)^{2}\right]\left.\left(\dfrac{\partial^{2}f\left(x, y\right)}{\partial x^{2}}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)} \\
-+\mathbb{E}\left[\left(X - \mu_{X}\right)\left(Y - \mu_{Y}\right)\right]\left.\left(\dfrac{\partial^{2}f\left(x, y\right)}{\partial x \partial y}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)} + \mathbb{E}\left[\left(Y - \mu_{Y}\right)^{2}\right]\left.\left(\dfrac{\partial^{2}f\left(x, y\right)}{\partial y^{2}}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}
-\end{multline}
-For the case $f\left(x, y\right) = \dfrac{x}{y}$, the second partial derivatives evaluate to
-\begin{gather}
-\dfrac{\partial^{2}f\left(x, y\right)}{\partial x^{2}} = 0 \\
-\dfrac{\partial^{2}f\left(x, y\right)}{\partial x \partial y} = -\dfrac{1}{y^{2}} \\
-\dfrac{\partial^{2}f\left(x, y\right)}{\partial y^{2}} = \dfrac{2x}{y^{3}}
-\end{gather}
-Hence
-\begin{align}
-\mathbb{E}\left[\dfrac{X}{Y}\right] &\approx \dfrac{\mu_{X}}{\mu_{Y}} - \mathbb{E}\left[\left(X - \mu_{X}\right)\left(Y - \mu_{Y}\right)\right]\dfrac{1}{\mu_{Y}^{2}} + \mathbb{E}\left[\left(Y - \mu_{Y}\right)^{2}\right]\dfrac{\mu_{X}}{\mu_{Y}^{3}} \\
-&\approx \dfrac{\mathbb{E}\left[X\right]}{\mathbb{E}\left[Y\right]} - \dfrac{\operatorname{Cov}\left(X, Y\right)}{\mathbb{E}\left[Y\right]^{2}} + \operatorname{Var}\left(Y\right)\dfrac{\mathbb{E}\left[X\right]}{\mathbb{E}\left[Y\right]^{3}}
-\end{align}
-To approximate the variance, taking a first order Taylor approximation (for simplicity) gives
-\begin{align}
-\operatorname{Var}\left(f\left(X, Y\right)\right) &\approx \operatorname{Var}\left(f\left(\mu_{X}, \mu_{Y}\right) + \left.\nabla f\left(x, y\right)^{\top}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\begin{bmatrix} X - \mu_{X} \\ Y - \mu_{Y}\end{bmatrix}\right) \\
-&\approx \operatorname{Var}\left(X\left.\dfrac{\partial f\left(x, y\right)}{\partial x}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)} + Y\left.\dfrac{\partial f\left(x, y\right)}{\partial y}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\right) \\
-&\begin{multlined}\approx \left.\left(\dfrac{\partial f\left(x, y\right)}{\partial x}\right)^{2}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\operatorname{Var}\left(X\right) \\
-+ 2\left.\left(\dfrac{\partial f\left(x, y\right)}{\partial x}\cdot\dfrac{\partial f\left(x, y\right)}{\partial y}\right)\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\operatorname{Cov}\left(X, Y\right) + \left.\left(\dfrac{\partial f\left(x, y\right)}{\partial y}\right)^{2}\right|_{\left(x, y\right) = \left(\mu_{X}, \mu_{Y}\right)}\operatorname{Var}\left(Y\right) \end{multlined}
-\end{align}
-Again by treating $f\left(x, y\right) = \dfrac{x}{y}$, 
-\begin{align}
-\operatorname{Var}\left(\dfrac{X}{Y}\right) &\approx \dfrac{1}{\mu_{Y}^{2}}\operatorname{Var}\left(X\right) - 2\dfrac{\mu_{X}}{\mu_{Y}^{3}}\operatorname{Cov}\left(X, Y\right) + \dfrac{\mu_{X}^{2}}{\mu_{Y}^{4}}\operatorname{Var}\left(Y\right) \\
-&\approx \dfrac{\operatorname{Var}\left(X\right)}{\mathbb{E}\left[Y\right]^{2}} - 2\dfrac{\mathbb{E}\left[X\right]}{\mathbb{E}\left[Y\right]^{3}}\operatorname{Cov}\left(X, Y\right) + \dfrac{\mathbb{E}\left[X\right]^{2}}{\mathbb{E}\left[Y\right]^{4}}\operatorname{Var}\left(Y\right)
-\end{align}
-
-\subsection{Decompositions of Random Variables}
-
-The distribution of random variable $Z$ is said to be decomposable if $Z$ can be expressed as the sum of non-constant independent random variables $X$ and $Y$, ie. $Z = X + Y$. If it is not possible, the distribution of $Z$ is said to be indecomposable.
-
-\subsubsection{Divisibility}
-
-The distribution of random variable $Z$ is said to be divisible if $Z$ can be expressed as the sum of independent and identically distributed random variables $X_{1}$ and $X_{2}$. If $Z$ can be expressed as a sum of arbitrarily many i.i.d. random variables, then the distribution of $Z$ is said to be infinitely divisible.
-
-\subsubsection{Cram\'{e}r's Decomposition Theorem}
-
-Cram\'{e}r's decomposition theorem states that if $X$ and $Y$ are independent real-valued random variables whose sum $X + Y$ is a normal random variable, then $X$ and $Y$ must also be normal. By induction, if the sum of finitely many independent random variables is normal, then the summands must be normal. 
-
 \section{Inequalities in Probability}
 
 \subsection{Boole's Inequality}
@@ -2173,7 +2284,7 @@ and because it is given $\operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i}\right) 
 \begin{theorem}
 Let $X$ and $Y$ be two continuous random variables with means $\mu_{X}$ and $\mu_{Y}$ respectively such that $\mu_{Y} \geq \mu_{X}$. Let $\delta = \dfrac{\mu_{Y} - \mu_{X}}{2}$. Then
 \begin{equation}
-\operatorname{Pr}\left(X > Y\right) \leq \operatorname{Pr}\left(X > \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y < \mu_{Y} + \delta\right)
+\operatorname{Pr}\left(X > Y\right) \leq \operatorname{Pr}\left(X > \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y < \mu_{Y} - \delta\right)
 \end{equation}
 \end{theorem}
 \begin{proof}
@@ -2192,7 +2303,7 @@ which can be combined with the inequality above to give
 \end{equation}
 Lastly, applying Boole's inequality
 \begin{equation}
-\operatorname{Pr}\left(X > \mu_{X} + \delta \cup Y < \mu_{Y} - \delta\right) \leq \operatorname{Pr}\left(X > \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y < \mu_{Y} + \delta\right)
+\operatorname{Pr}\left(X > \mu_{X} + \delta \cup Y < \mu_{Y} - \delta\right) \leq \operatorname{Pr}\left(X > \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y < \mu_{Y} - \delta\right)
 \end{equation}
 completes the proof.
 \end{proof}
@@ -2260,7 +2371,7 @@ a\operatorname{Pr}\left(X \geq a\right) &\leq \mathbb{E}\left[X\right] \\
 \end{proof}
 An alternative proof is given below:
 \begin{proof}
-Let $\mathbb{I}_{X \geq a}$ be an indicator random variable where $\mathbb{I}_{X \geq a} = 1$ if the event $X \geq a$ occurs, and $\mathbb{I}_{X \geq a}$ if the event $X < a$ occurs. Then we can write
+Let $\mathbb{I}_{X \geq a}$ be an indicator random variable where $\mathbb{I}_{X \geq a} = 1$ if the event $X \geq a$ occurs, and $\mathbb{I}_{X \geq a} = 0$ if the event $X < a$ occurs. Then we can write
 \begin{equation}
 a\mathbb{I}_{X \geq a} \leq X
 \end{equation}
@@ -2286,9 +2397,33 @@ Hence
 \begin{equation}
 \operatorname{Pr}\left(X\geq a\right) \leq \dfrac{\mathbb{E}\left[X\right]}{a}
 \end{equation}
-
 \end{proof}
+
 We can use this result to bound probabilities of $X$ being greater than some value in relation to the mean. For example, suppose the population of $X$ is income (which we assume to be non-negative). Then if we choose $a$ to be 10 times the average income, we can make the statement that the proportion of people earning at least 10 times the average income is no more than 10\%.
+
+\subsubsection{Reverse Markov's Inequality}
+
+A lower bound on $operatorname{Pr}\left(X \geq a\right)$ in terms of $\mathbb{E}\left[X\right]$ can be obtained under special circumstances. Suppose $X$ is upper bounded by $b$ such that $\operatorname{Pr}\left(X \leq b\right) = 1$. Then the random variable $X' = b - X$ is non-negative so Markov's inequality can be applied to this. We have for some $a > 0$
+\begin{equation}
+\operatorname{Pr}\left(X' \geq a\right) \leq \dfrac{\mathbb{E}\left[X'\right]}{a}
+\end{equation}
+Since $\mathbb{E}\left[X'\right] = b - \mathbb{E}\left[X\right]$:
+\begin{gather}
+\operatorname{Pr}\left(X' \geq a\right) \leq \dfrac{b - \mathbb{E}\left[X\right]}{a} \\
+\operatorname{Pr}\left(b - X \geq a\right) \leq \dfrac{b - \mathbb{E}\left[X\right]}{a} \\
+\operatorname{Pr}\left(b - a \geq X\right) \leq \dfrac{b - \mathbb{E}\left[X\right]}{a}
+\end{gather}
+By complements,
+\begin{gather}
+1 - \operatorname{Pr}\left(b - a \leq X\right) \leq \dfrac{b - \mathbb{E}\left[X\right]}{a} \\
+\operatorname{Pr}\left(X \geq b - a\right) \geq 1 - \dfrac{b - \mathbb{E}\left[X\right]}{a} \\
+\operatorname{Pr}\left(X \geq b - a\right) \geq \dfrac{a - b + \mathbb{E}\left[X\right]}{a}
+\end{gather}
+Let $c = b - a$, then
+\begin{equation}
+\operatorname{Pr}\left(X \geq c\right) \geq \dfrac{\mathbb{E}\left[X\right] - x}{b - c}
+\end{equation}
+Note that this inequality is only useful when $c < \mathbb{E}\left[X\right]$.
 
 \subsection{Chebychev's Inequality}
 
@@ -2358,7 +2493,7 @@ Therefore
 \subsection{Cantelli's Inequality}
 For a random variable $X$ with expectation $\mu$ and variance $\sigma^{2}$, Cantelli's inequality states that for $\delta > 0$:
 \begin{equation}
-\operatorname{Pr}\left(\left|X - \mu\right| \geq \delta\right) =  \dfrac{2\sigma^{2}}{\sigma^{2} + \delta^{2}}
+\operatorname{Pr}\left(\left|X - \mu\right| \geq \delta\right) \leq  \dfrac{2\sigma^{2}}{\sigma^{2} + \delta^{2}}
 \end{equation}
 \begin{proof}
 Consider the probability $\operatorname{Pr}\left(X - \mu > \lambda\right)$ for the case where $\lambda > 0$. Define $Y := X - \mu$ so that $\mathbb{E}\left[Y\right] = 0$ and $\operatorname{Var}\left(Y\right) = \sigma^{2}$. Then for any $u \geq 0$:
@@ -2889,6 +3024,11 @@ Setting this to zero and solving obtains the ordinary least squares estimator.
 -\mathbf{X}^{\top}\mathbf{Y} + \mathbf{X}^{\top}\mathbf{X}\hat{\beta} = 0 \\
 \hat{\beta} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y}
 \end{gather}
+Note that the matrix $\mathbf{X}^{\dagger} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}$ is the left Moore-Penrose pseudoinverse of $\mathbf{X}$. So we can alternatively write the least squares estimator as
+\begin{equation}
+\hat{\beta} = \mathbf{X}^{\dagger}\mathbf{Y}
+\end{equation}
+which is the value of $\beta$ which `solves' $\mathbf{X}\beta = \mathbf{Y}$.
 
 \subsection{Total Least Squares}
 
@@ -2985,6 +3125,8 @@ where $\operatorname{diag}\left\{\mathbf{J}\left(\theta_{k}\right)^{\top}\mathbf
 \section{Estimation Theory}
 
 \subsection{Asymptotic Consistency}
+
+\subsection{Sufficient Statistics}
 
 \subsection{Minimum Mean Square Error Estimators}
 
@@ -3294,6 +3436,16 @@ Hence the maximum-likelihood estimate is the solution to
 \subsection{Probit Regression}
 
 \subsection{Multinomial Logistic Regression}
+
+\section{Statistical Distance}
+
+\subsection{Distance Measures}
+
+\subsubsection{Mahalanobis Distance}
+
+\subsubsection{Bhattacharyya Distance}
+
+\subsection{Tests for Normality}
 
 \chapter{Advanced Probability}
 
@@ -3729,7 +3881,7 @@ then writing $\phi_{X}\left(t\right) = \exp K\left(t\right) $ gives
 \begin{align}
 1 + \mu_{1}t + \mu_{2}\dfrac{t^{2}}{2!} + \mu_{3}\dfrac{t^{3}}{3!} + \dots &= \exp\left(\kappa_{1}t + \kappa_{2}\dfrac{t^{2}}{2!} + \kappa_{3}\dfrac{t^{3}}{3!} + \dots\right) \\
 &= \exp\left(\kappa_{1}t\right)\exp\left(\kappa_{2}\dfrac{t^{2}}{2!}\right)\exp\left(\kappa_{3}\dfrac{t^{3}}{3!}\right)\dots \\
-&= \prod_{i = 1}^{n}exp\left(\kappa_{i}\dfrac{t^{i}}{i!}\right)
+&= \prod_{i = 1}^{n}\exp\left(\kappa_{i}\dfrac{t^{i}}{i!}\right)
 \end{align}
 Using the series expansion for $e^{x} = 1 + x + \dfrac{x^{2}}{2!} + \dfrac{x^{3}}{3!} + \dots$,
 \begin{equation}
@@ -4645,11 +4797,7 @@ ie. it is a weighted average of some probability density functions, and acts as 
 
 \subsection{Partially Observable Markov Decision Processes}
 
-\section{Markov Chain Monte Carlo}
-
-\subsection{Gibbs Sampling}
-
-\subsection{Metropolis-Hastings Algorithm}
+\section{Inference of Markov Processes}
 
 \chapter{Measure Theoretic Probability}
 
@@ -5046,10 +5194,24 @@ f_{\left(k\right)}\left(x\right) &= \dfrac{dF_{\left(k\right)}\left(x\right)}{dx
 &= \dfrac{n!}{\left(k - 1\right)!\left(n - k\right)!}F\left(x\right)^{k - 1}\left[1 - F\left(x\right)\right]^{n - k}f\left(x\right)
 \end{align}
 
+\subsubsection{Order Statistics of the Uniform Distribution}
+
+If a sample $X_{1}, \dots, X_{n}$ are i.i.d. uniform distributed on $\left(0, 1\right)$, then the cumulative distribution $F\left(x\right) = x$ for $0 < x < 1$ and the density function $f\left(x\right) = 1$ for $0 < x < 1$. Applying the expression for the $k$\textsuperscript{th} order statistic:
+\begin{align}
+f_{\left(k\right)}\left(x\right) &= \dfrac{n!}{\left(k - 1\right)!\left(n - k\right)!}x^{k - 1}\left(1 - x\right)^{n - k} \\
+&= \dfrac{x^{k - 1}\left(1 - x\right)^{n - k}}{\operatorname{B}\left(k, n - k + 1\right)}
+\end{align}
+on support $\left(0, 1\right)$. This is the same form as the Beta distribution. Hence the $k$\textsuperscript{th} order statistic of uniform random variables is Beta-distributed with parameters $k$ and $n - k + 1$. Hence the mean of the $k$\textsuperscript{th} order statistic is
+\begin{equation}
+\mathbb{E}\left[X_{\left(k\right)}\right] = \dfrac{k}{n + 1}
+\end{equation}
+
 \subsection{Fisher–Tippett–Gnedenko Theorem \cite{David2005}}
 
 
 \section{Monte-Carlo Methods}
+
+\subsection{Rejection Sampling}
 
 \subsection{Importance Sampling}
 
@@ -5080,6 +5242,12 @@ Note that this implicitly requires either $H\left(\mathbf{x}\right) \geq 0$ or $
 &= 0
 \end{align}
 This means that just a single sample will yield the desired $\mu$. However it is usually not possible to find $g^{*}\left(\mathbf{x}\right)$ because it requires $\mu$ itself. In practice, good importance sampling densities are chosen to be `close' to the minimum variance density $g^{*}\left(\mathbf{x}\right)$ \cite{Kroese2011}.
+
+\subsection{Gibbs Sampling}
+
+\subsection{Metropolis Algorithm}
+
+\subsection{Metropolis-Hastings Algorithm}
 
 \section{Resampling Methods}
 
@@ -5186,9 +5354,9 @@ So the percentile bootstrap interval is given by $\left(\theta_{\alpha/2}^{*}, \
 
 \subsection{Principal Component Regression}
 
-\section{Survival Analysis}
+\subsection{Maximum Likelihood Principal Component Analysis \cite{Bishop2006}}
 
-\section{Linear Discriminant Analysis}
+\section{Survival Analysis}
 
 \section{Rao-Blackwell Estimators}
 
@@ -5972,9 +6140,11 @@ And finally by $\operatorname{Cov}\left(Y_{t}, Y_{t - j}\right) = \operatorname{
 &= \dfrac{\beta_{1}^{j}\omega^{2}}{1 - \beta_{1}^{2}}
 \end{align}
 
+\section{Time-Series Analysis}
+
 \chapter{Machine Learning}
 
-\section{Classification Problems}
+\section{Classification Algorithms}
 
 \subsection{Datasets}
 
@@ -6018,7 +6188,11 @@ A classifier may also be coded so that it can refuse to make a decision (eg. if 
 
 \subsection{Confusion Matrices}
 
-\section{$k$-Nearest Neighbours}
+\subsection{$k$-Nearest Neighbours}
+
+\subsection{Support Vector Machines}
+
+\subsection{Linear Discriminant Analysis}
 
 \section{Neural Networks}
 
@@ -6282,6 +6456,10 @@ Thus we can more generally view the likelihood as the product over all the train
 \end{equation}
 If we find the estimates $\hat{\mathbf{y}}_{j}$ (in terms of the parameters of the model) of $\overline{\mathbf{y}}_{j}$ which minimise this negative log likelihood, then it becomes the same problem as minimising the cross entropy.
 
+\section{Convolutional Neural Networks}
+
+\section{Recurrent Neural Networks}
+
 \section{Ensemble Methods}
 
 \subsection{Bagging}
@@ -6332,6 +6510,8 @@ z = \left(\hat{f}_{1}\left(x\right), \dots, \hat{f}_{M}\left(x\right)\right)
 \subsection{Vapnik-Chervonenkis Dimension}
 
 \subsection{Radermacher Complexity}
+
+\subsection{Probably Approximately Correct Learning}
 
 \chapter{Statistical Signal Processing}
 
@@ -6566,7 +6746,7 @@ S_{XY}\left(\phi\right) = \sum_{k = -\infty}^{\infty}R_{XY}\left(\tau\right)e^{-
 
 \subsection{Coloured Noise}
 
-\subsection{Spectral Factorisation Theorem}
+\subsection{Spectral Factorisation Theorem \cite{Astrom1970}}
 
 \section{Spectral Density Estimation}
 

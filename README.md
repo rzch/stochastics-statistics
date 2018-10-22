@@ -1,5 +1,5 @@
 ﻿# Stochastics & Statistics
-Notes in probability, statistics, and their applications from the introductory to the advanced level. Most likely always going to be a work in progress, as there are countless topics that could be included.
+Encyclopaedia-style notes in probability, statistics, and their applications (including econometrics, machine learning and statistical signal processing) from the introductory to the early-graduate level. These notes capture my personal journey in studying probability and statistics, and are intended to serve as a handy reference. A work in progress that may be completed one day, but right now topics are being added faster than they can be filled in.
 
 ## Contents
 -   [Fundamentals](#fundamentals)
@@ -19,6 +19,8 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Analysis of Variance](#analysis-of-variance)
         -   [Method of Moments](#method-of-moments)
     -   [Intermediate Probability](#intermediate-probability)
+        -   [Transformations of Random
+            Variables](#transformations-of-random-variables)
         -   [Families of Continuous Univariate Probability
             Distributions](#families-of-continuous-univariate-probability-distributions)
         -   [Families of Discrete Univariate Probability
@@ -26,8 +28,6 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Random Vectors](#random-vectors)
         -   [Multivariate Probability
             Distributions](#multivariate-probability-distributions)
-        -   [Transformations of Random
-            Variables](#transformations-of-random-variables)
         -   [Inequalities in Probability](#inequalities-in-probability)
         -   [Notions of Convergence](#notions-of-convergence)
         -   [Branching Processes](#branching-processes)
@@ -40,6 +40,7 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Fisher Information](#fisher-information)
         -   [James-Stein Estimation](#james-stein-estimation)
         -   [Generalised Linear Models](#generalised-linear-models)
+        -   [Statistical Distance](#statistical-distance)
     -   [Advanced Probability](#advanced-probability)
         -   [Moments](#moments)
         -   [Probability Generating
@@ -69,7 +70,8 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Markov Networks](#markov-networks)
         -   [Hidden Markov Models](#hidden-markov-models)
         -   [Markov Decision Processes](#markov-decision-processes)
-        -   [Markov Chain Monte Carlo](#markov-chain-monte-carlo)
+        -   [Inference of Markov
+            Processes](#inference-of-markov-processes)
     -   [Measure Theoretic Probability](#measure-theoretic-probability)
         -   [Probability Spaces](#probability-spaces)
         -   [Borel-Cantelli Lemma](#borel-cantelli-lemma)
@@ -86,8 +88,6 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Principal Component
             Analysis](#principal-component-analysis)
         -   [Survival Analysis](#survival-analysis)
-        -   [Linear Discriminant
-            Analysis](#linear-discriminant-analysis)
         -   [Rao-Blackwell Estimators](#rao-blackwell-estimators)
         -   [Optimal Experimental Design](#optimal-experimental-design)
     -   [Stochastic Calculus](#stochastic-calculus)
@@ -124,10 +124,13 @@ Notes in probability, statistics, and their applications from the introductory t
         -   [Panel Data Regression](#panel-data-regression)
         -   [Time-Series Models](#time-series-models)
         -   [Time-Series Regression](#time-series-regression)
+        -   [Time-Series Analysis](#time-series-analysis)
     -   [Machine Learning](#machine-learning)
-        -   [Classification Problems](#classification-problems)
-        -   [$k$-Nearest Neighbours](#k-nearest-neighbours)
+        -   [Classification Algorithms](#classification-algorithms)
         -   [Neural Networks](#neural-networks)
+        -   [Convolutional Neural
+            Networks](#convolutional-neural-networks)
+        -   [Recurrent Neural Networks](#recurrent-neural-networks)
         -   [Ensemble Methods](#ensemble-methods)
         -   [Decision Trees](#decision-trees)
         -   [Statistical Learning Theory](#statistical-learning-theory)
