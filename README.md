@@ -1,4 +1,4 @@
-﻿# Stochastics & Statistics
+# Stochastics & Statistics
 Encyclopaedia-style notes in probability, statistics, and their applications (including econometrics, machine learning and statistical signal processing) from the introductory to the early-graduate level. These notes capture my personal journey in studying probability and statistics, and are intended to serve as a handy reference. A work in progress that may be completed one day, but right now topics are being added faster than they can be filled in.
 
 ## Contents
@@ -15,6 +15,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Descriptive Statistics](#descriptive-statistics)
         -   [Normal Statistics](#normal-statistics)
         -   [Inferential Statistics](#inferential-statistics)
+        -   [Multi-Sample Inference](#multi-sample-inference)
         -   [Simple Linear Regression](#simple-linear-regression)
         -   [Analysis of Variance](#analysis-of-variance)
         -   [Method of Moments](#method-of-moments)
@@ -26,12 +27,13 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Families of Discrete Univariate Probability
             Distributions](#families-of-discrete-univariate-probability-distributions)
         -   [Random Vectors](#random-vectors)
-        -   [Multivariate Probability
-            Distributions](#multivariate-probability-distributions)
+        -   [Families of Multivariate Probability
+            Distributions](#families-of-multivariate-probability-distributions)
         -   [Inequalities in Probability](#inequalities-in-probability)
         -   [Notions of Convergence](#notions-of-convergence)
         -   [Branching Processes](#branching-processes)
     -   [Intermediate Statistics](#intermediate-statistics)
+        -   [Multivariate Statistics](#multivariate-statistics)
         -   [Statistical Decision Theory](#statistical-decision-theory)
         -   [Least Squares](#least-squares)
         -   [Estimation Theory](#estimation-theory)
@@ -40,7 +42,6 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Fisher Information](#fisher-information)
         -   [James-Stein Estimation](#james-stein-estimation)
         -   [Generalised Linear Models](#generalised-linear-models)
-        -   [Statistical Distance](#statistical-distance)
     -   [Advanced Probability](#advanced-probability)
         -   [Moments](#moments)
         -   [Probability Generating
@@ -53,6 +54,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Exponential Families](#exponential-families)
         -   [Random Matrices](#random-matrices)
         -   [Stochastic Processes](#stochastic-processes)
+        -   [Concentration Inequalities](#concentration-inequalities)
     -   [Bayesian Probability &
         Statistics](#bayesian-probability-statistics)
         -   [Cox's Theorem](#coxs-theorem)
@@ -89,13 +91,13 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
             Analysis](#principal-component-analysis)
         -   [Survival Analysis](#survival-analysis)
         -   [Rao-Blackwell Estimators](#rao-blackwell-estimators)
-        -   [Optimal Experimental Design](#optimal-experimental-design)
+        -   [Nonparametric Statistics](#nonparametric-statistics)
     -   [Stochastic Calculus](#stochastic-calculus)
+        -   [Analysis of Stochastic
+            Processes](#analysis-of-stochastic-processes)
         -   [Martingales](#martingales)
         -   [Itô Calculus](#itô-calculus)
         -   [Stratonovich Integral](#stratonovich-integral)
-        -   [Kolmogorov-Chentsov Continuity
-            Theorem](#kolmogorov-chentsov-continuity-theorem)
         -   [Stochastic Differential
             Equations](#stochastic-differential-equations)
         -   [Diffusions](#diffusions)
@@ -116,11 +118,14 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Information Criteria](#information-criteria)
         -   [Sanov's Theorem](#sanovs-theorem)
         -   [Minimum Description Length](#minimum-description-length)
+        -   [Optimal Experimental Design](#optimal-experimental-design)
         -   [$f$-Divergence](#f-divergence)
         -   [Information Geometry](#information-geometry)
     -   [Econometrics](#econometrics)
         -   [Model Specification](#model-specification)
-        -   [Instrumental Variables](#instrumental-variables)
+        -   [Regression Analysis](#regression-analysis)
+        -   [Instrumental Variables
+            Regression](#instrumental-variables-regression)
         -   [Panel Data Regression](#panel-data-regression)
         -   [Time-Series Models](#time-series-models)
         -   [Time-Series Regression](#time-series-regression)
@@ -131,8 +136,10 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Convolutional Neural
             Networks](#convolutional-neural-networks)
         -   [Recurrent Neural Networks](#recurrent-neural-networks)
+        -   [Mixture Density Networks](#mixture-density-networks)
         -   [Ensemble Methods](#ensemble-methods)
         -   [Decision Trees](#decision-trees)
+        -   [Unsupervised Learning](#unsupervised-learning)
         -   [Statistical Learning Theory](#statistical-learning-theory)
     -   [Statistical Signal Processing](#statistical-signal-processing)
         -   [Random Signals and Systems](#random-signals-and-systems)
@@ -146,12 +153,15 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Particle Filtering](#particle-filtering)
         -   [Wavelets](#wavelets)
     -   [Stochastic Control](#stochastic-control)
-        -   [System Identification](#system-identification)
+        -   [Linear System
+            Identification](#linear-system-identification)
         -   [Linear Quadratic Gaussian
             Control](#linear-quadratic-gaussian-control)
         -   [Stochastic Model Predictive
             Control](#stochastic-model-predictive-control)
         -   [Stochastic Stability](#stochastic-stability)
+        -   [Stochastic Dynamic
+            Programming](#stochastic-dynamic-programming)
         -   [Reinforcement Learning](#reinforcement-learning)
     -   [Quantitative Finance](#quantitative-finance)
         -   [Portfolio Optimisation](#portfolio-optimisation)
