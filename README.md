@@ -1,5 +1,8 @@
-# Stochastics & Statistics
+﻿# Stochastics & Statistics
 Encyclopaedia-style notes in probability, statistics, and their applications (including econometrics, machine learning and statistical signal processing) from the introductory to the early-graduate level. These notes capture my personal journey in studying probability and statistics, and are intended to serve as a handy reference. A work in progress that may be completed one day, but right now topics are being added faster than they can be filled in.
+
+## Night Mode
+`\usepackage[dark, book]{mystyle}` generates the PDF in 'night mode' whereas `\usepackage[light, book]{mystyle}` generates the PDF in conventional dark text on light background.
 
 ## Contents
 -   [Fundamentals](#fundamentals)

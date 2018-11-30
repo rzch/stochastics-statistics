@@ -611,6 +611,56 @@ Let $\mathbb{I}_{A}$ be an indicator random variable for event $A$. The expectat
 &= \operatorname{Pr}\left(A\right)
 \end{align}
 
+\subsection{Expectations Using the Cumulative Distribution Function}
+
+Let $X$ be a non-negative random variable with cumulative distribution function $F_{X}\left(x\right)$. Then the expectation of $X$ can be alternatively characterised using $F_{X}\left(x\right)$ by noting
+\begin{align}
+X &= \int_{0}^{X}1\cdot dx \\
+&= \int_{0}^{\infty}\mathbb{I}_{X > x} dx
+\end{align}
+where $\mathbb{I}_{X > x}$ is the indicator random variable for the event $\left\{X > x\right\}$. Hence
+\begin{align}
+\mathbb{E}\left[X\right] &= \mathbb{E}\left[\int_{0}^{\infty}\mathbb{I}_{X > x} dx\right] \\
+&= \int_{0}^{\infty}\mathbb{E}\left[\mathbb{I}_{X > x}\right] dx \\
+&= \int_{0}^{\infty}\operatorname{Pr}\left(X > x\right) dx\\
+&= \int_{0}^{\infty}\left(1 - \operatorname{Pr}\left(X \leq x\right)\right) dx \\
+&= \int_{0}^{\infty}\left(1 - F_{X}\left(x\right)\right) dx
+\end{align}
+This formula can be generalised further. Suppose now $X$ is real-valued and continuous. Then
+\begin{align}
+X &= \int_{0}^{\left|X\right|}1\cdot dx \\
+&= \int_{0}^{\infty}\mathbb{I}_{\left|X\right| > x} dx
+\end{align}
+As before,
+\begin{align}
+\mathbb{E}\left[X\right] &= \mathbb{E}\left[\int_{0}^{\infty}\mathbb{I}_{\left|X\right| > x} dx\right] \\
+&= \int_{0}^{\infty}\mathbb{E}\left[\mathbb{I}_{\left|X\right| > x}\right] dx \\
+&= \int_{0}^{\infty}\operatorname{Pr}\left(\left|X\right| > x\right) dx
+\end{align}
+Note by mutual exclusivity that for $x > 0$:
+\begin{equation}
+\operatorname{Pr}\left(\left|X\right| > x\right) = \operatorname{Pr}\left(X > x\right) + \operatorname{Pr}\left(X < -x\right)
+\end{equation}
+Hence
+\begin{align}
+\mathbb{E}\left[X\right] &= \int_{0}^{\infty}\left(\operatorname{Pr}\left(X > x\right) + \operatorname{Pr}\left(X < -x\right)\right) dx \\
+&= \int_{0}^{\infty}\operatorname{Pr}\left(X > x\right)dx + \int_{0}^{\infty}\operatorname{Pr}\left(X < -x\right) dx \\
+&= \int_{0}^{\infty}\left(1 - F_{X}\left(x\right)\right) dx + \int_{0}^{-\infty}\operatorname{Pr}\left(X < x\right) dx \\
+&= \int_{0}^{\infty}\left(1 - F_{X}\left(x\right)\right) dx - \int_{-\infty}^{0}\operatorname{Pr}\left(X < x\right) dx \\
+&= \int_{0}^{\infty}\left(1 - F_{X}\left(x\right)\right) dx - \int_{-\infty}^{0}F_{X}\left(x\right) dx
+\end{align}
+
+\subsection{Expectations Using the Quantile Function}
+
+The expectation of a continuous random variable $X$ with probability density function $f\left(x\right)$, cumulative distribution function $F\left(x\right)$ and quantile function $Q\left(u\right)$ by applying the change of variables $u = F\left(x\right)$ in the integral
+\begin{equation}
+\mathbb{E}\left[X\right] = \int_{-\infty}^{\infty}xf\left(x\right)dx
+\end{equation}
+By noting that $du = f\left(x\right)dx$, and by definition of the quantile function $x = F^{-1}\left(u\right) = Q\left(u\right)$, and by the properties $\lim_{x\to\infty}F\left(x\right) = 1$, $\lim_{x\to 0}F\left(x\right) = 0$, this change of variables yields
+\begin{equation}
+\mathbb{E}\left[X\right] = \int_{0}^{1}Q\left(u\right)du
+\end{equation}
+
 \section{Variance}
 
 The variance of a random variable $X$ measures the spread of the distribution of $X$ about its mean. Realisations of a random variable with high variance can be thought to deviate far from its mean on average, while realisations of a random variable with low variance are expected to be concentrated close to the mean. The variance of $X$ is defined as
@@ -2765,7 +2815,7 @@ completes the proof since
 \begin{equation}
 \operatorname{Pr}\left(X \geq Y\right) \leq \operatorname{Pr}\left(X \geq \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y \leq \mu_{Y} - \delta\right)
 \end{equation}
-Because $X$ and $Y$ are continuous, this can be stated as the original inequality.
+Because $X$ and $Y$ are continuous, this can be stated as the original inequality with strict inequality signs.
 \end{proof}
 This proof technique generalises, so that we can state for any two random variables $X$, $Y$ and for any $\Delta$,
 \begin{equation}
@@ -4760,7 +4810,7 @@ We can show the above. First replace the distributions using the definition of t
 \dfrac{\exp\left[-\dfrac{1}{2}\left(a-b\right)^{\top}\left(A+B\right)^{-1}\left(a-b\right)\right]}{\left(2\pi\right)^{D/2}\left|A+B\right|^{1/2}}\times \\
 \dfrac{\exp\left[-\dfrac{1}{2}\left(x-\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)\right)^{\top}\left(A^{-1}+B^{-1}\right)\left(x-\left(A^{-1}+B^{-1}\right)^{-1}\left(A^{-1}a+B^{-1}b\right)\right)\right]}{\left(2\pi\right)^{D/2}\left|\left(A^{-1}+B^{-1}\right)^{-1}\right|^{1/2}}
 \end{multline}
-First let's show equivalence over the denominators. Equating the denominators gives
+First we show equivalence over the denominators. Equating the denominators gives
 \begin{gather}
 \left(2\pi\right)^{D/2}\left|A\right|^{1/2}\left(2\pi\right)^{D/2}\left|B\right|^{1/2}=\left(2\pi\right)^{D/2}\left|A+B\right|^{1/2}\left(2\pi\right)^{D/2}\left|\left(A^{-1}+B^{-1}\right)^{-1}\right|^{1/2} \\
 \left|A\right|^{1/2}\left|B\right|^{1/2}=\left|A+B\right|^{1/2}\left|\left(A^{-1}+B^{-1}\right)^{-1}\right|^{1/2} \\
@@ -5144,6 +5194,10 @@ and
 \operatorname{Pr}\left(A\middle|B, C\right) = \dfrac{\operatorname{Pr}\left(B, C\middle|A\right)\operatorname{Pr}\left(A\right)}{\operatorname{Pr}\left(B, C\right)}
 \end{equation}
 
+\subsection{Bayes' Theorem for Distributions}
+
+\subsection{Bayes' Theorem for Multivariate Distributions}
+
 \section{Bayesian Priors}
 
 \subsection{Principle of Indifference}
@@ -5230,36 +5284,160 @@ The posterior log odds can be obtain by addition of the log likelihood ratio and
 \operatorname{logit}\left(\operatorname{Pr}\left(A\middle|B\right)\right) = \log\left(\dfrac{\operatorname{Pr}\left(B\middle|A\right)}{\operatorname{Pr}\left(B\middle|\overline{A}\right)}\right) + \operatorname{logit}\left(\operatorname{Pr}\left(A\right)\right)
 \end{gather}
 
-\subsection{Bayes Filters \cite{Thrun2005}}
+\subsection{Bayes Filters \cite{Thrun2005, Brown2012}}
 
-Consider a discrete time stochastic process for a state variable $x_{k}$, where the evolution of the state can be expressed with the distribution $p\left(x_{k + 1}\middle|x_{k}\right)$. The state $x_{k}$ is not directly measured but instead another variable $z_{k}$ is observed with the distribution $p\left(z_{k}\middle|x_{k}\right)$. The task in Bayes filtering is to recover the distribution for $x_{k}$ given only measurements up to an including $z_{k}$. From Bayes' theorem we can write
+Consider a discrete time stochastic process for a state variable $x_{k}$, where the evolution of the state can be expressed with the distribution $p\left(x_{k + 1}\middle|x_{k}\right)$. The state $x_{k}$ is not directly measured but instead another variable $z_{k}$ is observed with the distribution $p\left(z_{k}\middle|x_{k}\right)$. The task in Bayes filtering is to recover the distribution for $x_{k}$ given only measurements up to and including $z_{k}$. We denote the measurement set up to and including time $k$ by
+\begin{equation}
+\mathbf{z}_{1:k} = \left(z_{1}, \dots, z_{k}\right)
+\end{equation}
+Thus we denote the posterior distribution as $p\left(x_{k}\middle|\mathbf{z}_{1:k}\right)$. From Bayes' theorem we can write
 \begin{align}
-p\left(x_{k}\middle|z_{k}\right) &= \dfrac{p\left(z_{k}\middle|x_{k}\right)p\left(x_{k}\right)}{p\left(z_{k}\right)} \\
-&\propto p\left(z_{k}\middle|x_{k}\right)p\left(x_{k}\right)
+p\left(x_{k}\middle|\mathbf{z}_{1:k}\right) &= \dfrac{p\left(z_{k}\middle|x_{k}, \mathbf{z}_{1:\left(k - 1\right)}\right)p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right)}{p\left(z_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right)} \\
+&\propto p\left(z_{k}\middle|x_{k}, \mathbf{z}_{1:\left(k - 1\right)}\right)p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right)
 \end{align}
-It is evident that we need only be concerned with finding $p\left(z_{k}\middle|x_{k}\right)p\left(x_{k}\right)$, because it is the same as the posterior $p\left(x_{k}\middle|z_{k}\right)$ up to a normalising constant. Since the observation distribution $p\left(z_{k}\middle|x_{k}\right)$ is assumed given, then $p\left(x_{k}\right)$ is the only remaining distribution required. From the update density $p\left(x_{k}\middle|x_{k - 1}\right)$ we can perform marginalisation:
+It is evident that we need only be concerned with finding $p\left(z_{k}\middle|x_{k}, \mathbf{z}_{1:\left(k - 1\right)}\right)p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right)$, because it is the same as the posterior $p\left(x_{k}\middle|\mathbf{z}_{1:k}\right)$ up to a normalising factor (constant with respect to $x_{k}$). We assume that $z_{k}$ and $\mathbf{z}_{1:\left(k - 1\right)}$ are conditionally independent given $x_{k}$, meaning that
 \begin{equation}
-p\left(x_{k}\right) = \int p\left(x_{k}\middle|x_{k - 1}\right)p\left(x_{k - 1}\right)dx_{k - 1}
+p\left(z_{k}\middle|x_{k}, \mathbf{z}_{1:\left(k - 1\right)}\right) = p\left(z_{k}\middle|x_{k}\right)
 \end{equation}
-Note that this means the distribution $p\left(x_{k - 1}\right)$ is needed, thus the algorithm requires an initial guess of the state given by $p\left(x_{0}\right)$. When an input $u_{k}$ is involved in the state evolution, this allows for the distributions $p\left(x_{k + 1}\middle|x_{k}, u_{k}\right)$ and $p\left(z_{k}\middle|x_{k}, u_{k}\right)$ to be given. We require
+which is provided in the model. Note that it is sometimes typical to write
 \begin{equation}
-p\left(x_{k}\middle|z_{k}, u_{k}\right) \propto p\left(z_{k}\middle|x_{k}, u_{k}\right)p\left(x_{k}\middle|u_{k}\right)
+p\left(x_{k}\middle|\mathbf{z}_{1:k}\right) = \kappa_{k} p\left(z_{k}\middle|x_{k}\right)p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right)
 \end{equation}
-We assume that $p\left(x_{k}\middle|u_{k}\right) = p\left(x_{k}\right)$, ie. the input has no effect on the current state (only the subsequent state) however $u_{k}$ is still allowed to be a deterministic function of $x_{k}$ because
+where $\kappa_{k}$ is referred to as the gain. The distribution $p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right)$ is the only remaining distribution required to be found. We can perform marginalisation:
 \begin{equation}
-p\left(x_{k}\middle|u_{k}\right) = \dfrac{p\left(u_{k}\middle|x_{k}\right)p\left(x_{k}\right)}{p\left(u_{k}\right)} = p\left(x_{k}\right)
+p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right) = \int p\left(x_{k}\middle|x_{k - 1}, \mathbf{z}_{1:\left(k - 1\right)}\right)p\left(x_{k - 1}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right)dx_{k - 1}
 \end{equation}
-Then
+We further assume that $x_{k}$ and $\mathbf{z}_{1:\left(k - 1\right)}$ are conditionally independent given $x_{k - 1}$, so that
 \begin{equation}
-p\left(x_{k}\middle|z_{k}, u_{k}\right) \propto p\left(z_{k}\middle|x_{k}, u_{k}\right)p\left(x_{k}\right)
+p\left(x_{k}\middle|x_{k - 1}, \mathbf{z}_{1:\left(k - 1\right)}\right) = p\left(x_{k}\middle|x_{k - 1}\right)
 \end{equation}
-and $p\left(x_{k}\right)$ can be obtained by
+Hence
 \begin{equation}
-p\left(x_{k}\right) = \int\int p\left(x_{k}\middle|x_{k - 1}, u_{k - 1}\right)p\left(x_{k - 1}, u_{k - 1}\right)dx_{k - 1}du_{k - 1}
+p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right) = \int p\left(x_{k}\middle|x_{k - 1}\right)p\left(x_{k - 1}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right)dx_{k - 1}
 \end{equation}
-As before if $u_{k - 1}$ is a deterministic function of $x_{k - 1}$ and $x_{k - 1}$ is unaffected by $u_{k - 1}$ then
+We see that this integral contains the posterior from the previous time step, $p\left(x_{k - 1}\middle|\mathbf{z}_{1:\left(k - 1\right)}\right)$. Therefore at the beginning the algorithm requires an initial guess of the distribution of the initial state given by $p\left(x_{0}\right)$. 
+
+\subsubsection{Bayes Filter with Input}
+
+When a known input (or `control') $u_{k}$ is involved in the state evolution, this allows for the update distribution to be specified as $p\left(x_{k + 1}\middle|x_{k}, u_{k}\right)$. The task is now to obtain the posterior distribution $p\left(x_{k}\middle|\mathbf{z}_{1:k}, \mathbf{u}_{1:k}\right)$, where $\mathbf{u}_{1:k}$ denotes the sequence of inputs up to and including time $k$:
 \begin{equation}
-p\left(x_{k}\right) = \int p\left(x_{k}\middle|x_{k - 1}, u_{k - 1}\right)p\left(x_{k - 1}\right)dx_{k - 1}
+\mathbf{u}_{1:k} = \left(u_{1}, \dots, u_{k}\right)
+\end{equation}
+This filter is very similar to before, with a few modified assumptions. From Bayes' theorem we require
+\begin{align}
+p\left(x_{k}\middle|\mathbf{z}_{1:k}, \mathbf{u}_{1:k}\right) &= \dfrac{p\left(z_{k}\middle|x_{k}, \mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)}{p\left(z_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)} \\
+&\propto p\left(z_{k}\middle|x_{k}, \mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right) \\
+&\propto p\left(z_{k}\middle|x_{k}\right)p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right) \\
+&= \kappa_{k} p\left(z_{k}\middle|x_{k}\right)p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)
+\end{align}
+where we have assumed that $p\left(z_{k}\middle|x_{k}, \mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right) = p\left(z_{k}\middle|x_{k}\right)$ by conditional independence of $z_{k}$ and $\left(\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)$ given $x_{k}$. Then to obtain the prior we marginalise:
+\begin{align}
+p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right) &= \int p\left(x_{k}\middle|x_{k - 1}, \mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)p\left(x_{k - 1}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:\left(k - 1\right)}\right)dx_{k - 1} \\
+&= \int p\left(x_{k}\middle|x_{k - 1}, u_{k}\right)p\left(x_{k - 1}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:\left(k - 1\right)}\right)dx_{k - 1}
+\end{align}
+where $p\left(x_{k - 1}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:\left(k - 1\right)}\right)$ is the posterior at time $k - 1$ and we have additionally assumed that $x_{k}$ and $\left(\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:\left(k - 1\right)}\right)$ are conditionally independent given $x_{k - 1}$ and $u_{k}$.
+
+\subsubsection{Gaussian Filters}
+
+Gaussian filters are Bayes Filters for when the distributions $p\left(x_{k + 1}\middle|x_{k}, u_{k}\right)$ and $p\left(z_{k}\middle|x_{k}\right)$ are Gaussian. In this case, if the posterior distribution is Gaussian and the conditional expectation $\mathbb{E}\left[x_{k + 1}\middle|x_{k}, u_{k}\right]$ is linear in $x_{k}$ and $u_{k}$, the posterior distributions will also be Gaussian. This result follows from the fact that products of Gaussian densities will also be Gaussian (after normalisation), and that marginalisation involving Gaussians and linear conditional expectations will also produce a Gaussian. Here, we consider the computation of
+\begin{equation}
+p\left(x_{k}\middle|\mathbf{z}_{1:k}, \mathbf{u}_{1:k}\right) = \dfrac{p\left(z_{k}\middle|x_{k}, \mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)p\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)}{p\left(z_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)}
+\end{equation}
+Converting the numerator into a joint density:
+\begin{equation}
+p\left(x_{k}\middle|\mathbf{z}_{1:k}, \mathbf{u}_{1:k}\right) = \dfrac{p\left(z_{k}, x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)}{p\left(z_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)}
+\end{equation}
+we assume that the densities on the right-hand side are available to us. For ease notation we write the conditional expectations and covariances of each density using the notation:
+\begin{gather}
+\hat{x}_{k} = \mathbb{E}\left[x_{k}\middle|\mathbf{z}_{1:k}, \mathbf{u}_{1:k}\right] \\
+\hat{x}_{k}^{-} = \mathbb{E}\left[x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right] \\
+\hat{z}_{k}^{-} = \mathbb{E}\left[z_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right] \\
+\mathbf{P}_{xx, k} = \operatorname{Cov}\left(x_{k}\middle|\mathbf{z}_{1:k}, \mathbf{u}_{1:k}\right) \\
+\mathbf{P}_{xx, k}^{-} = \operatorname{Cov}\left(x_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right) \\
+\mathbf{P}_{zz, k}^{-} = \operatorname{Cov}\left(z_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right)
+\end{gather}
+and the cross-covariances
+\begin{gather}
+\mathbf{P}_{xz, k}^{-} = \operatorname{Cov}\left(x_{k}, z_{k}\middle|\mathbf{z}_{1:\left(k - 1\right)}, \mathbf{u}_{1:k}\right) \\
+\mathbf{P}_{zx, k}^{-} = \left(\mathbf{P}_{xz, k}^{-}\right)^{\top}
+\end{gather}
+Therefore the posterior can be written with notation
+\begin{equation}
+\mathcal{N}_{x_{k}}\left(\hat{x}_{k}, \mathbf{P}_{xx, k}\right) = \mathcal{N}_{x_{k},z_{k}}\left(\begin{bmatrix} \hat{x}_{k}^{-} \\ \hat{z}_{k}^{-} \end{bmatrix}, \begin{bmatrix} \mathbf{P}_{xx, k}^{-} & \mathbf{P}_{xz, k}^{-} \\ \mathbf{P}_{zx, k}^{-} & \mathbf{P}_{zz, k}^{-} \end{bmatrix}\right) \div \mathcal{N}_{z_{k}}\left(\hat{z}_{k}^{-}, \mathbf{P}_{zz, k}^{-}\right)
+\end{equation}
+where $\mathcal{N}_{x_{k}}\left(\cdot, \cdot\right)$ denotes a (multivariate) Gaussian density in $x_{k}$, etc. For further notational simplicity, we drop the time index $k$, and denote
+\begin{gather}
+\widetilde{x} = x - \hat{x} \\
+\widetilde{x}^{-} = x - \hat{x}^{-} \\
+\widetilde{z}^{-} = z - \hat{z}^{-}
+\end{gather}
+Explicitly writing out the exponentials in the Gaussian densities, we have by proportionality:
+\begin{equation}
+\exp\left(\widetilde{x}^{\top}\mathbf{P}_{xx}^{-1}\widetilde{x}\right) \propto \exp\left(\begin{bmatrix}\widetilde{x}^{-} \\ \widetilde{z}^{-}\end{bmatrix}^{\top}\begin{bmatrix} \mathbf{P}_{xx}^{-} & \mathbf{P}_{xz}^{-} \\ \mathbf{P}_{zx}^{-} & \mathbf{P}_{zz}^{-} \end{bmatrix}^{-1}\begin{bmatrix}\widetilde{x}^{-} \\ \widetilde{z}^{-}\end{bmatrix}\right) \div \exp\left(\left(\widetilde{z}^{-}\right)^{\top}\mathbf{P}_{xx}^{-1}\widetilde{z}^{-}\right)
+\end{equation}
+and equating the exponents gives
+\begin{equation}
+\widetilde{x}^{\top}\mathbf{P}_{xx}^{-1}\widetilde{x} = \begin{bmatrix}\widetilde{x}^{-} \\ \widetilde{z}^{-}\end{bmatrix}^{\top}\begin{bmatrix} \mathbf{P}_{xx}^{-} & \mathbf{P}_{xz}^{-} \\ \mathbf{P}_{zx}^{-} & \mathbf{P}_{zz}^{-} \end{bmatrix}^{-1}\begin{bmatrix}\widetilde{x}^{-} \\ \widetilde{z}^{-}\end{bmatrix} - \left(\widetilde{z}^{-}\right)^{\top}\mathbf{P}_{xx}^{-1}\widetilde{z}^{-}
+\end{equation}
+Using the block matrix inversion formula:
+\begin{equation}
+\begin{bmatrix} \mathbf{P}_{xx}^{-} & \mathbf{P}_{xz}^{-} \\ \mathbf{P}_{zx}^{-} & \mathbf{P}_{zz}^{-} \end{bmatrix}^{-1} = \begin{bmatrix}\mathbf{B}^{-1} & -\mathbf{B}^{-1}\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\\
+-\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}\mathbf{B}^{-1} & \left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}\mathbf{B}^{-1}\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}+\left(\mathbf{P}_{zz}^{-}\right)^{-1}
+\end{bmatrix}
+\end{equation}
+where $\mathbf{B}^{-1}=\mathbf{P}_{xx}^{-}-\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}$. Then expanding out the quadratic form on the right-hand side:
+\begin{align}
+&\begin{bmatrix}\widetilde{x}^{-}\\
+\widetilde{z}^{-}
+\end{bmatrix}^{\top}\begin{bmatrix}\mathbf{P}_{xx}^{-} & \mathbf{P}_{xz}^{-}\\
+\mathbf{P}_{zx}^{-} & \mathbf{P}_{zz}^{-}
+\end{bmatrix}^{-1}\begin{bmatrix}\widetilde{x}^{-}\\
+\widetilde{z}^{-}
+\end{bmatrix}-\left(\widetilde{z}^{-}\right)^{\top}\mathbf{P}_{xx}^{-1}\widetilde{z}^{-} \\
+&= \begin{bmatrix}\widetilde{x}^{-}\\
+\widetilde{z}^{-}
+\end{bmatrix}^{\top}\begin{bmatrix}\mathbf{B}^{-1} & -\mathbf{B}^{-1}\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\\
+-\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}\mathbf{B}^{-1} & \left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}\mathbf{B}^{-1}\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}+\left(\mathbf{P}_{zz}^{-}\right)^{-1}
+\end{bmatrix}\begin{bmatrix}\widetilde{x}^{-}\\
+\widetilde{z}^{-}
+\end{bmatrix}-\left(\widetilde{z}^{-}\right)^{\top}\mathbf{P}_{xx}^{-1} \\
+& \begin{multlined}
+=\left(\widetilde{x}^{-}\right)^{\top}\mathbf{B}^{-1}\widetilde{x}^{-}-\left(\widetilde{x}^{-}\right)^{\top}\mathbf{B}^{-1}\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\widetilde{z}^{-}-\left(\widetilde{z}^{-}\right)^{\top}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}\mathbf{B}^{-1}\widetilde{x}^{-} \\
++\left(\widetilde{z}^{-}\right)^{\top}\left[\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}\mathbf{B}^{-1}\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}+\left(\mathbf{P}_{zz}^{-}\right)^{-1}\right]\widetilde{z}^{-}-\left(\widetilde{z}^{-}\right)^{\top}\mathbf{P}_{xx}^{-1}\widetilde{z}^{-}
+\end{multlined} \\
+& \begin{multlined}
+=\left(\widetilde{x}^{-}\right)^{\top}\mathbf{B}^{-1}\widetilde{x}^{-}-\left(\widetilde{x}^{-}\right)^{\top}\mathbf{B}^{-1}\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\widetilde{z}^{-}-\left(\widetilde{z}^{-}\right)^{\top}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}\mathbf{B}^{-1}\widetilde{x}^{-} \\
++\left(\widetilde{z}^{-}\right)^{\top}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}\mathbf{B}^{-1}\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\widetilde{z}^{-}
+\end{multlined} \\
+&= \left[\widetilde{x}^{-}-\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\widetilde{z}^{-}\right]^{\top}\mathbf{B}^{-1}\left[\widetilde{x}^{-}-\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\widetilde{z}^{-}\right]
+\end{align}
+where in the last step we have factorised the quadratic. Equating this to the left-hand side, we have
+\begin{equation}
+\widetilde{x}^{\top}\mathbf{P}_{xx}^{-1}\widetilde{x} = \left[\widetilde{x}^{-}-\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\widetilde{z}^{-}\right]^{\top}\mathbf{B}^{-1}\left[\widetilde{x}^{-}-\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\widetilde{z}^{-}\right]
+\end{equation}
+We can equate the vector and matrix factors in the equation. First equating the vector factors:
+\begin{gather}
+\widetilde{x} = \widetilde{x}^{-} -\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\widetilde{z}^{-} \\
+x - \hat{x} = x - \hat{x}^{-} -\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\left(z - \hat{z}^{-}\right) \\
+\hat{x} = \hat{x}^{-} + \mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\left(z - \hat{z}^{-}\right)
+\end{gather}
+Let $\mathbf{K} = \mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}$ be known as the gain and returning the time index $k$:
+\begin{equation}
+\hat{x}_{k} = \hat{x}_{k}^{-} + \mathbf{K}_{k}\left(z_{k} - \hat{z}_{k}^{-}\right)
+\end{equation}
+This gives an update equation for the posterior mean $\hat{x}_{k}$ in terms of the prior mean $\hat{x}_{k}^{-}$, prior output $\hat{z}_{k}^{-}$ and prior covariances $\mathbf{P}_{xz}^{-}$, $\mathbf{P}_{zz}^{-}$ (which use information only up to including time $k - 1$, and the realisation of the measurement at time $k$, which is $z_{k}$. Equating the Hessian matrix in the equation:
+\begin{gather}
+\mathbf{P}_{xx}^{-1} = \mathbf{B}^{-1} \\
+\mathbf{P}_{xx} = \mathbf{P}_{xx}^{-}-\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-}
+\end{gather}
+Inserting a factor $I = \left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zz}^{-}$:
+\begin{align}
+\mathbf{P}_{xx} &= \mathbf{P}_{xx}^{-} - \mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\mathbf{P}_{zx}^{-} \\
+&= \mathbf{P}_{xx}^{-} - \left[\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\right]\mathbf{P}_{zz}^{-}\left[\mathbf{P}_{xz}^{-}\left(\mathbf{P}_{zz}^{-}\right)^{-1}\right]^{\top}
+\end{align}
+Recognising the presence of $\mathbf{K}$ and returning the time index, this gives the update equation for the posterior covariance:
+\begin{equation}
+\mathbf{P}_{xx, k} = \mathbf{P}_{xx, k}^{-} - \mathbf{K}_{k}\mathbf{P}_{zz, k}^{-}\mathbf{K}_{k}^{\top}
 \end{equation}
 
 \section{Bayesian Networks}
@@ -5484,7 +5662,7 @@ p\left(\mathbf{y}\middle|X\right) = \sum_{i}p\left(\mathbf{y}\middle|X, \mathcal
 \end{equation}
 ie. it is a weighted average of some probability density functions, and acts as a normalising constant for the posterior of $\mathcal{H}_{i}$.
 
-\section{Berstein-von Mises Theorem}
+\section{Bernstein-von Mises Theorem}
 
 \section{Bayesian Classifiers}
 
@@ -5508,13 +5686,13 @@ ie. it is a weighted average of some probability density functions, and acts as 
 
 \section{Hidden Markov Models}
 
-\subsection{Baum-Welch Algorithm}
-
 \section{Markov Decision Processes}
 
 \subsection{Partially Observable Markov Decision Processes}
 
 \section{Inference of Markov Processes}
+
+\subsection{Baum-Welch Algorithm}
 
 \chapter{Measure Theoretic Probability}
 
@@ -5992,6 +6170,32 @@ This can be derived intuitively, because the joint distribution of the sample is
 f_{X_{1}, \dots, X_{n}}\left(x_{1}, \dots, x_{n}\right) = f\left(x_{1}\right)\times\dots\times f\left(x_{n}\right)
 \end{equation}
 and for every possible $x_{\left(1\right)} \leq \dots \leq x_{\left(k\right)}$, where are $n!$ equally likely events which could have led to it.
+
+\subsection{Spacings of Order Statistics}
+
+\subsubsection{Expected Spacings of Subsequent Order Statistics}
+
+For an i.i.d. sample $X_{1}, \dots, X_{n}$ denote the $i$\textsuperscript{th} order statistic by $X_{i:n}$. The spacing between the $i$\textsuperscript{th} and $\left(i + 1\right)$\textsuperscript{th} order statistics is defined by $S_{i:n} = X_{\left(i + 1\right):n} - X_{i:n}$. To find the expected spacing $\mathbb{E}\left[S_{i:n}\right]$, note that using the cumulative distribution functions of the order statistics, their expectations can be expressed as
+\begin{gather}
+\mathbb{E}\left[X_{\left(i+1\right):n}\right]=\int_{0}^{\infty}\left[1-F_{\left(i+1\right):n}\left(x\right)\right]dx-\int_{-\infty}^{0}F_{\left(i+1\right):n}\left(x\right)dx \\
+\mathbb{E}\left[X_{i:n}\right]=\int_{0}^{\infty}\left[1-F_{i:n}\left(x\right)\right]dx-\int_{-\infty}^{0}F_{i:n}\left(x\right)dx
+\end{gather}
+where $F_{\left(i+1\right):n}\left(x\right)$ and $F_{i:n}\left(x\right)$ denote the cumulative distribution functions of $X_{\left(i+1\right):n}$ and $X_{i:n}$ respectively. Then
+\begin{align}
+\mathbb{E}\left[S_{i:n}\right] &= \mathbb{E}\left[X_{\left(i+1\right):n}-X_{i:n}\right] \\
+&= \int_{0}^{\infty}\left[1-F_{\left(i+1\right):n}\left(x\right)-1+F_{i:n}\left(x\right)\right]dx-\int_{-\infty}^{0}\left(F_{\left(i+1\right):n}\left(x\right)-F_{i:n}\left(x\right)\right)dx \\
+&= \int_{0}^{\infty}\left[F_{i:n}\left(x\right)-F_{\left(i+1\right):n}\left(x\right)\right]dx+\int_{-\infty}^{0}\left[F_{i:n}\left(x\right)-F_{\left(i+1\right):n}\left(x\right)\right]dx \\
+&= \int_{-\infty}^{\infty}\left[F_{i:n}\left(x\right)-F_{\left(i+1\right):n}\left(x\right)\right]dx
+\end{align}
+Using the binomial form of the CDFs where $F\left(x\right)$ is the CDF of $X_{i}$:
+\begin{align}
+F_{i:n}\left(x\right)-F_{\left(i+1\right):n}\left(x\right) &= \sum_{r=i}^{n}\begin{pmatrix}n\\r\end{pmatrix}F\left(x\right)^{r}\left[1-F\left(x\right)\right]^{n-r}-\sum_{r=i+1}^{n}\begin{pmatrix}n\\r\end{pmatrix}F\left(x\right)^{r}\left[1-F\left(x\right)\right]^{n-r} \\
+&= \begin{pmatrix}n\\i\end{pmatrix}F\left(x\right)^{i}\left[1-F\left(x\right)\right]^{n-i}
+\end{align}
+Hence
+\begin{equation}
+\mathbb{E}\left[S_{i:n}\right] = \begin{pmatrix}n\\i\end{pmatrix}\int_{-\infty}^{\infty}F\left(x\right)^{i}\left[1-F\left(x\right)\right]^{n-i}dx
+\end{equation}
 
 \subsection{Fisher–Tippett–Gnedenko Theorem \cite{David2005}}
 
@@ -7277,13 +7481,14 @@ where $\operatorname{Pr}\left(D\middle|E\right)$ would be referred as the power.
 
 For a binary classifier that detects an event, recall is the proportion of true events that were detected, ie. it estimates $\operatorname{Pr}\left(D\middle|E\right)$. This is akin to the power of a statistical test.
 
-\subsubsection{Precision/Recall $F$-score}
+\subsubsection{$F_{1}$-score}
 
-Given precision $p$ and recall $r$, an `$F$-score' can be calculated by
-\begin{equation}
-F = \dfrac{2pr}{p + r}
-\end{equation}
-which is a way to quantitatively trade between precision and recall, where a model with higher $F$-score is preferred.
+Given precision $p$ and recall $r$, an `$F_{1}$-score' can be calculated by the harmonic mean of $p$ and $r$ (since the harmonic mean is suitable for averaging over ratios), that is:
+\begin{gather}
+\frac{1}{F_{1}} = \dfrac{1}{2}\left(\dfrac{1}{p} + \dfrac{1}{r}\right) \\
+F_{1} = \dfrac{2pr}{p + r}
+\end{gather}
+This is a way to quantitatively trade between precision and recall, where a model with higher $F_{1}$-score is preferred.
 
 \subsubsection{Coverage}
 
@@ -7616,11 +7821,11 @@ z = \left(\hat{f}_{1}\left(x\right), \dots, \hat{f}_{M}\left(x\right)\right)
 
 \section{Statistical Learning Theory}
 
-\subsection{Vapnik-Chervonenkis Dimension}
-
 \subsection{Radermacher Complexity}
 
 \subsection{Probably Approximately Correct Learning}
+
+\subsection{Vapnik-Chervonenkis Dimension}
 
 \chapter{Statistical Signal Processing}
 
@@ -7968,6 +8173,21 @@ where we have made the substitution $u = b\pi s$. Then using the fact that $\int
 \end{equation}
 which is a step function, therefore the limiting case of $R_{X}\left(\tau\right)$ as $b \to \infty$ is the Dirac-delta function, the same as white noise. So formally, whenever we need to get around the fact that the spectral density of white noise is not integrable on $\left(-\infty, \infty\right)$, we may treat white noise as band-limited white noise (which is integrable on $\left(-\infty, \infty\right)$), and then take the limit as the bandwidth $b \to \infty$.
 
+\subsubsection{Non-stationary White Noise}
+
+A white noise stochastic process $X\left(t\right)$ with spectral density $S_{X}\left(f\right) = c$ has autocorrelation
+\begin{equation}
+\mathbb{E}\left[X\left(t\right)X\left(t + \tau\right)\right] = \begin{cases} c\delta\left(t\right), & \tau = 0 \\ 0, & \tau \neq 0 \end{cases}
+\end{equation}
+We can make a generalisation of this to stochastic processes with the autocorrelation
+\begin{equation}
+\mathbb{E}\left[X\left(t\right)X\left(t + \tau\right)\right] = \begin{cases} c\left(t\right)\delta\left(t\right), & \tau = 0 \\ 0, & \tau \neq 0 \end{cases}
+\end{equation}
+where the process will be uncorrelated, however it will no longer be stationary and a spectral density is no longer defined for it. We can refer to this process as non-stationary white noise. Analogously in discrete-time, a non-stationary white noise process $X_{n}$ can be defined as a process with autocorrelation
+\begin{equation}
+\mathbb{E}\left[X_{n}X_{n + k}\right] = \begin{cases} c_{n}, & k = 0 \\ 0, & k \neq 0 \end{cases}
+\end{equation}
+
 \subsubsection{Brown Noise}
 
 Consider a continuous-time LTI system which is an integrator, ie. it has a transfer function of $G\left(s\right) = \dfrac{1}{s}$. Alternatively, since the Fourier transform is equal to the two-sided Laplace transform with the substitution $s = j2\pi f$, and for causal systems (ie. impulse response $h\left(t\right) = 0$ for $t < 0$) this is the same as the one-sided Laplace transform, then this LTI system has frequency response
@@ -8104,7 +8324,9 @@ The implication of the spectral factorisation theorem in discrete-time is analog
 
 \section{Linear Filtering}
 
-\section{Wiener-Kolgomorov Filtering}
+\subsection{Least Squares Filter}
+
+\subsection{Wiener-Kolgomorov Filtering}
 
 \section{Kalman Filtering}
 
@@ -8134,11 +8356,11 @@ where $w_{k}'$ is zero-mean and has autocorrelation
 \end{equation}
 which gives equivalence to the specification above if $Q = EE^{\top}$. The measurement process can be written as
 \begin{equation}
-z_{k} = Cx_{k} + Du_{k} + Fv_{k}
+z_{k} = Cx_{k} + D + Fv_{k}
 \end{equation}
-where the measured output $z_{k} \in \mathbb{R}^{p}$ is known and the noise is of dimension $v_{k} \in \mathbb{R}^{d'}$, and matrices $C$, $D$, $F$ are of appropriate dimension. We again assume that $v_{k}$ is independent zero-mean unit variance white noise with $\operatorname{Cov}\left(Fv_{k}\right) = FF^{\top}$, or alternatively we can let $R = FF^{\top}$ and write the process as
+where the measured output $z_{k} \in \mathbb{R}^{p}$ is known and the noise is of dimension $v_{k} \in \mathbb{R}^{d'}$, matrices $C$, $F$ are of appropriate dimension, and $D$ is a vector. We again assume that $v_{k}$ is independent zero-mean unit variance white noise with $\operatorname{Cov}\left(Fv_{k}\right) = FF^{\top}$, or alternatively we can let $R = FF^{\top}$ and write the process as
 \begin{equation}
-z_{k} = Cx_{k} + Du_{k} + v_{k}'
+z_{k} = Cx_{k} + D + v_{k}'
 \end{equation}
 where $v_{k}'$ is zero-mean and has known autocorrelation
 \begin{equation}
@@ -8162,11 +8384,11 @@ K_{k + 1} = P_{k + 1}^{-}C^{\top}\left(CP_{k + 1}^{-}C^{\top} + R\right)^{-1}
 \end{equation}
 \item Perform the update step to obtain the new posterior estimates:
 \begin{gather}
-\hat{x}_{k + 1} = \hat{x}_{k + 1}^{-} + K_{k + 1}\left(z_{k + 1} - C\hat{x}_{k + 1}^{-} - Du_{k}\right) \\
+\hat{x}_{k + 1} = \hat{x}_{k + 1}^{-} + K_{k + 1}\left(z_{k + 1} - C\hat{x}_{k + 1}^{-} - D\right) \\
 P_{k + 1} = \left(I - K_{k + 1}C\right)P_{k + 1}^{-}
 \end{gather}
 \end{enumerate}
-If noises $w_{k}'$ and $v_{k}'$ are Gaussian, then the posterior estimates specify the full (Gaussian) posterior distribution. Note that the algorithm is also applicable to a time-varying system with known time-varying matrices $A_{k}, B_{k}, Q_{k}, C_{k}, D_{k}, R_{k}$.
+If noises $w_{k}'$ and $v_{k}'$ are Gaussian, then the posterior estimates specify the full (Gaussian) posterior distribution (since the linear operations preserve the Gaussian distributions). Note that the algorithm is also applicable to a time-varying system with known time-varying matrices $A_{k}, B_{k}, C_{k}, D_{k}$ and known non-stationary white noise covariances $Q_{k}, R_{k}$.
 
 \subsubsection{Unbiasedness of the Kalman Filter}
 
@@ -8183,8 +8405,8 @@ The expectation of the true state is
 \end{align}
 as we assumed $\mathbb{E}\left[\hat{x}_{k}\right] = \mathbb{E}\left[x_{k}\right]$, it then follows that $\mathbb{E}\left[\hat{x}_{k + 1}^{-}\right] = \mathbb{E}\left[x_{k + 1}\right]$. Then the expected posterior estimate is
 \begin{align}
-\mathbb{E}\left[\hat{x}_{k + 1}\right] &= \mathbb{E}\left[\hat{x}_{k + 1}^{-} + K_{k + 1}\left(z_{k + 1} - C\hat{x}_{k + 1}^{-}\right) - Du_{k}\right] \\
-&= \mathbb{E}\left[\hat{x}_{k + 1}^{-} + K_{k + 1}\left(Cx_{k + 1} + Du_{k} + v_{k + 1}' - C\hat{x}_{k + 1}^{-}\right) - Du_{k}\right] \\
+\mathbb{E}\left[\hat{x}_{k + 1}\right] &= \mathbb{E}\left[\hat{x}_{k + 1}^{-} + K_{k + 1}\left(z_{k + 1} - C\hat{x}_{k + 1}^{-} - D\right)\right] \\
+&= \mathbb{E}\left[\hat{x}_{k + 1}^{-} + K_{k + 1}\left(Cx_{k + 1} + D + v_{k + 1}' - C\hat{x}_{k + 1}^{-} - D\right)\right] \\
 &= \mathbb{E}\left[\hat{x}_{k + 1}^{-} + K_{k + 1}Cx_{k + 1} + K_{k + 1}v_{k + 1}' - K_{k + 1}C\hat{x}_{k + 1}^{-}\right] \\
 &= \mathbb{E}\left[\hat{x}_{k + 1}^{-}\right] + K_{k + 1}C\mathbb{E}\left[x_{k + 1}\right] - K_{k + 1}\mathbb{E}\left[v_{k + 1}'\right] - K_{k + 1}C\mathbb{E}\left[\hat{x}_{k + 1}^{-}\right] \\
 &= \mathbb{E}\left[\hat{x}_{k + 1}^{-}\right] + K_{k + 1}C\mathbb{E}\left[x_{k + 1}\right] -  K_{k + 1}C\mathbb{E}\left[\hat{x}_{k + 1}^{-}\right]
@@ -8199,22 +8421,33 @@ Hence it only requires that $\mathbb{E}\left[\hat{x}_{0}\right] = \mathbb{E}\lef
 
 We show that the Kalman filter is the minimum mean square error estimator. Denote the prior estimation error $e_{k}^{-} = x_{k} - \hat{x}_{k}^{-}$. Since the unbiasedness means $\mathbb{E}\left[e_{k}^{-}\right] = 0$, the prior error covariance matrix is
 \begin{align}
-P_{k}^{-} &= \mathbb{E}\left[e_{k}^{-}\left(e_{k}^{-}\right)^{\top}\right] \\
+P_{k}^{-} &= \operatorname{Cov}\left(e_{k}^{-}\right) \\
+&= \mathbb{E}\left[e_{k}^{-}\left(e_{k}^{-}\right)^{\top}\right] - \mathbb{E}\left[e_{k}^{-}\right]\mathbb{E}\left[e_{k}^{-}\right]^{\top} \\
+&= \mathbb{E}\left[e_{k}^{-}\left(e_{k}^{-}\right)^{\top}\right] \\
 &= \mathbb{E}\left[\left(x_{k} - \hat{x}_{k}^{-}\right)\left(x_{k} - \hat{x}_{k}^{-}\right)^{\top}\right]
 \end{align}
-For the posterior error covariance matrix, we can rewrite this using $x_{k} - \hat{x}_{k} = \left(x_{k} - \hat{x}_{k}^{-}\right) - \left(\hat{x}_{k} - \hat{x}_{k}^{-}\right)$ to give
+Denote the posterior estimation error $e_{k} = x_{k} - \hat{x}_{k}$. Given the posterior error covariance matrix at step $k - 1$, we can show that the formula in the propagation step is indeed correct by
+\begin{align}
+P_{k}^{-} &= \operatorname{Cov}\left(e_{k}^{-}\right) \\
+&= \operatorname{Cov}\left(x_{k} - \hat{x}_{k}^{-}\right) \\
+&= \operatorname{Cov}\left(Ax_{k - 1} + Bu_{k - 1} + w_{k}' - A\hat{x}_{k - 1} - Bu_{k - 1}\right) \\
+&= \operatorname{Cov}\left(A\left(x_{k - 1} - \hat{x}_{k - 1}\right) + w_{k}'\right) \\
+&= A\operatorname{Cov}\left(e_{k - 1}\right)A^{\top} + \operatorname{Cov}\left(w_{k}'\right) \\
+&= AP_{k - 1}A^{\top} + Q
+\end{align}
+For the posterior error covariance matrix at step $k$, we can rewrite this using $x_{k} - \hat{x}_{k} = \left(x_{k} - \hat{x}_{k}^{-}\right) - \left(\hat{x}_{k} - \hat{x}_{k}^{-}\right)$ to give
 \begin{align}
 P_{k} &= \mathbb{E}\left[\left(x_{k} - \hat{x}_{k}\right)\left(x_{k} - \hat{x}_{k}\right)^{\top}\right] \\
 &= \mathbb{E}\left[\left(\left(x_{k} - \hat{x}_{k}^{-}\right) - \left(\hat{x}_{k} - \hat{x}_{k}^{-}\right)\right)\left(\left(x_{k} - \hat{x}_{k}^{-}\right) - \left(\hat{x}_{k} - \hat{x}_{k}^{-}\right)\right)^{\top}\right]
 \end{align}
 From the update equation:
 \begin{equation}
-\hat{x}_{k} = \hat{x}_{k}^{-} + K_{k}\left(z_{k} - C\hat{x}_{k}^{-} - Du_{k - 1}\right)
+\hat{x}_{k} = \hat{x}_{k}^{-} + K_{k}\left(z_{k} - C\hat{x}_{k}^{-} - D\right)
 \end{equation}
 which can be rearranged so that
 \begin{align}
-\hat{x}_{k} - \hat{x}_{k}^{-}  &= K_{k}\left(z_{k} - C\hat{x}_{k}^{-} - Du_{k - 1}\right) \\
-&= K_{k}\left(Cx_{k} + Du_{k - 1} + v_{k}' - C\hat{x}_{k}^{-} - Du_{k - 1}\right) \\
+\hat{x}_{k} - \hat{x}_{k}^{-}  &= K_{k}\left(z_{k} - C\hat{x}_{k}^{-} - D\right) \\
+&= K_{k}\left(Cx_{k} + D + v_{k}' - C\hat{x}_{k}^{-} - D\right) \\
 &= K_{k}\left(Cx_{k} + v_{k}' - C\hat{x}_{k}^{-}\right)
 \end{align}
 Hence
@@ -8257,9 +8490,266 @@ K^{*} = P^{-}C^{\top}\left(CP^{-}C^{\top} + R\right)^{-1}
 
 \subsection{Linearised Kalman Filter}
 
+Approximate variants of the Kalman filter can be applied to nonlinear time-varying stochastic dynamical systems. Suppose that the state-space dynamics are given by the stochastic difference equation
+\begin{equation}
+x_{k + 1} = f_{k}\left(x_{k}, u_{k}, w_{k}\right)
+\end{equation}
+where $f\left(\cdot, \cdot, \cdot\right)$ can be a general vector-valued differentiable nonlinear function in the time $k$, state $x_{k}$, input $u_{k}$ and noise/disturbance $w_{k}$. The measurement process can also be treated as nonlinear time-varying differentiable mapping:
+\begin{equation}
+z_{k} = h_{k}\left(x_{k}, v_{k}\right)
+\end{equation}
+where $v_{k}$ is measurement noise. As with the Kalman filter we assume that the noises $w_{k}$ and $v_{k}$ are zero-mean and white (this can be relaxed to non-stationary white):
+\begin{gather}
+\mathbb{E}\left[w_{k}w_{i}^{\top}\right] = \begin{cases} Q, & k = i \\ 0, & k \neq i \end{cases} \\
+\mathbb{E}\left[v_{k}v_{i}^{\top}\right] = \begin{cases} R, & k = i \\ 0, & k \neq i \end{cases}
+\end{gather}
+and uncorrelated with each other:
+\begin{equation}
+\mathbb{E}\left[w_{k}v_{i}^{\top}\right] = 0
+\end{equation}
+for all $k$, $i$. We also require an initial estimate $\hat{x}_{0}$ and initial estimation error covariance matrix $P_{0}$. The premise of the linearised Kalman filter is to find a deterministic reference trajectory (given $u_{k}$) with which we can linearise the dynamics about. A suitable choice are trajectories generated by the dynamics and measurement process in the absence of noise. Then the reference trajectories $\bar{x}_{k}$ and $\bar{z}_{k}$ evolve by the following deterministic difference equations:
+\begin{gather}
+\bar{x}_{k + 1} = f_{k}\left(\bar{x}_{k}, u_{k}, 0\right) \\
+\bar{z}_{k} = h_{k}\left(\bar{x}_{k}, 0\right)
+\end{gather}
+This allows us to introduce a change of coordinate for the state $\Delta x_{k} = x_{k} - \bar{x}_{k}$, which has dynamics
+\begin{align}
+\Delta x_{k + 1} &= x_{k + 1} - \bar{x}_{k + 1} \\
+&= f_{k}\left(x_{k}, u_{k}, w_{k}\right) - f_{k}\left(\bar{x}_{k}, u_{k}, 0\right) \\
+&= f_{k}\left(\bar{x}_{k} + \Delta x_{k}, u_{k}, w_{k}\right) - f_{k}\left(\bar{x}_{k}, u_{k}, 0\right)
+\end{align}
+These dynamics are linearised by performing a first-order Taylor expansion approximation about $\left(\bar{x}_{k}, u_{k}, 0\right)$:
+\begin{equation}
+f_{k}\left(\bar{x}_{k} + \Delta x_{k}, u_{k}, w_{k}\right) \approx f_{k}\left(\bar{x}_{k}, u_{k}, 0\right) + \left.\dfrac{\partial f_{k}}{\partial x}\right|_{\left(\bar{x}_{k}, u_{k}, 0\right)}\Delta x_{k} + \left.\dfrac{\partial f_{k}}{\partial w}\right|_{\left(\bar{x}_{k}, u_{k}, 0\right)}w_{k}
+\end{equation}
+and this gives the approximate dynamics
+\begin{align}
+\Delta x_{k + 1} &\approx \left.\dfrac{\partial f_{k}}{\partial x}\right|_{\left(\bar{x}_{k}, u_{k}, 0\right)}\Delta x_{k} + \left.\dfrac{\partial f_{k}}{\partial w}\right|_{\left(\bar{x}_{k}, u_{k}, 0\right)}w_{k} \\
+&\approx A_{k}\Delta x_{k} + E_{k}w_{k}
+\end{align}
+where we denote $A_{k} = \left.\dfrac{\partial f_{k}}{\partial x}\right|_{\left(\bar{x}_{k}, u_{k}, 0\right)}$ and $E_{k} = \left.\dfrac{\partial f_{k}}{\partial w}\right|_{\left(\bar{x}_{k}, u_{k}, 0\right)}$ (note that these are Jacobian matrices). Similarly, a change of coordinate for the output $\Delta z_{k} = z_{k} - \bar{z}_{k}$ gives the augmented measurement process
+\begin{align}
+\Delta z_{k} &= z_{k} - \bar{z}_{k} \\
+&= h_{k}\left(x_{k}, v_{k}\right) - h_{k}\left(\bar{x}_{k}, 0\right) \\
+&= h_{k}\left(\bar{x}_{k} + \Delta x_{k}, v_{k}\right) - h_{k}\left(\bar{x}_{k}, 0\right)
+\end{align}
+Again, a first order Taylor approximation about $\left(\bar{x}_{k}, 0\right)$ yields:
+\begin{equation}
+h_{k}\left(\bar{x}_{k} + \Delta x_{k}, v_{k}\right) \approx h_{k}\left(\bar{x}_{k}, 0\right) + \left.\dfrac{\partial h_{k}}{\partial x}\right|_{\left(\bar{x}_{k}, 0\right)}\Delta x_{k} + \left.\dfrac{\partial h_{k}}{\partial v}\right|_{\left(\bar{x}_{k}, 0\right)}v_{k}
+\end{equation}
+giving the approximation
+\begin{align}
+\Delta z_{k} &\approx \left.\dfrac{\partial h_{k}}{\partial x}\right|_{\left(\bar{x}_{k}, 0\right)}\Delta x_{k} + \left.\dfrac{\partial h_{k}}{\partial v}\right|_{\left(\bar{x}_{k}, 0\right)}v_{k} \\
+&\approx C_{k}\Delta x_{k} + F_{k}v_{k}
+\end{align}
+with Jacobian matrices $C_{k} = \left.\dfrac{\partial h_{k}}{\partial x}\right|_{\left(\bar{x}_{k}, 0\right)}$ and $F_{k} = \left.\dfrac{\partial h_{k}}{\partial v}\right|_{\left(\bar{x}_{k}, 0\right)}$. We can then work with and apply standard Kalman filter techniques to the linear time-varying stochastic dynamical system:
+\begin{gather}
+\Delta x_{k + 1} = A_{k}\Delta x_{k} + w_{k}' \\
+\Delta z_{k} = C_{k}\Delta x_{k} + v_{k}'
+\end{gather}
+where $w_{k}' = E_{k}w_{k}$ is still zero-mean and non-stationary white with covariance $Q_{k}'$ given by
+\begin{align}
+Q_{k}' &= \operatorname{Cov}\left(w_{k}'\right) \\
+&= E_{k}\operatorname{Cov}\left(w_{k}\right)E_{k}^{\top} \\
+&= E_{k}QE_{k}^{\top}
+\end{align}
+and $v_{k}' = F_{k}v_{k}$ is also still zero-mean and non-stationary white with covariance $R_{k}'$ given by
+\begin{align}
+R_{k}' &= \operatorname{Cov}\left(v_{k}'\right) \\
+&= F_{k}\operatorname{Cov}\left(v_{k}\right)F_{k}^{\top} \\
+&= F_{k}RF_{k}^{\top}
+\end{align}
+and $w_{k}'$ will still be uncorrelated with $v_{k}'$. From an initial estimate $\Delta \hat{x}_{0} = \hat{x}_{0} - \bar{x}_{0}$ and covariance $P_{0}$, the linearised Kalman filter algorithm at time $k + 1$ is thus completed in a similar manner to the linear Kalman filter, summarised by:
+\begin{enumerate}
+\item Propagate the previous estimate to obtain the prior estimate and covariance:
+\begin{gather}
+\Delta \hat{x}_{k + 1}^{-} = A_{k}\Delta \hat{x}_{k} \\
+P_{k + 1}^{-} = A_{k}P_{k}A_{k}^{\top} + Q_{k}'
+\end{gather}
+\item Compute the Kalman gain by
+\begin{equation}
+K_{k + 1} = P_{k + 1}^{-}C_{k + 1}^{\top}\left(C_{k + 1}P_{k + 1}^{-}C_{k + 1}^{\top} + R_{k}'\right)^{-1}
+\end{equation}
+\item Update the estimates using the Kalman gain to obtain the posterior estimates
+\begin{gather}
+\Delta \hat{x}_{k + 1} = \Delta \hat{x}_{k + 1}^{-} + K_{k + 1}\left(\Delta z_{k + 1} - C_{k + 1}\Delta \hat{x}_{k + 1}^{-}\right) \\
+P_{k + 1} = \left(I - K_{k + 1}C_{k + 1}\right)P_{k + 1}^{-}
+\end{gather}
+\item The state estimate in original coordinates can be obtained by
+\begin{equation}
+\hat{x}_{k + 1} = \Delta \hat{x}_{k + 1} + \bar{x}_{k + 1}
+\end{equation}
+\end{enumerate}
+
 \subsection{Extended Kalman Filter}
 
+The extended Kalman filter (EKF) is also another variant of the Kalman filter applicable to nonlinear systems. However unlike the linearised Kalman filter, rather than linearising about a reference trajectory, a linearisation is taken about the most recent estimates. Again we can introduce the general nonlinear time-varying differentiable stochastic dynamical system in discrete-time:
+\begin{gather}
+x_{k + 1} = f_{k}\left(x_{k}, u_{k}, w_{k}\right) \\
+z_{k} = h_{k}\left(x_{k}, v_{k}\right)
+\end{gather}
+with the same assumptions placed on noises $w_{k}$, $v_{k}$ as for the linearised Kalman filter, and the initial estimate $\hat{x}_{0}$ and error covariance $P_{0}$ provided. The following Jacobian matrices are defined:
+\begin{gather}
+A_{k} = \left.\dfrac{\partial f_{k}}{\partial x}\right|_{\left(\hat{x}_{k - 1}, u_{k}, 0\right)} \\
+E_{k} = \left.\dfrac{\partial f_{k}}{\partial w}\right|_{\left(\hat{x}_{k - 1}, u_{k}, 0\right)} \\
+C_{k} = \left.\dfrac{\partial h_{k}}{\partial x}\right|_{\left(\hat{x}_{k}^{-},  0\right)} \\
+F_{k} = \left.\dfrac{\partial h_{k}}{\partial v}\right|_{\left(\hat{x}_{k}^{-},  0\right)}
+\end{gather}
+Note that Jacobian matrices $A_{k}$, $E_{k}$ are linearised about the posterior estimate at the previous step, and matrices $C_{k}, F_{k}$ are linearised about the prior estimate at the current step. Also define the covariance matrices
+\begin{gather}
+Q_{k}' = E_{k}QE_{k}^{\top} \\
+R_{k}' = F_{k}RF_{k}^{\top}
+\end{gather}
+as with the linearised Kalman filter. With these, the EKF algorithm at step $k + 1$ is:
+\begin{enumerate}
+\item Propagate the previous estimate to obtain the prior estimate and covariance using:
+\begin{gather}
+\hat{x}_{k + 1}^{-} = f_{k}\left(\hat{x}_{k}, u_{k}, 0\right) \\
+P_{k + 1}^{-} = A_{k}P_{k}A_{k}^{\top} + Q_{k}'	
+\end{gather}
+\item Compute the Kalman gain by
+\begin{equation}
+K_{k + 1} = P_{k + 1}^{-}C_{k + 1}^{\top}\left(C_{k + 1}P_{k + 1}^{-}C_{k + 1}^{\top} + R_{k}'\right)^{-1}
+\end{equation}
+\item  Update the prior estimates using the Kalman gain to obtain the posterior estimates
+\begin{gather}
+\hat{x}_{k + 1} = \hat{x}_{k + 1}^{-} + K_{k + 1}\left(z_{k + 1} - h_{k + 1}\left(\hat{x}_{k + 1}^{-}, 0\right)\right) \\
+P_{k + 1} = \left(I - K_{k + 1}C_{k + 1}\right)P_{k + 1}^{-}
+\end{gather}
+\end{enumerate}
+These estimates are generally only approximate, however they can be justified to be reasonable approximations. For the propagation of the state, by Gauss' approximation theorem we will get
+\begin{align}
+\mathbb{E}\left[x_{k + 1}\right] &= \mathbb{E}\left[f_{k}\left(x_{k}, u_{k}, w_{k}\right)\right] \\
+&\approx f_{k}\left(\mathbb{E}\left[x_{k}\right], \mathbb{E}\left[u_{k}\right], \mathbb{E}\left[w_{k}\right]\right) \\
+&\approx f_{k}\left(\hat{x}_{k}, u_{k}, 0\right)
+\end{align}
+For the prior estimate error covariance $P_{k + 1}^{-}$ we define the prior error $e_{k}^{-} = x_{k} - \hat{x}_{k}^{-}$ and posterior error $e_{k} = x_{k} - \hat{x}_{k}$, then
+\begin{align}
+P_{k + 1}^{-} &= \operatorname{Cov}\left(e_{k + 1}^{-}\right) \\
+&= \operatorname{Cov}\left(x_{k + 1} - x_{k + 1}^{-}\right) \\
+&= \operatorname{Cov}\left(f_{k}\left(x_{k}, u_{k}, w_{k}\right) - f_{k}\left(\hat{x}_{k}, u_{k}, 0\right)\right) \\
+&= \operatorname{Cov}\left(f_{k}\left(\hat{x}_{k} + e_{k}, u_{k}, w_{k}\right) - f_{k}\left(\hat{x}_{k}, u_{k}, 0\right)\right)
+\end{align}
+Performing a Taylor approximation about $\left(\hat{x}_{k}, u_{k}, 0\right)$:
+\begin{align}
+f_{k}\left(\hat{x}_{k} + e_{k}, u_{k}, w_{k}\right) &\approx f_{k}\left(\hat{x}_{k}, u_{k}, 0\right) + \left.\dfrac{\partial f_{k}}{\partial x}\right|_{\left(\hat{x}_{k - 1}, u_{k}, 0\right)}e_{k} + \left.\dfrac{\partial f_{k}}{\partial w}\right|_{\left(\hat{x}_{k - 1}, u_{k}, 0\right)}w_{k} \\
+&\approx f_{k}\left(\hat{x}_{k}, u_{k}, 0\right) + A_{k}e_{k} + E_{k}w_{k}
+\end{align}
+Hence
+\begin{align}
+P_{k + 1}^{-} &\approx \operatorname{Cov}\left(A_{k}e_{k} + E_{k}w_{k}\right) \\
+&\approx A_{k}\operatorname{Cov}\left(e_{k}\right)A_{k}^{\top} + E_{k}\operatorname{Cov}\left(w_{k}\right)E_{k}^{\top} \\
+&\approx A_{k}P_{k}A_{k}^{\top} + E_{k}QE_{k}^{\top} \\
+&\approx A_{k}P_{k}A_{k}^{\top} + Q_{k}'
+\end{align}
+As for the posterior state update, this can be rewritten as
+\begin{align}
+\hat{x}_{k + 1} - \hat{x}_{k + 1}^{-} &= K_{k + 1}\left(z_{k + 1} - h_{k + 1}\left(\hat{x}_{k + 1}^{-}, 0\right)\right) \\
+&= K_{k + 1}\left(h_{k + 1}\left(x_{k + 1}, v_{k + 1}\right) - h_{k + 1}\left(\hat{x}_{k + 1}^{-}, 0\right)\right) \\
+&= K_{k + 1}\left(h_{k + 1}\left(\hat{x}_{k + 1}^{-} + e_{k + 1}^{-}, v_{k + 1}\right) - h_{k + 1}\left(\hat{x}_{k + 1}^{-}, 0\right)\right)
+\end{align}
+Taking a Taylor approximation about $\left(\hat{x}_{k + 1}^{-}, 0\right)$:
+\begin{align}
+h_{k + 1}\left(\hat{x}_{k + 1}^{-} + e_{k + 1}^{-}, v_{k + 1}\right) &\approx h_{k + 1}\left(\hat{x}_{k + 1}^{-}, 0\right) + \left.\dfrac{\partial h_{k + 1}}{\partial x}\right|_{\left(\hat{x}_{k + 1}^{-},  0\right)}e_{k + 1}^{-} + \left.\dfrac{\partial h_{k + 1}}{\partial v}\right|_{\left(\hat{x}_{k + 1}^{-},  0\right)}v_{k + 1} \\
+&\approx h_{k + 1}\left(\hat{x}_{k + 1}^{-}, 0\right) + C_{k + 1}e_{k + 1}^{-} + F_{k + 1}v_{k + 1}
+\end{align}
+Hence
+\begin{equation}
+\hat{x}_{k + 1} - \hat{x}_{k + 1}^{-} \approx K_{k + 1}\left(C_{k + 1}e_{k + 1}^{-} + F_{k + 1}v_{k + 1}\right)
+\end{equation}
+This approximation is in the same form as the linear case, from which we can derive the `near-optimal' Kalman gain $K_{k + 1} = P_{k + 1}^{-}C_{k + 1}^{\top}\left(C_{k + 1}P_{k + 1}^{-}C_{k + 1}^{\top} + R_{k}'\right)^{-1}$ with the same steps.
+
 \subsection{Unscented Kalman Filter}
+
+The extended Kalman filter estimates may be poor particularly if the linearisation is poor. Also, even if the nonlinear mappings are differentiable, the Jacobian matrices may not always be easy to obtain or implement. An alternative approach to dealing with nonlinearity is with the unscented Kalman filter (UFK). The UKF uses the unscented transform to estimate the mean and covariance in the predict step.
+
+\subsubsection{Unscented Transform \cite{Julier1996}}
+
+The unscented transform can generally be used to estimate the parameters of a distribution after having undergone a nonlinear transformation (we are typically interested in the mean and covariance). Consider the nonlinear function $f\left(\cdot\right)$ of a random vector $\mathbf{X}$ to another random variable $\mathbf{Y} = f\left(\mathbf{X}\right)$. From the mean $\boldsymbol{\mu}_{X}$ and covariance $\mathbf{P}_{X}$ of $\mathbf{X}$ (or estimates thereof), we seek to estimate the $\boldsymbol{\mu}_{Y}$ and covariance $\mathbf{P}_{Y}$ of $\mathbf{Y}$. The unscented transform does this using a deterministic sampling approach. If $\mathbf{X}$ is $n$-dimensional, then $2n + 1$ sampling points (one for the mean and two in each dimension) are taken, referred to as `sigma points'. The $n$ sigmas are determined as
+\begin{equation}
+\begin{bmatrix}
+\boldsymbol{\sigma}_{1} & \dots & \boldsymbol{\sigma}_{n}
+\end{bmatrix} = \mathbf{L}\sqrt{n + \kappa}
+\end{equation}
+ie. the sigmas are the columns of $\mathbf{L}$, where $\mathbf{L}$ can be any square root of $\mathbf{P}_{X}$ such that $\mathbf{L}\mathbf{L}^{\top} = \mathbf{P}_{X}$. A common choice in implementation is to use $\mathbf{L}$ as the Cholesky decomposition. The role of $\kappa$ is a parameter which scales the sigma point distribution. The sigma points are then computed as
+\begin{equation}
+x_{i} = \boldsymbol{\mu}_{X} + \boldsymbol{\sigma}_{i}
+\end{equation}
+for $i = 1, \dots, n$,
+\begin{equation}
+x_{i + n} = \boldsymbol{\mu}_{X} - \boldsymbol{\sigma}_{i}
+\end{equation}
+for $i = 1, \dots, n$, and
+\begin{equation}
+x_{0} = \boldsymbol{\mu}_{X}
+\end{equation}
+The transformed sigma points are given by
+\begin{equation}
+y_{i} = f\left(x_{i}\right)
+\end{equation}
+for $i = 0, \dots, 2n$. We choose weightings $w_{0}, \dots, w_{2n}$ by
+\begin{equation}
+w_{i} = \begin{cases} \dfrac{\kappa}{n + \kappa}, i = 0 \\ \dfrac{\kappa}{2\left(n + \kappa\right)}, i = 1, \dots, 2n \end{cases}
+\end{equation}
+so that the estimate of $\boldsymbol{\mu}_{Y}$ is given by the weighted sum
+\begin{align}
+\hat{\boldsymbol{\mu}}_{Y} &= \sum_{i = 0}^{2n}w_{i}x_{i} \\
+&= \dfrac{1}{n + \kappa}\left(\kappa y_{0} + \dfrac{1}{2}\sum_{i = 1}^{2n}x_{i}\right)
+\end{align}
+and the estimated of the covariance $\mathbf{P}_{Y}$ is
+\begin{align}
+\widehat{\mathbf{P}}_{Y} &= \sum_{i = 0}^{2n}w_{i}\left(y_{i} - \hat{\boldsymbol{\mu}}_{Y}\right)\left(y_{i} - \hat{\boldsymbol{\mu}}_{Y}\right)^{\top} \\
+&= \dfrac{1}{n + \kappa}\left(\kappa \left(y_{0} - \hat{\boldsymbol{\mu}}_{Y}\right)\left(y_{0} - \hat{\boldsymbol{\mu}}_{Y}\right)^{\top} + \dfrac{1}{2}\sum_{i = 1}^{2n}\left(y_{i} - \hat{\boldsymbol{\mu}}_{Y}\right)\left(y_{i} - \hat{\boldsymbol{\mu}}_{Y}\right)^{\top}\right)
+\end{align}
+
+\subsubsection{UKF Algorithm}
+
+In the setup for the UKF algorithm, we require slightly stricter assumptions. The stochastic dynamic model is
+\begin{equation}
+x_{k + 1} = f_{k}\left(x_{k}, u_{k}\right) + w_{k}
+\end{equation}
+where $f\left(x_{k}, u_{k}\right)$ can be generally time-varying and nonlinear and not necessarily differentiable, however the noise $w_{k}$ is additive. The measurement model is
+\begin{equation}
+z_{k + 1} = h_{k}\left(x_{k}\right) + v_{k}
+\end{equation}
+where $h\left(x_{k}\right)$ can again be time-varying, nonlinear and not necessarily differentiable, but the noise $v_{k}$ is also additive. The noises are non-stationary white, but assumed to be Gaussian with covariances:
+\begin{gather}
+\mathbb{E}\left[w_{k}w_{i}^{\top}\right] = \begin{cases} Q_{k}, & k = i \\ 0, & k \neq i \end{cases} \\
+\mathbb{E}\left[v_{k}v_{i}^{\top}\right] = \begin{cases} R_{k}, & k = i \\ 0, & k \neq i \end{cases}
+\end{gather}
+and as usual uncorrelated with each other (this can be relaxed, although it would then need to be accounted for in the calculation of the cross-covariance):
+\begin{equation}
+\mathbb{E}\left[w_{k}v_{i}^{\top}\right] = 0
+\end{equation}
+Using the unscented transform, the UKF algorithm at step $k + 1$ is summarised by:
+\begin{enumerate}
+\item From the previous estimates $\hat{x}_{k}$ and $P_{xx, k}$, form the $2n + 1$ sigma points $\chi_{0}, \dots, \chi_{2n}$ and using the weights $w_{0}, \dots, w_{2n}$, propagate the estimates to form the prior state estimates:
+\begin{gather}
+\hat{x}_{k + 1}^{-} = \sum_{i = 0}^{2n}w_{i}f_{k}\left(\chi_{i}, u_{k}\right) \\
+P_{xx, k + 1}^{-} = \sum_{i = 0}^{2n}w_{i}\left(f_{k}\left(\chi_{i}, u_{k}\right) - \hat{x}_{k + 1}^{-}\right)\left(f_{k}\left(\chi_{i}, u_{k}\right) - \hat{x}_{k + 1}^{-}\right)^{\top} + Q_{k + 1}
+\end{gather}
+\item From the prior state estimates $\hat{x}_{k + 1}^{-}$ and $P_{xx, k + 1}^{-}$, resample the sigma points $\chi_{0}^{-}, \dots, \chi_{2n}^{-}$ and compute the prior output estimates:
+\begin{gather}
+\hat{z}_{k + 1}^{-} = \sum_{i = 0}^{2n}w_{i}h_{k}\left(\chi_{i}^{-}\right) \\
+P_{zz, k + 1}^{-} = \sum_{i = 0}^{2n}w_{i}\left(h_{k}\left(\chi_{i}^{-}\right) - \hat{z}_{k + 1}^{-}\right)\left(h_{k}\left(\chi_{i}^{-}\right) - \hat{z}_{k + 1}^{-}\right)^{\top} + R_{k + 1}
+\end{gather}
+and compute the prior cross-covariances by:
+\begin{gather}
+P_{xz, k + 1}^{-} = \sum_{i = 0}^{2n}w_{i}\left(f_{k}\left(\chi_{i}, u_{k}\right) - \hat{x}_{k + 1}^{-}\right)\left(h_{k}\left(\chi_{i}^{-}\right) - \hat{z}_{k + 1}^{-}\right)^{\top}
+\end{gather}
+\item Calculate the Kalman gain by
+\begin{equation}
+K_{k + 1} = P_{xz, k + 1}^{-}\left(P_{zz, k + 1}^{-}\right)^{-1}
+\end{equation}
+\item Use the update equations from the Gaussian filter to obtain the posterior estimates:
+\begin{gather}
+\hat{x}_{k + 1} = \hat{x}_{k + 1}^{-} + K_{k + 1}\left(z_{k + 1} - \hat{z}_{k + 1}^{-}\right) \\
+P_{xx, k + 1} = P_{xx, k + 1}^{-} - K_{k + 1}P_{zz, k + 1}^{-}K_{k + 1}^{\top}
+\end{gather}
+\end{enumerate}
+Note that we are necessarily assuming that the prior distribution is Gaussian (which is one reason for assuming Gaussian noise) in order to use the update equations from the Gaussian filter. This implicitly requires us to approximate the distribution returned by the unscented transform as a Gaussian. As a result, the posterior may also be interpreted as a Gaussian.
+
+\subsection{Information Filter}
 
 \subsection{Kalman-Bucy Filter}
 
@@ -8268,6 +8758,8 @@ K^{*} = P^{-}C^{\top}\left(CP^{-}C^{\top} + R\right)^{-1}
 \section{Viterbi Algorithm}
 
 \section{Particle Filtering}
+
+Also known as sequential Monte-Carlo, the particle filter uses random sampling to approximate the posterior in Bayes filtering. It is suitable for systems with nonlinear dynamics and even non-Gaussian noise.
 
 \section{Wavelets}
 
@@ -8287,9 +8779,13 @@ K^{*} = P^{-}C^{\top}\left(CP^{-}C^{\top} + R\right)^{-1}
 
 \section{Stochastic Stability}
 
+\section{Stochastic Games}
+
 \section{Stochastic Dynamic Programming}
 
 \section{Reinforcement Learning}
+
+\section{Multi-armed Bandits}
 
 \chapter{Quantitative Finance}
 
@@ -8324,9 +8820,116 @@ Letting $q := 1 - p$, we rewrite this as
 f^{*} = \dfrac{pb - q}{b}
 \end{equation}
 
+\subsection{Stochastic Dominance}
+
+\subsubsection{First-Order Stochastic Dominance}
+
+Stochastic dominance provides a way to order random variables, and defines a way in which one random variable can be `bigger' than another. For random variables $X$ and $Y$, we say that $Y$ first-order stochastically dominates $X$ if and only if
+\begin{equation}
+\operatorname{Pr}\left(Y > t\right) \geq \operatorname{Pr}\left(X > t\right)
+\end{equation}
+for all $t$. Note that this can be alternatively written in terms of the CDFs by
+\begin{gather}
+1 - \operatorname{Pr}\left(Y \leq t\right) \geq 1 - \operatorname{Pr}\left(X \leq t\right) \\
+\operatorname{Pr}\left(Y \leq t\right) \leq \operatorname{Pr}\left(X \leq t\right) \\
+F_{Y}\left(t\right) \leq F_{X}\left(t\right)
+\end{gather}
+If $Y$ first-order stochastically dominates $X$, this can be interpreted as saying that a decision maker with increasing utility function prefers a gamble with payoff $Y$ over a gamble with payoff $X$. We formalise this with the following theorem.
+\begin{theorem}
+Let $u\left(\cdot\right)$ be any weakly increasing utility function. Then following conditions are equivalent:
+\begin{itemize}
+\item $Y$ first-order stochastically dominates $X$
+\item $\mathbb{E}\left[u\left(Y\right)\right] \geq \mathbb{E}\left[u\left(X\right)\right]$
+\end{itemize}
+\end{theorem}
+\begin{proof}
+We first begin with the definition for stochastic dominance:
+\begin{gather}
+\operatorname{Pr}\left(Y > t\right) \geq \operatorname{Pr}\left(X > t\right), \forall t \\
+\operatorname{Pr}\left(Y \leq t\right) \leq \operatorname{Pr}\left(X \leq t\right), \forall t 
+\end{gather}
+Since $u\left(\cdot\right)$ is weakly increasing, then this implies
+\begin{gather}
+\operatorname{Pr}\left(u\left(Y\right) > t\right) \geq \operatorname{Pr}\left(u\left(X\right) > t\right), \forall t \\
+\operatorname{Pr}\left(u\left(Y\right) \leq t\right) \leq \operatorname{Pr}\left(u\left(X\right) \leq t\right), \forall t 
+\end{gather}
+Denote for convenience $U_{Y} := u\left(Y\right)$ and $U_{X} := u\left(X\right)$. The conditions above imply
+\begin{gather}
+\int_{0}^{\infty}\operatorname{Pr}\left(U_{Y} > t\right)dt - \int_{-\infty}^{0}\operatorname{Pr}\left(U_{Y} \leq t\right)dt \geq \int_{0}^{\infty}\operatorname{Pr}\left(U_{X} > t\right)dt - \int_{-\infty}^{0}\operatorname{Pr}\left(U_{X} \leq t\right)dt \\
+\int_{0}^{\infty}\left(1 - F_{U_{Y}}\left(t\right)\right)dt - \int_{-\infty}^{0}F_{U_{Y}}\left(t\right)dt \geq \int_{0}^{\infty}\left(1 - F_{U_{X}}\left(t\right)\right)dt - \int_{-\infty}^{0}F_{U_{X}}\left(t\right)dt
+\end{gather}
+which is a characterisation on each side of the expectations $\mathbb{E}\left[U_{Y}\right]$ and $\mathbb{E}\left[U_{X}\right]$ respectively using the CDFs. Hence
+\begin{equation}
+\mathbb{E}\left[u\left(Y\right)\right] \geq \mathbb{E}\left[u\left(X\right)\right]
+\end{equation}
+To show the converse, suppose there exists some $t^{*}$ such that $\operatorname{Pr}\left(X > t^{*}\right) > \operatorname{Pr}\left(Y > t^{*}\right)$. We demonstrate that we can find a weakly increasing utility function that results in a contradiction. Define a utility function as the indicator $u\left(t\right) = \mathbb{I}_{t > t^{*}}$, and denote for convenience $U_{Y}^{*} := u\left(Y\right)$ and $U_{X}^{*} := u\left(X\right)$. Their expectations can be simply evaluated as
+\begin{gather}
+\mathbb{E}\left[U_{X}^{*}\right] = \operatorname{Pr}\left(X > t^{*}\right) \\
+\mathbb{E}\left[U_{Y}^{*}\right] = \operatorname{Pr}\left(Y > t^{*}\right)
+\end{gather}
+But this results in $\mathbb{E}\left[U_{X}^{*}\right] > \mathbb{E}\left[U_{Y}^{*}\right]$, which is a contradiction.
+\end{proof}
+
+Stochastic dominance can also be used to upper bound probabilities as follows.
+\begin{corollary}
+Let $Y_{1}, Y_{2}, Y', Y''$ be independent random variables. Suppose $Y'$ is first-order stochastically dominated by $Y_{1}$ and $Y_{2}$ is first-order stochastically dominated by $Y''$. Then
+\begin{equation}
+\operatorname{Pr}\left(Y_{1} \leq Y_{2}\right) \leq \operatorname{Pr}\left(Y' \leq Y''\right)
+\end{equation}
+\end{corollary}
+\begin{proof}
+By independence, we can write $\operatorname{Pr}\left(Y_{1} \leq Y_{2}\right)$ as
+\begin{equation}
+\operatorname{Pr}\left(Y_{1} \leq Y_{2}\right) = \int_{-\infty}^{\infty}\operatorname{Pr}\left(Y_{1} \leq y\right)dF_{Y_{2}}\left(y\right)
+\end{equation}
+where we have written the probability differential as $dF_{Y_{2}}\left(y\right)$ rather than $f_{Y_{2}}\left(y\right)dy$ to explicitly allow for discrete random variables. From stochastic dominance,
+\begin{align}
+\operatorname{Pr}\left(Y_{1} \leq Y_{2}\right) &\leq \int_{-\infty}^{\infty}\operatorname{Pr}\left(Y' \leq y\right)dF_{Y_{2}}\left(y\right) \\
+&\leq \int_{-\infty}^{\infty}F_{Y'}\left(y\right)dF_{Y_{2}}\left(y\right) \\
+&\leq \mathbb{E}_{Y_{2}}\left[F_{Y'}\left(Y_{2}\right)\right]
+\end{align}
+Since the CDF $F_{Y'}\left(\cdot\right)$ is weakly increasing, we can treat it as though it were a utility function, which by stochastic dominance yields $\mathbb{E}_{Y_{2}}\left[F_{Y'}\left(Y_{2}\right)\right] \leq \mathbb{E}_{Y''}\left[F_{Y'}\left(Y''\right)\right]$. Hence
+\begin{align}
+\operatorname{Pr}\left(Y_{1} \leq Y_{2}\right) &\leq \mathbb{E}_{Y''}\left[F_{Y'}\left(Y''\right)\right] \\
+&\leq \int_{-\infty}^{\infty}F_{Y'}\left(y\right)dF_{Y''}\left(y\right) \\
+&\leq \int_{-\infty}^{\infty}\operatorname{Pr}\left(Y' \leq y\right)dF_{Y''}\left(y\right) \\
+&\leq \operatorname{Pr}\left(Y' \leq Y''\right)
+\end{align}
+\end{proof}
+
+\subsubsection{Second-Order Stochastic Dominance}
+
+It is clear that for any two random variables with the same expectation, one will not strictly dominate another. Second-order stochastic dominance can then be used to order the random variables. Loosely speaking, a random variable second-order stochastically dominates another random variable with the same mean if the first random variable is less risky. To make this more precise, define two random variables $X$, $Y$, and introduce the idea of a `mean-preserving spread'. Random variable $Y$ is said to be a mean-preserving spread of $X$ if for every possible realisation $x$ from the support of $X$, we can write
+\begin{equation}
+Y = x + \varepsilon
+\end{equation}
+where $\varepsilon$ is a random variable such that $\mathbb{E}\left[\varepsilon\middle|X\right] = 0$. Note that this implicitly requires $\mathbb{E}\left[Y\right] = \mathbb{E}\left[X\right]$ because
+\begin{align}
+\mathbb{E}\left[Y\right] &= \mathbb{E}\left[X\right] + \mathbb{E}\left[\varepsilon\right] \\
+&= \mathbb{E}\left[X\right] + \mathbb{E}\left[\mathbb{E}\left[\varepsilon\middle|X\right]\right] \\
+&= \mathbb{E}\left[X\right]
+\end{align}
+Equipped with this definition, we can say that random variable $X$ second-order stochastically dominates $Y$ if $Y$ is a mean-preserving spread of $X$. An alternative way to characterise second-order stochastic dominance is to say that for every weakly increasing concave utility function $u\left(\cdot\right)$, 
+\begin{equation}
+\mathbb{E}\left[u\left(X\right)\right] \geq \mathbb{E}\left[u\left(Y\right)\right]
+\end{equation}
+That is, every risk-averse decision prefers a gamble with payoff $X$ over a gamble with payoff $Y$. This can be shown as follows. Supposing that $Y$ is a mean-preserving spread of $X$, then
+\begin{align}
+\mathbb{E}\left[u\left(Y\right)\right] &= \mathbb{E}\left[u\left(X + \varepsilon\right)\right] \\
+&= \mathbb{E}\left[\mathbb{E}\left[u\left(X + \varepsilon\right)\middle|X\right]\right]
+\end{align}
+Since $u\left(\cdot\right)$ is concave, applying Jensen's inequality on the inner expectation yields
+\begin{align}
+\mathbb{E}\left[u\left(Y\right)\right] &\leq \mathbb{E}\left[u\left(\mathbb{E}\left[X + \varepsilon\middle|X\right]\right)\right] \\
+&\leq \mathbb{E}\left[u\left(X + \mathbb{E}\left[\varepsilon\middle|X\right]\right)\right] \\
+&\leq \mathbb{E}\left[u\left(X\right)\right]
+\end{align}
+
 \subsection{Markowitz Portfolio Theory}
 
-\section{Black-Scholes Model}
+\section{Derivatives Pricing}
+
+\subsection{Black-Scholes Model}
 
 \section{Optimal Stopping}
 
