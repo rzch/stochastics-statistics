@@ -66,7 +66,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Bayesian Updating](#bayesian-updating)
         -   [Bayesian Networks](#bayesian-networks)
         -   [Bayesian Inference](#bayesian-inference)
-        -   [Berstein-von Mises Theorem](#berstein-von-mises-theorem)
+        -   [Bernstein-von Mises Theorem](#bernstein-von-mises-theorem)
         -   [Bayesian Classifiers](#bayesian-classifiers)
         -   [Subjective Probability
             [@Schervish1995]](#subjective-probability)
@@ -83,7 +83,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Dominated Convergence
             Theorem](#dominated-convergence-theorem-1)
         -   [Radon-Nikodym Theorem](#radon-nikodym-theorem)
-        -   [Karhunen-Loève Theorem](#karhunen-loève-theorem)
+        -   [Karhunen-LoÃ¨ve Theorem](#karhunen-loÃ¨ve-theorem)
     -   [Advanced Statistics](#advanced-statistics)
         -   [Copulas](#copulas)
         -   [Empirical Measures](#empirical-measures)
@@ -99,7 +99,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Analysis of Stochastic
             Processes](#analysis-of-stochastic-processes)
         -   [Martingales](#martingales)
-        -   [Itô Calculus](#itô-calculus)
+        -   [ItÃ´ Calculus](#itÃ´-calculus)
         -   [Stratonovich Integral](#stratonovich-integral)
         -   [Stochastic Differential
             Equations](#stochastic-differential-equations)
@@ -149,7 +149,6 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Power Spectral Density](#power-spectral-density)
         -   [Spectral Density Estimation](#spectral-density-estimation)
         -   [Linear Filtering](#linear-filtering)
-        -   [Wiener-Kolgomorov Filtering](#wiener-kolgomorov-filtering)
         -   [Kalman Filtering](#kalman-filtering)
         -   [Kalman Smoother](#kalman-smoother)
         -   [Viterbi Algorithm](#viterbi-algorithm)
@@ -163,12 +162,15 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Stochastic Model Predictive
             Control](#stochastic-model-predictive-control)
         -   [Stochastic Stability](#stochastic-stability)
+        -   [Stochastic Games](#stochastic-games)
         -   [Stochastic Dynamic
             Programming](#stochastic-dynamic-programming)
+        -   [Stochastic Approximation](#stochastic-approximation)
+        -   [Multi-armed Bandits](#multi-armed-bandits)
         -   [Reinforcement Learning](#reinforcement-learning)
     -   [Quantitative Finance](#quantitative-finance)
         -   [Portfolio Optimisation](#portfolio-optimisation)
-        -   [Black-Scholes Model](#black-scholes-model)
+        -   [Derivatives Pricing](#derivatives-pricing)
         -   [Optimal Stopping](#optimal-stopping)
         -   [Ruin Theory](#ruin-theory)
     -   [Statistical Physics](#statistical-physics)

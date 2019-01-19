@@ -1627,15 +1627,65 @@ Like the adjusted sample skewness, this adjusted kurtosis will still in general 
 
 \subsection{Normal Distribution}
 
+The normal distribution is a ubiquitous distribution which has the following functional form for its PDF:
+\begin{equation}
+f\left(x\right) = \dfrac{1}{\sigma\sqrt{2\pi}}\exp\left[-\dfrac{1}{2}\cdot\dfrac{\left(x - \mu\right)^{2}}{\sigma^{2}}\right]
+\end{equation}
+where $\mu$ is the population mean and $\sigma$ is the population standard deviation. It is bell-curve shaped, symmetric, and also has a median and mode of $\mu$. To denote the probability density of a normal distribution with mean $\mu$ and standard deviation $\sigma$, we may write $\mathcal{N}\left(\mu, \sigma^{2}\right)$. To denote that a random variable $X$ is normally distributed with mean $\mu$ and standard deviation $\sigma$, we may write
+\begin{equation}
+X \sim \mathcal{N}\left(\mu, \sigma^{2}\right)
+\end{equation}
+
 \subsubsection{Standard Normal Distribution}
 
-\subsection{$Z$-Scores}
+The standard normal distribution is a special case of the normal distribution which has a mean of $\mu = 0$ and a standard deviation of $\sigma = 1$ (hence also the variance $\sigma^{2} = 1$.
+
+\subsection{$z$-Scores}
+
+If we have a realisation $x$ from a normal distribution $\mathcal{N}\left(\mu, \sigma^{2}\right)$, then we may compute the so-called $z$-score via `standardisation':
+\begin{equation}
+z = \dfrac{x - \mu}{\sigma}
+\end{equation}
+The $z$-score gives the number of standard deviations that $x$ is away from its mean. Additionally, if $X \sim \mathcal{N}\left(\mu, \sigma^{2}\right)$, then $Z = \dfrac{X - \mu}{\sigma}$ will be standard normally distributed.
 
 \subsection{Normal Sample Mean}
 
-\subsubsection{Sampling Distribution of the Normal Sample Mean}
+Consider a random i.i.d. sample $X_{1}, \dots, X_{n}$ from $\mathcal{N}\left(\mu, \sigma^{2}\right)$. The the sampling distribution of the sample mean $\overline{X}_{n}$ is given by
+\begin{equation}
+\overline{X}_{n} \sim \mathcal{N}\left(\mu, \dfrac{\sigma^{2}}{n}\right)
+\end{equation}
+We can show this by showing that $\mathbb{E}\left[\overline{X}_{n}\right]$ and $\operatorname{Var}\left(\overline{X}_{n}\right) = \dfrac{\sigma^{2}}{n}$, and using the fact that the sum of normally distributed random variables will also be normally distributed. Firstly, by the linearity of expectation,
+\begin{align}
+\mathbb{E}\left[\overline{X}_{n}\right] &= \mathbb{E}\left[\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}\right] \\
+&= \dfrac{1}{n}\sum_{i = 1}^{n}\mathbb{E}\left[X_{i}\right] \\
+&= \dfrac{1}{n}\sum_{i = 1}^{n}\mu \\
+&= \mu
+\end{align}
+Next, using properties of variance of sums of random variables:
+\begin{align}
+\operatorname{Var}\left(\overline{X}_{n}\right) &= \operatorname{Var}\left(\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}\right) \\
+&= \dfrac{1}{n^{2}}\operatorname{Var}\left(\sum_{i = 1}^{n}X_{i}\right) \\
+&= \dfrac{\sum_{i = 1}^{n}\operatorname{Var}\left(X_{i}\right)}{n^{2}} \\
+&= \dfrac{n\sigma^{2}}{n^{2}} \\
+&= \dfrac{\sigma^{2}}{n}
+\end{align}
 
 \subsection{Normal Sample Variance}
+
+\subsubsection{Sampling Distribution of the Normal Sample Variance}
+
+Consider a random i.i.d. sample $X_{1}, \dots, X_{n}$ from $\mathcal{N}\left(\mu, \sigma^{2}\right)$. Consider the sample variance $S_{n}^{2}$:
+\begin{equation}
+S_{n}^{2} = \dfrac{1}{n}\sum_{i = 1}^{n}\left(X_{i} - \overline{X}_{n}\right)^{2}
+\end{equation}
+Then the sample statistic
+\begin{align}
+\chi_{n - 1}^{2} &= \dfrac{\left(n - 1\right)S_{n}^{2}}{\sigma^{2}} \\
+&= \sum_{i = 1}^{n}\dfrac{\left(X_{i} - \mu - \overline{X}_{n} + \mu\right)^{2}}{\sigma^{2}} \\
+&= \sum_{i = 1}^{n}\left(\dfrac{X_{i} - \mu}{\sigma} - \dfrac{\overline{X}_{n} - \mu}{\sigma}\right)^{2} \\
+&= \sum_{i = 1}^{n}\left(Z_{i} - \overline{Z}_{n}\right)^{2}
+\end{align}
+will follow a distribution called the `Chi-squared distribution with $n - 1$ degrees of freedom'.
 
 \subsubsection{Independence of Normal Sample Mean and Sample Variance}
 
@@ -1659,19 +1709,39 @@ Note that for standard normal random variables $\mathbb{E}\left[Z_{j}Z_{i}\right
 \end{align}
 Since the sample variance given by
 \begin{equation}
-S = \frac{1}{n - 1}\sum_{i = 1}^{n}\left(Z_{i} - \overline{Z}\right)^{2}
+S^{2} = \frac{1}{n - 1}\sum_{i = 1}^{n}\left(Z_{i} - \overline{Z}\right)^{2}
 \end{equation}
-contains a sum over $Z_{i} - \overline{Z}$ but each $Z_{i} - \overline{Z}$ is independent with $\overline{Z}$, it follows that $\overline{Z}$ is independent with $S$. Then for any i.i.d. normal sample $X_{1}, \dots, X_{n}$ from a population with mean $\mu$ and variance $\sigma^{2}$, the sample mean $\overline{X}$ is independent with the sample variance $S_{X}$ because the same argument as above can be applied to the standardised $\dfrac{X_{i} - \mu}{\sigma}$ and $\dfrac{\overline{X} - \mu}{\sigma}$.
+contains a sum over $Z_{i} - \overline{Z}$ but each $Z_{i} - \overline{Z}$ is independent with $\overline{Z}$, it follows that $\overline{Z}$ is independent with $S^{2}$. Then for any i.i.d. normal sample $X_{1}, \dots, X_{n}$ from a population with mean $\mu$ and variance $\sigma^{2}$, the sample mean $\overline{X}$ is independent with the sample variance $S_{X}^{2}$ because the same argument as above can be applied to the standardised $\dfrac{X_{i} - \mu}{\sigma}$ and $\dfrac{\overline{X} - \mu}{\sigma}$.
 
 \subsection{Excess Kurtosis}
 
+The normal distribution has a kurtosis of $3$, which can be obtained by computing:
+\begin{align}
+\mathbb{E}\left[\left(\dfrac{X - \mu}{\sigma}\right)^{4}\right] &= \mathbb{E}\left[Z^{4}\right] \\
+&= \int_{-\infty}^{\infty}z^{4}e^{-z^{2}/2}dz \\
+&= 3
+\end{align}
+Excess kurtosis is a quantity relative to the kurtocity of the normal distribution, which is simply kurtosis subtracted by $3$.
+
 \subsubsection{Mesokurticity}
+
+A distribution with excess kurtosis of zero is said to be mesokurtic. The normal distribution itself is mesokurtic.
 
 \subsubsection{Leptokurticity}
 
+A distribution with positive excess kurtosis is said to be leptokurtic. Leptokurtic distributions are qualitatively characterised by fatter tails and taller peaks in the centre (relative to a normal distribution).
+
 \subsubsection{Platykurticity}
 
+A distribution with negative excess kurtosis is said to be platykurtic. Platykurtic distributions are qualitatively characterised by thinner tails and a broader centre (relative to a normal distribution).
+
 \subsection{Qualitative Central Limit Theorem}
+
+The central limit theorem illustrates the ubiquitous nature of the normal distribution. It relates to the sampling distribution of the sample mean from an arbitrary population as the sample size grows. Qualitatively, the sampling distribution of the sample mean resembles a normal distribution for large sample sizes. More formally, let $X_{1}, \dots, X_{n}$ be a random i.i.d. sample from a population with finite mean $\mu$ and variance $\sigma^{2}$. Then for large $n$, the sample mean $\overline{X}_{n}$ is approximately distributed as
+\begin{equation}
+\overline{X}_{n} \underset{\mathrm{approx.}}{\sim} \mathcal{N}\left(\mu, \dfrac{\sigma^{2}}{n}\right)
+\end{equation}
+Note that if the population is normally distributed, then the approximation is exact. The central limit theorem allows for inference and estimation to be conducted on unknown population parameters, even when little is known about the underlying distribution.
 
 \section{Inferential Statistics}
 
@@ -2105,6 +2175,8 @@ Cram\'{e}r's decomposition theorem states that if $X$ and $Y$ are independent re
 
 \subsection{Gaussian Distribution}
 
+The Gaussian distribution is another name for the normal distribution.
+
 \subsubsection{Q Function}
 
 The Q function is the complementary cumulative distribution function of the standard Gaussian distribution. It is denoted
@@ -2507,7 +2579,7 @@ An expression can be derived for the cumulative distribution function, $F_{X}\le
 F_{X}\left(x\right) &= \int_{-\infty}^{x}f_{X}\left(r\right)dr \\
 &= \int_{0}^{x}\dfrac{r^{m/2 - 1}\left(m/n\right)^{m/2}}{\operatorname{B}\left(m/2, n/2\right)\left(rm/n + 1\right)^{\left(m + n\right)/2}}dr
 \end{align}
-Make the change of variables $s = \dfrac{mr}{mr + n}$ so that rearranging gives $r = \dfrac{n}{m}\cdot\dfrac{s}{1 - s}$ and $\dfrac{dr}{ds} = \dfrac{n}{m}\cdot\dfrac{1}{\left(1 - s\right)^{2}}$ by the quotient rule. Then
+Make the change of variables $s = \dfrac{mr}{mr + n}$ so that rearranging gives $r = \dfrac{n}{m}\cdot\dfrac{s}{1 - s}$ and by the quotient rule$\dfrac{dr}{ds} = \dfrac{n}{m}\cdot\dfrac{1}{\left(1 - s\right)^{2}}$. Then
 \begin{align}
 F_{X}\left(x\right) &= \dfrac{1}{\operatorname{B}\left(m/2, n/2\right)}\int_{0}^{\frac{mx}{mx + n}}\dfrac{s^{m/2 - 1}\left(1 - s\right)^{-m/2 + 1}\left(n/m\right)^{m/2 - 1}\left(m/n\right)^{m/2}}{\left(\frac{s + 1 - s}{1 - s}\right)^{\left(m + n\right)/2}}\cdot\dfrac{n}{m}\cdot\dfrac{ds}{\left(1 - s\right)^{2}} \\
 &= \dfrac{1}{\operatorname{B}\left(m/2, n/2\right)}\int_{0}^{\frac{mx}{mx + n}}\dfrac{s^{m/2 - 1}\left(1 - s\right)^{-m/2 + 1}}{\left(1 - s\right)^{-\left(m + n\right)/2 + 2}}ds \\
@@ -3345,39 +3417,6 @@ This contradicts almost sure convergence, hence almost sure convergence implies 
 
 An event $E$ occurs with high probability if the probability $\operatorname{Pr}\left(E\right)$ depends on some number $n$, and $\operatorname{Pr}\left(E\right) \to 1$ as $n \to \infty$. That is, we can make the probability as close as desired to $1$ by making $n$ big enough.
 
-\subsection{Weak Law of Large Numbers}
-
-Let $X_{1}, \dots, X_{n}$ be a sequence of independent and identically distributed random variables, with mean $\operatorname{E}\left[X_{i}\right] = \mu$ and standard deviation $\sigma$. Then the sample mean $\overline{X}$ is defined as
-\begin{equation}
-\overline{X} = \dfrac{X_{1} + \dots + X_{n}}{n}
-\end{equation}
-The Weak Law of Large Numbers states that $\overline{X} \overset{\mathrm{p}}{\rightarrow} \mu$ as $n \rightarrow \infty$. That is, the sample mean converges in probability to the population mean as the sample size increases to infinity. We can also write this as
-\begin{equation}
-\lim_{n\rightarrow\infty}\operatorname{Pr}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
-\end{equation}
-for all $\varepsilon > 0$.
-\begin{proof}
-From Chebychev's inequality
-\begin{equation}
-\operatorname{Pr}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\operatorname{Var}\left(\overline{X}\right)}{\varepsilon^{2}}
-\end{equation}
-Using $\operatorname{Var}\left(\overline{X}\right) = \sigma^{2}/n$
-\begin{equation}
-\operatorname{Pr}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\sigma^{2}}{n\varepsilon^{2}}
-\end{equation}
-Taking the limit
-\begin{equation}
-\lim_{n\rightarrow\infty}\operatorname{Pr}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
-\end{equation}
-\end{proof}
-
-\subsection{Strong Law of Large Numbers}
-
-The Strong Law of Large Numbers is a stronger version of the Weak Law of Large Numbers which says that the sample mean converges almost surely to the population mean. That is,
-\begin{equation}
-\operatorname{Pr}\left(\lim_{n\rightarrow\infty}\overline{X} = \mu\right) = 1
-\end{equation}
-
 \subsection{Continuous Mapping Theorem}
 
 The continuous mapping theorem states that limits of convergent sequences of random elements are preserved through a continuous mapping. Formally, let $\left\{\mathbf{X}_{n}\right\}$ be a sequence of random vectors converging in probability to the random vector $\mathbf{X}$. Let $g: \mathbb{R}^{d} \to \mathbb{R}^{m}$ be an arbitrary mapping that is continuous over the support of $\mathbf{X}$ (where $d$ is the dimension of $\mathbf{X}$ and $m$ is the dimension being mapped to). Then
@@ -3864,6 +3903,137 @@ where $\operatorname{diag}\left\{\mathbf{J}\left(\theta_{k}\right)^{\top}\mathbf
 
 A sequence of estimators $\hat{\theta}_{n}$ for a population parameter $\theta$ indexed by the sample size $n$ is said to be asymptotically consistent for $\theta$ if $\hat{\theta}_{n}$ converges in probability to $\theta$.
 
+\subsection{Weak Law of Large Numbers}
+
+Let $X_{1}, \dots, X_{n}$ be a sequence of independent and identically distributed random variables, with mean $\operatorname{E}\left[X_{i}\right] = \mu$ and standard deviation $\sigma$. Then the sample mean $\overline{X}$ is defined as
+\begin{equation}
+\overline{X} = \dfrac{X_{1} + \dots + X_{n}}{n}
+\end{equation}
+The Weak Law of Large Numbers states that $\overline{X} \overset{\mathrm{p}}{\rightarrow} \mu$ as $n \rightarrow \infty$. That is, the sample mean converges in probability to the population mean as the sample size increases to infinity. We can also write this as
+\begin{equation}
+\lim_{n\rightarrow\infty}\operatorname{Pr}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
+\end{equation}
+for all $\varepsilon > 0$.
+\begin{proof}
+From Chebychev's inequality
+\begin{equation}
+\operatorname{Pr}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\operatorname{Var}\left(\overline{X}\right)}{\varepsilon^{2}}
+\end{equation}
+Using $\operatorname{Var}\left(\overline{X}\right) = \sigma^{2}/n$
+\begin{equation}
+\operatorname{Pr}\left(\left|\overline{X} - \mu\right| \geq \varepsilon\right) \leq \dfrac{\sigma^{2}}{n\varepsilon^{2}}
+\end{equation}
+Taking the limit
+\begin{equation}
+\lim_{n\rightarrow\infty}\operatorname{Pr}\left(\left|\overline{X} - \mu\right|\geq \varepsilon \right) = 0
+\end{equation}
+\end{proof}
+
+\subsection{Strong Law of Large Numbers}
+
+The Strong Law of Large Numbers is a stronger version of the Weak Law of Large Numbers which says that the sample mean converges almost surely to the population mean. That is,
+\begin{equation}
+\operatorname{Pr}\left(\lim_{n\to\infty}\overline{X} = \mu\right) = 1
+\end{equation}
+\begin{theorem}[\cite{Bierens2005}, \cite{Etemadi1981}]
+Let $\left\{X_{n}\right\}$ be a sequence of i.i.d. copies of $X$. Assume that $\mathbb{E}\left[\left|X\right|\right] < \infty$. Then
+\begin{equation}
+\dfrac{1}{n}\sum_{i = 1}^{n}X_{i} \overset{\mathrm{a.s.}}{\to} \mathbb{E}\left[X\right]
+\end{equation}
+\end{theorem}
+\begin{proof}
+If we denote $X^{+} = \max\left\{X, 0\right\}$ and $X^{-} = \max\left\{-X, 0\right\}$ then $X = X^{+} - X^{-}$. Then without loss of generality assume $X \geq 0$, otherwise we can just apply the theorem to $X^{+}$ and $X^{-}$ separately. Let $Y_{i} = X_{i}\mathbb{I}_{X_{i} \leq i}$ (ie. $Y_{i}$ is constructed to be a random variable such that the higher $i$ is, the more likely it is to be equal to $X_{i}$). Then by characterisation of the indicator function:
+\begin{align}
+\sum_{i = 1}^{\infty}\operatorname{Pr}\left(X_{i} \neq Y_{i}\right) &= \sum_{i = 1}^{\infty}\operatorname{Pr}\left(X_{i} \neq X_{i}\mathbb{I}_{X_{i} \leq i}\right)\\
+&= \sum_{i = 1}^{\infty}\operatorname{Pr}\left(X_{i} > i\right) \\
+&= \sum_{i = 1}^{\infty}\operatorname{Pr}\left(X > i\right) \\
+&\leq \int_{0}^{\infty}\operatorname{Pr}\left(X > x\right)dx \\
+&\leq \int_{0}^{\infty}\mathbb{E}\left[\mathbb{I}_{X > x}\right]dx \\
+&\leq \mathbb{E}\left[\int_{0}^{\infty}\mathbb{I}_{X > x}dx\right] \\
+&\leq \mathbb{E}\left[\int_{0}^{X}1dx\right] \\
+&\leq \mathbb{E}\left[X\right] \\
+&< \infty
+\end{align}
+where the inequality between the sum and the integral follows since the sum can be thought of as a left-rectangle approximation of the integral using rectangle widths of $1$, where the integrand is weakly decreasing in $x$ (hence the sum lower bounds the integral). Now because $\sum_{i = 1}^{\infty}\operatorname{Pr}\left(X_{i} \neq Y_{i}\right) < \infty$, by the Borel-Cantelli lemma the event $\left\{X_{i} \neq Y_{i}\right\}$ occurs finitely many times with probability $1$. Therefore it suffices to show that
+\begin{equation}
+\dfrac{1}{n}\sum_{i = 1}^{n}Y_{i} \overset{\mathrm{a.s.}}{\to} \mathbb{E}\left[X\right]
+\end{equation}
+because
+\begin{align}
+\lim_{n\to\infty}\dfrac{1}{n}\sum_{i = 1}^{n}Y_{i} &= \dfrac{1}{n}\sum_{i = 1}^{n}X_{i}\mathbb{I}_{X_{i} \leq i} \\
+&= \lim_{n\to\infty}\dfrac{1}{n}\sum_{i = 1}^{n}\left(X_{i} - X_{i}\mathbb{I}_{X_{i} > i}\right) \\
+&= \lim_{n\to\infty}\dfrac{1}{n}\sum_{i = 1}^{n}X_{i} - \lim_{n\to\infty}\dfrac{\sum_{i = 1}^{n}X_{i}\mathbb{I}_{X_{i} > i}}{n}
+\end{align}
+and as the numerator of the second term will be finite, the limit will be zero. Therefore
+\begin{equation}
+\dfrac{1}{n}\sum_{i = 1}^{n}Y_{i} = \dfrac{1}{n}\sum_{i = 1}^{n}X_{i}
+\end{equation}
+almost surely. Introduce $Z_{n} = \dfrac{1}{n}\sum_{i = 1}^{n}Y_{i}$ and observe that
+\begin{align}
+\operatorname{Var}\left(Z_{n}\right) &= \dfrac{1}{n^{2}}\sum_{i = 1}^{n}\operatorname{Var}\left(Y_{i}\right) \\
+&= \dfrac{1}{n^{2}}\sum_{i = 1}^{n}\left(\mathbb{E}\left[Y_{i}^{2}\right] - \mathbb{E}\left[Y_{i}\right]^{2}\right) \\
+&\leq \dfrac{1}{n^{2}}\sum_{i = 1}^{n}\mathbb{E}\left[Y_{i}^{2}\right] \\
+&\leq \dfrac{1}{n^{2}}\sum_{i = 1}^{n}\mathbb{E}\left[X_{i}^{2}\mathbb{I}_{X_{i} \leq i}^{2}\right] \\
+&\leq \dfrac{1}{n^{2}}\sum_{i = 1}^{n}\mathbb{E}\left[X^{2}\mathbb{I}_{X_{i} \leq i}\right] \\
+&\leq \dfrac{1}{n^{2}}\cdot n\mathbb{E}\left[X^{2}\mathbb{I}_{X_{i} \leq n}\right] \\
+&\leq \dfrac{\mathbb{E}\left[X^{2}\mathbb{I}_{X_{i} \leq n}\right]}{n}
+\end{align}
+For any $\alpha > 1$ and $\varepsilon > 0$ and noting that $\lfloor \alpha^{n} \rfloor$ will be a natural number, we have using Chebychev's inequality:
+\begin{align}
+\sum_{n = 1}^{\infty}\operatorname{Pr}\left(\left|Z_{\lfloor \alpha^{n} \rfloor} - \mathbb{E}\left[Z_{\lfloor \alpha^{n} \rfloor}\right]\right| > \varepsilon\right) &\leq \sum_{n = 1}^{\infty}\dfrac{\operatorname{Var}\left(Z_{\lfloor \alpha^{n} \rfloor}\right)}{\varepsilon^{2}} \\
+&\leq \sum_{n = 1}^{\infty}\dfrac{\mathbb{E}\left[X^{2}\mathbb{I}_{X_{i} \leq \lfloor \alpha^{n} \rfloor}\right]}{\varepsilon^{2}\lfloor \alpha^{n} \rfloor} \\
+&\leq \dfrac{1}{\varepsilon^{2}}\mathbb{E}\left[X^{2}\sum_{n = 1}^{\infty}\dfrac{\mathbb{I}_{X_{i} \leq \lfloor \alpha^{n} \rfloor}}{\lfloor \alpha^{n} \rfloor}\right]
+\end{align}
+using the preceding result. Let $K$ be a random variable for the smallest natural number such that $X \leq \lfloor \alpha^{K} \rfloor$. Then use the fact $\lfloor \alpha^{n} \rfloor > \dfrac{\alpha^{n}}{2}$ for all $n \geq 1$ to obtain:
+\begin{align}
+\sum_{n = 1}^{\infty}\dfrac{\mathbb{I}_{X_{i} \leq \lfloor \alpha^{n} \rfloor}}{\lfloor \alpha^{n} \rfloor} &\leq 2\sum_{n = 1}^{\infty}\dfrac{\mathbb{I}_{X_{i} \leq \lfloor \alpha^{n} \rfloor}}{\alpha^{n}} \\
+&\leq 2\sum_{n = K}^{\infty}\dfrac{1}{\alpha^{n}} \\
+&\leq \dfrac{2}{\alpha^{K}}\sum_{n = 0}^{\infty}\dfrac{1}{\alpha^{n}} \\
+&\leq \dfrac{2}{X}\sum_{n = 0}^{\infty}\left(\dfrac{1}{\alpha}\right)^{n} \\
+&\leq \dfrac{2}{X}\cdot\dfrac{1}{1 - 1/\alpha} \\
+&\leq \dfrac{2\alpha}{\left(\alpha - 1\right)X}
+\end{align}
+Hence
+\begin{align}
+\mathbb{E}\left[X^{2}\sum_{n = 1}^{\infty}\dfrac{\mathbb{I}_{X_{i} \leq \lfloor \alpha^{n} \rfloor}}{\lfloor \alpha^{n} \rfloor}\right] &\leq \mathbb{E}\left[\dfrac{2X^{2}\alpha}{\left(\alpha - 1\right)X}\right] \\
+&\leq \dfrac{2\alpha}{\alpha - 1}\mathbb{E}\left[X\right] \\
+&< \infty
+\end{align}
+From using the Borel-Cantelli lemma with arbitrarily small $\varepsilon$, this implies that $Z_{\lfloor \alpha^{n} \rfloor} \neq \mathbb{E}\left[Z_{\lfloor \alpha^{n} \rfloor}\right]$ finitely many times with probability $1$, hence
+\begin{equation}
+\operatorname{Pr}\left(\lim_{n\to\infty}Z_{\lfloor \alpha^{n} \rfloor} = \lim_{n\to\infty}\mathbb{E}\left[Z_{\lfloor \alpha^{n} \rfloor}\right]\right) = 1
+\end{equation}
+or equivalently, $Z_{\lfloor \alpha^{n} \rfloor} \overset{\mathrm{a.s.}}{\to} \lim_{n\to\infty}\mathbb{E}\left[Z_{\lfloor \alpha^{n} \rfloor}\right]$. Also since $\dfrac{1}{n}\sum_{i = 1}^{n}Y_{i} \overset{\mathrm{a.s.}}{\to}  \dfrac{1}{n}\sum_{i = 1}^{n}X_{i}$, then by the Dominated Convergence Theorem
+\begin{align}
+\lim_{n\to\infty}\mathbb{E}\left[Z_{n}\right] &= \mathbb{E}\left[\lim_{n\to\infty}\dfrac{1}{n}\sum_{i = 1}^{n}Y_{i}\right] \\
+&= \mathbb{E}\left[\lim_{n\to\infty}\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}\right] \\
+&= \lim_{n\to\infty}\dfrac{1}{n}\sum_{i = 1}^{n}\mathbb{E}\left[X_{i}\right] \\
+&= \mathbb{E}\left[X\right]
+\end{align}
+which establishes $Z_{\lfloor \alpha^{n} \rfloor} \overset{\mathrm{a.s.}}{\to} \mathbb{E}\left[X\right]$. All that remains to show is that $Z_{n} \overset{\mathrm{a.s.}}{\to} \mathbb{E}\left[X\right]$. For every natural number $n > \alpha$, we can find another natural number $k_{n}$ (possibly dependent on $n$) such that
+\begin{equation}
+\lfloor \alpha^{k_{n}} \rfloor \leq n \leq \lfloor \alpha^{k_{n} + 1} \rfloor
+\end{equation}
+(which we can verify via choice of $k_{n} = \lceil \log_{\alpha}n - 1\rceil$). Then as $\dfrac{\lfloor \alpha^{k_{n}} \rfloor}{\lfloor \alpha^{k_{n} + 1} \rfloor} < 1$ and $\dfrac{\lfloor \alpha^{k_{n} + 1} \rfloor}{\lfloor \alpha^{k_{n}} \rfloor} > 1$ while $Z_{n}$ is monotonic in $n$ (ie. each summand is non-negative), we have
+\begin{equation}
+\dfrac{\lfloor \alpha^{k_{n}} \rfloor}{\lfloor \alpha^{k_{n} + 1} \rfloor}Z_{\lfloor \alpha^{k_{n}} \rfloor} \leq Z_{n} \leq \dfrac{\lfloor \alpha^{k_{n} + 1}\rfloor}{\lfloor \alpha^{k_{n}} \rfloor}Z_{\lfloor \alpha^{k_{n} + 1} \rfloor} 
+\end{equation}
+Taking the limit as $n \to \infty$ and using the characterisation of $\liminf$ and $\limsup$ as the greatest lower bounds and least upper bounds respectively, we have
+\begin{equation}
+\dfrac{1}{\alpha}\mathbb{E}\left[X\right] \leq \liminf_{n\to\infty}Z_{n} \leq \limsup_{n\to\infty}Z_{n} \leq \alpha\mathbb{E}\left[X\right]
+\end{equation}
+almost surely. Thus for $\alpha$ arbitrarily close to $1$, and with probability $1$:
+\begin{equation}
+\lim_{n\to\infty}Z_{n} = \mathbb{E}\left[X\right]
+\end{equation}
+or
+\begin{equation}
+\operatorname{Pr}\left(\lim_{n\to\infty}\dfrac{1}{n}\sum_{i = 1}^{n}X_{i} = \mathbb{E}\left[X\right]\right) = 1
+\end{equation}
+which completes the proof.
+\end{proof}
+
+
 \subsection{Sufficient Statistics}
 
 \subsection{Minimum Mean Square Error Estimators}
@@ -4014,6 +4184,8 @@ Q\left(\theta;\hat{\theta}_{k}\right) &= \int\log p\left(x\middle|\theta\right)p
 \end{equation}
 \end{enumerate}
 Intuitively, the EM algorithm can be thought to be iteratively making guesses $X$, then this can be used to make a guess about $\theta$, which can be used to make a better guess about $X$, and so on.
+
+\subsection{Expectation Conditional Maximisation Algorithm}
 
 \subsection{M-estimators}
 
@@ -5454,6 +5626,42 @@ Recognising the presence of $\mathbf{K}$ and returning the time index, this give
 
 \subsection{Credible Intervals}
 
+\subsection{Bayes Factors \cite{Bernardo1994}}
+
+A Bayesian approach to hypothesis testing can be performed using Bayes factors. Let $H_{1}$ and $H_{2}$ be competing hypotheses, and we observe data $\mathcal{D}$. Let $\ell_{ij}$ denote the loss incurred from choosing hypothesis $i$ when in fact $j$ was the correct hypothesis. Suppose that $\ell_{11} = \ell_{22} = 0$ (ie. there is no loss incurred in choosing the correct model) and $\ell_{12}, \ell_{21} > 0$. Introduce the utility $U_{i}|\mathcal{D}$ in choosing model $i$. Then the expected utility of choosing model $i$ is
+\begin{equation}
+\mathbb{E}\left[U_{i}|\mathcal{D}\right] = -\ell_{i1}\operatorname{Pr}\left(H_{1}\middle|\mathcal{D}\right) - \ell_{i2}\operatorname{Pr}\left(H_{2}\middle|\mathcal{D}\right)
+\end{equation}
+So the expected utility of choosing $H_{2}$ is greater than the expected utility of choosing the $H_{1}$ if
+\begin{gather}
+\mathbb{E}\left[U_{2}|\mathcal{D}\right] > \mathbb{E}\left[U_{1}|\mathcal{D}\right] \\
+-\ell_{21}\operatorname{Pr}\left(H_{1}\middle|\mathcal{D}\right) - \ell_{22}\operatorname{Pr}\left(H_{2}\middle|\mathcal{D}\right) > -\ell_{11}\operatorname{Pr}\left(H_{1}\middle|\mathcal{D}\right) - \ell_{12}\operatorname{Pr}\left(H_{2}\middle|\mathcal{D}\right) \\
+-\ell_{21}\operatorname{Pr}\left(H_{1}\middle|\mathcal{D}\right)  >  - \ell_{12}\operatorname{Pr}\left(H_{2}\middle|\mathcal{D}\right) \\
+\dfrac{\operatorname{Pr}\left(H_{1}\middle|\mathcal{D}\right)}{\operatorname{Pr}\left(H_{2}\middle|\mathcal{D}\right)} < \dfrac{\ell_{12}}{\ell_{21}}
+\end{gather}
+Note that the left-hand side is a posterior odds ratio. This gives the basis for the Bayes test. Given data $\mathcal{D}$, we compute the Bayes factor $B_{12}|\mathcal{D}$ in favour of $H_{1}$ against $H_{2}$ by the likelihood ratio:
+\begin{align}
+B_{12}|\mathcal{D} &= \dfrac{\operatorname{Pr}\left(\mathcal{D}\middle|H_{1}\right)}{\operatorname{Pr}\left(\mathcal{D}\middle|H_{2}\right)} \\
+&= \dfrac{\operatorname{Pr}\left(H_{1}\middle|\mathcal{D}\right)\operatorname{Pr}\left(\mathcal{D}\right)/\operatorname{Pr}\left(H_{1}\right)}{\operatorname{Pr}\left(H_{2}\middle|\mathcal{D}\right)\operatorname{Pr}\left(\mathcal{D}\right)/\operatorname{Pr}\left(H_{2}\right)} \\
+&= \dfrac{\operatorname{Pr}\left(H_{1}\middle|\mathcal{D}\right)}{\operatorname{Pr}\left(H_{2}\middle|\mathcal{D}\right)} \div \dfrac{\operatorname{Pr}\left(H_{1}\right)}{\operatorname{Pr}\left(H_{2}\right)}
+\end{align}
+which can be written as a ratio of the posterior odds ratio to the prior odds ratio. Rearranging for the posterior odds ratio, we get
+\begin{equation}
+\dfrac{\operatorname{Pr}\left(H_{1}\middle|\mathcal{D}\right)}{\operatorname{Pr}\left(H_{2}\middle|\mathcal{D}\right)} = B_{12}|\mathcal{D}\times\dfrac{\operatorname{Pr}\left(H_{1}\right)}{\operatorname{Pr}\left(H_{2}\right)}
+\end{equation}
+Thus we reject $H_{1}$ in favour of $H_{2}$ if and only if
+\begin{equation}
+B_{12}|\mathcal{D}\times \dfrac{\operatorname{Pr}\left(H_{1}\right)}{\operatorname{Pr}\left(H_{2}\right)} < \dfrac{\ell_{12}}{\ell_{21}}
+\end{equation}
+or equivalently
+\begin{equation}
+B_{12}|\mathcal{D} < \dfrac{\ell_{12}}{\ell_{21}}\dfrac{\operatorname{Pr}\left(H_{2}\right)}{\operatorname{Pr}\left(H_{1}\right)}
+\end{equation}
+Note that if we are performing model selection, and hypotheses $H_{1}$ and $H_{2}$ consist of model structures parametrised by parameters $\theta_{1}$ and $\theta_{2}$ respectively, we may compute the Bayes factor by integrating over the priors on the parameter values like so:
+\begin{equation}
+B_{12}|\mathcal{D} = \dfrac{\int p\left(\mathcal{D}\middle|\theta_{1}\right)p\left(\theta_{1}\right)}{\int p\left(\mathcal{D}\middle|\theta_{2}\right)p\left(\theta_{2}\right)} \div \dfrac{\operatorname{Pr}\left(H_{1}\right)}{\operatorname{Pr}\left(H_{2}\right)}
+\end{equation}
+
 \subsection{Bayesian Regularisation}
 
 \subsection{Bayesian Linear Regression \cite{Rasmussen2006}}
@@ -5691,6 +5899,8 @@ ie. it is a weighted average of some probability density functions, and acts as 
 \subsection{Partially Observable Markov Decision Processes}
 
 \section{Inference of Markov Processes}
+
+\subsection{Maximum Likelihood of Markov Chains}
 
 \subsection{Baum-Welch Algorithm}
 
@@ -6390,6 +6600,14 @@ So the percentile bootstrap interval is given by $\left(\theta_{\alpha/2}^{*}, \
 
 \section{Nonparametric Statistics}
 
+\subsection{Kernel Ridge Regression}
+
+\subsection{Nonparametric Density Estimation}
+
+\subsection{Nonparametric Hypothesis Testing}
+
+\subsubsection{Wilcoxon-Mann-Whitney Rank-sum Test}
+
 \chapter{Stochastic Calculus}
 
 \section{Analysis of Stochastic Processes}
@@ -7083,7 +7301,7 @@ If the errors $\varepsilon_{i}$ are i.i.d. with the distribution of some `true e
 \begin{equation}
 \bar{V}\left(\theta\right) = \mathbb{E}\left[\ell\left(\varepsilon\left(\theta\right)\right)\middle|\theta\right]
 \end{equation}
-where the conditional expectation is taken over the data generating process. For an estimate $\hat{\theta}_{N}$, we seek to relate the terms $\mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right]$ and $\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right]$, where the expectations are taken over the estimator $\hat{\theta}_{N}$. There is an important distinction between these two terms, which is that the term $\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right]$ expresses the expected mean cost as evaluated on the training data $\mathcal{D}_{N}$, while the term $\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right]$ represents the expected cost of prediction on unseen data (ie. validation data). Note that we assume that the training data and validation data follow the same data generating process. To obtain these expectations, first perform a Taylor series expansion of $\bar{V}\left(\theta\right)$ about the `true' parameter $\theta^{*}$.
+where the conditional expectation is taken over the data generating process. For an estimate $\hat{\theta}_{N}$, we seek to relate the terms $\mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right]$ and $\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right]$, where the expectations are taken over the estimator $\hat{\theta}_{N}$. There is an important distinction between these two terms, which is that the term $\mathbb{E}\left[V_{N}\left(\hat{\theta}_{N}, \mathcal{D}_{N}\right)\right]$ expresses the expected mean cost as evaluated on the training data $\mathcal{D}_{N}$, while the term $\mathbb{E}\left[\bar{V}\left(\hat{\theta}_{N}\right)\right]$ represents the expected cost of prediction on unseen data (ie. validation data). Note that we assume that the training data and validation data follow the same data generating process. To obtain these expectations, first perform a Taylor series expansion of $\bar{V}\left(\theta\right)$ about the `true' parameter $\theta^{*}$.
 \begin{equation}
 \bar{V}\left(\hat{\theta}_{N}\right) \approx \bar{V}\left(\theta^{*}\right) + \dfrac{1}{2}\left(\hat{\theta}_{N} - \theta^{*}\right)^{\top}\nabla_{\theta}^{2}\bar{V}\left(\theta^{*}\right)\left(\hat{\theta}_{N} - \theta^{*}\right)
 \end{equation}
@@ -7810,6 +8028,14 @@ The leave-one-out approach is to prevent overfitting. Thus, a stacked prediction
 \begin{equation}
 z = \left(\hat{f}_{1}\left(x\right), \dots, \hat{f}_{M}\left(x\right)\right)
 \end{equation}
+
+\subsection{Condorcet's Jury Theorem}
+
+Condorcet's jury theorem is a result which can partly be used to explain the strength of ensembling. Suppose there are $n$ voters who vote on a decision. Each voter votes independently and votes for the correct decision with probability $p$. If $p > \dfrac{1}{2}$, then the probability that the majority decision is the correct decision approaches $1$ as $n \to \infty$.
+\begin{proof}
+Treating each vote as a Bernoulli random variable, then by the strong law of large numbers, the sample mean of votes (or alternatively, the sample proportion of correct votes) converges to $p > \dfrac{1}{2}$ almost surely as $n \to \infty$. Hence the probability that the majority vote is correct as $n \to \infty$ is equal to one.
+\end{proof}
+This suggests that ensembling more models should lead to greater predictive accuracy, provided that each model is better than a coin flip. However, the assumption that each model is independent will usually not be satisfied since each model is conditioned on the data.
 
 \section{Decision Trees}
 
@@ -8759,7 +8985,98 @@ Note that we are necessarily assuming that the prior distribution is Gaussian (w
 
 \section{Particle Filtering}
 
-Also known as sequential Monte-Carlo, the particle filter uses random sampling to approximate the posterior in Bayes filtering. It is suitable for systems with nonlinear dynamics and even non-Gaussian noise.
+Also known as sequential Monte-Carlo filters, the class of particle filters use random sampling to approximate the posterior in Bayes filtering. It is suitable for systems with nonlinear dynamics and even non-Gaussian noise. The dynamics are described by an initial distribution of the state $p\left(x_{0}\right)$, and are required to satisfy the Markov property so that the transition distribution may be specified as $p\left(x_{k + 1}\middle|x_{k}\right)$. The observation $z_{k}$ is conditionally independent with $\mathbf{x}_{0:\left(k - 1\right)}$ given $x_{k}$ so that the distribution of $z_{k}$ is modelled with $p\left(z_{k}\middle|x_{k}\right)$.
+
+\subsection{Bootstrap Filter \cite{Doucet2001a}}
+
+A particular variant of the particle filter called the Bootstrap filter is described below. Initially, we first sample $N$ particles from the initial distribution $p\left(x_{0}\right)$, and denote the $i$\textsuperscript{th} particle by $\chi_{0, i}$. Then at the $\left(k + 1\right)$\textsuperscript{th} iteration, we perform the following steps:
+\begin{enumerate}
+\item Sample $N$ particles from the transition distribution using the previous posterior particles, so that each
+\begin{equation}
+\chi_{k + 1, i}^{-} \sim p\left(x_{k + 1}\middle| \chi_{k, i}\right)
+\end{equation}
+\item For each particle evaluate the `importance weights' (or `likelihood') according to the observation distribution by
+\begin{equation}
+w_{k + 1, i} = p\left(z_{k + 1}\middle| \chi_{k + 1, i}^{-}\right)
+\end{equation}
+\item Normalise the weights by
+\begin{equation}
+\widetilde{w}_{k + 1, i} = \dfrac{w_{k + 1, i} }{\sum_{j = 1}^{N}w_{k + 1, j}}
+\end{equation}
+\item The posterior may be represented using the weighted point masses:
+\begin{equation}
+p\left(x_{k + 1}\middle| \mathbf{z}_{1:\left(k + 1\right)}\right) = \sum_{i = 1}^{N}\widetilde{w}_{k + 1, i}\delta\left(\left\Vert x_{k + 1} - \chi_{k + 1, i}^{-}\right\Vert\right)
+\end{equation}
+where $\delta\left(\cdot\right)$ is the Dirac delta function.
+\item Bootstrap this posterior distribution by resampling with replacement $N$ particles (ie. each particle $\chi_{k + 1, i}^{-}$ will be resampled with probability $\widetilde{w}_{k + 1, i}$). Denote the resampled particles by $\chi_{k + 1, i}$ and treat the updated posterior distribution as 
+\begin{equation}
+p\left(x_{k + 1}\middle| \mathbf{z}_{1:\left(k + 1\right)}\right) = \sum_{i = 1}^{N}\delta\left(\left\Vert x_{k + 1} - \chi_{k + 1, i}\right\Vert\right)
+\end{equation}
+\end{enumerate}
+From the particles at time $k$, we can estimate statistics of interest such as the posterior mean or posterior mode. The posterior mean is the mean over the resampled particles:
+\begin{equation}
+\hat{x}_{k} = \dfrac{1}{N}\sum_{i = 1}^{N}\chi_{k, i}
+\end{equation}
+Since each particle effectively has uniform weight in the bootstrapped posterior, the posterior mode corresponds to the particle with the largest importance weight from the unbootstrapped posterior:
+\begin{equation}
+\breve{x}_{k} = \chi_{k, \argmax_{i}\left\{\widetilde{w}_{k, i}\right\}}^{-}
+\end{equation}
+The posterior covariance may also be computed as (noting that this is the population covariance of the posterior distribution):
+\begin{equation}
+\hat{P}_{k + 1} = \dfrac{1}{N}\sum_{i = 1}^{N}\left(\chi_{k, i} - \hat{x}_{k}\right)\left(\chi_{k, i} - \hat{x}_{k}\right)^{\top}
+\end{equation}
+
+\subsubsection{Bootstrap Filter for Posterior Trajectory}
+
+With slight modification to the algorithm above, the Bootstrap filter can be made to return the posterior distribution of the trajectory up to and including time $k$, denoted by $p\left(\mathbf{x}_{0:k}\middle|\mathbf{z}_{1:k}\right)$. To do this, we are required to maintain the trajectory for each particle, denoted by $\boldsymbol{\chi}_{0:k, i}$. When we resample according to the importance weights, we resample the entire trajectory of that particle. Then the posterior distribution over the trajectory is given by
+\begin{equation}
+p\left(\mathbf{x}_{0:k}\middle|\mathbf{z}_{1:k}\right) = \sum_{i = 1}^{N}\widetilde{w}_{k, i}\delta\left(\left\Vert \mathbf{x}_{0:k} - \boldsymbol{\chi}_{0:k, i}\right\Vert\right)
+\end{equation}
+This distribution can be useful in some instances, say when we are interested in the posterior mode (interpreted as the maximum a posteriori estimate) of the trajectory. The posterior mode over the trajectory $\breve{\mathbf{x}}_{0:k}$ will generally be different to the sequence of posterior modes over the current state, denoted $\left(\breve{x}_{0}, \breve{x}_{1}, \dots, \breve{x}_{k}\right)$. The former will be in better agreement with the transition dynamics, as the estimate consists the evolution of a single particle over time, whereas the latter estimate may be comprised of several particles.
+
+\subsection{Importance Sampling in Particle Filtering}
+
+Some principles behind the bootstrap filter can be arrived at by introducing a more general framework of particle filtering that applies importance sampling. Suppose at time $k + 1$ we have particles $\chi_{k, i}$ and weightings $\widetilde{w}_{k, i}$, and have represented the posterior at time $k$ using the weighted point masses
+\begin{equation}
+p\left(x_{k}\middle|\mathbf{z}_{1:k}\right) = \sum_{i = 1}^{N}\widetilde{w}_{k, i}\delta\left(\left\Vert x_{k} - \chi_{k, i}\right\Vert\right)
+\end{equation}
+After observing measurement $z_{k + 1}$, our goal is to draw samples from the posterior $p\left(x_{k + 1}\middle|\mathbf{z}_{1:\left(k + 1\right)}\right)$ so that we may represent the distribution using weighted point masses at the samples. From the method of importance sampling, this gives the idea that if we can sample a particle $\chi_{k + 1, i}^{-}$ from a proposal/importance distribution $q\left(x_{k + 1}\middle|\mathbf{z}_{1:\left(k + 1\right)}\right)$, then we can weight that sample by
+\begin{equation}
+\widetilde{w}_{k + 1, i} = \dfrac{p\left(\chi_{k + 1, i}^{-}\middle|\mathbf{z}_{1:\left(k + 1\right)}\right)}{q\left(\chi_{k + 1, i}^{-}\middle|\mathbf{z}_{1:\left(k + 1\right)}\right)}
+\end{equation}
+when representing the posterior. By applying the Markov assumption, the posterior $p\left(x_{k + 1}\middle|\mathbf{z}_{1:\left(k + 1\right)}\right)$ can be factorised into
+\begin{align}
+\ensuremath{p\left(x_{k+1}\middle|\mathbf{z}_{1:\left(k+1\right)}\right)} &= \dfrac{p\left(z_{k+1}\middle|x_{k+1},\mathbf{z}_{1:k}\right)p\left(x_{k+1}\middle|\mathbf{z}_{1:k}\right)}{p\left(z_{k+1}\middle|\mathbf{z}_{1:k}\right)} \\
+&\propto p\left(z_{k+1}\middle|x_{k+1}\right)p\left(x_{k+1}\middle|\mathbf{z}_{1:k}\right) \\
+&\propto p\left(z_{k+1}\middle|x_{k+1}\right)p\left(x_{k+1}\middle|x_{k}\right)p\left(x_{k}\middle|\mathbf{z}_{1:k}\right) \\
+&\propto p\left(z_{k+1}\middle|x_{k+1}\right)p\left(x_{k+1}\middle|x_{k}\right)\sum_{i=1}^{N}\widetilde{w}_{k,i}\delta\left(\left\Vert x_{k}-\chi_{k,i}\right\Vert \right)
+\end{align}
+This motivates one particular choice of importance distribution, which is
+\begin{equation}
+\ensuremath{q\left(x_{k+1}\middle|\mathbf{z}_{1:\left(k+1\right)}\right)=p\left(x_{k+1}\middle|x_{k}\right)\cdot\dfrac{1}{N}\sum_{i=1}^{N}\delta\left(\left\Vert x_{k}-\chi_{k,i}\right\Vert \right)}
+\end{equation}
+That is, we draw each particle $\chi_{k + 1, i}^{-}$ according to
+\begin{equation}
+\chi_{k + 1, i}^{-} \sim p\left(\chi_{k + 1, i}^{-}\middle|x_{k}\right)\cdot\dfrac{1}{N}\sum_{i=1}^{N}\delta\left(\left\Vert x_{k} -\chi_{k,i}\right\Vert \right)
+\end{equation}
+This amounts to sampling each particle uniformly from the previous particles, then each particle undergoes the random transition dynamics specified by $p\left(x_{k+1}\middle|x_{k}\right)$ to obtain $\chi_{k+1,i}^{-}$. Using the factorisation of the posterior above, we see that
+\begin{equation}
+\dfrac{p\left(x_{k+1}\middle|\mathbf{z}_{1:\left(k+1\right)}\right)}{q\left(x_{k+1}\middle|\mathbf{z}_{1:\left(k+1\right)}\right)} \propto \dfrac{p\left(z_{k+1}\middle|x_{k+1}\right)p\left(x_{k+1}\middle|x_{k}\right)\sum_{i=1}^{N}\widetilde{w}_{k,i}\delta\left(\left\Vert x_{k}-\chi_{k,i}\right\Vert \right)}{p\left(x_{k+1}\middle|x_{k}\right)\cdot\dfrac{1}{N}\sum_{i=1}^{N}\delta\left(\left\Vert x_{k}-\chi_{k,i}\right\Vert \right)}
+\end{equation}
+Hence the importance weights are given by
+\begin{align}
+\widetilde{w}_{k + 1, i} &= \dfrac{p\left(\chi_{k + 1, i}^{-}\middle|\mathbf{z}_{1:\left(k + 1\right)}\right)}{q\left(\chi_{k + 1, i}^{-}\middle|\mathbf{z}_{1:\left(k + 1\right)}\right)} \\
+&\propto \dfrac{p\left(z_{k+1}\middle|\chi_{k+1,i}^{-}\right)p\left(\chi_{k+1,i}^{-}\middle|x_{k}\right)\sum_{i=1}^{N}\widetilde{w}_{k,i}\delta\left(\left\Vert x_{k}-\chi_{k,i}\right\Vert \right)}{p\left(\chi_{k+1,i}^{-}\middle|x_{k}\right)\cdot\dfrac{1}{N}\sum_{i=1}^{N}\delta\left(\left\Vert x_{k}-\chi_{k,i}\right\Vert \right)}
+\end{align}
+Since each $\chi_{k + 1, i}^{-} \in \left\{\chi_{k, 1}, \dots, \chi_{k, N}\right\}$, then via some cancellations we get
+\begin{equation}
+\widetilde{w}_{k+1,i}\propto\widetilde{w}_{k,i}p\left(z_{k+1}\middle|\chi_{k+1,i}^{-}\right)
+\end{equation}
+Hence the updated weight of a particle is the old weight of the sampled particle reweighted by the likelihood of that sampled particle. The bootstrap filter can be seen as being derived from a special case of this framework with this choice of importance distribution. Additionally, the bootstrapping step uniformly reweights each particle so that $\widetilde{w}_{k+1,i}\propto p\left(z_{k+1}\middle|\chi_{k+1,i}^{-}\right)$. By resetting the weights uniformly, this is to avoid the `degeneracy problem' \cite{Ristic2004} where some weights may become too large and other weights become too small over time, causing the posterior to get closer to a degenerate distribution. \\
+
+The extension of this framework to obtaining the posterior over trajectory follows naturally in similar manner, where we replace $x_{k}$ with $\mathbf{x}_{0:k}$, $\chi_{k, i}$ with $\boldsymbol{\chi}_{0:k, i}$, $\chi_{k + 1, i}^{-}$ with $\boldsymbol{\chi}_{0:\left(k + 1\right), i}^{-}$ and apply the Markov assumption where necessary.
+
+\subsection{Rao-Blackwellised Particle Filter}
 
 \section{Wavelets}
 
@@ -8783,9 +9100,11 @@ Also known as sequential Monte-Carlo, the particle filter uses random sampling t
 
 \section{Stochastic Dynamic Programming}
 
-\section{Reinforcement Learning}
+\section{Stochastic Approximation}
 
 \section{Multi-armed Bandits}
+
+\section{Reinforcement Learning}
 
 \chapter{Quantitative Finance}
 
