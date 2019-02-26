@@ -529,7 +529,7 @@ If $X$ is a continuous random variable, then the expectation is calculated by
 \begin{equation}
 \mathbb{E}\left[X\right] = \int_{-\infty}^{\infty}xf_{X}\left(x\right)dx
 \end{equation}
-Expectations of functions of random variables (which are also random variables) are readily defined, for example some $g\left(X\right)$:
+Expectations of functions of random variables (which are also random variables) are readily calculable, for example some with $g\left(X\right)$, the so-called Law of the unconscious statistician is given by:
 \begin{equation}
 \mathbb{E}\left[g\left(X\right)\right] = \int_{-\infty}^{\infty}g\left(x\right)f_{X}\left(x\right)dx
 \end{equation}
@@ -1123,6 +1123,15 @@ is an unbiased estimator for the population parameter $\mu$ as follows:
 &= \dfrac{1}{n}n\mu \\
 &= \mu
 \end{align}
+Suppose that $X_{1}, \dots, X_{n}$ is a random sample of uncorrelated variables with each $X_{i}$ drawn from a probability distribution with population variance $\operatorname{Var}\left(X_{i}\right) = \sigma^{2}$. Then the variance of the sample mean can be found using properties of the variance of sums of uncorrelated random variables (also known as Bienaym\'{e}'s formula):
+\begin{align}
+\operatorname{Var}\left(\overline{X}\right) &= \operatorname{Var}\left(\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}\right) \\
+&= \dfrac{1}{n^{2}}\operatorname{Var}\left(\sum_{i = 1}^{n}X_{i}\right) \\
+&= \dfrac{\sum_{i = 1}^{n}\operatorname{Var}\left(X_{i}\right)}{n^{2}} \\
+&= \dfrac{n\sigma^{2}}{n^{2}} \\
+&= \dfrac{\sigma^{2}}{n}
+\end{align}
+
 The sample mean of a dataset also has the property that it is the value which minimises the average sum of squared deviations from that value:
 \begin{equation}
 \overline{x} = \argmin_{c}\dfrac{1}{n}\sum_{i = 1}^{n}\left(x_{i} - c\right)^{2}
@@ -1654,21 +1663,14 @@ Consider a random i.i.d. sample $X_{1}, \dots, X_{n}$ from $\mathcal{N}\left(\mu
 \begin{equation}
 \overline{X}_{n} \sim \mathcal{N}\left(\mu, \dfrac{\sigma^{2}}{n}\right)
 \end{equation}
-We can show this by showing that $\mathbb{E}\left[\overline{X}_{n}\right]$ and $\operatorname{Var}\left(\overline{X}_{n}\right) = \dfrac{\sigma^{2}}{n}$, and using the fact that the sum of normally distributed random variables will also be normally distributed. Firstly, by the linearity of expectation,
-\begin{align}
-\mathbb{E}\left[\overline{X}_{n}\right] &= \mathbb{E}\left[\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}\right] \\
-&= \dfrac{1}{n}\sum_{i = 1}^{n}\mathbb{E}\left[X_{i}\right] \\
-&= \dfrac{1}{n}\sum_{i = 1}^{n}\mu \\
-&= \mu
-\end{align}
-Next, using properties of variance of sums of random variables:
-\begin{align}
-\operatorname{Var}\left(\overline{X}_{n}\right) &= \operatorname{Var}\left(\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}\right) \\
-&= \dfrac{1}{n^{2}}\operatorname{Var}\left(\sum_{i = 1}^{n}X_{i}\right) \\
-&= \dfrac{\sum_{i = 1}^{n}\operatorname{Var}\left(X_{i}\right)}{n^{2}} \\
-&= \dfrac{n\sigma^{2}}{n^{2}} \\
-&= \dfrac{\sigma^{2}}{n}
-\end{align}
+We can show this by showing that $\mathbb{E}\left[\overline{X}_{n}\right]= \mu$ and $\operatorname{Var}\left(\overline{X}_{n}\right) = \dfrac{\sigma^{2}}{n}$, and using the fact that the sum of normally distributed random variables will also be normally distributed. Firstly, by the unbiasedness of the sample mean,
+\begin{equation}
+\mathbb{E}\left[\overline{X}_{n}\right] = \mu
+\end{equation}
+Next, using properties of variance of sums of uncorrelated random variables (Bienaym\'{e}'s formula):
+\begin{equation}
+\operatorname{Var}\left(\overline{X}_{n}\right) = \dfrac{\sigma^{2}}{n}
+\end{equation}
 
 \subsection{Normal Sample Variance}
 
@@ -1715,12 +1717,37 @@ contains a sum over $Z_{i} - \overline{Z}$ but each $Z_{i} - \overline{Z}$ is in
 
 \subsection{Excess Kurtosis}
 
-The normal distribution has a kurtosis of $3$, which can be obtained by computing:
+The normal distribution has a kurtosis of $3$ (regardless of mean and variance parameters), which can be obtained by computing:
 \begin{align}
 \mathbb{E}\left[\left(\dfrac{X - \mu}{\sigma}\right)^{4}\right] &= \mathbb{E}\left[Z^{4}\right] \\
-&= \int_{-\infty}^{\infty}z^{4}e^{-z^{2}/2}dz \\
-&= 3
+&= \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}z^{4}e^{-z^{2}/2}dz \\
+&= \dfrac{2}{\sqrt{2\pi}}\int_{0}^{\infty}z^{4}e^{-z^{2}/2}dz
 \end{align}
+by symmetry of the normal distribution. Making a change of variables $y = z^{2}$ so that $dy = 2z dz$, then:
+\begin{align}
+\mathbb{E}\left[\left(\dfrac{X - \mu}{\sigma}\right)^{4}\right] &= \dfrac{2}{\sqrt{2\pi}}\int_{0}^{\infty}y^{2}e^{-y/2}\dfrac{dy}{2\sqrt{y}} \\
+&= \dfrac{1}{\sqrt{2\pi}}\int_{0}^{\infty}y^{3/2}e^{-y/2}dy
+\end{align}
+By using integration by parts, let $u = y^{3/2}$ be differentiable and $v' = e^{-y/2}$ be integrable so that $u' = 3y^{1/2}/2$ and $v = -2e^{-y/2}$. Then
+\begin{align}
+\mathbb{E}\left[\left(\dfrac{X - \mu}{\sigma}\right)^{4}\right] &= \left[uv\right]_{y = 0}^{y = \infty} - \int_{0}^{\infty}u'vdy \\
+&= \dfrac{1}{\sqrt{2\pi}}\left[\green \cancelto{\green 0}{\black\left[-2e^{-y/2}y^{3/2}\right]_{0}^{\infty}}\black + 3\int_{0}^{\infty}y^{1/2}e^{-y/2}dy\right]
+\end{align}
+Applying integration by parts again, now let $u = y^{1/2}$ and $v' = e^{-y/2}$ so that $u' = y^{-1/2}/2$ and $v = -2e^{-y/2}$. Then
+\begin{equation}
+\int_{0}^{\infty}y^{1/2}e^{-y/2}dy = \green\cancelto{\green 0}{\black \left[-2y^{1/2}e^{-y/2}\right]_{0}^{\infty}}\black + \int_{0}^{\infty}y^{-1/2}e^{-y/2}dy
+\end{equation}
+Hence
+\begin{align}
+\mathbb{E}\left[\left(\dfrac{X - \mu}{\sigma}\right)^{4}\right] &= \dfrac{3}{\sqrt{2\pi}}\int_{0}^{\infty}y^{-1/2}e^{-y/2}dy \\
+&= \dfrac{3}{\sqrt{2\pi}}\int_{0}^{\infty}z^{-1}e^{-z^{2}/2}2zdz \\
+&= \dfrac{3}{\sqrt{2\pi}}2\int_{0}^{\infty}e^{-z^{2}/2}dz \\
+&= 3\int_{-\infty}^{\infty}\dfrac{1}{\sqrt{2\pi}}e^{-z^{2}/2}dz
+\end{align}
+by reverting the change of variables and symmetry argument. Recognising that $\int_{-\infty}^{\infty}\dfrac{1}{\sqrt{2\pi}}e^{-z^{2}/2}dz = 1$ for the normal density, we finally have that
+\begin{equation}
+\mathbb{E}\left[\left(\dfrac{X - \mu}{\sigma}\right)^{4}\right] = 3
+\end{equation}
 Excess kurtosis is a quantity relative to the kurtocity of the normal distribution, which is simply kurtosis subtracted by $3$.
 
 \subsubsection{Mesokurticity}
@@ -2162,10 +2189,38 @@ The distribution of random variable $Z$ is said to be divisible if $Z$ can be ex
 
 Cram\'{e}r's decomposition theorem states that if $X$ and $Y$ are independent real-valued random variables whose sum $X + Y$ is a normal random variable, then $X$ and $Y$ must also be normal. By induction, if the sum of finitely many independent random variables is normal, then the summands must be normal. 
 
+\subsection{Mixture Distributions}
+
+If $f_{1}\left(x\right)$ and $f_{2}\left(x\right)$ are probability density functions, then we see that
+\begin{equation}
+f\left(x\right) = w_{1}f_{1}\left(x\right) + w_{2}f_{2}\left(x\right)
+\end{equation}
+with $w_{1} + w_{2} = 1$ satisfies the properties of a probability density function and we say that $f\left(x\right)$ is a mixture distribution of $f_{1}\left(x\right)$ and $f_{2}\left(x\right)$ with weights $w_{1}$ and $w_{2}$ respectively. More generally, given $n$ density functions $f_{1}\left(x\right), \dots, f_{n}\left(x\right)$, then
+\begin{equation}
+f\left(x\right) = \sum_{i = 1}^{n}w_{i}f_{i}\left(x\right)
+\end{equation}
+with $\sum_{i}^{n}w_{i} = 1$ is said to be a mixture distribution of $f_{1}\left(x\right), \dots, f_{n}\left(x\right)$ with weights $w_{1}, \dots, w_{n}$ respectively. To generate a realisation from the mixture distribution, we can imagine first selecting a distribution randomly such that each distribution $f_{i}\left(x\right)$ has probability $w_{i}$ of being selected, and then subsequently generating a realisation from that distribution. \\
+
+Note that a mixture distribution is not the same as taking a convex combination of random variables (ie. the random variable $Z = 0.5X + 0.5Y$ will generally not have the density function $0.5f_{X}\left(z\right) + 0.5f_{Y}\left(z\right)$). 
 
 \section{Families of Continuous Univariate Probability Distributions}
 
 \subsection{Dirac Delta Distribution}
+
+
+\subsubsection{Density Functions of Discrete Random Variables}
+
+Every real-valued random variable (regardless of being continuous or discrete) has a cumulative distribution function $F\left(x\right)$. If we consider some discrete random variable $X$ with masses $\left\{p_{1}, p_{2}, \dots\right\}$, $\sum_{i}p_{i} = 1$ at respective support points $\left\{x_{1}, x_{2}, \dots\right\}$, it is evident that $F\left(x\right)$ will look like a non-decreasing staircase function. So if we wanted to represent $X$ with a density function satisfying $\lim_{x\to-\infty}F\left(x\right) = 0$, $\lim_{x\to\infty}F\left(x\right) = 1$ and $F\left(x\right) = \int_{-\infty}^{x}f\left(t\right)dt$, we can construct $f\left(x\right)$ for a discrete random variable by building it out of Dirac delta functions weighted by masses $\left\{p_{1}, p_{2}, \dots\right\}$ placed at the support points $\left\{x_{1}, x_{2}, \dots\right\}$. For example if there were $n$ support points, we would define $f\left(x\right)$ as
+\begin{equation}
+f\left(x\right) = \sum_{i = 1}^{n}p_{i}\delta\left(x - x_{i}\right)
+\end{equation}
+which agrees with what we already know about computing the cumulative distribution function for a discrete random variable:
+\begin{align} F\left(x\right) &= \operatorname{Pr}\left(X \leq x\right) \\
+&= \int_{-\infty}^{x}f\left(t\right)dt \\
+&= \int_{-\infty}^{x}\sum_{i = 1}^{n}p_{i}\delta\left(t - x_{i}\right)dt \\
+&= \sum_{i: x_{i} \leq x}p_{i}
+\end{align}
+To summarise, we can imagine the density function of a discrete random variable to be a mixture of shifted Dirac delta functions.
 
 \subsection{Continuous Uniform Distribution}
 
@@ -2177,14 +2232,69 @@ Cram\'{e}r's decomposition theorem states that if $X$ and $Y$ are independent re
 
 The Gaussian distribution is another name for the normal distribution.
 
-\subsubsection{Q Function}
+\subsubsection{Error Function}
 
-The Q function is the complementary cumulative distribution function of the standard Gaussian distribution. It is denoted
+The error function (also called the Gauss error function) is defined as
+\begin{equation}
+\operatorname{erf}\left(x\right) = \dfrac{1}{\sqrt{\pi}}\int_{-x}^{x}e^{-t^{2}}dt
+\end{equation}
+which has an image of $\left(-1, 1\right)$. The cumulative distribution function of the standard Gaussian distribution $\Phi\left(x\right)$ may be defined in terms of the error function with the relationship
+\begin{equation}
+\Phi\left(x\right) = \dfrac{1}{2}\left(1 + \operatorname{erf}\left(\dfrac{x}{\sqrt{2}}\right)\right)
+\end{equation}
+which we can show by
+\begin{align}
+\Phi\left(x\right) &= \dfrac{1}{2}\left(1+\dfrac{1}{\sqrt{\pi}}\int_{-x/\sqrt{2}}^{x/\sqrt{2}}e^{-t^{2}}dt\right) \\
+&= \dfrac{1}{2}\left(1+\dfrac{2}{\sqrt{\pi}}\int_{0}^{x/\sqrt{2}}e^{-t^{2}}dt\right)
+\end{align}
+With the change of variables $u = \sqrt{2}t$ hence $t = u/\sqrt{2}$ and $du = \sqrt{2}dt$, this becomes
+\begin{align}
+\Phi\left(x\right) &= \dfrac{1}{2}\left(1+\dfrac{2}{\sqrt{\pi}}\int_{0}^{x}e^{-u^{2}/2}\dfrac{du}{\sqrt{2}}\right) \\
+&= \dfrac{1}{2}+\int_{0}^{x}\dfrac{1}{\sqrt{2\pi}}e^{-u^{2}/2}du \\
+&= \int_{-\infty}^{0}\dfrac{1}{\sqrt{2\pi}}e^{-u^{2}/2}du+\int_{0}^{x}\dfrac{1}{\sqrt{2\pi}}e^{-u^{2}/2}du \\
+&= \int_{-\infty}^{x}\phi\left(u\right)du
+\end{align}
+
+\subsubsection{$Q$-Function}
+
+The $Q$-function is the complementary cumulative distribution function of the standard Gaussian distribution. It is denoted
 \begin{align}
 Q\left(x\right) &= 1 - \Phi\left(x\right) \\
 &= \int_{x}^{\infty}\phi\left(u\right)du \\
 &= \int_{x}^{\infty}\dfrac{e^{-u^{2}/2}}{\sqrt{2\pi}}du
 \end{align}
+Also due symmetry about $x = 0$, the $Q$-function can also be written in terms of the Gaussian CDF as
+\begin{equation}
+Q\left(x\right) = \Phi\left(-x\right)
+\end{equation}
+
+\subsubsection{Complementary Error Function}
+
+The complementary error function is defined as
+\begin{equation}
+\operatorname{erfc}\left(x\right) = 1 - \operatorname{erf}\left(x\right)
+\end{equation}
+which has an image of $\left(0, 2\right)$. An expression for $\operatorname{erfc}\left(x\right)$ in terms of just a single integral is
+\begin{align}
+\operatorname{erfc}\left(x\right) &= 1-\dfrac{2}{\sqrt{\pi}}\int_{0}^{x}e^{-t^{2}}dt \\
+&= \lim_{x\to\infty}\operatorname{erf}\left(x\right)-\dfrac{2}{\sqrt{\pi}}\int_{0}^{x}e^{-t^{2}}dt \\
+&= \dfrac{2}{\sqrt{\pi}}\int_{0}^{\infty}e^{-t^{2}}dt-\dfrac{2}{\sqrt{\pi}}\int_{0}^{x}e^{-t^{2}}dt \\
+&= \dfrac{2}{\sqrt{\pi}}\int_{x}^{\infty}e^{-t^{2}}dt
+\end{align}
+By applying a change of variables $t = u/\sqrt{2}$, we can see that this can be written in terms of the $Q$-function by
+\begin{align}
+\operatorname{erfc}\left(x\right) &= 2\int_{\sqrt{2}x}^{\infty}\dfrac{1}{\sqrt{2\pi}}e^{-u^{2}/2}du \\
+&= 2Q\left(\sqrt{2}x\right)
+\end{align}
+or the other way around,
+\begin{equation}
+Q\left(x\right) = \dfrac{1}{2}\operatorname{erfc}\left(\dfrac{x}{\sqrt{2}}\right)
+\end{equation}
+Also, since $\Phi\left(x\right) = Q\left(-x\right)$, then we also have
+\begin{equation}
+\Phi\left(x\right) = \dfrac{1}{2}\operatorname{erfc}\left(-\dfrac{x}{\sqrt{2}}\right)
+\end{equation}
+
 
 \subsubsection{Mill's Ratio}
 
@@ -2237,13 +2347,38 @@ for $x > 0$.
 
 \subsubsection{Half-Gaussian Distribution}
 
-\subsubsection{Mixture Gaussian Distribution}
-
 \subsubsection{Lognormal Distribution}
 
 \subsection{Laplace Distribution}
 
 \subsection{Cauchy Distribution}
+
+Also known as the Lorentz distribution, the Cauchy distribution with location parameter $x_{0}$ and scale parameter $\gamma$ has probability density function
+\begin{equation}
+f\left(x\right) = \dfrac{1}{\pi\gamma}\left[\dfrac{\gamma^{2}}{\left(x - x_{0}\right)^{2} + \gamma^{2}}\right]
+\end{equation}
+The cumulative distribution function is given by
+\begin{align}
+F\left(x\right) &= \dfrac{1}{\pi\gamma}\int_{-\infty}^{x}\dfrac{1}{\left[\left(t - x_{0}\right)/\gamma\right]^{2} + 1}dt \\
+&= \dfrac{1}{\pi}\int_{-\infty}^{\frac{x - x_{0}}{\gamma}}\dfrac{1}{u^{2} + 1}du
+\end{align}
+where the change of variables $u = \dfrac{t - x_{0}}{\gamma}$ was made. From the fact that the indefinite integral $\int \dfrac{1}{u^{2} + 1}du = \arctan u$ plus some constant, then
+\begin{align}
+F\left(x\right) &= \left[\dfrac{\arctan u}{\pi}\right]_{-\infty}^{\frac{x - x_{0}}{\gamma}} \\
+&= \dfrac{1}{\pi}\arctan\left(\dfrac{x - x_{0}}{\gamma}\right) + \dfrac{1}{2}
+\end{align}
+because $\lim_{u\to-\infty}\arctan u = -\dfrac{\pi}{2}$.
+
+\subsubsection{Undefined Mean and Variance of the Cauchy Distribution}
+
+The Cauchy distribution is an example of a distribution which has undefined mean and variance. This is because if $X$ is Cauchy-distributed with $x_{0} = 0$ and $\gamma = 1$ (for simplicity), then
+\begin{align}
+\mathbb{E}\left[X\right] &= \dfrac{1}{\pi}\int_{-\infty}^{\infty}\dfrac{x}{x^{2} + 1}dx \\
+&= \dfrac{1}{\pi}\int_{-\infty}^{0}\dfrac{x}{x^{2} + 1}dx + \dfrac{1}{\pi}\int_{0}^{\infty}\dfrac{x}{x^{2} + 1}dx \\
+&= \dfrac{1}{2\pi}\int_{\infty}^{0}\dfrac{1}{u + 1}du + \dfrac{1}{\pi}\int_{0}^{\infty}\dfrac{1}{u + 1}du \\
+&= \left[\dfrac{\ln\left(u + 1\right)}{2\pi}\right]_{\infty}^{0} + \left[\dfrac{\ln\left(u + 1\right)}{2\pi}\right]_{0}^{\infty}
+\end{align}
+with the substitution $u = x^{2}$. Since the first term is $-\infty$ and the second term is $\infty$, it follows that their sum is undefined. Then the variance will also be undefined since $\operatorname{Var}\left(X\right) = \mathbb{E}\left[X^{2}\right] - \mathbb{E}\left[X\right]^{2}$. The location parameter $x_{0}$ determines the median and mode of the distribution, rather than the mean. The `cause' of the mean and variance being undefined can be thought of as being caused by the characterisation that the Cauchy distribution has very fat tails.
 
 \subsection{Gamma Distribution}
 
@@ -2295,10 +2430,38 @@ f\left(x\right) &= \dfrac{dF\left(x\right)}{dx} \\
 
 \subsubsection{Econometrician's Gamma Distribution}
 
-The econometrician's Gamma distribution is an alternative parametrisation with $k = \alpha$ as the shape parameter and $\theta = \dfrac{1}{\beta}$ as the scale parameter. The PDF may be written as
+The `econometrician's' Gamma distribution is an alternative parametrisation with $k = \alpha$ as the shape parameter and $\theta = \dfrac{1}{\beta}$ as the scale parameter. The PDF may be written as
 \begin{equation}
 f\left(x\right) = \dfrac{x^{k - 1}e^{-x/\theta}}{\theta^{k}\Gamma\left(k\right)}
 \end{equation}
+
+\subsubsection{Erlang Distribution}
+
+The Erlang distribution with shape parameter $k$ and rate parameter $\lambda$ has the probability density function
+\begin{equation}
+f\left(x; k, \lambda\right) = \dfrac{\lambda^{k}x^{k - 1}e^{-\lambda x}}{\left(k - 1\right)!}
+\end{equation}
+with $\lambda > 0$ and $k \in \left\{1, 2, \dots, \right\}$. The Erlang distribution can be characterised as the distribution of the sum of $k$ i.i.d. exponential random variables with rate parameter $\lambda$. To show this, we can begin with the sum of $2$ exponential random variables with rate parameter $\lambda$, $S_{2} = X_{1} + X_{2}$. Note that we must take care in applying the convolution formula for computing the density of the sum of random variables, since exponential random variables have non-negative support. By applying the convolution formula, the density of $S_{2}$ is computed via the integral:
+\begin{equation}
+f_{S_{2}}\left(x\right) = \int_{0}^{x}\lambda e^{-\lambda t} \lambda e^{-\lambda\left(x - t\right)} dt
+\end{equation}
+with bounded terminals since neither $t$ nor $x - t$ can be negative. Computing this integral yields:
+\begin{align}
+f_{S_{2}}\left(x\right) &= \lambda^{2}e^{-\lambda x}\int_{0}^{x}dt \\
+&= \lambda^{2}xe^{-\lambda x}
+\end{align}
+which is the density of an Erlang random variable with shape $k = 2$ and rate $\lambda$. We can generalise this to compute the density for arbitrary $k$ through induction, by considering the sum between an Erlang random variable with shape $k - 1$ and an exponential random variable with the same rate parameter $\lambda$:
+\begin{align}
+f\left(x; k, \lambda\right) &= \int_{0}^{x}\dfrac{\lambda^{k - 1}t^{k - 2}e^{-\lambda t}}{\left(k - 2\right)!}\lambda e^{-\lambda \left(x - t\right)} dt \\
+&= \dfrac{\lambda^{k}e^{-\lambda x}}{\left(k - 2\right)!}\int_{0}^{x}t^{k - 2}dt \\
+&= \dfrac{\lambda^{k}e^{-\lambda x}}{\left(k - 2\right)!}\dfrac{x^{k - 1}}{k - 1} \\
+&= \dfrac{\lambda^{k}x^{k - 1}e^{-\lambda x}}{\left(k - 1\right)!}
+\end{align}
+Notice that the Erlang density can alternatively be written as
+\begin{equation}
+f\left(x; k, \lambda\right) = \dfrac{\lambda^{k}x^{k - 1}e^{-\lambda x}}{\Gamma\left(k\right)}
+\end{equation}
+which is the Gamma density with shape parameter $k$ and rate parameter $\lambda$. Hence the Erlang distribution can be treated as a special case of the Gamma distribution (where the shape parameter takes on natural numbers), and furthermore the exponential distribution can be treated as a special case of both the Erlang and Gamma distributions.
 
 \subsection{Beta Distribution}
 
@@ -2401,6 +2564,16 @@ Substituting $r = \sqrt{x}$ and cancelling terms, this gives the expression for 
 \begin{equation}
 f\left(x\right) = \dfrac{e^{-x/2}x^{k/2 - 1}}{2^{k/2}\Gamma\left(k/2\right)}
 \end{equation}
+The CDF can be obtained by
+\begin{equation}
+F\left(x\right) = \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{x}\dfrac{e^{-y/2}y^{k/2-1}}{2^{k/2}}dy
+\end{equation}
+Making a change of variables $w = y/2$ so $dw = dy/2$, we get
+\begin{align}
+F\left(x\right) &= \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{x/2}\dfrac{e^{-w}\left(w/2\right)^{k/2-1}}{2^{k/2}}2dw \\
+&= \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{x/2}e^{-w}w^{k/2-1}dw
+\end{align}
+which is a regularised incomplete Gamma function with Gamma argument $k/2$ and upper terminal $x/2$.
 
 \subsubsection{Chi-Distribution}
 
@@ -2412,7 +2585,19 @@ Hence cancellation yields
 \begin{equation}
 f_{R}\left(r\right) = \dfrac{e^{-r^{2}/2}r^{k - 1}}{2^{k/2 - 1}\Gamma\left(k/2\right)}
 \end{equation}
-on support $r \in \left[0, \infty\right)$.
+on support $r \in \left[0, \infty\right)$. The CDF of the chi-distribution can be obtained from
+\begin{equation}
+F_{R}\left(r\right) = \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{r}\dfrac{e^{t^{2}/2}t^{k - 1}}{2^{k/2 - 1}}dt
+\end{equation}
+Introducing a change of variables $s = \dfrac{t^{2}}{2}$ so that $t = \left(2s\right)^{1/2}$ and $ds = t dt$, we have
+\begin{align}
+F_{R}\left(r\right) &= \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{r}\dfrac{e^{-t^{2}/2}t^{k-1}}{2^{k/2-1}}dt \\
+&= \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{r^{2}/2}\dfrac{e^{-s}t^{k-1}}{2^{k/2-1}}\dfrac{ds}{t} \\
+&= \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{r^{2}/2}\dfrac{e^{-s}t^{k-2}}{2^{k/2-1}}ds \\
+&= \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{r^{2}/2}\dfrac{e^{-s}\left(2s\right)^{\left(k-2\right)/2}}{2^{k/2-1}}ds \\
+&= \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{r^{2}/2}e^{-s}s^{k/2-1}ds
+\end{align}
+which is a regularised incomplete Gamma function with Gamma argument $k/2$ and upper terminal $r^{2}/2$.
 
 \subsubsection{Rayleigh Distribution}
 
@@ -2430,9 +2615,10 @@ Integrating this, we find that the CDF has expression
 F_{R}\left(r\right) = 1 - e^{r^{2}/2\sigma^{2}}
 \end{equation}
 Note that the the PDF of the Rayleigh distribution with $\sigma = 1$ is the vertical reflection (and also the horizontal reflection) of the derivative of the standard Gaussian PDF. That is,
-\begin{equation}
-\left.f_{R}\left(r\right)\right|_{\sigma = 1} = -\left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = r} = \left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = -r}
-\end{equation}
+\begin{align}
+\left.f_{R}\left(r\right)\right|_{\sigma = 1} 7= -\left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = r} \\
+&= \left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = -r}
+\end{align}
 
 \subsection{Student's $t$ Distribution}
 
@@ -2753,13 +2939,276 @@ which can be used as the moment estimators.
 
 \subsection{Hypergeometric Distribution}
 
+The hypergeometric distribution at $x$ with parameters $N$, $K$, $n$ is the probability that of a uniformly random sample of size $n$ drawn without replacement from a finite population of size $N$, for which there are $K$ successful states/individuals, the number of success drawn is equal to $x$. By the structure of this characterisation, we can note that
+\begin{gather}
+N \in \mathbb{N} \\
+K \in \left\{0, 1, \dots, N\right\} \\
+n \in \left\{0, 1, \dots, N\right\}
+\end{gather}
+Let $X$ be the random variable for the number of successes. Observe that if $n > N - K$, then there will be at least one success and the total number of successes will be capped by the lower of $n$ or $K$. Hence the support of $X$ are the integers between $\max\left\{0, n - \left(N - K\right)\right\}$ and $\min\left\{n, K\right\}$, inclusive. We can derive the probability distribution of $X$ as follows. Consider a sample with $x$ successes (or equivalently, a sample with $n - x$ non-successes); there are $\mathstrut^{n}\mathsf{C}_{x}$ ways to choose such a sample. Each sample has a probability of
+\begin{multline}
+\dfrac{K\times\left(K - 1\right)\times\dots\times\left(K - x + 1\right)\times \left(N - K\right)\times\dots\times\left[\left(N - K\right) - \left(n - x\right) + 1\right]}{N\times\left(N - 1\right)\times\dots\times\left(N - n + 1\right)} \\
+= \dfrac{\left[K!/\left(K - x\right)!\right]\times\left(N - K\right)!/\left[\left(N - K\right) - \left(n - x\right)\right]!}{N!\left(N - n\right)!}
+\end{multline}
+of being chosen. Therefore the probability of $X = x$ is
+\begin{align}
+\operatorname{Pr}\left(X = x\right) &= \begin{pmatrix}n \\ x\end{pmatrix}\dfrac{\left[K!/\left(K - x\right)!\right]\times\left(N - K\right)!/\left[\left(N - K\right) - \left(n - x\right)\right]!}{N!\left(N - n\right)!} \\
+&= \begin{pmatrix}n \\ x\end{pmatrix}\cdot\dfrac{K!\left(N - K\right)!}{N!}\cdot\dfrac{\left(N - n\right)!}{\left(K - x\right)!\left[\left(N - n\right) - \left(K - x\right)!\right]} \\
+&= \begin{pmatrix}n \\ x\end{pmatrix}\begin{pmatrix}N - n \\ K - x\end{pmatrix}/\begin{pmatrix}N \\ K\end{pmatrix}
+\end{align}
+We can arrive at the hypergeometric distribution in a simpler, different manner. There are $\mathstrut^{N}\mathsf{C}_{n}$ ways to choose a sample and of those, $\mathstrut^{K}\mathsf{C}_{x}\times\mathstrut^{N - K}\mathsf{C}_{n - k}$ will be samples in which there are $x$ successes. Thus
+\begin{equation}
+\operatorname{Pr}\left(X = x\right) = \begin{pmatrix}K \\ x\end{pmatrix}\begin{pmatrix}N - K \\ n - x\end{pmatrix}/\begin{pmatrix}N \\ n\end{pmatrix}
+\end{equation}
+We can show that the two distributions above are the same, ie.
+\begin{equation}
+\begin{pmatrix}n \\ x\end{pmatrix}\begin{pmatrix}N - n \\ K - x\end{pmatrix}/\begin{pmatrix}N \\ K\end{pmatrix} = \begin{pmatrix}K \\ x\end{pmatrix}\begin{pmatrix}N - K \\ n - x\end{pmatrix}/\begin{pmatrix}N \\ n\end{pmatrix}
+\end{equation}
+from the symmetry of the characterisation, and of the equation itself. Suppose in a data generating process that $K$ successes are randomly assigned after the sample had been chosen. In this case, we can then view a `success' as whether an individual was selected in a sample or not (because it would have automatically been chosen if it had). Thus, $n$ and $K$ are interchangeable parameters. \\
+
+Also by its characterisation as a finite population version of the binomial distribution, we will see that if $K$ and $N$ are large (thus being `close' to an infinite population), the hypergeometric distribution will resemble the binomial distribution with success probability $K/N$. 
+
+\subsubsection{Mean of the Hypergeometric Distribution}
+
+To derive the mean of the hypergeometric distribution, first observe the identity
+\begin{align}
+x\begin{pmatrix}K\\
+x
+\end{pmatrix} &= \dfrac{K!}{\left(x-1\right)!\left(K-x\right)!} \\
+&= K\dfrac{\left(K-1\right)!}{\left(x-1\right)!\left(K-x\right)!} \\
+&= K\dfrac{\left(K-1\right)!}{\left(x-1\right)!\left[\left(K-1\right)-\left(x-1\right)\right]!} \\
+&= K\begin{pmatrix}K-1\\
+x-1
+\end{pmatrix}
+\end{align}
+Then we can write
+\begin{align}
+x\operatorname{Pr}\left(X=x\right) &= x\begin{pmatrix}K\\
+x
+\end{pmatrix}\begin{pmatrix}N-K\\
+n-x
+\end{pmatrix}/\begin{pmatrix}N\\
+n
+\end{pmatrix} \\
+&= K\begin{pmatrix}K-1\\
+x-1
+\end{pmatrix}\begin{pmatrix}N-K\\
+n-x
+\end{pmatrix}/\begin{pmatrix}N\\
+n
+\end{pmatrix}
+\end{align}
+Also note the following:
+\begin{gather}
+\begin{pmatrix}N-K\\
+n-x
+\end{pmatrix}=\begin{pmatrix}N-1-\left(K-1\right)\\
+n-1-\left(x-1\right)
+\end{pmatrix} \\
+\begin{pmatrix}N\\
+n
+\end{pmatrix}=\dfrac{N}{n}\begin{pmatrix}N-1\\
+n-1
+\end{pmatrix}
+\end{gather}
+Therefore
+\begin{equation}
+x\operatorname{Pr}\left(X=x\right)=n\dfrac{K}{N}\begin{pmatrix}K-1\\
+x-1
+\end{pmatrix}\begin{pmatrix}N-1-\left(K-1\right)\\
+n-1-\left(x-1\right)
+\end{pmatrix}/\begin{pmatrix}N-1\\
+n-1
+\end{pmatrix}
+\end{equation}
+Taking the expectation,
+\begin{align}
+\mathbb{E}\left[X\right] &= \sum_{x}x\operatorname{Pr}\left(X=x\right) \\
+&= n\dfrac{K}{N}\sum_{x}\begin{pmatrix}K-1\\
+x-1
+\end{pmatrix}\begin{pmatrix}N-1-\left(K-1\right)\\
+n-1-\left(x-1\right)
+\end{pmatrix}/\begin{pmatrix}N-1\\
+n-1
+\end{pmatrix}
+\end{align}
+where to avoid unnecessary complications over support, the sum is taken over the non-negative integers and it is understood that the binomial coefficient $\mathstrut^{n}\mathsf{C}_{k} = 0$ when $k \not\in \left\{0, 1, \dots, n\right\}$. Then we see that the summands are the masses of the hypergeometric distribution with population size $N - 1$, success states $K - 1$ and sample size $n - 1$, so the summation equals $1$. Hence
+\begin{equation}
+\mathbb{E}\left[X\right]=n\dfrac{K}{N}
+\end{equation}
+It is here we see that the mean is the same as the binomial distribution (ie. sampling with replacement) with success probability $K/N$. This may initially seem counterintuitive because the hypergeometric distribution considers sampling without replacement, thus successive samples become dependent, and that $K$, $N$ are allowed to be very small (moreso increasing the dependence between successive samples). One possible way to resolve the intuition is to imagine that if one were to draw many successes early on, then subsequent successes will be rarer. Conversely, if one were to draw few successes early on, subsequent successes will become more common. These counteracting effects `balance out' each other in such a way that the expected number of successes is the same as that from an infinite population.
+
 \subsection{Beta-Binomial Distribution}
 
 \subsection{Benford Distribution}
 
+\section{Distribution Relationships}
+
+\subsection{Cauchy and Gaussian Distribution}
+
+The Cauchy random variable can be defined as a ratio of independent zero-mean Gaussian random variables. Let $Y_{1} \sim \mathcal{N}\left(0, \sigma_{1}^{2}\right)$ and $Y_{2} \sim \mathcal{N}\left(0, \sigma_{2}^{2}\right)$. Then from the property of the ratio distribution, the random variable $X = \dfrac{Y_{1}}{Y_{2}}$ will have density function
+\begin{align}
+f_{X}\left(x\right) &= \int_{-\infty}^{\infty}f_{Y_{1}}\left(xy\right)f_{Y_{2}}\left(y\right)\left|y\right|dy \\
+&= \int_{-\infty}^{\infty}\left(\dfrac{1}{\sigma_{1}\sqrt{2\pi}}e^{-x^{2}y^{2}/\left(2\sigma_{1}^{2}\right)}\right)\left(\dfrac{1}{\sigma_{2}\sqrt{2\pi}}e^{-y^{2}/\left(2\sigma_{2}^{2}\right)}\right)\left|y\right|dy \\
+&= \dfrac{1}{2\pi\sigma_{1}\sigma_{2}}\int_{-\infty}^{\infty}\exp\left[-\dfrac{y^{2}}{2}\left(\dfrac{x^{2}}{\sigma_{1}^{2}} + \dfrac{1}{\sigma_{2}^{2}}\right)\right]\left|y\right|dy \\
+&= \dfrac{1}{\pi\sigma_{1}\sigma_{2}}\int_{0}^{\infty}y\exp\left[-\dfrac{y^{2}}{2}\left(\dfrac{x^{2}}{\sigma_{1}^{2}} + \dfrac{1}{\sigma_{2}^{2}}\right)\right]dy
+\end{align}
+We have that
+\begin{align}
+\int_{0}^{\infty}te^{-at^{2}}dt &= \dfrac{1}{2}\int_{0}^{\infty}e^{-au}du \\
+&= \dfrac{1}{2}\left[-\dfrac{e^{-au}}{a}\right]_{0}^{\infty} \\
+&= \dfrac{1}{2a}
+\end{align}
+by change of variables $u = t^{2}$ (this result can also be obtained from the mean of the half-normal distribution), so this gives
+\begin{align}
+f_{X}\left(x\right) &= \dfrac{1}{\pi\sigma_{1}\sigma_{2}}\cdot\dfrac{1}{\frac{2}{2}\left(\frac{x^{2}}{\sigma_{1}^{2}}+\frac{1}{\sigma_{2}^{2}}\right)} \\
+&= \dfrac{1}{\pi\sigma_{1}\sigma_{2}}\cdot\dfrac{\sigma_{1}^{2}\sigma_{2}^{2}}{x^{2}\sigma_{2}^{2}+\sigma_{1}^{2}} \\
+&= \dfrac{1}{\pi}\cdot\dfrac{\sigma_{1}/\sigma_{2}}{x^{2}+\left(\sigma_{1}/\sigma_{2}\right)^{2}}
+\end{align}
+which is the density function of a Cauchy random variable with location parameter zero and scale parameter $\sigma_{1}/\sigma_{2}$.
+
+\subsection{Beta and Gamma Distribution}
+
+If $X$ are $Y$ are independent and Gamma distributed with $X\sim \operatorname{Gamma}\left(a, \lambda\right)$ and $Y\sim \operatorname{Gamma}\left(b, \lambda\right)$, then the random variable
+\begin{equation}
+Z = \dfrac{X}{X + Y}
+\end{equation}
+will be Beta distributed with $Z \sim \operatorname{Beta}\left(a, b\right)$. To show this, first note that we can rearrange
+\begin{gather}
+\dfrac{X + Y}{X} = \dfrac{1}{Z} \\
+Y = X\left(\dfrac{1}{Z} - 1\right)
+\end{gather}
+and write for the cumulative distribution function of $Z$:
+\begin{align}
+F_{Z}\left(z\right) &= \operatorname{Pr}\left(\dfrac{X}{X + Y} \leq z\right) \\
+&= \operatorname{Pr}\left(\dfrac{X + Y}{X} \geq \dfrac{1}{z}\right) \\
+&= \operatorname{Pr}\left(Y \geq X\left(\dfrac{1}{z} - 1\right)\right)
+\end{align}
+so by the law of total probability (and noting the support of the Gamma distribution):
+\begin{align}
+F_{Z}\left(z\right) &= \int_{0}^{\infty}\operatorname{Pr}\left(Y \geq X\left(\dfrac{1}{z} - 1\right)\middle|X = x\right)f_{X}\left(x\right)dx \\
+&= \int_{0}^{\infty}\left[1 - F_{Y}\left(x\left(1/z - 1\right)\right)\right]f_{X}\left(x\right)dx
+\end{align}
+due to independence. Then differentiating the CDF yields
+\begin{align}
+f_{Z}\left(z\right) &= \dfrac{d}{dz}\int_{0}^{\infty}\left[1 - F_{Y}\left(x\left(1/z - 1\right)\right)\right]f_{X}\left(x\right)dx \\
+&= \int_{0}^{\infty}\dfrac{x}{z^{2}}f_{Y}\left(x\left(1/z - 1\right)\right)f_{X}\left(x\right)dx
+\end{align}
+Substituting the Gamma densities, we have
+\begin{align}
+f_{Z}\left(z\right) &= \int_{0}^{\infty}\dfrac{x}{z^{2}}\cdot\dfrac{\lambda^{b}\left[x\left(1/z-1\right)\right]^{b-1}e^{-\lambda\left[x\left(1/z-1\right)\right]}}{\Gamma\left(b\right)}\cdot\dfrac{\lambda^{a}x^{a-1}e^{-\lambda x}}{\Gamma\left(a\right)}dx \\
+&= \dfrac{\lambda^{a+b}\left(1/z-1\right)^{b-1}}{\Gamma\left(a\right)\Gamma\left(b\right)}\int_{0}^{\infty}\dfrac{x}{z^{2}}\cdot x^{a+b-2}e^{-\lambda x/z}dx \\
+&= \dfrac{\lambda^{a+b}\left(1-z\right)^{b-1}}{\Gamma\left(a\right)\Gamma\left(b\right)z^{b-1}}\int_{0}^{\infty}\dfrac{1}{z^{2}}\cdot x^{a+b-1}e^{-\lambda x/z}dx
+\end{align}
+Perform the change of variables $w = \lambda x/z$ so that $x = zw/\lambda$ and $dx = zdw/\lambda$:
+\begin{align}
+f_{Z}\left(z\right) &= \dfrac{\lambda^{a+b}\left(1-z\right)^{b-1}}{\Gamma\left(a\right)\Gamma\left(b\right)z^{b-1}}\int_{0}^{\infty}\dfrac{1}{z^{2}}\cdot\dfrac{z^{a+b-1}w^{a+b-1}}{\lambda^{a+b-1}}e^{-w}\dfrac{zdw}{\lambda} \\
+&= \dfrac{\lambda^{a+b}\left(1-z\right)^{b-1}}{\Gamma\left(b\right)\Gamma\left(a\right)z^{b-1}}\int_{0}^{\infty}\dfrac{z^{a+b-2}w^{a+b-1}}{\lambda^{a+b}}e^{-w}dw \\
+&= \dfrac{z^{a-1}\left(1-z\right)^{b-1}}{\Gamma\left(a\right)\Gamma\left(b\right)}\int_{0}^{\infty}w^{a+b-1}e^{-w}dw
+\end{align}
+Using the definition of the Gamma function:
+\begin{align}
+f_{Z}\left(z\right) &= \dfrac{\Gamma\left(a+b\right)}{\Gamma\left(a\right)\Gamma\left(b\right)}z^{a-1}\left(1-z\right)^{b-1} \\
+&= \dfrac{z^{a-1}\left(1-z\right)^{b-1}}{\operatorname{B}\left(a,b\right)}
+\end{align} 
+which is the required Beta density.
+
 \section{Random Vectors}
 
+A random vector $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ is a vector in which each element is a random variable.
+
 \subsection{Multivariate Probability Distributions}
+
+\subsubsection{Multivariate Cumulative Distribution Functions}
+
+The cumulative distribution function $F_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right)$ for a random vector $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ follows an analogous definition to the univariate case:
+\begin{equation}
+F_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right) = \operatorname{Pr}\left(X_{1} \leq x_{1}, \dots, X_{n} \leq x_{n}\right)
+\end{equation}
+
+\subsubsection{Multivariate Joint Probability Density Functions}
+
+If $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ is a random vector of continuous variables, then the joint probability density function $f_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right)$ satisfies
+\begin{equation}
+F_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right) = \int_{-\infty}^{x_{1}}\dots\int_{-\infty}^{x_{n}}f_{\mathbf{X}}\left(t_{1}, \dots, t_{n}\right)dt_{n}\dots dt_{1}
+\end{equation}
+Hence to `reverse' this, it follows that the probability density function be obtained from the cumulative distribution function by
+\begin{equation}
+f_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right) = \dfrac{\partial^{n}}{\partial x_{1}\dots\partial x_{n}}F_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right)
+\end{equation}
+
+\subsubsection{Multivariate Marginal Probability Distributions}
+
+If $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ is a random vector of continuous variables, then the marginal density for the first $m < n$ random variables $X_{1}, \dots, X_{m}$, denoted $f_{\mathbf{X}_{1:m}}\left(x_{1}, \dots, x_{m}\right)$, can be found by `integrating out' the other variables $x_{m + 1}, \dots, x_{n}$ as so:
+\begin{equation}
+f_{\mathbf{X}_{1:m}}\left(x_{1}, \dots, x_{m}\right) = \int_{-\infty}^{\infty}\dots\int_{-\infty}^{\infty}f_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right)dx_{n}\dots dx_{m + 1}
+\end{equation}
+The marginal cumulative distribution is obtained by allowing
+\begin{equation}
+F_{\mathbf{X}_{1:m}}\left(x_{1}, \dots, x_{m}\right) = \lim_{x_{m + 1}, \dots, x_{n} \to\infty}F_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right)
+\end{equation}
+
+\subsubsection{Multivariate Conditional Probability Distributions}
+
+If $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ is a random vector of continuous variables, then the density for the first $m < n$ random variables $X_{1}, \dots, X_{m}$ conditioned on the last $n - m$ random variables taking on values $X_{m + 1} = x_{m + 1}, \dots , X_{n} = x_{n}$ is obtained analogously to the bivariate case, where we divide by the marginal density:
+\begin{equation}
+f_{\mathbf{X}_{1:m}}\left(x_{1}, \dots, x_{m}\middle|\mathbf{X}_{\left(m + 1\right):n} = \left(x_{m + 1}, \dots, x_{n}\right)\right) = \dfrac{f_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right)}{f_{\mathbf{X}_{\left(m + 1\right):n}}\left(x_{m + 1}, \dots, x_{n}\right)}
+\end{equation}
+This induces the cumulative distribution conditional on $X_{m + 1} = x_{m + 1}, \dots , X_{n} = x_{n}$:
+\begin{multline}
+F_{\mathbf{X}_{1:m}}\left(x_{1}, \dots, x_{m}\middle|\mathbf{X}_{\left(m + 1\right):n} = \left(x_{m + 1}, \dots, x_{n}\right)\right) \\
+= \int_{-\infty}^{x_{1}}\dots\int_{-\infty}^{x_{m}}f_{\mathbf{X}_{1:m}}\left(x_{1}, \dots, x_{m}\middle|\mathbf{X}_{\left(m + 1\right):n} = \left(x_{m + 1}, \dots, x_{n}\right)\right)dx_{m}\dots dx_{1}
+\end{multline}
+We also have the cumulative distribution conditional on $X_{m + 1} \leq x_{m + 1}, \dots , X_{n} \leq x_{n}$:
+\begin{equation}
+F_{\mathbf{X}_{1:m}}\left(x_{1}, \dots, x_{m}\middle|\mathbf{X}_{\left(m + 1\right):n} \leq \left(x_{m + 1}, \dots, x_{n}\right)\right) = \dfrac{F_{\mathbf{X}}\left(x_{1}, \dots, x_{n}\right)}{F_{\mathbf{X}_{\left(m + 1\right):n}}\left(x_{m + 1}, \dots, x_{n}\right)}
+\end{equation}
+which induces a density function conditional on $X_{m + 1} \leq x_{m + 1}, \dots , X_{n} \leq x_{n}$:
+\begin{multline}
+f_{\mathbf{X}_{1:m}}\left(x_{1}, \dots, x_{m}\middle|\mathbf{X}_{\left(m + 1\right):n} \leq \left(x_{m + 1}, \dots, x_{n}\right)\right) \\
+= \dfrac{\partial^{m}}{\partial x_{1}\dots\partial x_{m}}F_{\mathbf{X}_{1:m}}\left(x_{1}, \dots, x_{m}\middle|\mathbf{X}_{\left(m + 1\right):n} \leq \left(x_{m + 1}, \dots, x_{n}\right)\right)
+\end{multline}
+
+\subsubsection{Bivariate Discrete Discrete Distribution Functions}
+
+Suppose we have the discrete bivariate cumulative distribution function $F\left(x, y\right) := \operatorname{Pr}\left(X\leq x, Y \leq y\right)$. We are interested in deriving the probability mass function $f\left(x, y\right) = \operatorname{Pr}\left(X = x, Y = y\right)$ from this. Assume that $X$ and $Y$ are integer valued. We can derive this using the inclusion-exclusion principle. First define the events
+\begin{gather}
+A = \left\{X \leq x, Y < y\right\} \\
+B = \left\{X < x, Y \leq y\right\}
+\end{gather}
+Then logically
+\begin{gather}
+A \cup B =  \left\{X \leq x, Y \leq y\right\}\setminus\left\{X = x, Y = y\right\} \\
+A \cap B = \left\{X < x, Y < y\right\}
+\end{gather}
+Thus the joint probability mass function can be expressed as
+\begin{align}
+\operatorname{Pr}\left(X = x, Y = y\right) &= \operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(A \cup B\right) \\
+&= \operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(A\right) - \operatorname{Pr}\left(B\right) + \operatorname{Pr}\left(A \cap B\right) \\
+&= \operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(X \leq x, Y < y\right) - \operatorname{Pr}\left(X < x, Y \leq y\right) + \operatorname{Pr}\left(X < x, Y < y\right) \\
+&\begin{multlined} =\operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(X \leq x, Y \leq y - 1\right) - \operatorname{Pr}\left(X \leq x - 1, Y \leq y\right) \\
++ \operatorname{Pr}\left(X \leq x - 1, Y \leq y - 1\right) \end{multlined} \\
+&= F\left(x, y\right) - F\left(x, y - 1\right) - F\left(x - 1, y\right) + F\left(x - 1, y - 1\right)
+\end{align}
+
+\subsection{Mean Vectors}
+
+The mean vector of a random vector $\mathbf{X}$ on support $\mathcal{X}$ is the expectation $\mathbb{E}\left[\mathbf{X}\right]$ (which will be vector-valued), and is found by integrating over $\mathcal{X}$ using its density function $f_{\mathbf{X}}\left(\mathbf{x}\right)$:
+\begin{equation}
+\mathbb{E}\left[\mathbf{X}\right] = \int_{\mathcal{X}}\mathbf{x}f_{\mathbf{X}}\left(\mathbf{x}\right)d\mathbf{x}
+\end{equation}
+if $\mathbf{X}$ is a continuous random vector, otherwise if $\mathbf{X}$ is a discrete random vector then we use the summation over $\mathcal{X}$ and the probability mass function $\operatorname{Pr}\left(\mathbf{X} = \mathbf{x}\right)$:
+\begin{equation}
+\mathbb{E}\left[\mathbf{X}\right] = \sum_{\mathcal{X}}\operatorname{Pr}\left(\mathbf{X} = \mathbf{x}\right)
+\end{equation}
+Alternatively, we have the marginal distributions for $X_{1}, \dots, X_{n}$ with expectations $\mathbb{E}\left[X_{1}\right], \dots, \mathbb{E}\left[X_{n}\right]$ respectively, then the mean vector is just vector of these marginal means:
+\begin{equation}
+\mathbb{E}\left[\mathbf{X}\right] = \begin{bmatrix}
+\mathbb{E}\left[X_{1}\right] & \dots & \mathbb{E}\left[X_{n}\right]
+\end{bmatrix}^{\top}
+\end{equation}
+
+\subsubsection{Multivariate Conditional Expectations}
 
 \subsection{Covariance Matrices}
 
@@ -2804,27 +3253,8 @@ The precision matrix of a random vector $\mathbf{X}$ is defined as the inverse o
 
 \subsection{Dirichlet Distribution}
 
-\subsection{Bivariate Cumulative Discrete Distribution Functions}
+\subsection{Multivariate Cauchy Distribution} 
 
-Suppose we have the discrete bivariate cumulative distribution function $F\left(x, y\right) := \operatorname{Pr}\left(X\leq x, Y \leq y\right)$. We are interested in deriving the probability mass function $f\left(x, y\right) = \operatorname{Pr}\left(X = x, Y = y\right)$ from this. Assume that $X$ and $Y$ are integer valued. We can derive this using the inclusion-exclusion principle. First define the events
-\begin{gather}
-A = \left\{X \leq x, Y < y\right\} \\
-B = \left\{X < x, Y \leq y\right\}
-\end{gather}
-Then logically
-\begin{gather}
-A \cup B =  \left\{X \leq x, Y \leq y\right\}\setminus\left\{X = x, Y = y\right\} \\
-A \cap B = \left\{X < x, Y < y\right\}
-\end{gather}
-Thus the joint probability mass function can be expressed as
-\begin{align}
-\operatorname{Pr}\left(X = x, Y = y\right) &= \operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(A \cup B\right) \\
-&= \operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(A\right) - \operatorname{Pr}\left(B\right) + \operatorname{Pr}\left(A \cap B\right) \\
-&= \operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(X \leq x, Y < y\right) - \operatorname{Pr}\left(X < x, Y \leq y\right) + \operatorname{Pr}\left(X < x, Y < y\right) \\
-&\begin{multlined} =\operatorname{Pr}\left(X \leq x, Y \leq y\right) - \operatorname{Pr}\left(X \leq x, Y \leq y - 1\right) - \operatorname{Pr}\left(X \leq x - 1, Y \leq y\right) \\
-+ \operatorname{Pr}\left(X \leq x - 1, Y \leq y - 1\right) \end{multlined} \\
-&= F\left(x, y\right) - F\left(x, y - 1\right) - F\left(x - 1, y\right) + F\left(x - 1, y - 1\right)
-\end{align}
 \section{Inequalities in Probability}
 
 \subsection{Boole's Inequality}
@@ -3462,6 +3892,14 @@ so the event $\left\{X_{n} = 1\right\}$ occurs finitely many times, meaning $\op
 \end{equation}
 because there does not exist a random variable $Y$ with finite expectation such that $\left|X_{n}\right| < Y$ for all $n$.
 
+\subsection{Cram\'{e}r-Wold Theorem \cite{Billingsley1995}}
+
+Suppose $\left\{\mathbf{X}_{n}\right\}$ is a sequence of random vectors converging in distribution to $\mathbf{X} \in \mathbb{R}^{k}$. The continuous mapping theorem allows us to see that
+\begin{equation}
+\mathbf{a}^{\top}\mathbf{X}_{n} \overset{\mathrm{d}}{\to} \mathbf{a}^{\top}\mathbf{X}
+\end{equation}
+for any vector $\mathbf{a}$. The Cram\'{e}r-Wold Theorem is a stronger result which states that $\mathbf{X}_{n} \overset{\mathrm{d}}{\to} \mathbf{X}$ if and only if $\mathbf{a}^{\top}\mathbf{X}_{n} \overset{\mathrm{d}}{\to} \mathbf{a}^{\top}\mathbf{X}$ for all $\mathbf{a} \in \mathbb{R}^{k}$.
+
 \section{Branching Processes}
 
 \chapter{Intermediate Statistics}
@@ -3505,7 +3943,7 @@ The Mahalanobis distance generalises the notion of standard deviations from the 
 d_{\mathrm{M}} = \sqrt{\left(\mathbf{X} - \boldsymbol{\mu}\right)^{\top}\mathbf{C}^{-1}\left(\mathbf{X} - \boldsymbol{\mu}\right)}
 \end{equation}
 
-\subsection{Higher Co-moments}
+\subsection{Higher Co-moments \cite{Miller2013}}
 
 \subsubsection{Coskewness}
 
@@ -3642,9 +4080,15 @@ f\left(x\right) &= \argmin_{c}\mathbb{E}\left[\left|Y - c\right|\middle|X = x\ri
 
 \subsection{Receiver Operating Characteristic}
 
+\subsection{Uniformly Most Powerful Tests}
+
 \subsection{Uncertainty Quantification}
 
 Uncertainty quantification is the science of characterising uncertainty (ie. the distribution of errors, in a statistical sense) for a model.
+
+\subsubsection{Aleatoric Uncertainty}
+
+\subsubsection{Epistemic Uncertainty}
 
 \subsubsection{Propagation of Errors}
 
@@ -3942,7 +4386,7 @@ Let $\left\{X_{n}\right\}$ be a sequence of i.i.d. copies of $X$. Assume that $\
 \end{equation}
 \end{theorem}
 \begin{proof}
-If we denote $X^{+} = \max\left\{X, 0\right\}$ and $X^{-} = \max\left\{-X, 0\right\}$ then $X = X^{+} - X^{-}$. Then without loss of generality assume $X \geq 0$, otherwise we can just apply the theorem to $X^{+}$ and $X^{-}$ separately. Let $Y_{i} = X_{i}\mathbb{I}_{X_{i} \leq i}$ (ie. $Y_{i}$ is constructed to be a random variable such that the higher $i$ is, the more likely it is to be equal to $X_{i}$). Then by characterisation of the indicator function:
+If we denote $X^{+} = \max\left\{X, 0\right\}$ and $X^{-} = \max\left\{-X, 0\right\}$ then $X = X^{+} - X^{-}$. Then without loss of generality assume $X \geq 0$, otherwise we can just apply the theorem to $X^{+}$ and $X^{-}$ separately. Let $Y_{i} = X_{i}\mathbb{I}_{X_{i} \leq i}$ (ie. $Y_{i}$ is constructed to be a random variable such that the higher $i$ is, the more likely it is to be equal to $X_{i}$). Then from the characterisation of this indicator function:
 \begin{align}
 \sum_{i = 1}^{\infty}\operatorname{Pr}\left(X_{i} \neq Y_{i}\right) &= \sum_{i = 1}^{\infty}\operatorname{Pr}\left(X_{i} \neq X_{i}\mathbb{I}_{X_{i} \leq i}\right)\\
 &= \sum_{i = 1}^{\infty}\operatorname{Pr}\left(X_{i} > i\right) \\
@@ -4074,7 +4518,7 @@ so we arrive at the least squares cost function. Hence the least squares fitting
 \end{equation}
 and the formulation becomes equivalent to weighted least squares.
 
-\subsection{Maximum Likelihood Justification of Least Absolute Deviation}
+\subsection{Maximum Likelihood Justification of Least Absolute Deviations}
 
 Suppose we have data consisting of $n$ data pairs $\left(x_{i}, y_{i}\right)$ along with a model $f\left(x_{i}; \theta\right)$ parametrised in the parameter vector $\theta$ to be estimated. If we assume the data generating process
 \begin{equation}
@@ -4874,7 +5318,7 @@ Hence
 - \operatorname{He}_{n}\left(x\right)
 \end{equation}
 
-\section{Central Limit Theorem}
+\section{Central Limit Theorems}
 
 \subsection{Lindberg-Levy Central Limit Theorem \cite{Kallenberg1997}}
 
@@ -4922,10 +5366,98 @@ The Central Limit Theorem also implies several other equivalent statements, whic
 \begin{gather}
 S_{n} - n\mu \overset{\mathrm{d}}{\to} \sigma\sqrt{n}Z \sim \mathcal{N}\left(0, \sigma^{2}n\right) \\
 S_{n} \overset{\mathrm{d}}{\to} \sigma\sqrt{n}Z + n\mu \sim \mathcal{N}\left(n\mu, \sigma^{2}n\right) \\
-\dfrac{S_{n}}{n} \overset{\mathrm{d}}{\to} \dfrac{\sigma\sqrt{n}Z + n\mu}{n}\sim \mathcal{N}\left(\mu, \dfrac{\sigma^{2}}{n}\right)
+\dfrac{S_{n}}{n} \overset{\mathrm{d}}{\to} \dfrac{\sigma\sqrt{n}Z + n\mu}{n}\sim \mathcal{N}\left(\mu, \dfrac{\sigma^{2}}{n}\right) \\
+\sqrt{n}\left(\dfrac{S_{n}}{n} - \mu\right) \overset{\mathrm{d}}{\to} \sigma Z \sim \mathcal{N}\left(0, \sigma^{2}\right)
 \end{gather}
 
 \subsection{Lindberg-Feller Central Limit Theorem}
+
+\subsection{Multivariate Central Limit Theorem \cite{Lehmann1999}}
+
+Let $\mathbf{X}_{1}, \mathbf{X}_{2}, \dots$ be i.i.d. copies of $\mathbf{X} \in \mathbb{R}^{k}$, with mean vector $\mathbb{E}\left[\mathbf{X}\right] = \boldsymbol{\mu}$ and positive definite covariance matrix $\operatorname{Cov}\left(\mathbf{X}\right) = \Sigma$. Let
+\begin{equation}
+\overline{\mathbf{X}}_{n} = \dfrac{1}{n}\sum_{i = 1}^{n}\mathbf{X}_{i}
+\end{equation}
+Then
+\begin{equation}
+\sqrt{n}\left(\overline{\mathbf{X}}_{n} - \boldsymbol{\mu}\right) \overset{\mathrm{d}}{\to} \mathcal{N}\left(\mathbf{0}, \Sigma\right)
+\end{equation}
+as $n \to \infty$.
+\begin{proof}
+For convenience, denote a random vector $\mathbf{Y}\sim\mathcal{N}\left(\mathbf{0}, \Sigma\right)$. By appealing to the Cram\'{e}r-Wold theorem, it suffices to show that
+\begin{equation}
+\mathbf{a}^{\top}\sqrt{n}\left(\overline{\mathbf{X}}_{n} - \boldsymbol{\mu}\right) \overset{\mathrm{d}}{\to} \mathbf{a}^{\top}\mathbf{Y}
+\end{equation}
+for all vectors $\mathbf{a}^{\top} \in \mathbb{R}^{k}$. Now note that $\mathbb{E}\left[\mathbf{a}^{\top}\mathbf{X}\right] = \mathbf{a}^{\top}\boldsymbol{\mu}$, $\operatorname{Var}\left(\mathbf{a}^{\top}\mathbf{X}\right) = \mathbf{a}^{\top}\Sigma\mathbf{a}$ and $\operatorname{Var}\left(\mathbf{a}^{\top}\mathbf{Y}\right) = \mathbf{a}^{\top}\Sigma\mathbf{a}$. Since $\mathbf{a}^{\top}\overline{\mathbf{X}}_{n} = \sum_{i = 1}^{n}\mathbf{a}^{\top}\mathbf{X}_{i}/n$ is a scalar, by applying the univariate central limit theorem we get
+\begin{equation}
+\sqrt{n}\left(\mathbf{a}^{\top}\overline{\mathbf{X}}_{n} - \mathbf{a}^{\top}\boldsymbol{\mu}\right) \overset{\mathrm{d}}{\to} \mathbf{a}^{\top}\mathbf{Y} \sim \mathcal{N}\left(0, \mathbf{a}^{\top}\Sigma\mathbf{a}\right)
+\end{equation}
+for any $\mathbf{a}^{\top} \in \mathbb{R}^{k}$, which completes the proof.
+\end{proof}
+
+\subsection{Finite Population Central Limit Theorem}
+
+\subsubsection{Finite Population Sample Mean}
+
+Consider a finite population of size $N$, and sample of size $n$ denoted $\left\{X_{1}, X_{2}, \dots, X_{n}\right\}$. Then the sampling distribution of the sample mean $\overline{X}$ must be developed separately to the infinite population case. Suppose the population consists of the set $\left\{y_{1}, y_{2}, \dots, y_{N}\right\}$, then the population mean and variance are given by
+\begin{gather}
+\mu = \dfrac{1}{N}\sum{i = 1}^{N}y_{i} \\
+\sigma^{2} = \dfrac{1}{N}\sum_{i = 1}^{N}\left(y_{i} - \mu\right)^{2}
+\end{gather}
+Due to the linearity of expectation, we can show for the unbiasedness of the sample mean:
+\begin{align}
+\mathbb{E}\left[\overline{X}\right] &= \mathbb{E}\left[\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}\right] \\
+&= \dfrac{1}{n}\sum_{i = 1}^{n}\mathbb{E}\left[X_{i}\right] \\
+&= \mu
+\end{align}
+To derive the variance of the sampling distribution, first introduce the $N$ indicator random variables $Z_{1}, Z_{2}, \dots, Z_{N}$ for whether the respective population elements are in the sample. Then $\overline{X} = \sum_{i = 1}^{N}y_{i}Z_{i}/n$ and
+\begin{align}
+\operatorname{Var}\left(\overline{X}\right) &= \operatorname{Var}\left(\dfrac{1}{n}\sum_{i = 1}^{N}y_{i}Z_{i}\right) \\
+&= \dfrac{1}{n^{2}}\left[\sum_{i = 1}^{N}y_{i}^{2}\operatorname{Var}\left(Z_{i}\right) + 2\sum_{i, j: i < j}y_{i}y_{j}\operatorname{Cov}\left(Z_{i}Z_{j}\right)\right]
+\end{align}
+Each $Z_{i}$ has a marginal distribution which is a Bernoulli distribution with mean $\mathbb{E}\left[Z_{i}\right] = n/N$ and variance $\operatorname{Var}\left(Z_{i}\right) = \left(1 - n/N\right)n/N$ and also for any $i \neq j$:
+\begin{align}
+\mathbb{E}\left[Z_{i}Z_{j}\right] &= \operatorname{Pr}\left(Z_{i} = 1, Z_{j} = 1\right) \\
+&= \dfrac{n}{N}\cdot\dfrac{n - 1}{N - 1}
+\end{align}
+Hence this gives
+\begin{align}
+\operatorname{Cov}\left(Z_{i}Z_{j}\right) &= \mathbb{E}\left[Z_{i}Z_{j}\right] - \mathbb{E}\left[Z_{i}\right]\mathbb{E}\left[Z_{j}\right] \\
+&= \dfrac{n}{N}\cdot\dfrac{n - 1}{N - 1} - \dfrac{n^{2}}{N^{2}} \\
+&= \dfrac{Nn^{2} - Nn - n^{2}N + n^{2}}{N^{2}\left(N - 1\right)} \\
+&= - \dfrac{n\left(N - n\right)}{N^{2}\left(N - 1\right)} \\
+&= -\dfrac{1}{N - 1}\cdot\dfrac{n}{N}\left(1 - \dfrac{n}{N}\right)
+\end{align}
+Computing the variance of the sampling distribution:
+\begin{align}
+\operatorname{Var}\left(\overline{X}\right) &= \dfrac{1}{n^{2}}\left[\sum_{i=1}^{N}y_{i}^{2}\dfrac{n}{N}\left(1-\dfrac{n}{N}\right)-2\sum_{i,j:i<j}y_{i}y_{j}\dfrac{1}{N-1}\cdot\dfrac{n}{N}\left(1-\dfrac{n}{N}\right)\right] \\
+&= \dfrac{1}{n^{2}}\cdot\dfrac{n}{N}\left(1-\dfrac{n}{N}\right)\left[\sum_{i=1}^{N}y_{i}^{2}-\dfrac{2}{N-1}\sum_{i,j:i<j}y_{i}y_{j}\right] \\
+\end{align}
+Note from the population variance that
+\begin{align}
+\sum_{i=1}^{N}\left(y_{i}^{2}-\mu\right)^{2} &= \sum_{i=1}^{N}y_{i}^{2}-N\mu^{2} \\
+&= \sum_{i=1}^{N}y_{i}^{2}-N\left(\dfrac{1}{N}\sum_{i=1}^{N}y_{i}\right)^{2} \\
+&= \sum_{i=1}^{N}y_{i}^{2}-\dfrac{1}{N}\left(\sum_{i=1}^{N}y_{i}^{2}+2\sum_{i,j:i<j}y_{i}y_{j}\right) \\
+&= \dfrac{N-1}{N}\sum_{i=1}^{N}y_{i}^{2}-\dfrac{2}{N}\sum_{i,j:i<j}y_{i}y_{j}
+\end{align}
+So multiplying out by $\dfrac{N}{N - 1}$:
+\begin{equation}
+\dfrac{N}{N - 1}\sum_{i=1}^{N}\left(y_{i}^{2}-\mu\right)^{2} = \sum_{i=1}^{N}y_{i}^{2}-\dfrac{2}{N-1}\sum_{i,j:i<j}y_{i}y_{j}
+\end{equation}
+and therefore
+\begin{align}
+\operatorname{Var}\left(\overline{X}\right) &= \dfrac{1}{n^{2}}\cdot\dfrac{n}{N}\left(1-\dfrac{n}{N}\right)\left(\dfrac{N}{N - 1}\sum_{i=1}^{N}\left(y_{i}^{2}-\mu\right)^{2}\right) \\
+&= \dfrac{1}{n}\cdot\left(\dfrac{N-n}{N}\right)\left(\dfrac{N}{N-1}\sigma^{2}\right) \\
+&= \left(\dfrac{N-n}{N-1}\right)\dfrac{\sigma^{2}}{n}
+\end{align}
+which is the infinite population variance multiplied by $\dfrac{N-n}{N-1}$. Hence the $\dfrac{N-n}{N-1}$ is known as a finite population correction factor.
+
+\subsubsection{Approximate Normality of the Sample Mean in Finite Populations}
+
+Under further technical assumptions \cite{Wilks1962}, the sampling distribution of the sample mean from a finite population converges in distribution to a normal distribution as the population size $N \to \infty$. This is not too absurd to imagine, since a finite population closely resembles an infinite population when $N$ is large. Thus for large $N$ and $n$, we can approximate the sampling distribution of the sample mean from a finite population with
+\begin{equation}
+\overline{X} \overset{\mathrm{approx.}}{\sim} \mathcal{N}\left(\mu, \dfrac{N-n}{N-1}\cdot\dfrac{\sigma^{2}}{n}\right)
+\end{equation}
 
 \section{Multivariate Gaussian Identities}
 
@@ -5106,6 +5638,20 @@ A+B&=\left(AB^{-1}+I\right)B \\
 A+B&=A+B
 \end{align}
 Hence the terms inside the brackets are zero, so the LHS equals the RHS. This finally shows equivalence over the numerators.
+
+\subsection{Quotient of Gaussian Densities}
+
+A corollary from the result on the product of Gaussian identities is that we can take the quotient between Gaussian densities as follows:
+\begin{equation}
+\dfrac{\mathcal{N}\left(x; c, C\right)}{\mathcal{N}\left(x;, b, B\right)} = Z\mathcal{N}\left(x; a, A\right)
+\end{equation}
+where
+\begin{gather}
+A = \left(C^{-1} - B^{-1}\right)^{-1} \\
+a = A\left(C^{-1}c - B^{-1}b\right) \\
+Z = \left(2\pi\right)^{D/2}\left|A+B\right|^{1/2}\exp\left(\dfrac{1}{2}\left(a-b\right)^{\top}\left(A+B\right)^{-1}\left(a-b\right)\right)
+\end{gather}
+Note that this implicitly requires that $C^{-1} - B^{-1}$ is positive definite.
 
 \subsection{Marginalisation of Gaussians}
 
@@ -6260,7 +6806,56 @@ For example with the Frank copula, we can fit it to a distribution of the form $
 
 \subsection{Empirical Distribution Function}
 
+For a sample $X_{1}, \dots, X_{n}$, the empirical distribution function $\widehat{F}_{n}\left(x\right)$ gives the proportion of observations in the sample less than or equal to $x$:
+\begin{equation}
+\widehat{F}_{n}\left(x\right) = \dfrac{1}{n}\sum_{i = 1}^{n}\mathbb{I}_{X_{i} \leq x}
+\end{equation}
+If the sample is i.i.d. with common cumulative distribution function $F\left(x\right)$, then $\mathbb{I}_{X_{i} \leq x}$ is a Bernoulli random variable with mean $F\left(x\right)$, and $\widehat{F}_{n}\left(x\right)$ is an unbiased estimator for $F\left(x\right)$.
+
+\subsubsection{Empirical Density Function}
+
+The density function for a sample $X_{1}, \dots, X_{n}$ may be expressed using a mixture of Dirac delta distributions:
+\begin{equation}
+\widehat{f}_{n}\left(x\right) = \dfrac{1}{n}\sum_{i = 1}^{n}\delta\left(x - X_{i}\right)
+\end{equation}
+
 \subsection{Glivenko-Cantelli Theorem}
+
+By the strong law of large numbers, $\widehat{F}_{n}\left(x\right) \overset{\mathrm{a.s.}}{\to} F\left(x\right)$. Hence the empirical distribution function converges pointwise almost surely to the population cumulative distribution function. The Glivenko-Cantelli theorem gives a stronger result, which is that the empirical distribution function converges uniformly to the population cumulative distribution function. That is, for any $\varepsilon > 0$ we can find a $n^{*}$ such that for all $n \geq n^{*}$, we have 
+\begin{equation}
+\sup_{x \in \mathbb{R}}\left|\widehat{F}_{n}\left(x\right) - F\left(x\right)\right| \leq \varepsilon
+\end{equation}
+almost surely.
+\begin{proof}
+For simplicity, consider a continuous random variable (hence $F\left(x\right)$ is continuous). For any integer $m \geq 1$, we can fix $m + 1$ points on the extended real number line by
+\begin{equation}
+-\infty = x_{0} < x_{1} < \dots < x_{m} = \infty
+\end{equation}
+such that the difference in CDF between successive points satisfies
+\begin{equation}
+F\left(x_{j}\right) - F\left(x_{j - 1}\right) = \dfrac{1}{m}
+\end{equation}
+for $j = 1, \dots, m$. This is because $F\left(x\right)$ is continuous non-decreasing. Then for each $x \in \mathbb{R}$, there exists an integer $j^{*} \in \left\{1, \dots, m\right\}$ such that $x_{j^{*} - 1} \leq x \leq x_{j^{*}}$. So for each $x \in \mathbb{R}$, we can upper bound
+\begin{align}
+\widehat{F}_{n}\left(x\right) - F\left(x\right)  &\leq \widehat{F}_{n}\left(x_{j^{*}}\right) - F\left(x_{j^{*} - 1}\right) \\
+&\leq \widehat{F}_{n}\left(x_{j^{*}}\right) - \left(F\left(x_{j^{*}}\right) - \dfrac{1}{m}\right) \\
+&\leq \widehat{F}_{n}\left(x_{j^{*}}\right) - F\left(x_{j^{*}}\right) + \dfrac{1}{m}
+\end{align} 
+Similarly, for each $x \in \mathbb{R}$, we can lower bound
+\begin{align}
+\widehat{F}_{n}\left(x\right) - F\left(x\right)  &\geq \widehat{F}_{n}\left(x_{j^{*} - 1}\right) - F\left(x_{j^{*}}\right) \\
+&\leq \widehat{F}_{n}\left(x_{j^{*} - 1}\right) - \left(F\left(x_{j^{*} - 1}\right) + \dfrac{1}{m}\right) \\
+&\leq \widehat{F}_{n}\left(x_{j^{*} - 1}\right) - F\left(x_{j^{*} - 1}\right) - \dfrac{1}{m}
+\end{align}
+Combining both bounds,
+\begin{equation}
+\sup_{x \in \mathbb{R}}\left|\widehat{F}_{n}\left(x\right) - F\left(x\right)\right| \leq \max_{j \in \left\{1, \dots, m\right\}}\left|\widehat{F}_{n}\left(x_{j}\right) - F\left(x_{j}\right) \right| + \dfrac{1}{m}
+\end{equation}
+We see that $\max_{j \in \left\{1, \dots, m\right\}}\left|\widehat{F}_{n}\left(x_{j}\right) - F\left(x_{j}\right) \right| \overset{\mathrm{a.s.}}{\to} 0$ due to pointwise convergence. That is for each $m$, there exists an $n^{*}$ such that $\operatorname{Pr}\left(\max_{j \in \left\{1, \dots, m\right\}}\left|\widehat{F}_{n}\left(x_{j}\right) - F\left(x_{j}\right) \right| = 0\right) = 1$ for $n \geq n^{*}$. Then, also for $n \geq n^{*}$:\begin{equation}
+\sup_{x \in \mathbb{R}}\left|\widehat{F}_{n}\left(x\right) - F\left(x\right)\right| \leq \dfrac{1}{m}
+\end{equation}
+almost surely.
+\end{proof}
 
 \section{Order Statistics}
 
@@ -6298,6 +6893,17 @@ f_{\left(k\right)}\left(x\right) &= \dfrac{dF_{\left(k\right)}\left(x\right)}{dx
 &= \dfrac{1}{\operatorname{B}\left(k, n - k + 1\right)}f\left(x\right)F\left(x\right)^{k - 1}\left[1 - F\left(x\right)\right]^{n - k} \\
 &= \dfrac{n!}{\left(k - 1\right)!\left(n - k\right)!}F\left(x\right)^{k - 1}\left[1 - F\left(x\right)\right]^{n - k}f\left(x\right)
 \end{align}
+As special cases, we have for the maximum order statistic:
+\begin{gather}
+f_{\left(n\right)}\left(x\right) = nF\left(x\right)^{n - 1}f\left(x\right) \\
+F_{\left(n\right)}\left(x\right) = F\left(x\right)^{n}
+\end{gather}
+and for the minimum order statistic:
+\begin{gather}
+f_{\left(1\right)}\left(x\right) = n\left[1 - F\left(x\right)\right]^{n - 1}f\left(x\right) \\
+F_{\left(1\right)}\left(x\right) = 1 - \left[1 - F\left(x\right)\right]^{n}
+\end{gather}
+where the latter cumulative distribution can be derived from the upper tail of the binomial distribution.
 
 \subsubsection{Order Statistics of the Uniform Distribution}
 
@@ -6323,7 +6929,7 @@ X_{\left(1\right)} \leq \dots \leq X_{\left(r\right)} \leq X_{\left(s\right)} \l
 \end{equation}
 The joint distribution of $X_{\left(r\right)}, X_{\left(s\right)}$ can be derived as follows. We begin with the cumulative distribution:
 \begin{equation}
-F_{\left(r\right)\left(s\right)}\left(x, y\right) = \operatorname{Pr}\left(X_{r} \leq x, X_{\left(s\right)} \leq y\right)
+F_{\left(r\right)\left(s\right)}\left(x, y\right) = \operatorname{Pr}\left(X_{\left(r\right)} \leq x, X_{\left(s\right)} \leq y\right)
 \end{equation}
 For $x < y$, this can be stated as the probability that there are at least $r$ order statistics $X_{\left(i\right)}$ less than or equal to $x$, and at least $s$ order statistics $X_{\left(j\right)}$ less than or equal to $y$. This probability can be computed with the summation:
 \begin{equation}
@@ -6340,11 +6946,11 @@ F_{\left(r\right)\left(s\right)}\left(x, y\right) &= F_{\left(s\right)}\left( y\
 \end{align}
 The form of the cumulative joint distribution generalises to $k$ order statistics. Suppose we have $1 \leq n_{1} < \dots < n_{k} \leq n$. Then the cumulative distribution of the joint distribution of $X_{\left(n_{1}\right)}, \dots, X_{\left(n_{k}\right)}$ is
 \begin{multline}
-F_{\left(n_{1}\right)\dots\left(n_{k}\right)}\left(x_{\left(1\right)}, \dots, x_{\left(k\right)}\right) \\
-= \sum_{i_{k} = n_{k}}^{n}\sum_{i_{k - 1} = n_{k - 1}}^{i_{k}}\dots\sum_{i_{1} = n_{1}}^{i_{2}}\dfrac{n!}{n_{1}!\left(n_{2} - n_{1}\right)!\times\dots\times\left(n - n_{k}\right)!}\left[F\left(x_{\left(1\right)}\right)\right]^{i_{1}}\left[F\left(x_{\left(2\right)}\right) - F\left(x_{\left(1\right)}\right)\right]^{i_{2} - i_{1}} \\
-\times\dots\times\left[1 - F\left(x_{\left(k\right)}\right)\right]^{n - i_{k}}
+F_{\left(n_{1}\right)\dots\left(n_{k}\right)}\left(x_{\left(\left(n_{1}\right)\right)}, \dots, x_{\left(\left(n_{k}\right)\right)}\right) \\
+= \sum_{i_{k} = n_{k}}^{n}\sum_{i_{k - 1} = n_{k - 1}}^{i_{k}}\dots\sum_{i_{1} = n_{1}}^{i_{2}}\dfrac{n!}{n_{1}!\left(n_{2} - n_{1}\right)!\times\dots\times\left(n - n_{k}\right)!}\left[F\left(x_{\left(\left(n_{1}\right)\right)}\right)\right]^{i_{1}}\left[F\left(x_{\left(\left(n_{2}\right)\right)}\right) - F\left(x_{\left(\left(n_{1}\right)\right)}\right)\right]^{i_{2} - i_{1}} \\
+\times\dots\times\left[1 - F\left(x_{\left(\left(n_{k}\right)\right)}\right)\right]^{n - i_{k}}
 \end{multline}
-for the case $x_{\left(1\right)} < \dots < x_{\left(k\right)}$. We can also derive the joint probability density, starting with the joint probability density of two order statistics. This can be obtained from differentiating the cumulative distribution, however instead we derive it starting from the equation
+for the case $x_{\left(n_{1}\right)} < \dots < x_{\left(n_{k}\right)}$. We can also derive the joint probability density, starting with the joint probability density of two order statistics. This can be obtained from differentiating the cumulative distribution, however instead we derive it starting from the equation
 \begin{equation}
 f_{\left(r\right)\left(s\right)}\left(x, y\right)dxdy = \operatorname{Pr}\left(x < X_{\left(r\right)} \leq x + dx, y < X_{\left(s\right)} \leq y + dy\right)
 \end{equation}
@@ -6361,10 +6967,10 @@ which is valid for $x \leq y$, otherwise the density $f_{\left(r\right)\left(s\r
 f_{\left(n_{1}\right)\dots\left(n_{k}\right)}\left(x_{\left(1\right)}, \dots, x_{\left(k\right)}\right) = \begin{cases}
 \begin{multlined}
 \dfrac{n!}{\left(n_{1} - 1\right)!\left(n_{2} - n_{1} - 1\right)!\times\dots\times\left(n - n_{k}\right)!} \\
-\times \left[F\left(x_{\left(1\right)}\right)\right]^{n_{1} - 1}f\left(x_{\left(1\right)}\right) \\
-\times\left[F\left(x_{\left(2\right)}\right) - F\left(x_{\left(1\right)}\right)\right]^{n_{2} - n_{1} - 1}f\left(x_{\left(2\right)}\right) \\
-\times\dots\times\left[1 - F\left(x_{\left(k\right)}\right)\right]^{n - n_{k}}f\left(x_{\left(k\right)}\right),
-\end{multlined} & x_{\left(1\right)} \leq \dots \leq x_{\left(k\right)} \\
+\times \left[F\left(x_{\left(n_{1}\right)}\right)\right]^{n_{1} - 1}f\left(x_{\left(1\right)}\right) \\
+\times\left[F\left(x_{\left(n_{2}\right)}\right) - F\left(x_{\left(n_{1}\right)}\right)\right]^{n_{2} - n_{1} - 1}f\left(x_{\left(n_{2}\right)}\right) \\
+\times\dots\times\left[1 - F\left(x_{\left(n_{k}\right)}\right)\right]^{n - n_{k}}f\left(x_{\left(n_{k}\right)}\right),
+\end{multlined} & x_{\left(n_{1}\right)} \leq \dots \leq x_{\left(n_{k}\right)} \\
 0, & \mathrm{otherwise}
 \end{cases}
 \end{equation}
@@ -6380,6 +6986,43 @@ This can be derived intuitively, because the joint distribution of the sample is
 f_{X_{1}, \dots, X_{n}}\left(x_{1}, \dots, x_{n}\right) = f\left(x_{1}\right)\times\dots\times f\left(x_{n}\right)
 \end{equation}
 and for every possible $x_{\left(1\right)} \leq \dots \leq x_{\left(k\right)}$, where are $n!$ equally likely events which could have led to it.
+
+\subsection{Conditional Distribution of Order Statistics}
+
+For some $r$, $s$ satisfying $1 \leq r < s \leq n$, we derive the joint conditional PDF of the order statistics $X_{\left(r + 1\right)}, \dots, X_{\left(s - 1\right)}$ given $X_{\left(1\right)} = x_{\left(1\right)}, \dots, X_{\left(r\right)} = x_{\left(r\right)}, X_{\left(s\right)} = x_{\left(s\right)}, \dots, X_{\left(n\right)} = x_{\left(n\right)}$ (ie. conditional on the order statistics outside $r + 1, \dots, s - 1$). From above, the expression for the joint distribution for the entire order statistics (ignoring support) is:
+\begin{equation}
+f_{\left(1\right)\dots\left(n\right)}\left(x_{\left(1\right)}, \dots, x_{\left(n\right)}\right) = n!f\left(x_{\left(1\right)}\right)\times\dots\times f\left(x_{\left(n\right)}\right)
+\end{equation}
+By applying the formula for the general form, the joint distribution of order statistics $1, \dots, r, s, \dots, n$ is:
+\begin{multline}
+f_{\left(1\right)\dots\left(r\right)\left(s\right)\dots\left(n\right)}\left(x_{\left(1\right)},\dots,x_{\left(r\right)},x_{\left(s\right)},\dots,x_{\left(n\right)}\right) = \dfrac{n!}{\left(s-r-1\right)!}f\left(x_{\left(1\right)}\right)\dots f\left(x_{\left(r\right)}\right) \\
+\times \left[F\left(x_{\left(s\right)}\right)-F\left(x_{\left(r\right)}\right)\right]^{s-r-1}f\left(x_{\left(s\right)}\right)\dots f\left(x_{\left(n\right)}\right)
+\end{multline}
+Taking their quotient gives the conditional distribution, thus doing so we get some cancellations:
+\begin{align}
+f_{\left(r + 1\right)\dots\left(s - 1\right)|X_{\left(i\right)} =  x_{\left(i\right)}, i\leq r, i \geq s}\left(x_{\left(r + 1\right)}, \dots, x_{\left(s - 1\right)}\right) &= \dfrac{f_{\left(1\right)\dots\left(n\right)}\left(x_{\left(1\right)}, \dots, x_{\left(n\right)}\right)}{f_{\left(1\right)\dots\left(r\right)\left(s\right)\dots\left(n\right)}\left(x_{\left(1\right)},\dots,x_{\left(r\right)},x_{\left(s\right)},\dots,x_{\left(n\right)}\right)} \\
+&= \dfrac{\left(s-r-1\right)!}{\left[F\left(x_{\left(s\right)}\right)-F\left(x_{\left(r\right)}\right)\right]^{s-r-1}}f\left(x_{\left(r+1\right)}\right)\dots f\left(x_{\left(s-1\right)}\right) \\
+&= \left(s-r-1\right)!\prod_{i=r+1}^{s-1}\dfrac{f\left(x_{\left(i\right)}\right)}{F\left(x_{\left(s\right)}\right)-F\left(x_{\left(r\right)}\right)}
+\end{align}
+when $x_{\left(1\right)} \leq \dots \leq x_{\left(n\right)}$. We see from this form that the conditional distribution is the same as the joint distribution of order statistics for a sample of size $s - r - 1$, if the parent distribution were the original distribution truncated between $x_{\left(r\right)}$ and $x_{\left(s\right)}$. Since $x_{\left(1\right)}, \dots, x_{\left(r - 1\right)}, \dots, x_{\left(s + 1\right)}, x_{\left(n\right)}$ also do not appear in the density, we deduce that $X_{\left(r + 1\right)}, \dots, X_{\left(s - 1\right)}$ are conditionally independent with $X_{\left(1\right)}, \dots, X_{\left(r - 1\right)}, X_{\left(s + 1\right)}, X_{\left(n\right)}$ given $X_{\left(r\right)}, X_{\left(s\right)}$. Therefore
+\begin{equation}
+f_{\left(r + 1\right)\dots\left(s - 1\right)|X_{\left(i\right)} =  x_{\left(i\right)}, i\leq r, i \geq s}\left(x_{\left(r + 1\right)}, \dots, x_{\left(s - 1\right)}\right) = f_{\left(r + 1\right)\dots\left(s - 1\right)|X_{\left(r\right)} =  x_{\left(r\right)}, X_{\left(r\right)} =  x_{\left(r\right)}}\left(x_{\left(r + 1\right)}, \dots, x_{\left(s - 1\right)}\right)
+\end{equation}
+This conforms well with intuition, since we only need to know $x_{\left(r\right)}$ and $x_{\left(s\right)}$ to determine the truncated distribution. In a similar way, we can also write the conditional distribution of the lower and upper order statistics given $X_{\left(s\right)}$ and $X_{\left(r\right)}$ respectively:
+\begin{gather}
+f_{\left(1\right)\dots\left(s-1\right)|X_{\left(s\right)}=x_{\left(s\right)}}\left(x_{\left(1\right)},\dots,x_{\left(s-1\right)}\right)=\left(s-1\right)!\prod_{i=1}^{s-1}\dfrac{f\left(x_{\left(i\right)}\right)}{F\left(x_{\left(s\right)}\right)} \\
+f_{\left(r+1\right)\dots\left(n\right)|X_{\left(r\right)}=x_{\left(r\right)}}\left(x_{\left(r+1\right)},\dots,x_{\left(n\right)}\right)=\left(n-r\right)!\prod_{i=r+1}^{n}\dfrac{f\left(x_{\left(i\right)}\right)}{1-F\left(x_{\left(r\right)}\right)}
+\end{gather}
+on their respective supports, where the truncation interpretation similarly applies (with one-sided truncation rather than two). We can also obtain the marginal conditional distributions of the proceeding/succeeding order statistics. The distribution of $f_{\left(r + 1\right)|X_{\left(r\right)} = x}\left(y\right)$ is the same distribution as the minimum order statistic of a sample of size $n - r$ from the truncated parent distribution on the right of $x$ (which has PDF and CDF $\dfrac{f\left(y\right)}{1 - F\left(x\right)}$ and $\dfrac{1}{1 - F\left(x\right)}\int_{x}^{y}f\left(t\right)dt = \dfrac{F\left(y\right) - F\left(x\right)}{1 - F\left(x\right)}$ respectively):
+\begin{align}
+f_{\left(r + 1\right)|X_{\left(r\right)} = x}\left(y\right) &= \left(n - r\right)\left[1 - \dfrac{F\left(y\right) - F\left(x\right)}{1 - F\left(x\right)}\right]^{n - r - 1}\dfrac{f\left(y\right)}{1 - F\left(x\right)} \\
+&= \left(n - r\right)\left[\dfrac{1 - F\left(y\right)}{1 - F\left(x\right)}\right]^{n - r - 1}\dfrac{f\left(y\right)}{1 - F\left(x\right)} 
+\end{align}
+on support $y > x$. Analogously, the distribution of $f_{\left(s - 1\right)|X_{\left(s\right)} = x}\left(y\right)$ is the same distribution as the maximum order statistic of a sample of size $s - 1$ from the truncated parent distribution on the left of $x$ (which has PDF and CDF $\dfrac{f\left(y\right)}{F\left(x\right)}$ and $\dfrac{1}{F\left(x\right)}\int_{-\infty}^{y}f\left(t\right)dt = \dfrac{F\left(y\right)}{F\left(x\right)}$ respectively):
+\begin{equation}
+f_{\left(s - 1\right)|X_{\left(s\right)} = x}\left(y\right) = \left(s - 1\right)\left[\dfrac{F\left(y\right)}{F\left(x\right)}\right]^{s - 2}\dfrac{f\left(y\right)}{F\left(x\right)}
+\end{equation}
+on support $y < x$. The conditional independence also shows that the sequences $\left\{X_{\left(1\right)}, X_{\left(2\right)}, \dots\right\}$ and $\left\{X_{\left(n\right)}, X_{\left(n - 1\right)}, \dots\right\}$ are Markov processes, with transition densities given above.
 
 \subsection{Spacings of Order Statistics}
 
@@ -6445,6 +7088,161 @@ For the reversed Weibull family, considering the form when $x \leq 0$:
 &= G_{3}\left(m^{1/k}x\right)
 \end{align}
 
+\subsection{Central Limit Theorem for Order Statistics}
+
+\subsubsection{Distribution of a Single Central Order Statistic}
+
+\begin{theorem}[\cite{Arnold2008}]
+For some $0 < p < 1$, let index $i = \left\lfloor np \right\rfloor + 1$. Then the order statistic $X_{i:n}$ (which we call a central order statistic) is representative for the $p$\textsuperscript{th} sample quantile of $X$, the latter which has PDF $f\left(x\right)$ and CDF $F\left(x\right)$. If $f\left(F^{-1}\left(p\right)\right)$ is finite, positive and continuous, then
+\begin{equation}
+\sqrt{n}\left(X_{i:n} - F^{-1}\left(p\right)\right) \overset{\mathrm{d}}{\to} \mathcal{N}\left(0, \dfrac{p\left(1 - p\right)}{\left[f\left(F^{-1}\left(p\right)\right)\right]^{2}}\right)
+\end{equation}
+as $n \to \infty$.
+\end{theorem}
+\begin{proof}
+We first show the result for a uniform random variable $U$ on $\left(0, 1\right)$. Recall that $U_{i:n}$ is a $\operatorname{Beta}\left(i, n - i + 1\right)$ random variable. Combining this with the fact that the sum of independent exponential random variables (with same rate parameter $\lambda$) is Erlang distributed (and hence Gamma distributed), and the distribution relationship between the Gamma and Beta distribution, we can write $U_{i:n}$ as
+\begin{equation}
+U_{i:n} = \dfrac{A_{n}}{A_{n} + B_{n}}
+\end{equation}
+where
+\begin{gather}
+A_{n} = \sum_{j = 1}^{i}Z_{j} \\
+B_{n} = \sum_{j = i + 1}^{n + 1}Z_{j}
+\end{gather}
+where $Z_{j}$ are independent exponential random variables with rate parameter $1$. By the central limit theorem, with $\mathbb{E}\left[A_{n}\right] = i$,
+\begin{equation}
+\dfrac{A_{n} - i}{\sqrt{i}} \overset{\mathrm{d}}{\to} \mathcal{N}\left(0, 1\right)
+\end{equation}
+Since $i/n \to p$, when multiplying out by $\sqrt{i/n}$ gives
+\begin{equation}
+\dfrac{A_{n} - i}{\sqrt{n}} \overset{\mathrm{d}}{\to} \mathcal{N}\left(0, p\right)
+\end{equation}
+Similarly, with $\mathbb{E}\left[B_{n}\right] = n - i + 1$,
+\begin{equation}
+\dfrac{B_{n} - \left(n - i + 1\right)}{\sqrt{n - i + 1}} \overset{\mathrm{d}}{\to} \mathcal{N}\left(0, 1\right)
+\end{equation}
+and since $\left(n - i + 1\right)/n \to 1 - p$, multiplying out by $\sqrt{\left(n - i + 1\right)/n}$ gives
+\begin{equation}
+\dfrac{B_{n} - \left(n - i + 1\right)}{\sqrt{n}} \overset{\mathrm{d}}{\to} \mathcal{N}\left(0, 1 - p\right)
+\end{equation}
+Consider the mixture
+\begin{equation}
+C_{n} = \left(1 - p\right)\dfrac{A_{n} - i}{\sqrt{n}} - p\dfrac{B_{n} - \left(n - i + 1\right)}{\sqrt{n - i + 1}}
+\end{equation}
+Since by independence
+\begin{equation}
+\operatorname{Var}\left(C_{n}\right) = \left(1 - p\right)^{2}\operatorname{Var}\left(\dfrac{A_{n} - i}{\sqrt{n}}\right) + p^{2}\operatorname{Var}\left(\dfrac{B_{n} - \left(n - i + 1\right)}{\sqrt{n - i + 1}}\right)
+\end{equation}
+and asymptotically, for $C_{n} \overset{\mathrm{d}}{\to} C$:
+\begin{align}
+\operatorname{Var}\left(C\right) &= \left(1 - p\right)^{2}p + p^{2}\left(1 - p\right) \\
+&= p\left[\left(1 - p\right)^{2} + p\left(1 - p\right)\right] \\
+&= p\left(1 - 2p + p^{2} + p - p^{2}\right) \\
+&= p\left(1 - p\right)
+\end{align}
+then
+\begin{equation}
+C_{n} \overset{\mathrm{d}}{\to} \mathcal{N}\left(0, p\left(1 - p\right)\right)
+\end{equation}
+Now express $\sqrt{n}\left(U_{i:n} - p\right)$ as
+\begin{align}
+\sqrt{n}\left(U_{i:n} - p\right) &= \sqrt{n}\left(\dfrac{A_{n}}{A_{n} + B_{n}} - p\right) \\
+&= \sqrt{n}\left(\dfrac{A_{n} - pA_{n} - pB_{n}}{A_{n} + B_{n}}\right) \\
+&= \sqrt{n}\left(\dfrac{\left(1 - p\right)A_{n} - pB_{n}}{A_{n} + B_{n}}\right) \\
+&= \sqrt{n}\left[\dfrac{\left(1 - p\right)A_{n} - i\left(1 - p\right) - pB_{n} + p\left(n - i + 1\right) + i\left(1 - p\right) - p\left(n - i + 1\right)}{A_{n} + B_{n}}\right] \\
+&= \sqrt{n}\left[\dfrac{\left(1 - p\right)\left(A_{n} - i\right) - p\left[B_{n} - \left(n - i + 1\right)\right] + i - pi - np + pi - p}{A_{n} + B_{n}}\right] \\
+&= \sqrt{n}\left(\dfrac{\sqrt{n}C_{n} + i - np - p}{A_{n} + B_{n}}\right) \\
+&= \dfrac{nC_{n} + \sqrt{n}\left(i - np - p\right)}{A_{n} + B_{n}} \\
+&= \dfrac{C_{n} + \left(i - np - p\right)/\sqrt{n}}{\left(A_{n} + B_{n}\right)/n}
+\end{align}
+We have $\left(i - np - p\right)/\sqrt{n} \to 0$, and $\left(A_{n} + B_{n}\right)/n = \dfrac{1}{n}\sum_{j = 1}^{n}Z_{j} + \dfrac{Z}{n} \overset{\mathrm{p}}{\to} 1$ due to the weak law of large numbers. Then by Slutsky's theorem:
+\begin{equation}
+\sqrt{n}\left(U_{i:n} - p\right) \overset{\mathrm{d}}{\to} \mathcal{N}\left(0, p\left(1 - p\right)\right)
+\end{equation}
+which satisfies the theorem since $F^{-1}\left(p\right) = p$ and $f\left(x\right) = 1$ for the uniform distribution. To extend this to arbitrary distributions, we use the inverse transform $X_{i:n} = F^{-1}\left(U_{i:n}\right)$. Applying Taylor's theorem about $p$ (and specifically, using the Lagrange form of the remainder), we have
+\begin{equation}
+F^{-1}\left(U_{i:n}\right) = F^{-1}\left(p\right) + \dfrac{U_{i:n} - p}{f\left(F^{-1}\left(D_{n}\right)\right)}
+\end{equation}
+where $D_{n}$ is a random variable that is between $U_{i:n}$ and $p$, and we can show that $\dfrac{dF^{-1}\left(p\right)}{dp} = \dfrac{1}{f\left(F^{-1}\left(p\right)\right)}$ using the inverse function theorem. After rearranging, we can write this relationship expressed in terms of $X_{i:n}$ as
+\begin{equation}
+\sqrt{n}\left(X_{i:n} - F^{-1}\left(p\right)\right) = \sqrt{n}\dfrac{U_{i:n} - p}{f\left(F^{-1}\left(D_{n}\right)\right)}
+\end{equation}
+It is clear that for the uniform distribution, $D_{n} \overset{\mathrm{p}}{\to}  p$ so using the continuous mapping theorem (under the continuity assumption), $f\left(F^{-1}\left(D_{n}\right)\right) \overset{\mathrm{p}}{\to} f\left(F^{-1}\left(p\right)\right)$. By again appling Slutsky's theorem along with asymptotic normality of $\sqrt{n}\left(U_{i:n} - p\right)$, we therefore show that the central order statistic $X_{i:n}$ is asymptotically normal with:
+\begin{equation}
+\sqrt{n}\left(X_{i:n} - F^{-1}\left(p\right)\right) \overset{\mathrm{d}}{\to} \mathcal{N}\left(0, \dfrac{p\left(1 - p\right)}{\left[f\left(F^{-1}\left(p\right)\right)\right]^{2}}\right)
+\end{equation}
+\end{proof}
+
+\subsubsection{Joint Distribution of Central Order Statistics}
+
+\begin{theorem}[\cite{David2005}]
+With some $0 < p_{1} < \dots < p_{m} < 1$, let indices $i_{r} = \left\lfloor np _{r}\right\rfloor + 1$ for $1 \leq r \leq m$. Then $X_{i_{1}:n}, \dots,  X_{i_{m}:n}$ are the central order statistics of $X$, the latter which has PDF $f\left(x\right)$ and CDF $F\left(x\right)$. If $f\left(F^{-1}\left(p\right)\right)$ is finite, positive and continuous, then
+\begin{multline}
+\sqrt{n}\left(\begin{bmatrix}X_{i_{1}:n}\\
+X_{i_{2}:n}\\
+\vdots\\
+X_{i_{m}:n}
+\end{bmatrix}-\begin{bmatrix}F^{-1}\left(p_{1}\right)\\
+F^{-1}\left(p_{2}\right)\\
+\vdots\\
+F^{-1}\left(p_{m}\right)
+\end{bmatrix}\right) \\
+\overset{\mathrm{d}}{\to}
+\mathcal{N}\left(\mathbf{0},\begin{bmatrix}\dfrac{p_{1}\left(1-p_{1}\right)}{\left[f\left(F^{-1}\left(p_{1}\right)\right)\right]^{2}} & \dfrac{p_{1}\left(1-p_{2}\right)}{f\left(F^{-1}\left(p_{1}\right)\right)f\left(F^{-1}\left(p_{2}\right)\right)} & \dots & \dfrac{p_{1}\left(1-p_{m}\right)}{f\left(F^{-1}\left(p_{1}\right)\right)f\left(F^{-1}\left(p_{m}\right)\right)}\\
+\dfrac{p_{1}\left(1-p_{2}\right)}{f\left(F^{-1}\left(p_{1}\right)\right)f\left(F^{-1}\left(p_{2}\right)\right)} & \dfrac{p_{2}\left(1-p_{2}\right)}{\left[f\left(F^{-1}\left(p_{2}\right)\right)\right]^{2}} & \dots & \dfrac{p_{2}\left(1-p_{m}\right)}{f\left(F^{-1}\left(p_{2}\right)\right)f\left(F^{-1}\left(p_{m}\right)\right)}\\
+\vdots & \vdots & \ddots & \vdots\\
+\dfrac{p_{1}\left(1-p_{m}\right)}{f\left(F^{-1}\left(p_{1}\right)\right)f\left(F^{-1}\left(p_{m}\right)\right)} & \dfrac{p_{2}\left(1-p_{m}\right)}{f\left(F^{-1}\left(p_{2}\right)\right)f\left(F^{-1}\left(p_{m}\right)\right)} & \dots & \dfrac{p_{m}\left(1-p_{m}\right)}{\left[f\left(F^{-1}\left(p_{m}\right)\right)\right]^{2}}
+\end{bmatrix}\right)
+\end{multline}
+\end{theorem}
+\begin{proof}
+In the univariate case, it was shown that
+\begin{equation}
+X_{i:n} - F^{-1}\left(p\right) = \dfrac{U_{i:n} - p}{f\left(F^{-1}\left(D_{n}\right)\right)}
+\end{equation}
+where $f\left(F^{-1}\left(D_{n}\right)\right) \overset{\mathrm{p}}{\to} f\left(F^{-1}\left(p\right)\right)$. Let $\widetilde{F}_{n}\left(x\right)$ denote the empirical CDF of the sample $X_{1}, \dots, X_{n}$ (ie. the proportion of observations in the sample less than or equal to $x$). By the Glivenko-Cantelli theorem, $\widetilde{F}_{n}\left(x\right)$ converges almost surely to $F\left(x\right)$. Note also that $F\left(X_{i:n}\right) = U_{i:n}$ and $X_{i:n} \overset{\mathrm{p}}{\to} F^{-1}\left(p\right)$. Putting these arguments together, we analyse the asymptotic behaviour of $\widetilde{F}_{n}\left(F^{-1}\left(p\right)\right)$ since it will have the same asymptotic distribution as $U_{i:n}$. Consider two $j, k$ with $j < k$ (hence $F^{-1}\left(p_{j}\right) \leq F^{-1}\left(p_{k}\right)$). By writing the empirical CDF as a sum of indicators
+\begin{equation}
+\widetilde{F}_{n}\left(x\right) = \dfrac{1}{n}\sum_{\iota = 1}^{n}\mathbb{I}_{X_{\iota} \leq x}
+\end{equation}
+We can compute the covariance between $\widetilde{F}_{n}\left(F^{-1}\left(p_{j}\right)\right)$ and $\widetilde{F}_{n}\left(F^{-1}\left(p_{k}\right)\right)$:
+\begin{align}
+\operatorname{Cov}\left(\widetilde{F}_{n}\left(F^{-1}\left(p_{j}\right)\right), \widetilde{F}_{n}\left(F^{-1}\left(p_{k}\right)\right)\right) & \begin{multlined}
+= \mathbb{E}\left[\dfrac{1}{n^{2}}\sum_{\iota = 1}^{n}\sum_{\kappa = 1}^{n}\mathbb{I}_{X_{\iota} \leq F^{-1}\left(p_{j}\right)}\mathbb{I}_{X_{\kappa} \leq F^{-1}\left(p_{k}\right)}\right] \\
+- \mathbb{E}\left[\dfrac{1}{n}\sum_{\iota = 1}^{n}\mathbb{I}_{X_{\iota} \leq F^{-1}\left(p_{j}\right)}\right]\mathbb{E}\left[\dfrac{1}{n}\sum_{\iota = 1}^{n}\mathbb{I}_{X_{\iota} \leq F^{-1}\left(p_{k}\right)}\right]
+\end{multlined}\\
+&= \mathbb{E}\left[\dfrac{1}{n^{2}}\sum_{\iota = 1}^{n}\sum_{\kappa = 1}^{n}\mathbb{I}_{X_{\iota} \leq F^{-1}\left(p_{j}\right)}\mathbb{I}_{X_{\kappa} \leq F^{-1}\left(p_{k}\right)}\right] - p_{j}p_{k} \\
+&= p_{j} - p_{j}p_{k} \\
+&= p_{j}\left(1 - p_{k}\right)
+\end{align}
+where $\dfrac{1}{n^{2}}\sum_{\iota = 1}^{n}\sum_{\kappa = 1}^{n}\mathbb{I}_{X_{\iota} \leq F^{-1}\left(p_{j}\right)}\mathbb{I}_{X_{\kappa} \leq F^{-1}\left(p_{k}\right)}$ gives the proportion of pairs of observations where both observations are less than or equal to $F^{-1}\left(p_{j}\right)$, and thus is same as the proportion of observations less than or equal to $F^{-1}\left(p_{j}\right)$. Moreover, recognise that $\widetilde{F}_{n}\left(F^{-1}\left(p\right)\right)$ is the sample mean of i.i.d. Bernoulli random variables with mean $p$. Applying the multivariate central limit theorem, 
+\begin{equation}
+\sqrt{n}\begin{bmatrix}
+\widetilde{F}_{n}\left(F^{-1}\left(p_{j}\right)\right) - p_{j} \\
+\widetilde{F}_{n}\left(F^{-1}\left(p_{k}\right)\right) - p_{k}
+\end{bmatrix} \overset{\mathrm{d}}{\to} \mathcal{N}\left(\mathbf{0}, \begin{bmatrix}
+p_{j}\left(1 - p_{j}\right) & p_{j}\left(1 - p_{k}\right) \\ p_{j}\left(1 - p_{k}\right) & p_{k}\left(1 - p_{k}\right)
+\end{bmatrix}\right)
+\end{equation}
+By a scaling,
+\begin{equation}
+\sqrt{n}\begin{bmatrix}
+\dfrac{\widetilde{F}_{n}\left(F^{-1}\left(p_{j}\right)\right) - p_{j}}{f\left(F^{-1}\left(p_{j}\right)\right)} \\
+\dfrac{\widetilde{F}_{n}\left(F^{-1}\left(p_{k}\right)\right) - p_{k}}{f\left(F^{-1}\left(p_{k}\right)\right)}
+\end{bmatrix} \overset{\mathrm{d}}{\to} \mathcal{N}\left(\mathbf{0}, \begin{bmatrix}
+\dfrac{p_{j}\left(1 - p_{j}\right)}{\left[f\left(F^{-1}\left(p_{j}\right)\right)\right]^{2}} & \dfrac{p_{j}\left(1 - p_{k}\right)}{f\left(F^{-1}\left(p_{j}\right)\right)f\left(F^{-1}\left(p_{k}\right)\right)} \\ \dfrac{p_{j}\left(1 - p_{k}\right)}{f\left(F^{-1}\left(p_{j}\right)\right)f\left(F^{-1}\left(p_{k}\right)\right)} & \dfrac{p_{k}\left(1 - p_{k}\right)}{\left[f\left(F^{-1}\left(p_{k}\right)\right)\right]^{2}} 
+\end{bmatrix}\right)
+\end{equation}
+Then it follows that for any pair $j < k$
+\begin{equation}
+\sqrt{n}\begin{bmatrix}
+X_{i_{j}:n} - F^{-1}\left(p_{j}\right) \\
+X_{i_{k}:n} - F^{-1}\left(p_{k}\right)
+\end{bmatrix} \overset{\mathrm{d}}{\to} \mathcal{N}\left(\mathbf{0}, \begin{bmatrix}
+\dfrac{p_{j}\left(1 - p_{j}\right)}{\left[f\left(F^{-1}\left(p_{j}\right)\right)\right]^{2}} & \dfrac{p_{j}\left(1 - p_{k}\right)}{f\left(F^{-1}\left(p_{j}\right)\right)f\left(F^{-1}\left(p_{k}\right)\right)} \\ \dfrac{p_{j}\left(1 - p_{k}\right)}{f\left(F^{-1}\left(p_{j}\right)\right)f\left(F^{-1}\left(p_{k}\right)\right)} & \dfrac{p_{k}\left(1 - p_{k}\right)}{\left[f\left(F^{-1}\left(p_{k}\right)\right)\right]^{2}} 
+\end{bmatrix}\right)
+\end{equation}
+
+\end{proof}
 
 
 \section{Monte-Carlo Methods}
@@ -6606,7 +7404,102 @@ So the percentile bootstrap interval is given by $\left(\theta_{\alpha/2}^{*}, \
 
 \subsection{Nonparametric Hypothesis Testing}
 
-\subsubsection{Wilcoxon-Mann-Whitney Rank-sum Test}
+\subsubsection{Wilcoxon Rank-sum Test \cite{Hollander2014}}
+
+The Wilcoxon rank-sum test is for testing hypotheses that one random variable is `stochastically different' from another. Let $\left\{X_{1}, \dots, X_{m}\right\}$ and $\left\{Y_{1}, \dots, Y_{n}\right\}$ be independent samples (both within sample and between samples) from continuous distributions with cumulative distribution function $F\left(x\right)$ and $G\left(y\right)$ respectively. The null hypothesis is that these random variables are stochastically the same, that is
+\begin{equation}
+H_{0}: F\left(t\right) = G\left(t\right)
+\end{equation}
+for all $t$. A \textit{two-tailed test} specifies the alternative that
+\begin{equation}
+H_{A}: F\left(t\right) \neq G\left(t\right)
+\end{equation}
+for at least one $t$. It is also sometimes appropriate to specify the null and alternative as
+\begin{align}
+H_{0}: & \operatorname{Pr}\left(X > Y\right) = \operatorname{Pr}\left(Y > X\right) \\
+H_{A}: & \operatorname{Pr}\left(X > Y\right) \neq \operatorname{Pr}\left(Y > X\right)
+\end{align}
+For an \textit{upper-tailed test}, we can specify the hypotheses
+\begin{equation}
+H_{0}: F\left(t\right) = G\left(t\right)
+\end{equation}
+for all $t$, and the alternative that $Y$ is `stochastically larger' than $X$ by
+\begin{equation}
+H_{A}: F\left(t\right) \geq G\left(t\right)
+\end{equation}
+for all $t$, with at least some inequality strict. For a \textit{lower-tailed test}, we can specify the hypotheses
+\begin{equation}
+H_{0}: F\left(t\right) = G\left(t\right)
+\end{equation}
+for all $t$, and the alternative that $Y$ is `stochastically less' than $X$ by
+\begin{equation}
+H_{A}: F\left(t\right) \leq G\left(t\right)
+\end{equation}
+for all $t$, with at least some inequality strict. Analogous specifications involving the probabilities $\operatorname{Pr}\left(X > Y\right)$ and $\operatorname{Pr}\left(Y > X\right)$ are also possible. \\
+
+To compute the test statistic $W$, combine the two samples into a single sample of size $N = n + m$ and order from least to greatest, assigning the ranks from $1$ to $N$ for each element (ie. the lowest is assigned rank $1$). Since $X$ and $Y$ were assumed continuous, we need not consider ties. Let $R_{i}$ denote the rank of $Y_{i}$. The Wilcoxon rank-sum statistic is given by the sum of ranks:
+\begin{equation}
+W = \sum_{i = 1}^{n}R_{i}
+\end{equation}
+Under the null hypothesis, the ranks $R_{1}, \dots, R_{n}$ may be treated as a random sample of size $n$ from a finite population $\left\{1, \dots, N\right\}$. Hence the statistic $\dfrac{W}{n}$ under the null hypothesis has the same distribution of the sample mean of sample size $n$ from the finite population $\left\{1, \dots, N\right\}$. We can compute the mean of this population as
+\begin{align}
+\mu &= \dfrac{1}{N}\sum_{j = 1}^{N}j \\
+&= \dfrac{N\left(N + 1\right)}{2N} \\
+&= \dfrac{N + 1}{2}
+\end{align}
+and the population variance as
+\begin{align}
+\sigma^{2} &= \dfrac{1}{N}\sum_{j = 1}^{N}j^{2} - \mu^{2} \\
+&= \dfrac{1}{N}\cdot\dfrac{N\left(N + 1\right)\left(2N + 1\right)}{6} - \left(\dfrac{N + 1}{2}\right)^{2} \\
+&= \dfrac{2N^{2} + 3N + 1}{6} - \dfrac{N^{2} + 2N + 1}{4} \\
+&= \dfrac{N^{2} - 1}{12} \\
+&= \dfrac{\left(N + 1\right)\left(N - 1\right)}{12}
+\end{align}
+Then from the theory of the sampling distribution of the sample mean from a finite population:
+\begin{gather}
+\mathbb{E}\left[\dfrac{W}{n}\right] = \dfrac{N + 1}{2} \\
+\begin{aligned}
+\operatorname{Var}\left(\dfrac{W}{n}\right) &= \dfrac{N - n}{N - 1}\cdot\dfrac{\sigma^{2}}{n} \\
+&= \dfrac{m}{N - 1}\cdot\dfrac{\left(N + 1\right)\left(N - 1\right)}{12n} \\
+&= \dfrac{m\left(N + 1\right)}{12n}
+\end{aligned}
+\end{gather}
+Hence in the null distribution:
+\begin{gather}
+\mathbb{E}\left[W\right] = \dfrac{n\left(N + 1\right)}{2} \\
+\operatorname{Var}\left(W\right) = \dfrac{mn\left(N + 1\right)}{12}
+\end{gather}
+Also note that the null distribution of $W$ is symmetric about its mean and has support $\left\{\dfrac{n\left(n + 1\right)}{2}, \dots, \dfrac{n\left(N + m + 1\right)}{2}\right\}$, so that 
+\begin{equation}
+\operatorname{Pr}\left(W \leq \mathbb{E}\left[W\right] - x\right) = \operatorname{Pr}\left(W \geq \mathbb{E}\left[W\right] + x\right)
+\end{equation}
+for all $x$ in $\left\{-\dfrac{n\left(m + 1\right)}{2}, \dots, \dfrac{n\left(m + 1\right)}{2}\right\}$. Making the substitution $w = \mathbb{E}\left[W\right] - x$, we get
+\begin{equation}
+\operatorname{Pr}\left(W \leq w\right) = \operatorname{Pr}\left(W \geq 2\mathbb{E}\left[W\right] - w\right)
+\end{equation}
+for all $w$ in the support of $W$. This property may be convenient for computing $p$-values and deriving equivalent rejection rules between upper and lower-tailed tests. From the asymptotic normality of the sample mean from a finite population, the standardised statistic is approximately normally distributed from the standard normal, for large $n$ and $N$:
+\begin{equation}
+\dfrac{W - n\left(N + 1\right)/2}{\sqrt{mn\left(N + 1\right)/12}} \overset{\mathrm{approx.}}{\sim} \mathcal{N}\left(0, 1\right)
+\end{equation}
+so in this instance, critical values can just be taken from the standard normal distribution.
+
+\subsubsection{Mann-Whitney $U$-Test}
+
+The Mann-Whitney $U$-test gives an equivalent test to the Wilcoxon rank-sum test (so hypotheses may be specified in the same way). Given samples $\left\{X_{1}, \dots, X_{m}\right\}$ and $\left\{Y_{1}, \dots, Y_{n}\right\}$ under the same assumptions as in the Wilcoxon rank-sum test, the test statistic is
+\begin{equation}
+U = \sum_{i = 1}^{n}\sum_{j = 1}^{m}\mathbb{I}_{X_{i} < Y_{j}}
+\end{equation}
+We can show that the Wilcoxon rank-sum test statistic $W = \sum_{i = 1}^{n}R_{i}$ can be written in terms of $U$. Observe that $R_{i}$ will equal the number of $X$-values lower than $Y_{i}$, plus the number of $Y$-values lower than $Y_{i}$, plus $1$. So
+\begin{equation}
+R_{i} = \sum_{j = 1}^{m}\mathbb{I}_{X_{j} < Y_{i}} + \sum_{k = 1}^{n}\mathbb{I}_{Y_{k} < Y_{i}} + 1
+\end{equation}
+Hence
+\begin{align}
+W &= \sum_{i = 1}^{n}\left(\sum_{j = 1}^{m}\mathbb{I}_{X_{j} < Y_{i}} + \sum_{k = 1}^{n}\mathbb{I}_{Y_{k} < Y_{i}} + 1\right) \\
+&= \sum_{i = 1}^{n}\sum_{j = 1}^{m}\mathbb{I}_{X_{i} < Y_{j}} + \sum_{i = 1}^{n}\sum_{k = 1}^{n}\mathbb{I}_{Y_{k} < Y_{i}} + n \\
+&= U + 0 + 1 + \dots + \left(n - 1\right) + n \\
+&= U + \dfrac{n\left(n + 1\right)}{2}
+\end{align}
 
 \chapter{Stochastic Calculus}
 
@@ -7459,31 +8352,209 @@ where we have used the facts that $D\left(\theta\right) = \operatorname{KL}\left
 
 \section{Model Specification}
 
-\subsection{Log Models}
+\subsection{Causal Interpretation of Models}
 
-Suppose we have a simple linear model of the form
+A model for some relationship between $X$ and $Y$ may assert that $X$ causes a change in $Y$. The equation which describes exactly how $X$ causes a change in $Y$ is known as a causal equation.
+
+\subsubsection{Linear Causal Equations}
+
+A linear causal equation between response $Y$ and explanatory variables $X_{1}, X_{2}, \dots, X_{k}$ may be written as
 \begin{equation}
-\log y = \beta_{0} + \beta_{1}x + u
+Y = \beta_{0} + \beta_{1}X_{1} + \beta_{2}X_{2} + \dots + \beta_{k}X_{k} + U
 \end{equation}
-where $u$ is the error term. Then $\beta_{1}\times 100\%$ may be interpreted as the percentage increase in $y$ for a 1 unit increase in $x$. To see this, first note $\dfrac{\partial \log y}{y} = \dfrac{1}{y}$ and $\dfrac{\partial \log y}{\partial x} = \beta_{1}$. This gives $\beta_{1} = \dfrac{\partial y}{\partial x}\cdot\dfrac{1}{y}$. So for a 1 unit increase in $x$ we have $\beta_{1} \approx \dfrac{\Delta y}{y}$ which is the relative change in $y$.
+where $U$ is known as a disturbance/error term which contains all other factors which affect $Y$, and may be considered as a random variable. The interpretation of the coefficients $\beta_{1}, \beta_{2}, \dots$ are the causal effects. That is, a $1$ unit increase in the explanatory variable causes a respective increase in $Y$ equal to the value of the coefficient, holding all else constant. Note that $\beta_{0}$ need not necessarily have an interpretation since it can be absorbed into $U$.
+
+\subsection{Statistical Interpretation of Models}
+
+Suppose that the population means of some random variables $Y_{i}$ exhibit variation conditional on the values of some explanatory variables $X_{i}$. This relationship for the conditional expectation may be modelled by a general function $f\left(\cdot\right)$, called the population regression function:
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle|X_{i}\right] = f\left(X_{i}\right)
+\end{equation}
+
+\subsubsection{Linear Population Regression Functions}
+
+A linear population regression function may be obtained by taking the expectation of a linear causal equation conditional on all the explanatory variables:
+\begin{align}
+\mathbb{E}\left[Y_{i}\middle|X_{1, i}, \dots, X_{k, i}\right] &= \mathbb{E}\left[\beta_{0} + \beta_{1}X_{1, i} + \dots + \beta_{k}X_{k, i} + U_{i}\middle|X_{1, i}, \dots, X_{k, i}\right] \\
+&= \beta_{0} + \beta_{1}X_{1, i} + \dots + \beta_{k}X_{k, i} + \mathbb{E}\left[U_{i}\middle|X_{1, i}, \dots, X_{k, i}\right]
+\end{align}
+If we assume the conditional expectation of the error term $\mathbb{E}\left[U_{i}\middle|X_{1, i}, \dots, X_{k, i}\right] = 0$, which will be the case if $U_{1}$ is independent with $X_{1, i}, \dots, X_{k, i}$ and $\mathbb{E}\left[U_{i}\right] = 0$ (which the latter condition can be assumed without loss of generality because any non-zero mean can be absorbed into $\beta_{0}$), then the population regression function becomes:
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle|X_{1, i}, \dots, X_{k, i}\right] = \beta_{0} + \beta_{1}X_{1, i} + \dots + \beta_{k}X_{k, i}
+\end{equation}
+This gives rise to the conditional mean interpretation of the model. We would say that a $1$ unit increase in $X_{1, i}$ is associated with a $\beta_{1}$ unit increase in $Y_{i}$ on average, holding all else constant. The slope coefficients $\beta_{1}, \dots, \beta_{k}$ are sometimes called the marginal effects of their respective explanatory variables. The coefficient $\beta_{0}$ may not necessarily have a valid interpretation (depending on context), but it is the conditional mean of $Y_{i}$ when all the explanatory variables are zero. By comparing the population regression function to the causal equation, we can see that
+\begin{equation}
+Y_{i} = \mathbb{E}\left[Y_{i}\middle|X_{1, i}, \dots, X_{k, i}\right] + U_{i}
+\end{equation}
+or equivalently,
+\begin{equation}
+U_{i} = Y_{i} - \mathbb{E}\left[Y_{i}\middle|X_{1, i}, \dots, X_{k, i}\right]
+\end{equation}
+
+\subsubsection{Linear Sample Regression Functions}
+
+The coefficients $\beta_{0}, \dots, \beta_{k}$ in a linear population regression function are population parameters, so they must be estimated. Linear regression via ordinary least squares is a standard way to estimate these parameters. The estimated population regression function is known as a sample regression function and may be written in the form:
+\begin{equation}
+\widehat{\mathbb{E}}\left[Y_{i}\middle|X_{1, i}, \dots, X_{k, i}\right] = \widehat{\beta}_{0} + \widehat{\beta}_{1}X_{1, i} + \dots + \widehat{\beta}_{k}X_{k, i}
+\end{equation}
+where $\widehat{\beta}_{1}, \dots, \widehat{\beta}_{k}$ become the estimates of the marginal effects. Hence the interpretations of the coefficients becomes an interpretation   on the estimated conditional mean.
+
+\subsection{Log-Level Models}
+
+Suppose we have a simple causal equation of the form
+\begin{equation}
+\log Y = \beta_{0} + \beta_{1}X + V
+\end{equation}
+where $V$ is the error term. This is known as a log-level specification, and implicitly we require that $Y$ is a positive variable. Then $\beta_{1}\times 100\%$ may be roughly interpreted as the percentage increase in $Y$ for a 1 unit increase in $X$, holding all else constant. To see this, first note 
+\begin{gather}
+\dfrac{\partial \log Y}{\partial Y} = \dfrac{1}{Y} \\
+\dfrac{\partial \log Y}{\partial X} = \beta_{1}
+\end{gather}
+Taking the ratio gives
+\begin{equation}
+\beta_{1} = \dfrac{\partial Y}{\partial X}\cdot\dfrac{1}{Y}
+\end{equation}
+or in `difference' form:
+\begin{equation}
+\beta_{1}\Delta X \approx \dfrac{\Delta Y}{Y}
+\end{equation}
+So for a 1 unit increase in $X$ we have $\beta_{1} \approx \dfrac{\Delta Y}{Y}$ which is the proportional change in $Y$, which can be interpreted using percentages.
+
+\subsubsection{Geometric Mean Interpretation of Log-Level Models}
+
+Suppose we have an intercept-only population regression function (ie. unconditional mean) of the form
+\begin{equation}
+\mathbb{E}\left[\log Y_{i}\right] = \beta_{0}
+\end{equation}
+The estimate of the unconditional mean from a sample is given by
+\begin{equation}
+\widehat{\mathbb{E}}\left[\log Y_{i}\right] = \dfrac{1}{n}\sum_{i = 1}^{n}\log Y_{i}
+\end{equation}
+If we take the exponential of this, we see that
+\begin{align}
+\exp\left(\widehat{\mathbb{E}}\left[\log Y_{i}\right]\right) &= \exp\left(\dfrac{1}{n}\sum_{i = 1}^{n}\log Y_{i}\right) \\
+&= \exp\left(\sum_{i = 1}^{n}\log Y_{i}\right)^{1/n} \\
+&= \left[\prod_{i = 1}^{n}\exp\left(\log Y_{i}\right)\right]^{1/n} \\
+&= \left(\prod_{i = 1}^{n}Y_{i}\right)^{1/n}
+\end{align}
+which is the geometric mean of $Y_{i}$. Hence the exponential of the unconditional mean of logged variables may be interpreted as the geometric mean.
+
+\subsubsection{Log-Level Models with Multiple Explanatory Variables}
+
+These interpretations can be extended to population regression functions with multiple explanatory variables. Suppose we have
+\begin{equation}
+\mathbb{E}\left[\log Y_{i}\middle|X_{1, i}, \dots, X_{k, i}\right] = \beta_{0} + \beta_{1}X_{1, i} + \dots + \beta_{k}X_{k, i}
+\end{equation}
+with error term $V_{i} = \log Y_{i} - \mathbb{E}\left[\log Y_{i}\middle|X_{1, i}, \dots, X_{k, i}\right]$. Note that if we make the assumption that $V_{i}$ hence $\log Y_{i}$ (conditioned on the explanatory variables) is normally distributed, then this implicitly assumes $Y_{i}$ conditioned on the explanatory variables is lognormally distributed. Taking the exponential of the causal equation, we get
+\begin{equation}
+Y_{i} = \exp\left(\beta_{0} + \beta_{1}X_{1, i} + \dots + \beta_{k}X_{k, i}\right)\exp\left(V_{i}\right)
+\end{equation}
+and taking expectations conditional on the explanatory variables gives
+\begin{align}
+\mathbb{E}\left[Y_{i}\middle|X_{1, i}, \dots, X_{k, i}\right] &= \mathbb{E}\left[\exp\left(\beta_{0} + \beta_{1}X_{1, i} + \dots + \beta_{k}X_{k, i}\right)\exp\left(V_{i}\right)\middle|X_{1, i}, \dots, X_{k, i}\right] \\
+&= \exp\left(\beta_{0} + \beta_{1}X_{1, i} + \dots + \beta_{k}X_{k, i}\right)\mathbb{E}\left[\exp\left(V_{i}\right)\middle|X_{1, i}, \dots, X_{k, i}\right]
+\end{align}
+Assume that $\mathbb{E}\left[\exp\left(V_{i}\right)\middle|X_{1, i}, \dots, X_{k, i}\right]$ equals some constant $\kappa_{0}$ (which will be the case if $V_{i}$ were independent with $X_{1, i}, \dots, X_{k, i}$. Then
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle|X_{1, i}, \dots, X_{k, i}\right] = \kappa_{0}\exp\left(\beta_{0} + \beta_{1}X_{1, i} + \dots + \beta_{k}X_{k, i}\right)
+\end{equation}
+To interpret $\beta_{1}$ by determining the marginal effect of $X_{1, i}$ (which could be any arbitrary explanatory variable) in proportional terms, we write
+\begin{multline}
+\dfrac{\mathbb{E}\left[Y_{i}\middle|X_{1,i}=x+1,X_{2,i}=x_{2}\dots,X_{k,i}=x_{k}\right]-\mathbb{E}\left[Y_{i}\middle|X_{1,i}=x,X_{2,i}=x_{2}\dots,X_{k,i}=x_{k}\right]}{\mathbb{E}\left[Y_{i}\middle|X_{1,i}=x,X_{2,i}=x_{2}\dots,X_{k,i}=x_{k}\right]} \\
+= \dfrac{\mathbb{E}\left[Y_{i}\middle|X_{1,i}=x+1,X_{2,i}=x_{2}\dots,X_{k,i}=x_{k}\right]}{\mathbb{E}\left[Y_{i}\middle|X_{1,i}=x,X_{2,i}=x_{2}\dots,X_{k,i}=x_{k}\right]}-1
+\end{multline}
+which yields
+\begin{align}
+\dfrac{\mathbb{E}\left[Y_{i}\middle|X_{1,i}=x+1,X_{2,i}=x_{2}\dots,X_{k,i}=x_{k}\right]}{\mathbb{E}\left[Y_{i}\middle|X_{1,i}=x,X_{2,i}=x_{2}\dots,X_{k,i}=x_{k}\right]}-1 &= \dfrac{\kappa_{0}\exp\left(\beta_{0}+\beta_{1}\left(x+1\right)+\dots+\beta_{k}x_{k}\right)}{\kappa_{0}\exp\left(\beta_{0}+\beta_{1}x+\dots+\beta_{k}x_{k}\right)}-1 \\
+&= \exp\left(\beta_{1}\right) - 1
+\end{align}
+A Taylor approximation of $\exp\left(\beta_{1}\right)$ about zero gives $\exp\left(\beta_{1}\right) \approx 1 + \beta_{1}$, so
+\begin{equation}
+\exp\left(\beta_{1}\right) - 1 \approx \beta_{1}
+\end{equation}
+and we can interpret this by saying that for an increase in $X_{1, i}$ by $1$ unit, the mean of $Y_{i}$ increases by approximately $\beta_{1}\times 100\%$, holding all else constant. We can also arrive at a geometric mean interpretation in a different way. Taking the exponential of the population regression function, we see
+\begin{equation}
+\exp\left(\mathbb{E}\left[\log Y_{i}\middle|X_{1,i},\dots,X_{k,i}\right]\right)=\exp\left(\beta_{0}+\beta_{1}X_{1,i}+\dots+\beta_{k}X_{k,i}\right)
+\end{equation}
+and conditioning this on $X_{1,i}=x+1,X_{2,i}=x_{2}\dots,X_{k,i}=x_{k}$ yields
+\begin{align}
+\exp\left(\mathbb{E}\left[\log Y_{i}\middle|X_{1,i}=x+1,\dots,X_{k,i}=x_{k}\right]\right) &= \exp\left(\beta_{0}+\beta_{1}\left(x+1\right)+\dots+\beta_{k}x_{k}\right) \\
+&= \exp\left(\beta_{1}\right)\exp\left(\beta_{0}+\beta_{1}x+\dots+\beta_{k}x_{k}\right) \\
+&\approx \left(1+\beta_{1}\right)\exp\left(\mathbb{E}\left[\log Y_{i}\middle|X_{1,i}=x,\dots,X_{k,i}=x_{k}\right]\right)
+\end{align}
+Analogously to the geometric mean interpretation above, the interpretation here is that for a $1$ unit increase in $X_{1, i}$, the geometric mean of $Y_{i}$ increases by approximately $\beta_{1}\times 100\%$, holding all else constant.
+
+\subsection{Level-Log Models}
+
+Consider a causal model where some (but not necessarily all) explanatory variables may be logged:
+\begin{equation}
+Y = \beta_{0} + \beta_{1}\log X_{1} + \beta_{2}X_{2} + \dots + U
+\end{equation}
+where the logged variables are implicitly positive. To analyse the marginal effect of the logged explanatory variable, we use a simplified population regression function with a single logged explanatory variable (which is of no considerable loss because we a interested in the marginal effect all else held constant):
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle|X_{i}\right] = \beta_{0} + \beta_{1}\log X_{i}
+\end{equation}
+We investigate the marginal effect of a proportional change in $X_{i}$ by $1\%$:
+\begin{align}
+\mathbb{E}\left[Y_{i}\middle|X_{i} = 1.01x \right] - \mathbb{E}\left[Y_{i}\middle|X_{i} =  x \right] &= \beta_{1}\left(\log 1.01x - \log x\right) \\
+&= \beta_{1}\log 1.01
+\end{align}
+Hence the exact marginal effect on $\mathbb{E}\left[Y_{i}\middle|X_{i}\right]$ will be $\beta_{1}\log 1.01$, however a Taylor approximation of $\log\left(1 + x\right)$ about $x = 0$ gives $\log\left(1 + x\right) \approx x$ for small $x$. Therefore
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle|X_{i} = 1.01x \right] - \mathbb{E}\left[Y_{i}\middle|X_{i} =  x \right] \approx \dfrac{\beta_{1}}{100}
+\end{equation}
+and we can interpret that an $1\%$ increase in $X_{i}$, is associated with an $\dfrac{\beta_{1}}{100}$ increase in $Y_{i}$ on average, holding all else constant.
 
 \subsection{Log-Log Models}
 
 Given a log-log specification between two variables, eg.
 \begin{equation}
-\log y = \beta_{0} + \beta_{1}\log x + u
+\log Y = \beta_{0} + \beta_{1}\log X + U
 \end{equation}
-we can interpret $\beta_{1}$ (or its estimate) as ratio of percentage changes. This is also known as the $y$-elasticity of $x$. That is, for a 1\% increase in $x$, there is a $\beta_{1}$ percent increase in $y$, holding all else constant. To see this, first write
+where $U$ is the error term, we can interpret $\beta_{1}$ as ratio of percentage changes. This is also known as the $Y$-elasticity of $X$. That is, for a $1\%$ increase in $X$, there is a $\beta_{1}$ percent increase in $Y$, holding all else constant. To see this, first write $\beta_{1}$ as a ratio of proportional changes:
 \begin{equation}
-\dfrac{\Delta y}{y} \div \dfrac{\Delta x}{x} = \beta_{1} 
+\dfrac{\Delta Y}{Y} \div \dfrac{\Delta X}{X} = \beta_{1} 
 \end{equation}
-Then for small changes in $x$ and $y$
+Then for small changes in $X$ and $Y$ such that we can approximate them with differentials:
 \begin{gather}
-\dfrac{dy}{y} = \beta_{1}\dfrac{dx}{x} \\
-\int\dfrac{1}{y}dy = \beta_{1}\int\dfrac{1}{x}dx \\
-\log\left|y\right| = \beta_{1}\log\left|x\right|
+\dfrac{dY}{Y} \approx \beta_{1}\dfrac{dX}{X} \\
+\int\dfrac{1}{Y}dY \approx \beta_{1}\int\dfrac{1}{Y}dY \\
+\log Y \approx \beta_{1}\log X + U
 \end{gather}
-Note that this implicitly requires $x$ and $y$ to be positive variables.
+which gives back the log-log specification. Note that this implicitly requires $X$ and $Y$ to be positive variables. We can also derive this relationship using the marginal effect. Consider the population regression function
+\begin{equation}
+\mathbb{E}\left[\log Y_{i}\middle|X_{i}\right] = \beta_{0} + \beta_{1}\log X_{i}
+\end{equation}
+where any other explanatory variables may be left out for simplicity. Following the same steps as in the log-level model, we take the exponential of the causal equation:
+\begin{equation}
+Y = \exp\left(\beta_{0} + \beta_{1}\log X + U\right)
+\end{equation}
+and then assume that $\mathbb{E}\left[U_{i}\middle|X_{i}\right] = \kappa_{0}$ is a constant, then the marginal effect of a $1\%$ increase in $X_{i}$ is
+\begin{align}
+\dfrac{\mathbb{E}\left[Y_{i}\middle|X_{i} = 1.01x \right] - \mathbb{E}\left[Y_{i}\middle|X_{i} = x \right]}{\mathbb{E}\left[Y_{i}\middle|X_{i} = x \right]} &= \dfrac{\mathbb{E}\left[Y_{i}\middle|X_{i}=1.01x\right]}{\mathbb{E}\left[Y_{i}\middle|X_{i}=x\right]}-1 \\
+&= \exp\left[\beta_{1}\left(\log1.01x-\log x\right)\right] - 1
+\end{align}
+Applying the Taylor approximations $\exp\left(\beta_{1}\log 1.01\right) - 1 \approx \beta_{1}\log 1.01$ for small $\beta_{1}$ and $\log 1.01 \approx 0.01$, then
+\begin{equation}
+\dfrac{\mathbb{E}\left[Y_{i}\middle|X_{i}=1.01x\right]-\mathbb{E}\left[Y_{i}\middle|X_{i}=x\right]}{\mathbb{E}\left[Y_{i}\middle|X_{i}=x\right]} \approx 0.01\beta
+\end{equation}
+or
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle|X_{i}=1.01x\right] \approx \left(1 + 0.01\beta_{1}\right)\mathbb{E}\left[Y_{i}\middle|X_{i}=x\right]
+\end{equation}
+So the interpretation is that for a $1\%$ increase in $X_{1}$, the mean of $Y_{i}$ increases by approximately $\beta_{1}\%$, holding all else constant.
+
+\subsection{Quadratic Models}
+
+A causal equation specified as a quadratic in an explanatory variable:
+\begin{equation}
+Y = \beta_{0} + \beta_{1}X + \beta_{2}X^{2} + U
+\end{equation}
+and corresponding population regression function
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle|X\right] =  \beta_{0} + \beta_{1}X_{i} + \beta_{2}X_{i}^{2}
+\end{equation}
+is known as a quadratic regression model (but note that the coefficients can still be estimated with ordinary least squares). Here, the interpretation of $\beta_{2}$ and the marginal effect of $X_{i}$ is not so simple because the marginal effect will in general depend on the value of $X_{i}$. However, the sign of $\beta_{2}$ may still be given an interpretation. If $\beta_{2} > 0$, then the explanatory variable is said to have a `convex quadratic effect' $Y_{i}$, while if $\beta_{2} < 0$ it is said to have a `concave quadratic effect'.
 
 \section{Regression Analysis}
 
@@ -7713,6 +8784,8 @@ This is a way to quantitatively trade between precision and recall, where a mode
 A classifier may also be coded so that it can refuse to make a decision (eg. if it is not certain enough about a particular example). The coverage is defined as the fraction of examples for which the classifier is able to make a decision.
 
 \subsection{Confusion Matrices}
+
+\subsubsection{McNeymar's Test}
 
 \subsection{$k$-Nearest Neighbours}
 
@@ -8047,11 +9120,47 @@ This suggests that ensembling more models should lead to greater predictive accu
 
 \section{Statistical Learning Theory}
 
-\subsection{Radermacher Complexity}
+\subsection{Agnostic Probably Approximately Correct Learning \cite{Shalev-Shwartz2014}}
 
-\subsection{Probably Approximately Correct Learning}
+Consider a sample of data pairs $S = \left\{\left(x_{1}, y_{1}\right), \dots, \left(x_{m}, y_{m}\right)\right\}$ with sample size $m$. Assume that each data pair is i.i.d. $\left(x_{i}, y_{i}\right) \sim \mathcal{D}$, where $\mathcal{D}$ denotes an unknown distribution on support $\mathcal{X}\times\mathcal{Y}$. We refer to $\mathcal{X}$ as the instance space and $\mathcal{Y}$ as the label space. For simplicity, suppose that $\mathcal{Y} = \left\{0, 1\right\}$ (ie. we a considering binary classification). In a learning problem, we are given a hypothesis class $\mathcal{H}$ which is a set such that for each $h \in \mathcal{H}$, $h: \mathcal{X} \to \mathcal{Y}$ is a classifier. We define the risk (or generalisation error) of a classifier with respect to $\mathcal{D}$ to be:
+\begin{align}
+L_{\mathcal{D}}\left(h\right) &= \mathbb{E}_{\left(x, y\right)\sim\mathcal{D}}\left[\mathbb{I}_{h\left(x\right) \neq y}\right] \\
+&= \operatorname{Pr}\left(h\left(x\right) \neq y\right)
+\end{align}
+That is, $L_{\mathcal{D}}\left(h\right)$ is the expected loss of $h$ over the distribution $\mathcal{D}$ for a $0$-$1$ loss function. Hence the optimal classifier $h^{*}$ from the hypothesis class would be
+\begin{equation}
+h^{*} = \argmin_{h \in \mathcal{H}}L_{\mathcal{D}}\left(h\right)
+\end{equation}
+Resigning to the fate that $h^{*}$ is not attainable, as a `next-best' substitute we may consider the empirical risk defined by
+\begin{equation}
+L_{S}\left(h\right) = \dfrac{1}{m}\sum_{i = 1}^{m}\mathbb{I}_{h\left(x_{i}\right) \neq y_{i}}
+\end{equation}
+Note that this is effectively the same as taking the risk with respect to a distribution which is the empirical distribution. With this, we can perform empirical risk minimisation
+\begin{equation}
+\widehat{h}_{S} = \argmin_{h \in \mathcal{H}}L_{S}\left(h\right) 
+\end{equation}
+In the probability approximately correct (PAC) framework, we consider learners (or learning algorithms) which are functions $\mathcal{L}: \bigcup_{m = 1}^{\infty} \to \mathcal{H}$ which are capable of taking a sample of any size, and outputting a classifier from the hypothesis class $\mathcal{H}$. A hypothesis class is said to be \textit{agnostic PAC learnable} if for all $\varepsilon \in \left(0, 1\right)$, $\delta \in \left(0, 1\right)$ and any distribution $\mathcal{D}$, there exists learner $\mathcal{L}$ and an integer  (ie. dependent on $\delta$ and $\varepsilon$) such that for all $m \geq m_{\mathcal{H}}\left(\varepsilon, \delta\right)$, the learner returns a classifier $\widehat{h}$ that with probability at least $1 - \delta$,$m_{\mathcal{H}}\left(\varepsilon, \delta\right)$
+\begin{equation}
+L_{\mathcal{D}}\left(\widehat{h}\right) \leq L_{\mathcal{D}}\left(h^{*}\right) + \varepsilon
+\end{equation}
+That is, the learner is `probably' (with probability no less than $1 - \delta$) `approximately correct' (with allowable error up to $\varepsilon$ from the optimal risk). The `agnostic' tag refers to the fact that nothing is assumed about the distribution $\mathcal{D}$. We usually treat $\mathcal{H}$ to be reasonably restricted, ie. a learner should not be allowed to simply memorise the sample because although this causes $L_{S}\left(\widehat{h}_{S}\right) = 0$, this will lead to overfitting on $\mathcal{D}$.
+
+\subsubsection{Sample Complexity}
+
+The function $m$
+
+\subsubsection{Agnostic PAC Learnability of Finite Hypothesis Classes}
+
+\begin{theorem}
+Suppose the hypothesis class $\mathcal{H}$ is finite, ie. $\left|H\right| < infty$. Then $\mathcal{H}$ is agnostically PAC learnable.
+\end{theorem}
+\begin{proof}
+
+\end{proof}
 
 \subsection{Vapnik-Chervonenkis Dimension}
+
+\subsection{Radermacher Complexity}
 
 \chapter{Statistical Signal Processing}
 
@@ -8450,7 +9559,7 @@ S_{X}\left(\omega\right) = G\left(s\right)G\left(-s\right)
 \end{equation}
 where $s = j\omega$ and $G\left(s\right)$ is the transfer function of a non-minimum phase system (ie. roughly speaking it will have poles and zeros in the left-half plane). It follows that $G\left(-s\right)$ is a non-minimum phase system, and it will have poles and zeros in the right-half plane.
 \begin{proof}
-To show this theorem, we will begin with establishing some properties about $S_{X}\left(\omega\right)$. Firstly, $S_{X}\left(\omega\right)$ is an even function because $S_{X}\left(\omega\right) = \inf_{-\infty}^{\infty}R_{X}\left(\tau\right)e^{-j\omega\tau}d\tau = S_{X}\left(-\omega\right)$. Since $S_{X}\left(\omega\right)$ is also a rational function (ie. its numerator and denominator are polynomials), it can be written as
+To show this theorem, we will begin with establishing some properties about $S_{X}\left(\omega\right)$. Firstly, $S_{X}\left(\omega\right)$ is an even function because $S_{X}\left(\omega\right) = \int_{-\infty}^{\infty}R_{X}\left(\tau\right)e^{-j\omega\tau}d\tau = S_{X}\left(-\omega\right)$. Since $S_{X}\left(\omega\right)$ is also a rational function (ie. its numerator and denominator are polynomials), it can be written as
 \begin{align}
 S_{X}\left(\omega\right) &= c\dfrac{\prod_{k = 1}^{m}\left(\omega^{2} - z_{k}^{2}\right)}{\prod_{\ell = 1}^{n}\left(\omega^{2} - p_{\ell}^{2}\right)} \\
 &= c\dfrac{\prod_{k = 1}^{m}\left(\omega + z_{k}\right)\left(\omega - z_{k}\right)}{\prod_{\ell = 1}^{n}\left(\omega + p_{\ell}\right)\left(\omega - p_{\ell}\right)}
@@ -8519,7 +9628,7 @@ Hence for each zero $\alpha_{k}$, there exists another zero $1/\overline{\alpha_
 \begin{equation}
 S_{X}\left(\omega\right) = \overline{c}e^{-j\omega\left(\lambda + m - n\right)}\dfrac{\prod_{k = 1}^{m/2}\overline{\alpha_{k}}\left(1/\overline{\alpha_{k}} - e^{j\omega}\right)\prod_{k = 1}^{m/2}\left(e^{j\omega} - \alpha_{k}\right)}{\prod_{\ell = 1}^{n/2}\overline{\beta_{\ell}}\left(1/\overline{\beta_{k}} - e^{j\omega}\right)\prod_{\ell = 1}^{n/2}\left(e^{j\omega} - \beta_{\ell}\right)}
 \end{equation}
-Taking taking the modulus:
+Taking the modulus:
 \begin{align}
 S_{X}\left(\omega\right) &= \left|S_{X}\left(\omega\right)\right| \\
 &= \left|\overline{c}e^{-j\omega\left(\lambda + m - n\right)}\right|\dfrac{\prod_{k = 1}^{m/2}\left|\overline{\alpha_{k}}\right|\cdot\left|1/\overline{\alpha_{k}} - e^{j\omega}\right|\prod_{k = 1}^{m/2}\left|e^{j\omega} - \alpha_{k}\right|}{\prod_{\ell = 1}^{n/2}\left|\overline{\beta_{\ell}}\right|\left|1/\overline{\beta_{k}} - e^{j\omega}\right|\prod_{\ell = 1}^{n/2}\left|e^{j\omega} - \beta_{\ell}\right|} \\
@@ -9263,6 +10372,8 @@ Since $u\left(\cdot\right)$ is concave, applying Jensen's inequality on the inne
 \section{Mean Field Theory}
 
 \section{Fokker-Planck Equations}
+
+\section{Hamiltonian Monte-Carlo}
 
 %\nocite{*} % adds all entries in the bib file to the bibliography
 \bibliography{prob_stats_references}{}

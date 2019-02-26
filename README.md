@@ -1,5 +1,5 @@
 ﻿# Stochastics & Statistics
-Encyclopaedia-style notes in probability, statistics, and their applications (including econometrics, machine learning and statistical signal processing) from the introductory to the early-graduate level. These notes capture my personal journey in studying probability and statistics, and are intended to serve as a handy reference. A work in progress that may be completed one day, but right now topics are being added faster than they can be filled in.
+Encyclopaedia-style notes in probability, statistics, and their applications (including econometrics, machine learning and statistical signal processing) from the introductory to the early-graduate level. These notes capture my personal journey in studying probability and statistics, and are intended to serve as a handy reference. It is a work in progress that may be completed one day, but right now topics are being added faster than they can be filled in.
 
 ## Night Mode
 `\usepackage[dark, book]{mystyle}` generates the PDF in 'night mode' whereas `\usepackage[light, book]{mystyle}` generates the PDF in conventional dark text on light background.
@@ -29,6 +29,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
             Distributions](#families-of-continuous-univariate-probability-distributions)
         -   [Families of Discrete Univariate Probability
             Distributions](#families-of-discrete-univariate-probability-distributions)
+        -   [Distribution Relationships](#distribution-relationships)
         -   [Random Vectors](#random-vectors)
         -   [Families of Multivariate Probability
             Distributions](#families-of-multivariate-probability-distributions)
@@ -51,7 +52,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
             Functions](#probability-generating-functions)
         -   [Characteristic Functions](#characteristic-functions)
         -   [Cumulants](#cumulants)
-        -   [Central Limit Theorem](#central-limit-theorem)
+        -   [Central Limit Theorems](#central-limit-theorems)
         -   [Multivariate Gaussian
             Identities](#multivariate-gaussian-identities)
         -   [Exponential Families](#exponential-families)
@@ -83,7 +84,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Dominated Convergence
             Theorem](#dominated-convergence-theorem-1)
         -   [Radon-Nikodym Theorem](#radon-nikodym-theorem)
-        -   [Karhunen-LoÃ¨ve Theorem](#karhunen-loÃ¨ve-theorem)
+        -   [Karhunen-Loève Theorem](#karhunen-loève-theorem)
     -   [Advanced Statistics](#advanced-statistics)
         -   [Copulas](#copulas)
         -   [Empirical Measures](#empirical-measures)
@@ -99,7 +100,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Analysis of Stochastic
             Processes](#analysis-of-stochastic-processes)
         -   [Martingales](#martingales)
-        -   [ItÃ´ Calculus](#itÃ´-calculus)
+        -   [Itô Calculus](#itô-calculus)
         -   [Stratonovich Integral](#stratonovich-integral)
         -   [Stochastic Differential
             Equations](#stochastic-differential-equations)
@@ -179,3 +180,4 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Mean Sojourn Time](#mean-sojourn-time)
         -   [Mean Field Theory](#mean-field-theory)
         -   [Fokker-Planck Equations](#fokker-planck-equations)
+        -   [Hamiltonian Monte-Carlo](#hamiltonian-monte-carlo)
