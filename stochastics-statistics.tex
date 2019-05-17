@@ -602,6 +602,7 @@ This is similarly shown for continuous random variables. The law of iterated exp
 \mathbb{E}\left[\mathbb{E}\left[X\middle|Y, Z\right]\right] = \mathbb{E}\left[X\right] \\
 \mathbb{E}\left[\mathbb{E}\left[X\middle|Y, Z\right]\middle|Z\right] = \mathbb{E}\left[X\middle|Z\right]
 \end{gather}
+Note that it is necessary to condition the inner expectation $\mathbb{E}\left[X\middle|Y, Z\right]$ in the second equation to also be conditional on $Z$. This is because if we instead wrote $\mathbb{E}\left[\mathbb{E}\left[X\middle|Y\right]\middle|Z\right]$, the outer expectation means $Z$ is given, while the inner expectation means $Z$ is not given, so this will not be very clearly defined.
 
 \subsection{Expectation of Indicator Random Variables}
 
@@ -964,6 +965,42 @@ Then by using the definition of conditional probabilities,
 \end{gather}
 This says the joint probabilities of $A$ and $B$ can be found by multiplying their marginal probabilities.
 
+\subsubsection{Independence of Complementary Events}
+
+If events $A$ and $B$ are independent, then $A$ and $\overline{B}$ are also independent. We can show this as follows:
+\begin{align}
+\operatorname{Pr}\left(A\right) &= \operatorname{Pr}\left(A \cap \left(B \cup \overline{B}\right)\right) \\
+&= \operatorname{Pr}\left(\left(A \cap B\right) \cup \left(A \cap \overline{B}\right)\right) \\
+&= \operatorname{Pr}\left(A \cap B\right) + \operatorname{Pr}\left(A \cap \overline{B}\right) - \operatorname{Pr}\left(\left(A \cap B\right) \cap \left(A \cap \overline{B}\right)\right) \\
+&= \operatorname{Pr}\left(A \cap B\right) + \operatorname{Pr}\left(A \cap \overline{B}\right)
+\end{align}
+since $B$ and $\overline{B}$ are mutually exclusive. Then from independence of $A$ and $B$,
+\begin{equation}
+\operatorname{Pr}\left(A\right) = \operatorname{Pr}\left(A\right)\operatorname{Pr}\left(B\right) + \operatorname{Pr}\left(A \cap \overline{B}\right)
+\end{equation}
+Then rearranging, we obtain
+\begin{align}
+\operatorname{Pr}\left(A \cap \overline{B}\right) &= \operatorname{Pr}\left(A\right)\left(1 - \operatorname{Pr}\left(B\right)\right) \\
+&= \operatorname{Pr}\left(A\right)\operatorname{Pr}\left(B\right)
+\end{align}
+which reveals that $A$ and $\overline{B}$ are independent. It follows simply that the events $\overline{A}$ and $B$ are independent, while also the events $\overline{A}$ and $\overline{B}$ are independent.
+
+\subsubsection{Pairwise Independent Events}
+
+For a collection of events $A_{1}, \dots, A_{n}$, we say that they are pairwise independent if every pair of events is independent.
+
+\subsubsection{Mutually Independent Events}
+
+For a collection of events $A_{1}, \dots, A_{n}$, we say that they are mutually independent if each event is independent with the intersection of any other events. This implies that each event is also independent with the union of any other events, because we can obtain a union from an intersection using DeMorgan's laws, and independence still holds if we take complements. Note that mutual independence also implies pairwise independence, but the converse is not necessarily true. For mutually independent events,
+\begin{equation}
+\operatorname{Pr}\left(A_{1} \cap \dots \cap A_{n}\right) = \operatorname{Pr}\left(A_{1}\right)\times\dots\times\operatorname{Pr}\left(A_{n}\right)
+\end{equation}
+However, it is not enough for the above condition to hold for mutual independence. We would also require that $\operatorname{Pr}\left(A_{1} \cap \dots \cap A_{n}\right)$ can be formed by multiplication of probabilities of any intersections of events, for instance:
+\begin{equation}
+\operatorname{Pr}\left(A_{1} \cap \dots \cap A_{n}\right) = \operatorname{Pr}\left(A_{1} \cap A_{2}\right)\times\dots\times\operatorname{Pr}\left(A_{3} \cap \dots \cap A_{n}\right)
+\end{equation}
+Mutually independent events will be pairwise independent, but the converse is not necessarily true.
+
 \subsection{Independent Random Variables}
 
 Extending the definition of independent events, two (discrete) random variables $X$ and $Y$ are independent if the events $X = x$ and $Y = y$ are independent for all possible combinations of realisations $x$ and $y$. Hence the joint probability is the product of the marginal probabilities:
@@ -978,11 +1015,27 @@ then $X$ and $Y$ are dependent. For the case of continuous random variables $X$ 
 \begin{equation}
 f_{XY}\left(x, y\right) = f_{X}\left(x\right)f_{Y}\left(y\right)
 \end{equation}
+for all $x$ and $y$. Equivalently (this also applies to discrete random variables), we may say that $X$ and $Y$ are independent if their cumulative distribution functions satisfy
+\begin{equation}
+\operatorname{Pr}\left(X \leq x, Y \leq y\right) = \operatorname{Pr}\left(X \leq x\right)\operatorname{Pr}\left(Y \leq y\right)
+\end{equation}
 for all $x$ and $y$.
+
+\subsubsection{Pairwise Independent Random Variables}
+
+If every pair in a collection of $n$ random variables $X_{1}, X_{2}, \dots, X_{n}$ is independent, then they are said to be pairwise independent.
+
+\subsubsection{Mutually Independent Random Variables}
+
+For a collection of $n$ random variables $X_{1}, X_{2}, \dots, X_{n}$, if for any $x_{1}, \dots, x_{n}$ the collection of events $\left\{X_{1} \leq x_{1}\right\}, \dots, \left\{X_{n} \leq x_{n}\right\}$ are mutually independent, then the collection of random variables are said to be mutually independent random variables. This means that their cumulative distributions satisfy
+\begin{equation}
+\operatorname{Pr}\left(X_{1} \leq x_{1}, \dots, X_{n} \leq x_{n}\right) = \operatorname{Pr}\left(X_{1} \leq x_{1}\right)\times\operatorname{Pr}\left(X_{n} \leq x_{n}\right)
+\end{equation}
+for any $x_{1}, \dots, x_{n}$. It is common to drop the `mutual' qualifier, so whenever random variables $X_{1}, X_{2}, \dots, X_{n}$ are said to be independent, this is normally understood (unless otherwise specified) to mean that they are mutually independent. As with events, mutually independent random variables are also pairwise independent, but the reverse is not necessarily true.
 
 \subsubsection{Independent and Identically Distributed Random Variables}
 
-If a collection of $n$ random variables $X_{1}, X_{2}, \dots, X_{n}$ all have the same distribution and are all independent (ie. the joint distribution of $X_{1}, X_{2}, \dots, X_{n}$ is the product of the marginal distributions of $X_{1}, X_{2}, \dots, X_{n}$), then the collection of random variables is said to be independent and identically distributed (i.i.d.).
+If a collection of $n$ random variables $X_{1}, X_{2}, \dots, X_{n}$ all have the same distribution and are mutually independent (ie. the joint distribution of $X_{1}, X_{2}, \dots, X_{n}$ is the product of the marginal distributions of $X_{1}, X_{2}, \dots, X_{n}$), then the collection of random variables is said to be independent and identically distributed (i.i.d.).
 
 \subsection{Uncorrelatedness}
 
@@ -1793,6 +1846,8 @@ $\left[x - t\sigma, x + t\sigma\right]$ contains $\mu$ is no longer down to prob
 
 \subsection{Hypothesis Testing}
 
+\subsubsection{Statistical Size}
+
 \subsubsection{Statistical Power}
 
 If we knew all the information about the population and data-generating process, then in principle it is possible to compute power of a particular test. However, this is highly idealised because if the data-generating process were already known, hypothesis tests would not be needed. Also, if it turns out that the null hypotheis were actually true, then the notion of power becomes ill-defined. Rather, we can still reason about how changing our experimental design will affect power, ie. increasing the sample size or choosing a larger $\alpha$ should increase power.
@@ -1844,7 +1899,7 @@ where $\varepsilon$ is called the noise or `error' term, and is usually treated 
 
 \subsection{Linear Transformations of Random Variables}
 
-Suppose random variable $X$ has probability density function $f_{X}\left(x\right)$ and cumulative distribution function $F_{X}\left(x\right)$. Define the linearly transformed random variable $Y = aX + b$. We derive expressions for the density function $f_{Y}\left(y\right)$ and cumulative distribution $F_{Y}\left(y\right)$. Firstly by definition of the cumulative distribution,
+Suppose random variable $X$ has probability density function $f_{X}\left(x\right)$ and cumulative distribution function $F_{X}\left(x\right)$. Define the linearly transformed random variable $Y = aX + b$. We derive expressions for the density function $f_{Y}\left(y\right)$, cumulative distribution $F_{Y}\left(y\right)$ and quantile function $F_{Y}^{-1}\left(p\right)$. Firstly by definition of the cumulative distribution,
 \begin{align}
 F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
 &= \operatorname{Pr}\left(aX + b \leq y\right) \\
@@ -1855,6 +1910,19 @@ Differentiating using the chain rule, the probability density function becomes
 \begin{equation}
 f_{Y}\left(y\right) = \dfrac{1}{a}f_{X}\left(\dfrac{y - b}{a}\right)
 \end{equation}
+The relationship between the quantile functions takes the same form as the linear transformation:
+\begin{equation}
+F_{Y}^{-1}\left(p\right) = aF_{X}^{-1}\left(p\right) + b
+\end{equation}
+This can be shown using the definition of the quantile function:
+\begin{align}
+F_{Y}^{-1}\left(p\right) &= \inf\left\{y: F_{Y}\left(y\right) \geq p\right\} \\
+&= \inf\left\{y: \operatorname{Pr}\left(Y \leq y\right) \geq p\right\} \\
+&= \inf\left\{y: \operatorname{Pr}\left(aX + b \leq y\right) \geq p\right\} \\
+&= \inf\left\{y: \operatorname{Pr}\left(X \leq \dfrac{y - b}{a}\right) \geq p\right\} \\
+&= a\inf\left\{\dfrac{y - b}{a}: \operatorname{Pr}\left(X \leq \dfrac{y - b}{a}\right) \geq p\right\} + b \\
+&= aF_{X}^{-1}\left(p\right) + b
+\end{align}
 
 \subsection{Parametric Distributions}
 
@@ -2575,6 +2643,17 @@ F\left(x\right) &= \dfrac{1}{\Gamma\left(k/2\right)}\int_{0}^{x/2}\dfrac{e^{-w}\
 \end{align}
 which is a regularised incomplete Gamma function with Gamma argument $k/2$ and upper terminal $x/2$.
 
+\subsubsection{Mean of Chi-Squared Distribution}
+
+The variance of a standard normal random variable implies from
+\begin{gather}
+\operatorname{Var}\left(Z\right) = \mathbb{E}\left[Z^{2}\right] - \mathbb{E}\left[Z\right]^{2}
+\end{gather}
+that $\mathbb{E}\left[Z^{2}\right] = 1$. Hence by the linearity of expectation, the expectation of $X \sim \chi_{k}^{2}$ is
+\begin{equation}
+\mathbb{E}\left[X\right] = k
+\end{equation}
+
 \subsubsection{Chi-Distribution}
 
 The chi-distribution is the distribution of the square root of the sum of squares of $k$ standard normal random variables. The density function $f_{R}\left(r\right)$ can be derived the same way as with the chi-squared distribution. As above, except without substituting $r$ for $x$, we get
@@ -2765,7 +2844,7 @@ An expression can be derived for the cumulative distribution function, $F_{X}\le
 F_{X}\left(x\right) &= \int_{-\infty}^{x}f_{X}\left(r\right)dr \\
 &= \int_{0}^{x}\dfrac{r^{m/2 - 1}\left(m/n\right)^{m/2}}{\operatorname{B}\left(m/2, n/2\right)\left(rm/n + 1\right)^{\left(m + n\right)/2}}dr
 \end{align}
-Make the change of variables $s = \dfrac{mr}{mr + n}$ so that rearranging gives $r = \dfrac{n}{m}\cdot\dfrac{s}{1 - s}$ and by the quotient rule$\dfrac{dr}{ds} = \dfrac{n}{m}\cdot\dfrac{1}{\left(1 - s\right)^{2}}$. Then
+Make the change of variables $s = \dfrac{mr}{mr + n}$ so that rearranging gives $r = \dfrac{n}{m}\cdot\dfrac{s}{1 - s}$ and by the quotient rule $\dfrac{dr}{ds} = \dfrac{n}{m}\cdot\dfrac{1}{\left(1 - s\right)^{2}}$. Then
 \begin{align}
 F_{X}\left(x\right) &= \dfrac{1}{\operatorname{B}\left(m/2, n/2\right)}\int_{0}^{\frac{mx}{mx + n}}\dfrac{s^{m/2 - 1}\left(1 - s\right)^{-m/2 + 1}\left(n/m\right)^{m/2 - 1}\left(m/n\right)^{m/2}}{\left(\frac{s + 1 - s}{1 - s}\right)^{\left(m + n\right)/2}}\cdot\dfrac{n}{m}\cdot\dfrac{ds}{\left(1 - s\right)^{2}} \\
 &= \dfrac{1}{\operatorname{B}\left(m/2, n/2\right)}\int_{0}^{\frac{mx}{mx + n}}\dfrac{s^{m/2 - 1}\left(1 - s\right)^{-m/2 + 1}}{\left(1 - s\right)^{-\left(m + n\right)/2 + 2}}ds \\
@@ -3044,6 +3123,8 @@ It is here we see that the mean is the same as the binomial distribution (ie. sa
 
 \section{Distribution Relationships}
 
+\subsection{Box-Muller Transform}
+
 \subsection{Cauchy and Gaussian Distribution}
 
 The Cauchy random variable can be defined as a ratio of independent zero-mean Gaussian random variables. Let $Y_{1} \sim \mathcal{N}\left(0, \sigma_{1}^{2}\right)$ and $Y_{2} \sim \mathcal{N}\left(0, \sigma_{2}^{2}\right)$. Then from the property of the ratio distribution, the random variable $X = \dfrac{Y_{1}}{Y_{2}}$ will have density function
@@ -3243,6 +3324,39 @@ Therefore $\mathbf{C}$ satisfies the property of a positive semi-definite matrix
 
 The precision matrix of a random vector $\mathbf{X}$ is defined as the inverse of the covariance matrix, ie. $\mathbf{C}^{-1}$.
 
+\subsubsection{Covariance Between Random Vectors}
+
+Suppose we have random vectors $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ and $\mathbf{Y} = \left(Y_{1}, \dots, Y_{m}\right)$. Then we can define the covariance between $\mathbf{X}$ and $\mathbf{Y}$ as either a $n\times m$ or $m \times n$ matrix. Specifically,
+\begin{equation}
+\operatorname{Cov}\left(\mathbf{X}, \mathbf{Y}\right) = \begin{bmatrix}\operatorname{Cov}\left(X_{1},Y_{1}\right) & \dots & \operatorname{Cov}\left(X_{1},Y_{m}\right)\\
+\vdots & \ddots & \vdots\\
+\operatorname{Cov}\left(X_{n},Y_{1}\right) & \dots & \operatorname{Cov}\left(X_{n},Y_{m}\right)
+\end{bmatrix}
+\end{equation}
+or
+\begin{equation}
+\operatorname{Cov}\left(\mathbf{Y},\mathbf{X}\right)=\begin{bmatrix}\operatorname{Cov}\left(Y_{1},X_{1}\right) & \dots & \operatorname{Cov}\left(Y_{1},X_{n}\right)\\
+\vdots & \ddots & \vdots\\
+\operatorname{Cov}\left(Y_{m},X_{1}\right) & \dots & \operatorname{Cov}\left(Y_{m},X_{n}\right)
+\end{bmatrix}
+\end{equation}
+
+\subsection{Independence of Random Vectors}
+
+To generate independence between random variables to independence between random vectors, we may say that random vectors $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ and $\mathbf{Y} = \left(Y_{1}, \dots, Y_{m}\right)$ are independent if their cumulative distribution functions satisfy
+\begin{multline}
+\operatorname{Pr}\left(X_{1} \leq x_{1}, \dots, X_{n} \leq x_{n}, Y_{1} \leq y_{1}, \dots, Y_{m} \leq y_{m}\right) \\
+= \operatorname{Pr}\left(X_{1} \leq x_{1}, \dots, X_{n} \leq x_{n}\right)\operatorname{Pr}\left(Y_{1} \leq y_{1}, \dots, Y_{m} \leq y_{m}\right)
+\end{multline}
+for any $\left(x_{1}, \dots, x_{n}, y_{1}, \dots, y_{m}\right)$. This implies that marginalised distributions satisfy the same multiplicative property, for example we have that:
+\begin{equation}
+\operatorname{Pr}\left(X_{1} \leq x_{1}, X_{n} \leq x_{n}, Y_{1} \leq y_{1}, Y_{m} \leq y_{m}\right) = \operatorname{Pr}\left(X_{1} \leq x_{1}, X_{n} \leq x_{n}\right)\operatorname{Pr}\left(Y_{1} \leq y_{1}, Y_{m} \leq y_{m}\right)
+\end{equation}
+for any $\left(x_{1}, x_{n}, y_{1}, y_{m}\right)$. It follows that if $\mathbf{X}$ and $\mathbf{Y}$ are independent random variables, then any pair $X_{i}$ and $Y_{j}$ are independent random variables, and also that
+\begin{equation}
+\operatorname{Cov}\left(\mathbf{X}, \mathbf{Y}\right) = \mathbf{0}_{n \times m}
+\end{equation}
+
 \section{Families of Multivariate Probability Distributions}
 
 \subsection{Multivariate Gaussian Distribution}
@@ -3287,47 +3401,52 @@ and because it is given $\operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i}\right) 
 \end{align}
 \end{proof}
 
+\subsection{Bonferroni's Inequality}
+
 \subsection{Comparison of Random Variables}
 
 \begin{theorem}
-Let $X$ and $Y$ be two continuous random variables with means $\mu_{X}$ and $\mu_{Y}$ respectively such that $\mu_{Y} \geq \mu_{X}$. Let $\delta = \dfrac{\mu_{Y} - \mu_{X}}{2}$. Then
-\begin{equation}
-\operatorname{Pr}\left(X > Y\right) \leq \operatorname{Pr}\left(X > \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y < \mu_{Y} - \delta\right)
-\end{equation}
-\end{theorem}
-\begin{proof}
-The value $\mu_{X} + \delta$ can be thought of as the `midway' point between $\mu_{X}$ and $\mu_{Y}$, so we can deduce the event $\left\{X < \mu_{X} + \delta \cap Y > \mu_{Y} - \delta\right\} \subseteq \left\{X <  Y\right\}$ which implies
-\begin{align}
-\operatorname{Pr}\left(X < \mu_{X} + \delta \cap Y > \mu_{Y} - \delta\right) &\leq \operatorname{Pr}\left(X < Y\right) \\
-&\leq 1 - \operatorname{Pr}\left(X \geq Y\right)
-\end{align}
-From DeMorgan's laws,
-\begin{equation}
-\operatorname{Pr}\left(X \geq \mu_{X} + \delta \cup Y \leq \mu_{Y} - \delta\right) = 1 - \operatorname{Pr}\left(X < \mu_{X} + \delta \cap Y > \mu_{Y} - \delta\right)
-\end{equation}
-which can be combined with the inequality above to give
-\begin{equation}
-\operatorname{Pr}\left(X \geq Y\right) \leq \operatorname{Pr}\left(X \geq \mu_{X} + \delta \cup Y \leq \mu_{Y} - \delta\right)
-\end{equation}
-Lastly, applying Boole's inequality
-\begin{equation}
-\operatorname{Pr}\left(X \geq \mu_{X} + \delta \cup Y \leq \mu_{Y} - \delta\right) \leq \operatorname{Pr}\left(X \geq \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y \leq \mu_{Y} - \delta\right)
-\end{equation}
-completes the proof since
-\begin{equation}
-\operatorname{Pr}\left(X \geq Y\right) \leq \operatorname{Pr}\left(X \geq \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y \leq \mu_{Y} - \delta\right)
-\end{equation}
-Because $X$ and $Y$ are continuous, this can be stated as the original inequality with strict inequality signs.
-\end{proof}
-This proof technique generalises, so that we can state for any two random variables $X$, $Y$ and for any $\Delta$,
+Let $X$ and $Y$ be two random variables. Then
 \begin{equation}
 \operatorname{Pr}\left(X \geq Y\right) \leq \operatorname{Pr}\left(X \geq \Delta\right) + \operatorname{Pr}\left(Y \leq \Delta\right)
 \end{equation}
-and also the version with strict inequality, if we begin the proof with $\left\{X \leq \Delta \cap Y \geq \Delta\right\} \subseteq \left\{X \leq Y\right\}$:
+for all $\Delta \in \mathbb{R}$.
+\end{theorem}
+\begin{proof}
+We have the event $\left\{X < \Delta \cap Y > \Delta\right\} \subseteq \left\{X < Y\right\}$, so
+\begin{equation}
+\operatorname{Pr}\left(X < \Delta \cap Y > \Delta\right) \leq \operatorname{Pr}\left(X < Y\right)
+\end{equation}
+By taking complementary probabilities on the right-hand side and applying DeMorgain's laws on the left-hand side,
+\begin{equation}
+1 - \operatorname{Pr}\left(X \geq \Delta \cup Y \leq \Delta\right) \leq 1 - \operatorname{Pr}\left(X \geq Y\right)
+\end{equation}
+Rearranging gives
+\begin{equation}
+\operatorname{Pr}\left(X \geq Y\right) \leq \operatorname{Pr}\left(X \geq \Delta \cup Y \leq \Delta\right)
+\end{equation}
+and lastly applying Boole's inequality gives
+\begin{equation}
+\operatorname{Pr}\left(X \geq Y\right) \leq \operatorname{Pr}\left(X \geq \Delta\right) + \operatorname{Pr}\left(Y \leq \Delta\right)
+\end{equation}
+\end{proof}
+By instead starting the proof with $\left\{X < \mu_{X} + \delta \cap Y > \mu_{Y} - \delta\right\} \subseteq \left\{X <  Y\right\}$, we can have a similar result with strict inequalities.
+\begin{corollary}
+Let $X$ and $Y$ be two random variables. Then
 \begin{equation}
 \operatorname{Pr}\left(X > Y\right) \leq \operatorname{Pr}\left(X > \Delta\right) + \operatorname{Pr}\left(Y < \Delta\right)
 \end{equation}
-While these inequalities are more general, it may sometimes be the case that choosing $\Delta = \dfrac{\mathbb{E}\left[X\right] + \mathbb{E}\left[Y\right]}{2}$ as in the original theorem will give less conservative bounds.
+for all $\Delta \in \mathbb{R}$.
+\end{corollary}
+While $\Delta$ can be anything in general, it may sometimes be the case that choosing $\Delta = \dfrac{\mathbb{E}\left[X\right] + \mathbb{E}\left[Y\right]}{2}$ will give less conservative bounds. This gives the following specific result.
+\begin{corollary}
+Let $X$ and $Y$ be two continuous random variables with means $\mu_{X}$ and $\mu_{Y}$ respectively. Let $\delta = \dfrac{\mu_{Y} - \mu_{X}}{2}$. Then
+\begin{gather}
+\operatorname{Pr}\left(X \geq Y\right) \leq \operatorname{Pr}\left(X \geq \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y \leq \mu_{Y} - \delta\right) \\
+\operatorname{Pr}\left(X > Y\right) \leq \operatorname{Pr}\left(X > \mu_{X} + \delta\right) + \operatorname{Pr}\left(Y < \mu_{Y} - \delta\right)
+\end{gather}
+\end{corollary}
+The value $\mu_{X} + \delta = \mu_{Y} - \delta$ can be thought of as the `midway' point between $\mu_{X}$ and $\mu_{Y}$, although note that this inequality is really only useful when $\mu_{Y} \geq \mu_{X}$.
 
 \subsection{Jensen's Inequality}
 
@@ -3932,9 +4051,56 @@ For a random sample of vectors $\mathbf{X}_{1}, \dots, \mathbf{X}_{n}$, the spat
 \mathbf{a}^{*} = \argmin_{\mathbf{a}} \dfrac{1}{n}\sum_{i = 1}^{n}\left\Vert \mathbf{X}_{i} - \mathbf{a}\right\Vert
 \end{equation}
 
+\subsection{Sample Variance as Quadratic Forms}
+
+The computation of sample variance of a sample $x_{1}, \dots, x_{n}$ can be written as a quadratic form. Introduce the matrix
+\begin{equation}
+M = I - \dfrac{1}{n}\mathbf{1}\mathbf{1}^{\top}
+\end{equation}
+where $\mathbf{1}$ is a vector of $n$ ones. Hence $\mathbf{1}\mathbf{1}^{\top}$ is an $n\times n$ matrix of all ones and $M$ has the form
+\begin{equation}
+M=\begin{bmatrix}1-1/n & -1/n & \dots & -1/n\\
+-1/n & 1-1/n & \dots & -1/n\\
+\vdots & \vdots & \ddots & \vdots\\
+-1/n & -1/n & \dots & 1-1/n
+\end{bmatrix}
+\end{equation}
+Note that $M$ is symmetric, can we can also verify that it is idempotent (ie. the multiplication with itself equals itself) by
+\begin{align}
+MM &= \left(I - \dfrac{1}{n}\mathbf{1}\mathbf{1}^{\top}\right)\left(I - \dfrac{1}{n}\mathbf{1}\mathbf{1}^{\top}\right) \\
+&= I - \dfrac{2}{n}\mathbf{1}\mathbf{1}^{\top} + \dfrac{1}{n^{2}}n\mathbf{1}\mathbf{1}^{\top} \\
+&= I - \dfrac{1}{n}\mathbf{1}\mathbf{1}^{\top} \\
+&= M
+\end{align}
+where we have used the fact that $\left(\mathbf{1}\mathbf{1}^{\top}\right)^{2}$ is a matrix containing all $n$. Denote
+\begin{equation}
+\mathbf{x} = \begin{bmatrix}x_{1} & \dots & x_{n}\end{bmatrix}^{\top}
+\end{equation}
+Then we can see that
+\begin{align}
+\begin{bmatrix}
+x_{1} - \overline{x}_{n} \\ \vdots \\ x_{n} - \overline{x}_{n}
+\end{bmatrix} &= \mathbf{x} - \dfrac{1}{n}\sum_{i = 1}^{n}x_{i}\mathbf{1} \\
+&=  \mathbf{x} - \dfrac{1}{n}\mathbf{1}\mathbf{1}^{\top}\mathbf{x} \\
+&= M\mathbf{x}
+\end{align}
+since $\sum_{i = 1}^{n}x_{i} = \mathbf{1}^{\top}\mathbf{x}$. Then by applying the properties of symmetry and idempotence for $M$, the formula for sample variance can be rewritten as the quadratic form:
+\begin{align}
+s^{2} &= \dfrac{1}{n - 1}\sum_{i = 1}\left(x_{i} - \overline{x}_{n}\right)^{2} \\
+&= \dfrac{1}{n - 1}\left(M\mathbf{x}\right)^{\top}M\mathbf{x} \\
+&= \dfrac{1}{n - 1}\mathbf{x}^{\top}M^{\top}M\mathbf{x} \\
+&= \dfrac{1}{n - 1}\mathbf{x}^{\top}MM\mathbf{x} \\
+&= \dfrac{1}{n - 1}\mathbf{x}^{\top}M\mathbf{x}
+\end{align}
+$M$ is sometimes referred to the centering matrix, since $M\mathbf{x}$ has the same effect as subtracting the mean of the components of $\mathbf{x}$ from each component.
+
 \subsection{Sample Covariance Matrix}
 
 \subsubsection{Sample Correlation Matrix}
+
+\subsubsection{Scatter Matrix}
+
+\subsection{Partial Correlation}
 
 \subsection{Mahalanobis Distance}
 
@@ -4088,7 +4254,34 @@ Uncertainty quantification is the science of characterising uncertainty (ie. the
 
 \subsubsection{Aleatoric Uncertainty}
 
+Aleatoric uncertainty refers to noise which can cause the outcome of an observation to be different each time we run the same experiment. This can be caused by, say, the explanatory variables not capturing all the information required to precisely predict a dependent variable. Suppose we prescribe the data generating process with a model
+\begin{equation}
+Y = f\left(x\right) + \varepsilon
+\end{equation}
+Then the noise term $\varepsilon$ causes the aleatoric uncertainty, which can be quantified by $\operatorname{Var}\left(Y\right) = \operatorname{Var}\left(\varepsilon\right)$. Aleatoric uncertainty can be decomposed into homoskedastic uncertainty and heteroskedastic uncertainty, with the latter being the uncertainty which depends on the input values. For instance, suppose we are able to write
+\begin{equation}
+\operatorname{Var}\left(Y\middle| X = x\right) = \sigma^{2} + \varsigma^{2}\left(x\right)
+\end{equation}
+Then the term $\sigma^{2}$ quantifies the homoskedastic uncertainty and the term $\varsigma^{2}\left(x\right)$ which is a function of $x$ quantifies the heteroskedastic uncertainty.
+
 \subsubsection{Epistemic Uncertainty}
+
+Epistemic uncertainty refers to error due to uncertainty in model parameters - values which are difficult to know in practice. Suppose (in the absence of aleatoric uncertainties), that we have the model parametrised by $\theta$:
+\begin{equation}
+y = f\left(x;\theta\right)
+\end{equation}
+However we estimate $\widehat{\theta}$ for $\theta$ with some variance $\operatorname{Var}\left(\widehat{\theta}\right)$, and thus predict
+\begin{equation}
+\widehat{Y} = f\left(x;\widehat{\theta}\right)
+\end{equation}
+Then the epistemic uncertainty can be quantified by $\operatorname{Var}\left(f\left(x;\widehat{\theta}\right)\right)$, which we can crudely relate to $\operatorname{Var}\left(\widehat{\theta}\right)$ via a first-order Taylor approximation, assuming $f\left(x; \theta\right)$ is differentiable with respect to $\theta$:
+\begin{equation}
+f\left(x;\widehat{\theta}\right) \approx f\left(x;\mathbb{E}\left[\widehat{\theta}\right]\right) + \left(\widehat{\theta} - \mathbb{E}\left[\widehat{\theta}\right]\right)\left.\dfrac{\partial f\left(x;\theta\right)}{\partial\theta}\right|_{\theta = \mathbb{E}\left[\widehat{\theta}\right]}
+\end{equation}
+So
+\begin{equation}
+\operatorname{Var}\left(f\left(x;\widehat{\theta}\right)\right) \approx \operatorname{Var}\left(\widehat{\theta}\right)\left.\dfrac{\partial f\left(x;\theta\right)}{\partial\theta}\right|_{\theta = \mathbb{E}\left[\widehat{\theta}\right]}
+\end{equation}
 
 \subsubsection{Propagation of Errors}
 
@@ -4150,13 +4343,103 @@ Taking the derivative:
 Setting this to zero and solving obtains the ordinary least squares estimator.
 \begin{gather}
 -\mathbf{X}^{\top}\mathbf{Y} + \mathbf{X}^{\top}\mathbf{X}\hat{\beta} = 0 \\
-\hat{\beta} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y}
+\mathbf{X}^{\top}\mathbf{X}\hat{\beta} = \mathbf{X}^{\top}\mathbf{Y}
 \end{gather}
-Note that the matrix $\mathbf{X}^{\dagger} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}$ is the left Moore-Penrose pseudoinverse of $\mathbf{X}$. So we can alternatively write the least squares estimator as
+This is known as the least squares normal equation, which has solution
+\begin{equation}
+\hat{\beta} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y}
+\end{equation}
+An alternative way to compute the derivative is via the chain rule (on the un-expanded cost function), using the facts $\nabla_{\beta} \left(\mathbf{X}\beta\right) = \mathbf{X}^{\top}$ and $\nabla_{\beta} \left(\beta^{\top}\beta\right) = 2\beta$ to give
+\begin{equation}
+\nabla V\left(\beta\right) = \mathbf{X}^{\top}\left(\mathbf{Y} - \mathbf{X}\beta\right)
+\end{equation}
+which can be set to zero and rearranged to arrive at the least squares estimator. Note that the matrix $\mathbf{X}^{\dagger} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}$ is the left Moore-Penrose pseudoinverse of $\mathbf{X}$. So we can alternatively write the least squares estimator as
 \begin{equation}
 \hat{\beta} = \mathbf{X}^{\dagger}\mathbf{Y}
 \end{equation}
 which is the value of $\beta$ which `solves' $\mathbf{X}\beta = \mathbf{Y}$.
+
+\subsubsection{Distribution of Residuals in Ordinary Least Squares}
+
+Assume the data generating process
+\begin{equation}
+\mathbf{Y} = \mathbf{X}\beta + \varepsilon
+\end{equation}
+where $\beta \in \mathbb{R}^{p\times 1}$, $\varepsilon \sim \mathcal{N}\left(\mathbf{0}, \sigma^{2}I\right)$ and we assume that the regressors $\mathbf{X}$ are non-random. Then the residuals $\hat{\varepsilon} = \mathbf{Y} - \mathbf{X}\hat{\beta}$ under the ordinary least squares estimate is given by
+\begin{align}
+\hat{\varepsilon} &= \mathbf{Y} - \mathbf{X}\hat{\beta} \\
+&= \mathbf{Y} - \mathbf{X}\left[\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y}\right] \\
+&= \left[I - \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right]\mathbf{Y} \\
+&= \left[I - \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right]\left(\mathbf{X}\beta + \varepsilon\right) \\
+&= \green\cancelto{\green 0}{\black \left[\mathbf{X} - \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\left(\mathbf{X}^{\top}\mathbf{X}\right)\right]}\black\beta + \left[I - \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right]\varepsilon \\
+&= \green\underbrace{\black \left[I - \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right]}_{\green Q}\black \varepsilon
+\end{align}
+where we may call $Q$ the `residual-maker' matrix since $\hat{\varepsilon} = Q\mathbf{Y}$. It is also sometimes called the `annihilator' matrix because $Q\mathbf{X} = \mathbf{0}$. Note that $Q$ is symmetric ($Q^{\top} = Q$) and idempotent ($Q^{2} = Q$). We may verify the latter property by
+\begin{align}
+Q^{2} &= \left[I - \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right]\left[I - \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right] \\
+&= I - 2\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} + \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} \\
+&= 1 - 2\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} + \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} \\
+&= I - \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} \\
+&= Q
+\end{align}
+We then use the property of idempotent matrices that their eigenvalues can only either be $0$ or $1$. To show this, we may write for some $\mathbf{v} \neq 0$:
+\begin{gather}
+Q\mathbf{v} = \lambda\mathbf{v} \\
+QQ\mathbf{v} = \lambda Q\mathbf{v} \\
+Q\mathbf{v} = \lambda \left(\lambda\mathbf{v}\right) \\
+\lambda\mathbf{v} = \lambda^{2}\mathbf{v}
+\end{gather}
+which only admits solutions of either $\lambda = 1$ or $\lambda = 0$. Furthermore, we can compute (using the invariance of trace to cyclic permutations):
+\begin{align}
+\operatorname{trace}\left(Q\right) &= \operatorname{trace}\left(I_{n\times n}\right) -  \operatorname{trace}\left(\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right) \\
+&= n -  \operatorname{trace}\left(\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{X}\right) \\
+&= n -  \operatorname{trace}\left(I_{p\times p}\right) \\
+&= n - p
+\end{align}
+An eigendecomposition of $Q = V\Lambda V^{\top}$ where $V^{\top} = V^{-1}$ then shows
+\begin{align}
+\operatorname{trace}\left(Q\right) &= \operatorname{trace}\left(V\Lambda V^{\top}\right) \\
+&= \operatorname{trace}\left(V\Lambda V^{\top}\right) \\
+&= \operatorname{trace}\left(\Lambda V^{\top}V\right) \\
+&= \operatorname{trace}\left(\Lambda\right)
+\end{align}
+which yields $\operatorname{trace}\left(\Lambda\right) = n - p$. As $\Lambda$ contains the eigenvalues of $Q$, then this establishes that $\Lambda$ must contain exactly $n - p$ ones and $p$ zeros in its main diagonal. Without loss of generality, we can assume that all the ones appear at the beginning of the main diagonal (as this aspect of eigendecomposition is arbitrary) so
+\begin{align}
+\Lambda &= \begin{bmatrix}1\\
+ & \ddots\\
+ &  & 1\\
+ &  &  & 0\\
+ &  &  &  & \ddots\\
+ &  &  &  &  & 0
+\end{bmatrix} \\
+&= \operatorname{diag}\left\{\green\underbrace{\black 1, \dots, 1}_{\green n - p}\black, \green\underbrace{\black 0, \dots, 0}_{\green p}\black \right\}
+\end{align}
+Now let $K = V^{\top}\hat{\varepsilon}$. By $\hat{\varepsilon} = Q\varepsilon$, we have that
+\begin{align}
+\hat{\varepsilon} &\sim \mathcal{N}\left(0, \sigma^{2}QIQ^{\top}\right) \\
+&\sim \mathcal{N}\left(0, \sigma Q\right)
+\end{align}
+So
+\begin{align}
+K &\sim \mathcal{N}\left(0, \sigma^{2}V^{\top}QV\right) \\
+&\sim \mathcal{N}\left(0, \sigma^{2}\Lambda\right)
+\end{align}
+Hence the last $p$ elements of $K$ are zero. By the characterisation of the chi-squared distribution as the sum of squared independent standard normal random variables, this means
+\begin{equation}
+\dfrac{\left\Vert K\right\Vert^{2}}{\sigma^{2}} \sim \chi_{n - p}^{2}
+\end{equation}
+The residual sum of squares is given by $\mathrm{RSS} = \left\Vert \hat{\varepsilon} \right\Vert^{2}$. Also as $V^{\top}$ is an orthogonal matrix, then $\left\Vert K\right\Vert^{2} = \left\Vert \hat{\varepsilon} \right\Vert^{2}$ and therefore the residual sum of squares has distribution
+\begin{equation}
+\dfrac{\mathrm{RSS}}{\sigma^{2}} \sim \chi_{n - p}^{2}
+\end{equation}
+Using the fact that the mean of the chi-squared distribution is equal to its degrees of freedom, we have
+\begin{equation}
+\mathbb{E}\left[\dfrac{\mathrm{RSS}}{\sigma^{2}}\right] = n - p
+\end{equation}
+Rearranging, we also arrive at an unbiased estimator for the error variance:
+\begin{equation}
+\mathbb{E}\left[\dfrac{\mathrm{RSS}}{n - p}\right] = \sigma^{2}
+\end{equation}
 
 \subsubsection{Standard Errors in Ordinary Least Squares}
 
@@ -4168,7 +4451,7 @@ where $\varepsilon \sim \mathcal{N}\left(\mathbf{0}, \sigma^{2}I\right)$ and we 
 \begin{equation}
 \mathbf{Y} \sim \mathcal{N}\left(\mathbf{X}\beta, \sigma^{2}I\right)
 \end{equation}
-By the ordinary least squares estimator $\hat{\beta} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y}$, this is just a linear transformation of the multivariate normally distributed $\mathbf{Y}$, so the sampling distribution of $\hat{\beta}$ is
+By the ordinary least squares estimator $\hat{\beta} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y}$; this is just a linear transformation of the multivariate normally distributed $\mathbf{Y}$, so the sampling distribution of $\hat{\beta}$ is
 \begin{align}
 \hat{\beta} &\sim \mathcal{N}\left(\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{X}\beta, \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\sigma^{2}I\left[\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right]^{\top}\right) \\
 &\sim \mathcal{N}\left(\beta, \sigma^{2}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\right) \\
@@ -4178,11 +4461,56 @@ Hence
 \begin{equation}
 \operatorname{Cov}\left(\hat{\beta}\right) = \sigma^{2}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}
 \end{equation}
-The term $\sigma^{2}$ is estimated by the sample variance of the residuals, so that the estimate of $\operatorname{Cov}\left(\hat{\beta}\right)$ is
+The term $\sigma^{2}$ may be estimated by the sample variance of the residuals (unbiased estimator), so that the estimate of $\operatorname{Cov}\left(\hat{\beta}\right)$ is
 \begin{equation}
 \widehat{\operatorname{Cov}}\left(\hat{\beta}\right) = \dfrac{1}{n - p}\sum_{i = 1}^{n}\left(y_{i} - \hat{\beta}^{\top}x_{i}\right)^{2}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}
 \end{equation}
-where $p$ is the degrees of freedom which is the dimension of $\hat{\beta}$. To obtain the standard error $\operatorname{se}\left(\hat{\beta}_{i}\right)$ for the $i$\textsuperscript{th} coefficient estimate we take the square root of the $i$\textsuperscript{th} diagonal of $\widehat{\operatorname{Cov}}\left(\hat{\beta}\right)$.
+where $p$ is the dimension of $\hat{\beta}$. To obtain the standard error $\operatorname{se}\left(\hat{\beta}_{k}\right)$ for the $k$\textsuperscript{th} coefficient estimate, we take the square root of the $k$\textsuperscript{th} diagonal of $\widehat{\operatorname{Cov}}\left(\hat{\beta}\right)$. To perform coefficients on the $k$\textsuperscript{th} coefficient of interest however, it is not possible to use $z$-statistics if the population variance $\sigma^{2}$ is not known. We consider the distribution of the standardised score:
+\begin{equation}
+t_{k} = \dfrac{\hat{\beta}_{k} - \beta_{k}}{\operatorname{se}\left(\hat{\beta}_{k}\right)}
+\end{equation}
+From the distribution of $\hat{\beta}$, we have that
+\begin{equation}
+\hat{\beta} - \beta \sim \mathcal{N}\left(0, \sigma^{2}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\right)
+\end{equation}
+Let $s_{kk}$ denote the $k$\textsuperscript{th} diagonal of $\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}$. We then have that
+\begin{align}
+z_{k} &= \dfrac{\hat{\beta}_{k} - \beta_{k}}{\sigma \sqrt{s_{kk}}} \\
+&\sim \mathcal{N}\left(0, 1\right)
+\end{align}
+From the distribution of the residuals, we know that $V := \dfrac{\left\Vert \hat{\varepsilon}\right\Vert^{2}}{\sigma^{2}}$ has a chi-squared distribution with $n - p$ degrees of freedom. It can then be shown that
+\begin{align}
+\operatorname{Cov}\left(\hat{\beta}, \hat{\varepsilon}\right) &= \mathbb{E}\left[\hat{\beta}\hat{\varepsilon}^{\top}\right]-\mathbb{E}\left[\hat{\beta}\right]\mathbb{E}\left[\hat{\varepsilon}\right]^{\top} \\
+&= \mathbb{E}\left[\hat{\beta}\hat{\varepsilon}^{\top}\right]
+\end{align}
+where we have used $\mathbb{E}\left[\varepsilon\right] = 0$. Then from
+\begin{align}
+\hat{\beta} &= \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y} \\
+&= \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\left(\mathbf{X}\beta + \varepsilon\right) \\
+&= \beta + \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\varepsilon
+\end{align}
+and the residual-maker matrix for $\varepsilon = \left[I-\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right]\hat{\varepsilon}$, it follows that
+\begin{align}
+\operatorname{Cov}\left(\hat{\beta}, \hat{\varepsilon}\right) &= \mathbb{E}\left[\left(\beta+\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\varepsilon\right)\varepsilon^{\top}\left(I-\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right)\right] \\
+&= \mathbb{E}\left[\beta\varepsilon^{\top}I-\beta\varepsilon^{\top}\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}+\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\varepsilon\varepsilon^{\top}-\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\varepsilon\varepsilon^{\top}\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right] \\
+&= \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbb{E}\left[\varepsilon\varepsilon^{\top}\right]-\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbb{E}\left[\varepsilon\varepsilon^{\top}\right]\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} \\
+&= \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\sigma^{2}I-\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\sigma^{2}I\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} \\
+&= \sigma^{2}\left[\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}-\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\right] \\
+&= \mathbf{0}_{p\times n}
+\end{align}
+Since $\hat{\beta}$ and $\hat{\varepsilon}$ are uncorrelated and they are both multivariate normally distributed, then this implies that $\hat{\beta}$ and $\hat{\varepsilon}$ are independent. Hence $z_{k}$ and $V$ are also independent. Thus
+\begin{equation}
+t_{k} = \dfrac{z_{k}}{\sqrt{V/\left(n - p\right)}}
+\end{equation}
+fits the characterisation of a $t$-distributed random variable with $n - p$ degrees of freedom. We are then left to show that this is equal to the standardised statistic from above:
+\begin{align}
+t_{k} &= \dfrac{z_{k}}{\sqrt{V/\left(n - p\right)}} \\
+&= \dfrac{\left(\hat{\beta}_{k} - \beta_{k}\right)/\sqrt{\sigma^{2}s_{kk}}}{\sqrt{\frac{\left\Vert \hat{\varepsilon}\right\Vert^{2}}{\sigma^{2}}/\left(n - p\right)}} \\
+&= \dfrac{\hat{\beta}_{k} - \beta_{k}}{\sqrt{\frac{\left\Vert \hat{\varepsilon}\right\Vert^{2}}{n - p}\cdot s_{kk}}} \\
+&= \dfrac{\hat{\beta}_{k} - \beta_{k}}{\hat{\sigma}\sqrt{s_{kk}}} \\
+&= \dfrac{\hat{\beta}_{k} - \beta_{k}}{\operatorname{se}\left(\hat{\beta}_{k}\right)}
+\end{align}
+Hence the fact that this statistic is $t$-distributed with $n - p$ degrees of freedom may be used to conduct hypothesis tests and construct confidence intervals for $\beta_{k}$.
 
 \subsection{Total Least Squares}
 
@@ -4220,7 +4548,7 @@ Suppose we have $n$ observations, which we denote with subscripts in the matrice
 \begin{equation}
 \hat{\beta}_{n} = \left(\mathbf{X}_{n}^{\top}\mathbf{X}_{n}\right)^{-1}\mathbf{X}_{n}^{\top}\mathbf{Y}_{n}
 \end{equation}
-Suppose we have a new datum $\left(\mathbf{x}_{n + 1}, y_{n + 1}\right)$. The new least squares estimate can be computed from the old estimate follows. First note that to obtain the new data matrices from the old matrices we can concatenate them by
+Consider a new datum $\left(\mathbf{x}_{n + 1}, y_{n + 1}\right)$. The new least squares estimate can be computed from the old estimate follows. First note that to obtain the new data matrices from the old matrices we can concatenate them by
 \begin{equation}
 \mathbf{X}_{n + 1} = \begin{bmatrix}
 \mathbf{X}_{n} \\ \mathbf{x}_{n + 1}^{\top}
@@ -5099,6 +5427,74 @@ therefore combining these two inequalities using Boole's inequality gives
 \end{equation}
 \end{proof}
 
+A special case of Hoeffding's inequality can also be stated in terms of the deviation of the i.i.d. sample mean from the expectation.
+\begin{corollary}
+Let $X_{1}, \dots, X_{n}$ be i.i.d. random variables bounded by $a \leq X_{i} \leq b$ almost surely for all $i = 1, \dots, n$. Let $\overline{X} = \dfrac{1}{n}\sum_{i = 1}^{n}X_{i}$. Then for all $t > 0$,
+\begin{equation}
+\operatorname{Pr}\left(\left|\overline{X} - \mathbb{E}\left[X\right]\right| \geq t\right) \leq 2\exp\left[-\dfrac{2nt^{2}}{\left(b - a\right)^{2}} \right]
+\end{equation}
+\end{corollary}
+\begin{proof}
+Let $t' = nt$, then use Hoeffding's inequality stated for sums:
+\begin{align}
+\operatorname{Pr}\left(\left|\overline{X} - \mathbb{E}\left[X\right]\right| \geq t\right) &= \operatorname{Pr}\left(\dfrac{1}{n}\left|S - \mathbb{E}\left[S\right]\right| \geq t\right) \\
+&= \operatorname{Pr}\left(\left|S - \mathbb{E}\left[S\right]\right| \geq t'\right) \\
+&\leq 2\exp\left[-\dfrac{2t'^{2}}{n\left(b - a\right)^{2}} \right] \\
+&\leq 2\exp\left[-\dfrac{2nt^{2}}{\left(b - a\right)^{2}} \right]
+\end{align}
+\end{proof}
+
+\subsection{Joint Moment Generating Functions}
+
+Joint moment generating functions extend moment generating functions to random vectors. For a random vector $\mathbf{X}$, the joint moment generating function (if it exists) is defined by
+\begin{equation}
+\phi_{\mathbf{X}}\left(\mathbf{s}\right) = \mathbb{E}\left[\exp\left(\mathbf{s}^{\top}\mathbf{X}\right)\right]
+\end{equation}
+which is a real-valued function in the multivariate $\mathbf{s}$.
+
+\subsubsection{Joint Moment Generating Function of Independent Random Variables}
+
+Suppose $X_{1}, \dots, X_{n}$ are independent random variables. Then the joint moment generating function of the random vector $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ is given by
+\begin{align}
+\phi_{\mathbf{X}}\left(\mathbf{s}\right) &= \mathbb{E}\left[\exp\left(\mathbf{s}^{\top}\mathbf{X}\right)\right] \\
+&= \mathbb{E}\left[\exp\left(\sum_{i = 1}^{n}s_{i}X_{i}\right)\right] \\
+&= \mathbb{E}\left[\prod_{i = 1}^{n}e^{s_{i}X_{i}}\right] \\
+&= \prod_{i = 1}^{n}\mathbb{E}\left[e^{s_{i}X_{i}}\right] \\
+&= \prod_{i = 1}^{n}\phi_{X_{i}}\left(s_{i}\right)
+\end{align}
+Hence this shows that the joint MGF of independent random variables is given by the product of the MGFs of the individual random variables.
+
+\subsubsection{Joint Moment Generating Function of Linear Transformations}
+
+Suppose $\mathbf{X}$ has moment generating function $\phi_{\mathbf{X}}\left(\mathbf{s}\right)$. Consider the linear transformation $\mathbf{Y} = A\mathbf{X} + \mathbf{b}$. Then $\mathbf{Y}$ has joint moment generating function given by
+\begin{align}
+\phi_{\mathbf{Y}}\left(\mathbf{s}\right) &= \mathbb{E}\left[\exp\left(\mathbf{s}^{\top}\mathbf{Y}\right)\right] \\
+&= \mathbb{E}\left[\exp\left(\mathbf{s}^{\top}\left(A\mathbf{X} + \mathbf{b}\right)\right)\right] \\
+&= \mathbb{E}\left[\exp\left(\mathbf{s}^{\top}\mathbf{b}\right)\exp\left(\mathbf{s}^{\top}A\mathbf{X}\right)\right] \\
+&= \mathbb{E}\left[\exp\left(\mathbf{s}^{\top}\mathbf{b}\right)\exp\left(\left(A^{\top}\mathbf{s}\right)^{\top}\mathbf{X}\right)\right] \\
+&= \exp\left(\mathbf{s}^{\top}\mathbf{b}\right)\phi_{\mathbf{X}}\left(A^{\top}\mathbf{s}\right)
+\end{align}
+
+\subsubsection{Cross-Moments from Joint Moment Generating Functions}
+
+Cross-moments of a random vector can be computed from the joint moment generating function. Suppose random vector $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ possesses a joint moment generating function $\phi_{\mathbf{X}}\left(s_{1}, \dots, s_{n}\right)$, and suppose the $k$\textsuperscript{th} order cross moment of interest is
+\begin{equation}
+\mu_{\mathbf{X}}\left(k_{1}, \dots, k_{n}\right) = \mathbb{E}\left[X_{1}^{k_{1}}\cdot X_{2}^{k_{2}}\cdot \dots \cdot X_{n}^{k_{n}}\right]
+\end{equation}
+with $k_{1} + \dots + k_{n} = k$. By taking a $k$\textsuperscript{th} order partial derivative of the joint moment generating function, we can show:
+\begin{align}
+\dfrac{\partial^{k}\phi_{\mathbf{X}}\left(s_{1}, \dots, s_{n}\right)}{\partial s_{1}^{k_{1}}\dots\partial s_{n}^{k_{n}}} &= \dfrac{\partial^{k}}{\partial s_{1}^{k_{1}}\dots\partial s_{n}^{k_{n}}}\left(\mathbb{E}\left[e^{s_{1}X_{1} + \dots + s_{n}X_{n}}\right]\right) \\
+&= \mathbb{E}\left[\dfrac{\partial^{k}}{\partial s_{1}^{k_{1}}\dots\partial s_{n}^{k_{n}}}\left(e^{s_{1}X_{1} + \dots + s_{n}X_{n}}\right)\right] \\
+&= \mathbb{E}\left[X_{1}^{k_{1}}\cdot X_{2}^{k_{2}}\cdot \dots \cdot X_{n}^{k_{n}}e^{s_{1}X_{1} + \dots + s_{n}X_{n}}\right] 
+\end{align}
+Then evaluating this partial derivative at $s_{1} = \dots = s_{n} = 0$:
+\begin{align}
+\left.\dfrac{\partial^{k}\phi_{\mathbf{X}}\left(s_{1}, \dots, s_{n}\right)}{\partial s_{1}^{k_{1}}\dots\partial s_{n}^{k_{n}}}\right|_{s_{1} = \dots = s_{n} = 0} &= \mathbb{E}\left[X_{1}^{k_{1}}\cdot X_{2}^{k_{2}}\cdot \dots \cdot X_{n}^{k_{n}}e^{0\cdot X_{1} + \dots + 0\cdot X_{n}}\right] \\
+&= \mathbb{E}\left[X_{1}^{k_{1}}\cdot X_{2}^{k_{2}}\cdot \dots \cdot X_{n}^{k_{n}}\right] \\
+&= \mu_{\mathbf{X}}\left(k_{1}, \dots, k_{n}\right)
+\end{align}
+which gives the desired cross-moment.
+
 \section{Probability Generating Functions}
 
 The probability generating function of a discrete random variable $X$ taking on values in the non-negative integers with probability mass function $\operatorname{Pr}\left(X = x\right)$ is defined by
@@ -5460,6 +5856,51 @@ Under further technical assumptions \cite{Wilks1962}, the sampling distribution 
 \end{equation}
 
 \section{Multivariate Gaussian Identities}
+
+\subsection{Joint Moment Generating Function of Multivariate Gaussians}
+
+To obtain the expression for the joint moment generating function of a multivariate Gaussian, we first require the moment generating function of a standard Gaussian random variable $Z$. This is given by
+\begin{align}
+\phi_{Z}\left(s\right) &= \mathbb{E}\left[e^{sZ}\right] \\
+&= \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{sz}e^{-z^{2}/2}dz \\
+&= \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-\left(z^{2} - 2sz\right)/2}dz \\
+&= \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-\left[\left(z - s\right)^{2} - s^{2}\right]/2}dz \\
+&= \dfrac{e^{s^{2}/2}}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-\left(z - s\right)^{2}/2}dz \\
+&= e^{s^{2}/2}
+\end{align}
+where we have recognised that $\dfrac{1}{\sqrt{2\pi}}e^{-\left(z - s\right)^{2}/2}$ is the density of a $\mathcal{N}\left(s, 1\right)$ random variable. Then a random vector of independent standard Gaussian random variables $\mathbf{Z} = \left(Z_{1}, \dots, Z_{n}\right)$ has joint moment generating function
+\begin{align}
+\phi_{\mathbf{Z}}\left(\mathbf{s}\right) &= \prod_{i = 1}^{n}e^{s_{i}^{2}/2} \\
+&= \exp\left(\dfrac{1}{2}\sum_{i = 1}^{n}s_{i}^{2}\right) \\
+&= \exp\left(\dfrac{1}{2}\mathbf{s}^{\top}\mathbf{s}\right)
+\end{align}
+Using the characterisation that a multivariate Gaussian random vector $\mathbf{X} \sim \mathcal{N}\left(\boldsymbol{\mu}, \boldsymbol{\Sigma}\right)$ has the same distribution as $\boldsymbol{\Sigma}^{1/2}\mathbf{Z} + \boldsymbol{\mu}$, then using properties for joint MGFs of linear transformations:
+\begin{align}
+\phi_{\mathbf{X}}\left(\mathbf{s}\right) &= \exp\left(\mathbf{s}^{\top}\boldsymbol{\mu}\right)\phi_{\mathbf{Z}}\left(\left(\boldsymbol{\Sigma}^{1/2}\right)^{\top}\mathbf{s}\right) \\
+&= \exp\left(\mathbf{s}^{\top}\boldsymbol{\mu}\right)\exp\left(\dfrac{1}{2}\mathbf{s}^{\top}\boldsymbol{\Sigma}^{1/2}\left(\boldsymbol{\Sigma}^{1/2}\right)^{\top}\mathbf{s}\right) \\
+&= \exp\left(\mathbf{s}^{\top}\boldsymbol{\mu}\right)\exp\left(\dfrac{1}{2}\mathbf{s}^{\top}\boldsymbol{\Sigma}\mathbf{s}\right)
+\end{align}
+
+\subsection{Uncorrelatedness and Independence of Multivariate Gaussians}
+
+For multivariate Gaussians, uncorrelatedness and independence are equivalent. Suppose that $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ is a multivariate Gaussian vector with mean vector $\boldsymbol{\mu} = \left(\mu_{1}, \dots, \mu_{n}\right)$ and with $\operatorname{Cov}\left(X_{i}, X_{j}\right) = 0$ for any $i \neq j$. This means that $\mathbf{X}$ has a covariance matrix $\mathbf{K}$ which only consists of a main diagonal:
+\begin{equation}
+\mathbf{K} = \begin{bmatrix}\sigma_{1}^{2} \\ & \ddots \\ & & \sigma_{n}^{2}\end{bmatrix}
+\end{equation}
+Then $X_{1}, \dots, X_{n}$ are independent.
+\begin{proof}
+The joint moment generating function of $\mathbf{X}$ is given by
+\begin{equation}
+\phi_{\mathbf{X}}\left(\mathbf{s}\right) = \exp\left(\mathbf{s}^{\top}\boldsymbol{\mu}\right)\exp\left(\dfrac{1}{2}\mathbf{s}^{\top}\mathbf{K}\mathbf{s}\right)
+\end{equation}
+Since $\mathbf{K}$ is a diagonal matrix, this can be written as
+\begin{align}
+\phi_{\mathbf{X}}\left(\mathbf{s}\right) &= \exp\left(\sum_{i = 1}^{n}s_{i}\mu_{i}\right)\exp\left(\dfrac{1}{2}\sum_{i = 1}^{n}\sigma_{i}^{2}s_{i}^{2}\right) \\
+&= \prod_{i = 1}^{n}\exp\left(s_{i}\mu_{i}\right)\exp\left(\dfrac{1}{2}\sigma_{i}^{2}s_{i}^{2}\right) \\
+&= \prod_{i = 1}^{n}\phi_{X_{i}}\left(s_{i}\right)
+\end{align}
+which is the product of the individual MGFs of $X_{1}, \dots, X_{n}$. Hence this implies that $X_{1}, \dots, X_{n}$ are independent.
+\end{proof}
 
 \subsection{Conditional Gaussian Densities}
 
@@ -5915,6 +6356,8 @@ and
 \subsection{Bayes' Theorem for Distributions}
 
 \subsection{Bayes' Theorem for Multivariate Distributions}
+
+\subsection{Bayes' Theorem involving Hybrid Random Variables}
 
 \section{Bayesian Priors}
 
@@ -6946,9 +7389,9 @@ F_{\left(r\right)\left(s\right)}\left(x, y\right) &= F_{\left(s\right)}\left( y\
 \end{align}
 The form of the cumulative joint distribution generalises to $k$ order statistics. Suppose we have $1 \leq n_{1} < \dots < n_{k} \leq n$. Then the cumulative distribution of the joint distribution of $X_{\left(n_{1}\right)}, \dots, X_{\left(n_{k}\right)}$ is
 \begin{multline}
-F_{\left(n_{1}\right)\dots\left(n_{k}\right)}\left(x_{\left(\left(n_{1}\right)\right)}, \dots, x_{\left(\left(n_{k}\right)\right)}\right) \\
-= \sum_{i_{k} = n_{k}}^{n}\sum_{i_{k - 1} = n_{k - 1}}^{i_{k}}\dots\sum_{i_{1} = n_{1}}^{i_{2}}\dfrac{n!}{n_{1}!\left(n_{2} - n_{1}\right)!\times\dots\times\left(n - n_{k}\right)!}\left[F\left(x_{\left(\left(n_{1}\right)\right)}\right)\right]^{i_{1}}\left[F\left(x_{\left(\left(n_{2}\right)\right)}\right) - F\left(x_{\left(\left(n_{1}\right)\right)}\right)\right]^{i_{2} - i_{1}} \\
-\times\dots\times\left[1 - F\left(x_{\left(\left(n_{k}\right)\right)}\right)\right]^{n - i_{k}}
+F_{\left(n_{1}\right)\dots\left(n_{k}\right)}\left(x_{\left(n_{1}\right)}, \dots, x_{\left(n_{k}\right)}\right) \\
+= \sum_{i_{k} = n_{k}}^{n}\sum_{i_{k - 1} = n_{k - 1}}^{i_{k}}\dots\sum_{i_{1} = n_{1}}^{i_{2}}\dfrac{n!}{i_{1}!\left(i_{2} - i_{1}\right)!\times\dots\times\left(n - i_{k}\right)!}\left[F\left(x_{\left(n_{1}\right)}\right)\right]^{i_{1}}\left[F\left(x_{\left(n_{2}\right)}\right) - F\left(x_{\left(n_{1}\right)}\right)\right]^{i_{2} - i_{1}} \\
+\times\dots\times\left[1 - F\left(x_{\left(n_{k}\right)}\right)\right]^{n - i_{k}}
 \end{multline}
 for the case $x_{\left(n_{1}\right)} < \dots < x_{\left(n_{k}\right)}$. We can also derive the joint probability density, starting with the joint probability density of two order statistics. This can be obtained from differentiating the cumulative distribution, however instead we derive it starting from the equation
 \begin{equation}
@@ -6985,7 +7428,19 @@ This can be derived intuitively, because the joint distribution of the sample is
 \begin{equation}
 f_{X_{1}, \dots, X_{n}}\left(x_{1}, \dots, x_{n}\right) = f\left(x_{1}\right)\times\dots\times f\left(x_{n}\right)
 \end{equation}
-and for every possible $x_{\left(1\right)} \leq \dots \leq x_{\left(k\right)}$, where are $n!$ equally likely events which could have led to it.
+and for every possible $x_{\left(1\right)} \leq \dots \leq x_{\left(k\right)}$, where are $n!$ equally likely events which could have led to it. Note that if we do not have $x_{\left(1\right)} \leq \dots \leq x_{\left(k\right)}$, then the joint cumulative distribution can be evaluated by:
+\begin{equation}
+F_{\left(n_{1}\right)\dots\left(n_{k}\right)}\left(x_{\left(n_{1}\right)}, \dots, x_{\left(n_{k}\right)}\right) = F_{\left(n_{1}\right)\dots\left(n_{k}\right)}\left(x_{\left(n_{1}\right)}^{*}, \dots, x_{\left(n_{k}\right)}^{*}\right)
+\end{equation}
+where
+\begin{align}
+x_{\left(n_{k}\right)}^{*} &= x_{\left(n_{k}\right)} \\
+x_{\left(n_{k - 1}\right)}^{*} &= \min\left\{x_{\left(n_{k - 1}\right)}, x_{\left(n_{k}\right)}^{*}\right\} \\
+&\vdots \\
+x_{\left(n_{1}\right)}^{*} &= \min\left\{x_{\left(n_{1}\right)}, x_{\left(n_{2}\right)}^{*}\right\}
+\end{align}
+since $\left(x_{\left(n_{1}\right)}^{*}, \dots, x_{\left(n_{k}\right)}^{*}\right)$ satisfies $x_{\left(1\right)}^{*} \leq \dots \leq x_{\left(k\right)}^{*}$ and the joint probability density for the region between $\left(x_{\left(n_{1}\right)}^{*}, \dots, x_{\left(n_{k}\right)}^{*}\right)$ and $\left(x_{\left(n_{1}\right)}, \dots, x_{\left(n_{k}\right)}\right)$ is zero.
+
 
 \subsection{Conditional Distribution of Order Statistics}
 
@@ -7299,7 +7754,7 @@ for $i = 1, \dots, n$. The Jackknife estimate of the population mean is then the
 \end{equation}
 The Jackknife estimate of the variance of the estimator can also be calculated using the distribution of $\bar{x}_{i}$ as follows:
 \begin{equation}
-\hat{\operatorname{Var}}\left(\hat{\theta}\right) = \dfrac{n - 1}{n}\sum_{i = 1}^{n}\left(\bar{x}_{i} - \hat{\theta}\right)^{2}
+\widehat{\operatorname{Var}}\left(\hat{\theta}\right) = \dfrac{n - 1}{n}\sum_{i = 1}^{n}\left(\bar{x}_{i} - \hat{\theta}\right)^{2}
 \end{equation}
 This estimator is an unbiased estimator of the variance of the sample mean.
 \begin{proof}
@@ -7313,7 +7768,7 @@ Notice that $\bar{x}_{i} = \dfrac{n\bar{x} - x_{i}}{n - 1} \Rightarrow \left(n -
 \end{align}
 Hence
 \begin{align}
-\hat{\operatorname{Var}}\left(\hat{\theta}\right) &= \dfrac{n - 1}{n}\sum_{i = 1}^{n}\left(\bar{x}_{i} - \hat{\theta}\right)^{2} \\
+\widehat{\operatorname{Var}}\left(\hat{\theta}\right) &= \dfrac{n - 1}{n}\sum_{i = 1}^{n}\left(\bar{x}_{i} - \hat{\theta}\right)^{2} \\
 &= \dfrac{1}{n\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\right)^{2}
 \end{align}
 Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\right)^{2}$ is an unbiased estimator of the population variance, and so $\dfrac{1}{n\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\right)^{2}$ is an unbiased estimator of the variance of the sample mean.
@@ -7323,7 +7778,7 @@ Recall that $\dfrac{1}{\left(n - 1\right)}\sum_{i = 1}^{n}\left(\bar{x} - x_{i}\
 
 The bootstrap method can be used to compute standard errors of very general estimators. Let $T_{n} = g\left(X_{1}, \dots, X_{n}\right)$ be a statistic. In order to estimate $\operatorname{Var}\left(T_{n}\right)$ with respect to the data generating process (which is not presumed known), we compute
 \begin{equation}
-\hat{\operatorname{Var}}\left(T_{n}\right) = \dfrac{1}{N}\sum_{i = 1}^{N}\left(T_{n, i}^{*} - \overline{T}_{n}^{*}\right)^{2}
+\widehat{\operatorname{Var}}\left(T_{n}\right) = \dfrac{1}{N}\sum_{i = 1}^{N}\left(T_{n, i}^{*} - \overline{T}_{n}^{*}\right)^{2}
 \end{equation}
 where $T_{n, i}^{*} = g\left(X_{1, i}^{*}, \dots, X_{n, i}^{*}\right)$, is the statistic calculated from the $i$\textsuperscript{th} resample of the data from the empirical distribution function defined by the original data $X_{1}, \dots, X_{n}$. $\overline{T}_{n}^{*}$ is the sample mean of the statistic across all simulations. Hence the bootstrap estimate contains two levels of approximation. The first approximation is made by using the empirical distribution to replace the data generating process. The second level of approximation is by estimating the variance of $T_{n}$ with respect to the empirical distribution by using a Monte Carlo average.
 
@@ -7966,7 +8421,7 @@ if the limit exists. If the sequence is i.i.d., then the entropy rate is
 
 \subsection{Differential Entropy}
 
-The continuous analogue of information entropy is differential entropy, where the discrete sum is converted to an integral over the probability density function $f\left(x\right)$.
+The continuous analog of information entropy is differential entropy, where the discrete sum is converted to an integral over the probability density function $f\left(x\right)$.
 \begin{equation}
 \operatorname{H}\left[X\right] = -\int f\left(x\right)\log f\left(x\right) dx
 \end{equation}
@@ -8320,11 +8775,21 @@ In E-optimal design, we minimise the $2$-norm of the covariance matrix:
 \end{equation}
 which is also a convex optimisation problem since it can be cast as a semi-definite program. Since this is equivalent to minimising the maximum eigenvalue of the covariance matrix, this corresponds to minimising the maximum diameter of the confidence ellipsoid for a fixed confidence level.
 
-\section{$f$-Divergence}
+\section{Statistical Distances}
 
 \subsection{Total Variation Distance}
 
+Let $\mathbb{P}$ and $\mathbb{Q}$ be two probability measures defined on the same sample space $\Omega$ with $\sigma$-algebra $\mathcal{F}$. The total variation distance (sometimes referred to as the variational distance) between  $\mathbb{P}$ and $\mathbb{Q}$ is defined as
+\begin{equation}
+\delta\left(\mathbb{P}, \mathbb{Q}\right) = \sup_{E\in\mathcal{F}}\left|\mathbb{P}\left(E\right) - \mathbb{Q}\left(E\right)\right|
+\end{equation}
+Roughly speaking, this conveys the distance between probability distributions in terms of the largest possible difference in probabilities that the distributions can assign to the same event.
+
+\subsubsection{Pinsker's Inequality}
+
 \subsection{Hellinger Distance}
+
+\subsection{$f$-Divergence}
 
 \section{Information Geometry}
 
@@ -8349,6 +8814,32 @@ D\left(\theta'\right) \approx \dfrac{1}{2}\left(\theta' - \theta\right)^{\top}\l
 where we have used the facts that $D\left(\theta\right) = \operatorname{KL}\left(f\left(x;\theta\right)\middle\Vert f\left(x;\theta\right)\right) = 0$ and is a minimum, so the gradient also vanishes. Then the Fisher information metric may be interpreted as the curvature of the KL divergence with respect to $\theta'$ at $\theta$. The intuition is that the larger the Fisher information (ie. the larger the curvature), the more easily the parameter can be distinguished, hence the more `information' implied by $\theta$.
 
 \chapter{Econometrics}
+
+\section{Economic Data}
+
+\subsection{Generation of Economic Data}
+
+\subsubsection{Experimental Data}
+
+In experimental data, we are able to generate data by controlling the values of the regressors. Hence the design matrix $\mathbf{X}$ may be treated as a non-random quantity.
+
+\subsubsection{Observational Data}
+
+We treat observational data (also known as non-experimental data) `as observed', where there is no ability to control for the regressor values. Hence the data matrix $\mathbf{X}$ is treated as a random quantity, which is drawn from some underlying population distribution. We call this data as having stochastic regressors, as opposed to non-stochastic regressors.
+
+\subsection{Types of Economic Data}
+
+\subsubsection{Cross-Sectional Data}
+
+Cross-sectional data records observations within a particular time period. Each observation may be indexed by $i$, for each `individual'.
+
+\subsubsection{Time-Series Data}
+
+Time-series data records observations across multiple time periods. Each observation may be indexed by $t$, for each time period.
+
+\subsubsection{Panel Data}
+
+Also known as longitudinal data, panel data records an observation for each individual $i$ across multiple time periods $t$. This means each observation is indexed by $i$ and $t$.
 
 \section{Model Specification}
 
@@ -8405,7 +8896,7 @@ Suppose we have a simple causal equation of the form
 \begin{equation}
 \log Y = \beta_{0} + \beta_{1}X + V
 \end{equation}
-where $V$ is the error term. This is known as a log-level specification, and implicitly we require that $Y$ is a positive variable. Then $\beta_{1}\times 100\%$ may be roughly interpreted as the percentage increase in $Y$ for a 1 unit increase in $X$, holding all else constant. To see this, first note 
+where $V$ is the error term. This is known as a log-level (or `semilog') specification, and implicitly we require that $Y$ is a positive variable. Then $\beta_{1}\times 100\%$ may be roughly interpreted as the percentage increase in $Y$ for a 1 unit increase in $X$, holding all else constant. To see this, first note 
 \begin{gather}
 \dfrac{\partial \log Y}{\partial Y} = \dfrac{1}{Y} \\
 \dfrac{\partial \log Y}{\partial X} = \beta_{1}
@@ -8556,9 +9047,660 @@ and corresponding population regression function
 \end{equation}
 is known as a quadratic regression model (but note that the coefficients can still be estimated with ordinary least squares). Here, the interpretation of $\beta_{2}$ and the marginal effect of $X_{i}$ is not so simple because the marginal effect will in general depend on the value of $X_{i}$. However, the sign of $\beta_{2}$ may still be given an interpretation. If $\beta_{2} > 0$, then the explanatory variable is said to have a `convex quadratic effect' $Y_{i}$, while if $\beta_{2} < 0$ it is said to have a `concave quadratic effect'.
 
+\subsection{Interaction Terms \cite{Stock2015}}
+
+If a causal equation has two explanatory variables $X_{1, i}$ and $X_{2, i}$ and an additional regressor as the product between $X_{1, i}$ and $X_{2, i}$ as follows:
+\begin{equation}
+Y_{i} = \beta_{0} + \beta_{1}X_{1, i} + \beta_{2}X_{2, i} + \beta_{3}X_{1, i}X_{2, i} + U_{i}
+\end{equation}
+then this regressor is known as an interaction term (capturing the `interaction' between $X_{1, i}$ and $X_{2, i}$. In the PRF form:
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle|X_{1, i}, X_{2, i}\right] = \beta_{0} + \beta_{1}X_{1, i} + \beta_{2}X_{2, i} + \beta_{3}X_{1, i}X_{2, i}
+\end{equation}
+we obtain the marginal effect of $X_{1, i}$ as $\beta_{1} + \beta_{3}X_{2, i}$, which depends on the value of $X_{2, i}$. In this case, the statistical interpretation would be that a $1$ unit increase in $X_{1, i}$ is associated with a $\beta_{1} + \beta_{3}X_{2, i}$ unit increase in $Y_{i}$ on average, holding all else constant.
+
 \section{Regression Analysis}
 
+\subsection{Sample Regression Function Coefficients}
+
+The formula for the sample regression function coefficient estimates by ordinary least squares may be derived by analogy to the population regression function coefficients. Consider the population regression function
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle| X_{i}\right] = X_{i}^{\top}\boldsymbol{\beta}
+\end{equation}
+where $X_{i}$ is a vector of explanatory variables concatenated with $1$, and $\boldsymbol{\beta}$ is a vector of coefficients. Multiplying both sides by $X_{i}$  and taking $X_{i}$ inside the conditional expectation, we get
+\begin{gather}
+X_{i}\mathbb{E}\left[Y_{i}\middle| X_{i}\right] = X_{i}X_{i}^{\top}\boldsymbol{\beta} \\
+\mathbb{E}\left[X_{i}Y_{i}\middle| X_{i}\right] = X_{i}X_{i}^{\top}\boldsymbol{\beta}
+\end{gather}
+Taking the expectations of both sides and using the law of iterated expectations gives
+\begin{gather}
+\mathbb{E}\left[\mathbb{E}\left[X_{i}Y_{i}\middle| X_{i}\right]\right] = \mathbb{E}\left[X_{i}X_{i}^{\top}\boldsymbol{\beta}\right] \\
+\mathbb{E}\left[X_{i}Y_{i}\right] = \mathbb{E}\left[X_{i}X_{i}^{\top}\right]\boldsymbol{\beta}
+\end{gather}
+Lastly, left-multiplying both sides by $\mathbb{E}\left[X_{i}X_{i}^{\top}\right]^{-1}$ yields
+\begin{equation}
+\mathbb{E}\left[X_{i}X_{i}^{\top}\right]^{-1}\mathbb{E}\left[X_{i}Y_{i}\right] = \boldsymbol{\beta}
+\end{equation}
+To obtain the sample regression function coefficient estimates, we replace the expectations with their analogous sums from the sample:
+\begin{align}
+\widehat{\boldsymbol{\beta}} &= \left(\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}Y_{i} \\
+&= \left(\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\sum_{i = 1}^{n}X_{i}Y_{i}
+\end{align}
+which is equivalent to the ordinary least squares formula written in matrix form.
+
+\subsection{Unbiasedness of Ordinary Least Squares}
+
+Under particular assumptions, the estimate of the coefficients in ordinary least squares is unbiased. We assume the following:
+\begin{itemize}
+\item We have a `simple random sample' in that each $\left(X_{i}, Y_{i}\right)$ is an i.i.d. observation.
+\item The population regression function governing the data generating process has the form $\mathbb{E}\left[Y_{i}\middle| X_{i}\right] = X_{i}^{\top}\boldsymbol{\beta}$.
+\item There is no perfect multicollinearity. That is, there are no two explanatory variables which have correlation $1$ or $-1$.
+\end{itemize}
+We can then show that $\mathbb{E}\left[\widehat{\boldsymbol{\beta}}\right] = \boldsymbol{\beta}$ as follows. Let $\mathcal{X} = \left\{X_{1}, \dots, X_{n}\right\}$. By the law of iterated expectations and the ordinary least squares formula,
+\begin{align}
+\mathbb{E}\left[\widehat{\boldsymbol{\beta}}\right] &= \mathbb{E}\left[\mathbb{E}\left[\widehat{\boldsymbol{\beta}}\middle| \mathcal{X}\right]\right] \\
+&= \mathbb{E}\left[\mathbb{E}\left[\left(\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\sum_{i = 1}^{n}X_{i}Y_{i}\middle| \mathcal{X}\right]\right] \\
+&= \mathbb{E}\left[\left(\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\sum_{i = 1}^{n}X_{i}\mathbb{E}\left[Y_{i}\middle| \mathcal{X}\right]\right] 
+\end{align}
+By the independence of the sample, we have $\mathbb{E}\left[Y_{i}\middle| \mathcal{X}\right] = \mathbb{E}\left[Y_{i}\middle| X_{i}\right]$. This property is known as strict exogeneity. Roughly speaking, $X_{j}$ does not help to explain $Y_{i}$ for any $j \neq i$. Applying strict exogeneity and the definition of the population regression function,
+\begin{align}
+\mathbb{E}\left[\widehat{\boldsymbol{\beta}}\right] &= \mathbb{E}\left[\left(\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\sum_{i = 1}^{n}X_{i}\mathbb{E}\left[Y_{i}\middle| X_{i}\right]\right] \\
+&=\mathbb{E}\left[\left(\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\boldsymbol{\beta}\right] \\
+&= \mathbb{E}\left[\left(\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\left(\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)\boldsymbol{\beta}\right] \\
+&= \boldsymbol{\beta}
+\end{align}
+
+\subsection{Asymptotic Normality of Ordinary Least Squares}
+
+Retaining the same assumptions as for unbiasedness of OLS (simple random sample, linear PRF, no perfect multicollinearity), we can show the asymptotic normality of the OLS coefficient estimates. Define the prediction errors
+\begin{align}
+U_{i} &= Y_{i} - \mathbb{E}\left[Y_{i}\middle| X_{i}\right] \\
+&= Y_{i} - X_{i}^{\top}\boldsymbol{\beta}
+\end{align}
+and note that $\mathbb{E}\left[U_{i}\middle| X_{i}\right] = 0$. Then substituting $Y_{i} = X_{i}^{\top}\boldsymbol{\beta} + U_{i}$ into the OLS formula:
+\begin{align}
+\widehat{\boldsymbol{\beta}} &= \left(\sum_{i=1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\sum_{i=1}^{n}X_{i}\left(X_{i}^{\top}\boldsymbol{\beta}+U_{i}\right) \\
+&= \left(\dfrac{1}{n}\sum_{i=1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\dfrac{1}{n}\sum_{i=1}^{n}X_{i}\left(X_{i}^{\top}\boldsymbol{\beta}+U_{i}\right) \\
+&= \left(\dfrac{1}{n}\sum_{i=1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\left(\dfrac{1}{n}\sum_{i=1}^{n}X_{i}X_{i}^{\top}\right)\boldsymbol{\beta}+\left(\dfrac{1}{n}\sum_{i=1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\dfrac{1}{n}\sum_{i=1}^{n}X_{i}U_{i} \\
+&= \boldsymbol{\beta}+\left(\dfrac{1}{n}\sum_{i=1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\dfrac{1}{n}\sum_{i=1}^{n}X_{i}U_{i}
+\end{align}
+By the weak law of large numbers,
+\begin{equation}
+\dfrac{1}{n}\sum_{i=1}^{n}X_{i}X_{i}^{\top} \overset{\mathrm{p}}{\to} \mathbb{E}\left[X_{i}X_{i}^{\top}\right]
+\end{equation}
+Also by the multivariate central limit theorem, we have
+\begin{equation}
+\dfrac{1}{\sqrt{n}}\sum_{i = 1}^{n}X_{i}U_{i} \overset{\mathrm{d}}{\to} \mathcal{N}\left(\mathbf{0}, \Omega_{XU}\right)
+\end{equation}
+where $\Omega_{XU} := \operatorname{Cov}\left(X_{i}U_{i}\right)$, since by the law of iterated expectations:
+\begin{align}
+\mathbb{E}\left[X_{i}U_{i}\right] &= \mathbb{E}\left[\mathbb{E}\left[X_{i}U_{i}\middle| X_{i}\right]\right] \\
+&= \mathbb{E}\left[X_{i}\mathbb{E}\left[U_{i}\middle| X_{i}\right]\right] \\
+&= \mathbf{0}
+\end{align}
+by $\mathbb{E}\left[U_{i}\middle| X_{i}\right] = 0$ as established above. Note that we implicitly assume $X_{i}U_{i}$ satisfies the properties required for the central limit theorem. Then writing out the OLS formula as
+\begin{equation}
+\sqrt{n}\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right) = \left(\dfrac{1}{n}\sum_{i=1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\dfrac{1}{\sqrt{n}}\sum_{i=1}^{n}X_{i}U_{i}
+\end{equation}
+By applying Slutsky's theorem, we get
+\begin{equation}
+\sqrt{n}\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right) \overset{\mathrm{d}}{\to} \mathbb{E}\left[X_{i}X_{i}^{\top}\right]^{-1}\mathcal{N}\left(\mathbf{0}, \Omega_{XU}\right)
+\end{equation}
+Denoting $\mathbb{E}\left[X_{i}X_{i}^{\top}\right] = \Sigma_{XX}$, this becomes
+\begin{equation}
+\sqrt{n}\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right) \overset{\mathrm{d}}{\to} \mathcal{N}\left(\mathbf{0}, \Sigma_{XX}^{-1}\Omega_{XU}\Sigma_{XX}^{-1}\right)
+\end{equation}
+Compare this to the case where $X_{i}$ are non-random with design matrix $\mathbf{X}$ and $U_{i}$ are assumed to be $\mathcal{N}\left(0, \sigma^{2}\right)$, which gives the non-asymptotic result $\widehat{\boldsymbol{\beta}} \sim \mathcal{N}\left(\boldsymbol{\beta}, \sigma^{2}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\right)$.
+
+\subsection{Homoskedasticity-Only Standard Errors}
+
+The asymptotic normality property of OLS can be used to compute standard errors. Assume the homoskedastic case, that is $\operatorname{Var}\left(Y_{i}\middle| X_{i}\right) = \sigma^{2}$. Then this implies by the definition of variance:
+\begin{align}
+\sigma^{2} &= \mathbb{E}\left[\left(Y_{i} - \mathbb{E}\left[Y_{i}\middle|X_{i}\right]\right)^{2}\middle|X_{i}\right] \\
+&= \mathbb{E}\left[U_{i}^{2}\middle|X_{i}\right]
+\end{align}
+Hence
+\begin{align}
+\Omega_{XU} &= \operatorname{Cov}\left(X_{i}U_{i}\right) \\
+&= \mathbb{E}\left[\left(X_{i}U_{i} - \mathbb{E}\left[X_{i}U_{i}\right]\right)\left(X_{i}U_{i} - \mathbb{E}\left[X_{i}U_{i}\right]\right)^{\top}\right] \\
+&= \mathbb{E}\left[U_{i}^{2}X_{i}X_{i}^{\top}\right]
+\end{align}
+since $\mathbb{E}\left[X_{i}U_{i}\right] = 0$ as previously established, and note that $U_{i}$ is scalar. Therefore by the law of iterated expectations and the property of homoskedasticity,
+\begin{align}
+\Omega_{XU} &= \mathbb{E}\left[\mathbb{E}\left[U_{i}^{2}X_{i}X_{i}^{\top}\middle| X_{i}\right]\right] \\
+&= \mathbb{E}\left[\mathbb{E}\left[U_{i}^{2}\middle| X_{i}\right]X_{i}X_{i}^{\top}\right] \\
+&= \mathbb{E}\left[\sigma^{2}X_{i}X_{i}^{\top}\right] \\
+&= \sigma^{2}\mathbb{E}\left[X_{i}X_{i}^{\top}\right] \\
+&= \sigma^{2}\Sigma_{XX}
+\end{align}
+So in the asymptotic covariance of $\widehat{\boldsymbol{\beta}}$, given by $\mathcal{V} = \dfrac{1}{n}\Sigma_{XX}^{-1}\Omega_{XU}\Sigma_{XX}^{-1}$, we have
+\begin{align}
+\mathcal{V} &= \dfrac{1}{n}\Sigma_{XX}^{-1}\sigma^{2}\Sigma_{XX}\Sigma_{XX}^{-1} \\
+&= \dfrac{1}{n}\sigma^{2}\Sigma_{XX}^{-1}
+\end{align}
+Thus if we estimate $\Sigma_{XX}$ with the term
+\begin{equation}
+\widehat{\Sigma}_{XX} = \dfrac{1}{n}\sum_{i = 1}^{n}X_{i}X_{i}^{\top}
+\end{equation}
+and estimate $\sigma^{2}$ with the residuals
+\begin{equation}
+\widehat{\sigma}^{2} = \dfrac{1}{n}\sum_{i = 1}^{n}\left(Y_{i} - X_{i}^{\top}\widehat{\boldsymbol{\beta}}\right)^{2}
+\end{equation}
+We have that both these estimators are consistent. By applying the continuous mapping theorem for $\widehat{\Sigma}_{XX}^{-1}$ and Slutsky's theorem, it follows that the standard errors computed from
+\begin{equation}
+\widehat{\mathcal{V}}_{\mathrm{OLS}} = \dfrac{1}{n}\widehat{\sigma}^{2}\widehat{\Sigma}_{XX}^{-1}
+\end{equation}
+are consistent for $\mathcal{V}$. Also note the parallel to the case when we have a design matrix $\mathbf{X}$, which we can show
+\begin{align}
+\dfrac{1}{n}\widehat{\sigma}^{2}\widehat{\Sigma}_{XX}^{-1} &= \dfrac{1}{n}\widehat{\sigma}^{2}\left(\dfrac{1}{n}\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)^{-1} \\
+&= \widehat{\sigma}^{2}\left(\sum_{i = 1}^{n}X_{i}X_{i}^{\top}\right)^{-1} \\
+&= \widehat{\sigma}^{2}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}
+\end{align}
+These standard errors can be used to perform homoskedasticity-only $t$-tests and construct confidence intervals that are asymptotically valid (and with approximately correct size and coverage properties in large samples) if the regressors are stochastic and we do not have the standard assumption that error terms are normally distributed.
+
+\subsection{White Standard Errors}
+
+The asymptotic covariance $\mathcal{V} = \dfrac{1}{n}\Sigma_{XX}^{-1}\Omega_{XU}\Sigma_{XX}^{-1}$ gives an idea on how to compute consistent standard errors in the case of heteroskedasticity, where we cannot assume $\operatorname{Var}\left(Y_{i}\middle| X_{i}\right) = \sigma^{2}$. We have a consistent estimator $\widehat{\Sigma}_{XX}$ for $\Sigma_{XX}$ as before. To estimate $\Omega_{XU}$, we can use
+\begin{equation}
+\widehat{\Omega}_{XU} = \dfrac{1}{n}\sum_{i = 1}^{n}\widehat{U}_{i}^{2}X_{i}X_{i}^{\top}
+\end{equation}
+where $\widehat{U}_{i} = Y_{i} - X_{i}^{\top}$. This is a consistent estimator, so we have the following heteroskedasticity-consistent standard errors (also known as White standard errors):
+\begin{equation}
+\widehat{\mathcal{V}} = \dfrac{1}{n}\widehat{\Sigma}_{XX}^{-1}\widehat{\Omega}_{XU}\widehat{\Sigma}_{XX}^{-1}
+\end{equation}
+These standard errors can be used to perform heteroskedasticity-consistent $t$-tests and construct confidence intervals that are asymptotically valid (and with approximately correct size and coverage properties in large samples) if the regressors are stochastic and we do not have the standard assumption that error terms are normally distributed.
+
+\subsection{Frisch-Waugh-Lovell Theorem \cite{Greene2012}}
+
+For a multiple linear regression with model
+\begin{equation}
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}
+\end{equation}
+suppose that we partition the regressor matrix $\mathbf{X} = \begin{bmatrix} \mathbf{X}_{1} & \mathbf{X}_{2} \end{bmatrix}$ and parameter vector $\boldsymbol{\beta} = \begin{bmatrix} \boldsymbol{\beta}_{1}^{\top} & \boldsymbol{\beta}_{2}^{\top}\end{bmatrix}^{\top}$ such that
+\begin{align}
+\mathbf{Y} &= \begin{bmatrix} \mathbf{X}_{1} & \mathbf{X}_{2} \end{bmatrix}\begin{bmatrix} \boldsymbol{\beta}_{1} \\ \boldsymbol{\beta}_{2}\end{bmatrix} + \boldsymbol{\varepsilon} \\
+&= \mathbf{X}_{1}\boldsymbol{\beta}_{1} + \mathbf{X}_{2}\boldsymbol{\beta}_{2} + \boldsymbol{\varepsilon}
+\end{align}
+Then the Frisch-Waugh-Lovell theorem says that the ordinary least squares estimate of $\boldsymbol{\beta}_{2}$ will be the same as that of the model of the form
+\begin{equation}
+M_{1}\mathbf{Y} = M_{1}\left(\mathbf{X}_{2}\boldsymbol{\beta}_{2} + \boldsymbol{\varepsilon}\right)
+\end{equation}
+where $M_{1}$ is a residual-maker matrix (also a `projection' matrix):
+\begin{equation}
+M_{1} = I - \mathbf{X}_{1}\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}
+\end{equation}
+\begin{proof}
+We begin with the normal equations:
+\begin{gather}
+\mathbf{X}^{\top}\mathbf{X}\widehat{\boldsymbol{\beta}} = \mathbf{X}^{\top}\mathbf{Y} \\
+\begin{bmatrix} \mathbf{X}_{1}^{\top} \\ \mathbf{X}_{2}^{\top} \end{bmatrix}\begin{bmatrix} \mathbf{X}_{1} & \mathbf{X}_{2} \end{bmatrix}\begin{bmatrix} \widehat{\boldsymbol{\beta}}_{1} \\ \widehat{\boldsymbol{\beta}}_{2} \end{bmatrix} = \begin{bmatrix} \mathbf{X}_{1}^{\top} \\ \mathbf{X}_{2}^{\top} \end{bmatrix}\mathbf{Y} \\
+\begin{bmatrix}\mathbf{X}_{1}^{\top}\mathbf{X}_{1} & \mathbf{X}_{1}^{\top}\mathbf{X}_{2}\\
+\mathbf{X}_{2}^{\top}\mathbf{X}_{1} & \mathbf{X}_{2}^{\top}\mathbf{X}_{2}
+\end{bmatrix}\begin{bmatrix}\widehat{\boldsymbol{\beta}}_{1}\\
+\widehat{\boldsymbol{\beta}}_{2}
+\end{bmatrix}=\begin{bmatrix}\mathbf{X}_{1}^{\top}\mathbf{Y}\\
+\mathbf{X}_{2}^{\top}\mathbf{Y}
+\end{bmatrix}
+\end{gather}
+Multiplying out to obtain the first row-block, we get
+\begin{equation}
+\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\widehat{\boldsymbol{\beta}}_{1}+\mathbf{X}_{1}^{\top}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}=\mathbf{X}_{1}^{\top}\mathbf{Y}
+\end{equation}
+which can be rearranged to yield
+\begin{align}
+\widehat{\boldsymbol{\beta}}_{1} &= \left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\left(\mathbf{X}_{1}^{\top}\mathbf{Y}-\mathbf{X}_{1}^{\top}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}\right) \\
+&= \left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}\mathbf{X}_{2}\left(\mathbf{Y}-\mathbf{X}_{1}^{\top}\widehat{\boldsymbol{\beta}}_{2}\right)
+\end{align}
+For the second row-block, we have
+\begin{equation}
+\mathbf{X}_{2}^{\top}\mathbf{X}_{1}\widehat{\boldsymbol{\beta}}_{1}+\mathbf{X}_{2}^{\top}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}=\mathbf{X}_{2}^{\top}\mathbf{Y}
+\end{equation}
+from which substituting the solution for $\widehat{\boldsymbol{\beta}}_{1}$ above, gives
+\begin{gather}
+\mathbf{X}_{2}^{\top}\mathbf{X}_{1}\left[\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}\mathbf{X}_{2}\left(\mathbf{Y}-\mathbf{X}_{1}^{\top}\widehat{\boldsymbol{\beta}}_{2}\right)\right]+\mathbf{X}_{2}^{\top}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}=\mathbf{X}_{2}^{\top}\mathbf{Y} \\
+\mathbf{X}_{2}^{\top}\mathbf{X}_{1}\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}\mathbf{Y}-\mathbf{X}_{2}^{\top}\mathbf{X}_{1}\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}+\mathbf{X}_{2}^{\top}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}=\mathbf{X}_{2}^{\top}\mathbf{Y} \\
+\mathbf{X}_{2}^{\top}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}-\mathbf{X}_{2}^{\top}\mathbf{X}_{1}\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}=\mathbf{X}_{2}^{\top}\mathbf{Y}-\mathbf{X}_{2}^{\top}\mathbf{X}_{1}\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}\mathbf{Y} \\
+\mathbf{X}_{2}^{\top}\left[I-\mathbf{X}_{1}\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}\right]\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}=\mathbf{X}_{2}^{\top}\left[I-\mathbf{X}_{1}\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}\right]\mathbf{Y}
+\end{gather}
+From the definition of $M_{1}$:
+\begin{equation}
+\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}=\mathbf{X}_{2}^{\top}M_{1}\mathbf{Y}
+\end{equation}
+Using the facts that the residual-maker matrix $M_{1}$ is idempotent ($M_{1}^{2} = M_{1}$) and symmetric, this can be rewritten as
+\begin{gather}
+\mathbf{X}_{2}^{\top}M_{1}^{\top}M_{1}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}=\mathbf{X}_{2}^{\top}M_{1}^{\top}M_{1}\mathbf{Y} \\
+\widehat{\boldsymbol{\beta}}_{2}=\left(\left(M_{1}\mathbf{X}_{2}\right)^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\left(M_{1}\mathbf{X}_{2}\right)^{\top}M_{1}\mathbf{Y}
+\end{gather}
+Let $\widetilde{\mathbf{X}}_{2} := M_{1}\mathbf{X}_{2}$ and $\widetilde{\mathbf{Y}} := M_{1}\mathbf{Y}$. Then
+\begin{equation}
+\widehat{\boldsymbol{\beta}}_{2}=\left(\widetilde{\mathbf{X}}_{2}^{\top}\widetilde{\mathbf{X}}_{2}\right)^{-1}\widetilde{\mathbf{X}}_{2}\widetilde{\mathbf{Y}}
+\end{equation}
+which takes the form of the ordinary least squares estimator for the model
+\begin{equation}
+\widetilde{\mathbf{Y}}=\widetilde{\mathbf{X}}_{2}\widehat{\boldsymbol{\beta}}_{2}+M_{1}\boldsymbol{\varepsilon}
+\end{equation}
+\end{proof}
+Note that $\widetilde{\mathbf{Y}}$ are the residuals obtained when $\mathbf{Y}$ is regressed on $\mathbf{X}_{1}$ alone. Also, each column of $\widetilde{\mathbf{X}}_{2}$ contains the residuals obtained when the respective column of $\mathbf{X}_{2}$ is regressed on $\mathbf{X}_{1}$. Hence we can additionally interpret the Frisch-Waugh-Lovell theorem as saying that $\widehat{\boldsymbol{\beta}}_{2}$ is obtained by regressing the residuals of $\mathbf{Y}$ on $\mathbf{X}_{1}$ against the residuals of $\mathbf{X}_{2}$ on $\mathbf{X}_{1}$.
+\begin{corollary}[\cite{Davidson2004}]
+The residuals obtained from OLS estimation of $\widetilde{\mathbf{Y}}=\widetilde{\mathbf{X}}_{2}\widehat{\boldsymbol{\beta}}_{2}+M_{1}\boldsymbol{\varepsilon}$ are identical to the residuals obtained from OLS estimation of $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$.
+\end{corollary}
+\begin{proof}
+We can write for the full regression
+\begin{equation}
+\mathbf{Y} = \mathbf{X}_{1}\widehat{\boldsymbol{\beta}}_{1} + \mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2} + M\mathbf{Y}
+\end{equation}
+with the residual-maker matrix $M = I - \mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}$. Left-multiplying both sides by $M_{1}$ yields
+\begin{align}
+M_{1}\mathbf{Y} &= M_{1}\mathbf{X}_{1}\widehat{\boldsymbol{\beta}}_{1} + M_{1}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2} + M_{1}M\mathbf{Y} \\
+&= M_{1}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2} + M_{1}M\mathbf{Y}
+\end{align}
+where $M_{1}\mathbf{X}_{1} = \mathbf{0}$ since $M_{1}$ plays the role of the annihilator matrix. We then apply the fact $M_{1}M = M$, which can be derived as follows. Using the geometric interpretation of ordinary least squares, the hat matrix $\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}$ is a projection matrix which projects onto the subspace spanned by the columns of $\mathbf{X}$. The residual-maker matrix is then another projection matrix which projects onto the orthogonal complement of the span of the columns of $\mathbf{X}$. Hence the projection $MM_{1}$ consists of a projection onto the orthogonal complement of the span of $\mathbf{X}_{1}$, followed by a projection onto the orthogonal complement of the span of $\mathbf{X}$. Since the former is a subspace of the latter, this implies that $MM_{1} = M$. Also since $M$ and $M_{1}$ are symmetric, it follows that $M_{1}M = M$. An alternative, more tedious way to show this is to write out the expressions for $M$ and $M_{1}$, and then apply block-matrix inversion formulae to compute the inverse of the block matrix inside $M$ which involves $\mathbf{X}_{1}$ and $\mathbf{X}_{2}$. Either way, we are left with
+\begin{equation}
+\widetilde{\mathbf{Y}} = \widetilde{\mathbf{X}}_{2}\widehat{\boldsymbol{\beta}}_{2} + M\mathbf{Y}
+\end{equation}
+which shows that $M\mathbf{Y}$ are the residuals when $\widetilde{\mathbf{Y}}$ is regressed on $\widetilde{\mathbf{X}}_{2}$.
+\end{proof}
+
+\subsection{$F$-Tests for Linear Restrictions}
+
+Suppose in a linear regression of the model
+\begin{equation}
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}
+\end{equation}
+we have the standard assumption that $\boldsymbol{\varepsilon} \sim \mathcal{N}\left(0, \sigma^{2}I\right)$ and the regressors $\mathbf{X}$ are non-stochastic. We wish to test a linear restriction on the parameters of the form
+\begin{equation}
+R\boldsymbol{\beta} = r
+\end{equation}
+where $R \in \mathbb{R}^{q\times k}$ hence there are $k$ coefficients and we are testing $q$ linear restrictions. We know that the sampling distribution of $\widehat{\boldsymbol{\beta}}$ satisfies
+\begin{equation}
+\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta} \sim \mathcal{N}\left(0, \sigma^{2}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\right)
+\end{equation}
+hence
+\begin{equation}
+R\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right) \sim \mathcal{N}\left(0, \sigma^{2}R\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}R^{\top}\right)
+\end{equation}
+Now let $B = R\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}R^{\top}$ so that
+\begin{align}
+\mathbf{z} &:= \dfrac{B^{-1/2}R\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right)}{\sigma} \\
+&\sim \mathcal{N}\left(0, I_{q\times q}\right)
+\end{align}
+Hence by characterisation of the chi-squared distribution, $\mathbf{z}^{\top}\mathbf{z} \sim \chi_{q}^{2}$. Additionally, recall from the analysis on the standard errors of OLS that an unbiased estimator for $\sigma^{2}$ in terms of the residual sum of squares $\mathrm{RSS}$ is $\widehat{\sigma}^{2} = \dfrac{\mathrm{RSS}}{n - k}$, with $\dfrac{\mathrm{RSS}}{\sigma^{2}} \sim \chi_{n - k}^{2}$. We introduce $\mathbf{d}$, which satisfies the following:
+\begin{align}
+\mathbf{d} &:= \dfrac{\widehat{\sigma}^{2}\left(n - k\right)}{\sigma^{2}} \\
+&= \dfrac{\mathrm{RSS}}{\sigma^{2}} \\
+&\sim \chi_{n - k}^{2}
+\end{align}
+Also recall that $\widehat{\sigma}^{2}$ and $\widehat{\boldsymbol{\beta}}$ are independent, hence $\mathbf{z}^{\top}\mathbf{z}$ and $\mathbf{d}$ are independent. Therefore by the characterisation of the $F$-distribution,
+\begin{equation}
+\dfrac{\mathbf{z}^{\top}\mathbf{z}/q}{\mathbf{d}/\left(n - k\right)} \sim F_{q, n- k}
+\end{equation}
+This statistic can be rearranged into
+\begin{align}
+\dfrac{\mathbf{z}^{\top}\mathbf{z}/q}{\mathbf{d}/\left(n - k\right)} &= \dfrac{\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right)^{\top}R^{\top}\left(B^{1/2}\right)^{\top}B^{1/2}R\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right)/q}{\sigma^{2}}\div \dfrac{\widehat{\sigma}^{2}\left(n - k\right)}{\sigma^{2}\left(n - k\right)} \\
+&= \dfrac{\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right)^{\top}R^{\top}\left( R\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}R^{\top}\right)^{-1}R\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right)/q}{\widehat{\sigma}^{2}} \\
+&= \dfrac{\left(R\widehat{\boldsymbol{\beta}} - r\right)^{\top}\left(R\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}R^{\top}\right)^{-1}\left(R\widehat{\boldsymbol{\beta}} - r\right)/q}{\widehat{\sigma}^{2}}
+\end{align}
+Hence this statistic can be used to test general linear restriction null hypotheses of the form
+\begin{equation}
+H_{0}: R\boldsymbol{\beta} = r
+\end{equation}
+against the alternative that at least one of the restrictions does not hold, for which the above statistic will be $F_{q, n - k}$-distributed under the null.
+
+\subsubsection{$F$-Tests for Restricted Regression Models}
+
+Consider a special case of the $F$-test in which the restriction takes the form
+\begin{gather}
+R = \left[\begin{array}{ccc|ccc}
+0 & \dots & 0 & 1 \\
+\vdots & \ddots & \vdots & & \ddots \\
+0 & \dots & 0 & & & 1
+\end{array}\right] \\
+r = \begin{bmatrix}
+0 \\ \vdots \\ 0
+\end{bmatrix}
+\end{gather}
+This expresses that the null hypothesis is for a restricted regression where a subset of the regressors are omitted (note that the ordering of regressors is arbitrary so $R$ can be written in the above form without loss of generality). We then partition the regressor matrix $\mathbf{X}$ into
+\begin{equation}
+\mathbf{X} = \begin{bmatrix}\mathbf{X}_{1} & \mathbf{X}_{2}\end{bmatrix}
+\end{equation}
+so then
+\begin{align}
+R\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}R^{\top} &= \begin{bmatrix}
+\mathbf{0} & I\end{bmatrix}\begin{bmatrix}\mathbf{X}_{1}^{\top}\mathbf{X}_{1} & \mathbf{X}_{1}^{\top}\mathbf{X}_{2}\\
+\mathbf{X}_{2}^{\top}\mathbf{X}_{1} & \mathbf{X}_{2}^{\top}\mathbf{X}_{2}
+\end{bmatrix}^{-1}\begin{bmatrix}\mathbf{0} \\ I\end{bmatrix} \\
+&= \Xi_{22}
+\end{align}
+where we denote the block matrix inverse:
+\begin{equation}
+\begin{bmatrix}\mathbf{X}_{1}^{\top}\mathbf{X}_{1} & \mathbf{X}_{1}^{\top}\mathbf{X}_{2}\\
+\mathbf{X}_{2}^{\top}\mathbf{X}_{1} & \mathbf{X}_{2}^{\top}\mathbf{X}_{2}
+\end{bmatrix}^{-1} = \begin{bmatrix}
+\Xi_{11} & \Xi_{12} \\ \Xi_{21} & \Xi_{22}
+\end{bmatrix}
+\end{equation}
+Using block matrix inversion formulae, we find that
+\begin{align}
+\Xi_{22} &= \left[\mathbf{X}_{2}^{\top}\mathbf{X}_{2} - \mathbf{X}_{2}^{\top}\mathbf{X}_{1}\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}\mathbf{X}_{2}\right]^{-1} \\
+&= \left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}
+\end{align}
+where we recognise the residual-maker matrix $M_{1} = I - \mathbf{X}_{1}\left(\mathbf{X}_{1}^{\top}\mathbf{X}_{1}\right)^{-1}\mathbf{X}_{1}^{\top}$. Therefore
+\begin{equation}
+\left(R\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}R^{\top}\right)^{-1} = \mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}
+\end{equation}
+Partitioning the parameter estimates $\widehat{\boldsymbol{\beta}}^{\top} = \begin{bmatrix} \widehat{\boldsymbol{\beta}}_{1}^{\top} & \widehat{\boldsymbol{\beta}}_{2}^{\top}\end{bmatrix}$, note then that $R\widehat{\boldsymbol{\beta}} - r = \widehat{\boldsymbol{\beta}}_{2}$. Substituting these obtained expressions into the numerator of the $F$-statistic (and ignoring the division by $q$) yields
+\begin{equation}
+\left(R\widehat{\boldsymbol{\beta}} - r\right)^{\top}\left(R\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}R^{\top}\right)^{-1}\left(R\widehat{\boldsymbol{\beta}} - r\right) = \widehat{\boldsymbol{\beta}}_{2}^{\top}\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\widehat{\boldsymbol{\beta}}_{2}
+\end{equation}
+By application of the Frisch-Waugh-Lovell theorem, the OLS solution for $\widehat{\boldsymbol{\beta}}_{2}$ is
+\begin{align}
+\widehat{\boldsymbol{\beta}}_{2} &= \left(\left(M_{1}\mathbf{X}_{2}\right)^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\left(M_{1}\mathbf{X}_{2}\right)^{\top}M_{1}\mathbf{Y} \\
+&= \left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\mathbf{X}_{2}^{\top}M_{1}\mathbf{Y}
+\end{align}
+where we have used the standard properties of $M_{1}$ (idempotence and symmetry). Hence the term in the numerator becomes
+\begin{multline}
+\mathbf{Y}^{\top}M_{1}\mathbf{X}_{2}\left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)\left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\mathbf{X}_{2}^{\top}M_{1}\mathbf{Y} \\
+= \mathbf{Y}^{\top}M_{1}\mathbf{X}_{2}\left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\mathbf{X}_{2}^{\top}M_{1}\mathbf{Y}
+\end{multline}
+We show that this term can be written in terms of the sum of squared residuals of the restricted and unrestricted regressions:
+\begin{itemize}
+\item Let $\mathrm{USSR}$ denote the sum of squared residuals for the unrestricted model (that is, the sum of squared residuals for a regression of $\mathbf{Y}$ on $\mathbf{X}$).
+\item Let $\mathrm{RSSR}$ denote the sum of squared residuals for the restricted model under the restriction being tested $\boldsymbol{\beta}_{2} = \mathbf{0}$ (that is, the sum of squared residuals for a regression of $\mathbf{Y}$ on just $\mathbf{X}_{1}$).
+\end{itemize}
+Firstly, the residuals of regressing $\mathbf{Y}$ on $\mathbf{X}_{1}$ is given using the residual-maker matrix by $M_{1}\mathbf{Y}$. Hence
+\begin{align}
+\mathrm{RSSR} &= \mathbf{Y}^{\top}M_{1}^{\top}M_{1}\mathbf{Y} \\
+&= \mathbf{Y}^{\top}M_{1}\mathbf{Y}
+\end{align}
+Appealing to another fact from the Frisch-Waugh-Lovell theorem, we have that the residuals from $\mathbf{Y}$ on $\mathbf{X}$ are identical to the residuals from $M_{1}\mathbf{Y}$ on $M_{1}\mathbf{X}_{2}$, for which the residual-maker matrix of the latter can be written as
+\begin{equation}
+I - M_{1}\mathbf{X}_{2}\left[\left(M_{1}\mathbf{X}_{2}\right)^{\top}\left(M_{1}\mathbf{X}_{2}\right)\right]^{-1}\left(M_{1}\mathbf{X}_{2}\right)^{\top} = I - M_{1}\mathbf{X}_{2}\left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\mathbf{X}_{2}^{\top}M_{1}
+\end{equation}
+Thus the unrestricted sum of squared residuals is computed by
+\begin{align}
+\mathrm{USSR} &= \mathbf{Y}^{\top}M_{1}\left[I - M_{1}\mathbf{X}_{2}\left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\mathbf{X}_{2}^{\top}M_{1}\right]M_{1}\mathbf{Y} \\
+&= \mathbf{Y}^{\top}M_{1}\mathbf{Y} - \mathbf{Y}^{\top}M_{1}\mathbf{X}_{2}\left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\mathbf{X}_{2}^{\top}M_{1}\mathbf{Y}
+\end{align}
+Now consider the difference between $\mathrm{USSR}$ and $\mathrm{RSSR}$; we obtain
+\begin{equation}
+\mathrm{RSSR} - \mathrm{USSR} = \mathbf{Y}^{\top}M_{1}\mathbf{X}_{2}\left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\mathbf{X}_{2}^{\top}M_{1}\mathbf{Y}
+\end{equation}
+which is equal to the expression in the denominator for the $F$-statistic. Also using the relation $\widehat{\sigma}^{2} = USSR/\left(n - k\right)$, this shows that the Wald test statistic can be written as
+\begin{equation}
+\dfrac{\left(\mathrm{RSSR} - \mathrm{USSR}\right)/q}{USSR/\left(n - k\right)} \sim F_{q, n- k}
+\end{equation}
+A very special case is when we wish to test the joint significance of the regression by restricting all the coefficients, excluding the intercept coefficient. This means the restricted model is $\mathbf{Y}$ regressed on an intercept only, giving an estimate as the sample mean of $\mathbf{Y}$. Then in this case, $q = k - 1$ and $R$ takes the form
+\begin{equation}
+R = \begin{bmatrix}
+0 & 1 &  \\
+\vdots &  & \ddots \\
+0 & & & 1
+\end{bmatrix}
+\end{equation}
+The test statistic becomes
+\begin{align}
+\dfrac{\left(\mathrm{RSSR} - \mathrm{USSR}\right)/q}{USSR/\left(n - k\right)} &= \dfrac{\left(\mathrm{TSS} - \mathrm{RSS}\right)/\left(k - 1\right)}{RSS/\left(n - k\right)} \\
+&= \dfrac{\mathrm{ESS}/\left(k - 1\right)}{\mathrm{RSS}/\left(n - k\right)} \\
+&\sim F_{k - 1, n- k}
+\end{align}
+where we recall the computation for the total sum of squares (equivalent to the residual sum of squares when regressed on an intercept only):
+\begin{equation}
+\mathrm{TSS} = \sum_{i = 1}^{n}\left(Y_{i} - \overline{Y}\right)^{2}
+\end{equation}
+and the estimated sum of squares from the relation $\mathrm{TSS} = \mathrm{ESS} + \mathrm{RSS}$:
+\begin{equation}
+\mathrm{ESS} = \sum_{i = 1}^{n}\left(\widehat{Y}_{i} - \overline{Y}\right)^{2}
+\end{equation}
+
+\subsection{Wald Tests}
+
+The $F$-test for linear restrictions of the form $R\boldsymbol{\beta} = r$ is only valid in finite samples if it is known/assumed that the error terms are normally distributed and homoskedastic. If this assumption is not given, then in large samples it is possible to apply the Wald test for linear restrictions. Under some standard assumptions, the OLS estimator is asymptotically distributed with $\widehat{\boldsymbol{\beta}} \overset{\mathrm{a}}{\sim} \mathcal{N}\left(\boldsymbol{\beta}, \mathcal{V}\right)$ where $\mathcal{V} = \operatorname{Cov}\left(\widehat{\boldsymbol{\beta}}\right)$. The Wald test statistic is given by
+\begin{equation}
+W = \left(R\widehat{\boldsymbol{\beta}} - r\right)^{\top}\left(R\widehat{\mathcal{V}}R^{\top}\right)^{-1}\left(R\widehat{\boldsymbol{\beta}} - r\right)
+\end{equation}
+where $\widehat{\mathcal{V}}$ is an asymptotically consistent estimator for the covariance $\operatorname{Cov}\left(\widehat{\boldsymbol{\beta}}\right)$. In general, this allows for a hetroskedasticity-consistent $\widehat{\mathcal{V}}$ to be used, making the Wald test heteroskedasticity-consistent. Recognise the similarity of this statistic to the numerator in the $F$-statistic, however in this case we have:
+\begin{equation}
+R\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right) \overset{\mathrm{a}}{\sim} \mathcal{N}\left(0, R\mathcal{V}R^{\top}\right)
+\end{equation}
+Then following similar steps as for the $F$-test (applying Slutsky's theorem as necessary so we can use $\widehat{\mathcal{V}}$ instead of $\mathcal{V}$), we can show that the Wald statistic is asymptotically chi-squared distributed with $q$ degrees of freedom:
+\begin{equation}
+W \overset{\mathrm{a}}{\sim} \chi_{q}^{2}
+\end{equation}
+with $q$ being the number of restrictions tested.
+
 \section{Instrumental Variables Regression}
+
+\subsection{Endogeneity}
+
+For simplicity, we consider a causal equation of the form
+\begin{equation}
+Y_{i} = \delta_{0} + \delta_{1}X_{i} + U_{i}
+\end{equation}
+We say that explanatory variable $X_{i}$ is endogenous if $X_{i}$ and $U_{i}$ are correlated. That is, we are able to write
+\begin{equation}
+\mathbb{E}\left[U_{i}\middle| X_{i}\right] = \gamma_{0} + \gamma_{1}X_{i}
+\end{equation}
+with $\gamma_{1}\neq 0$. Endogeneity causes problems if we are interested in identifying the true causal coefficient $\delta_{1}$ (ie. the marginal effect with all else held constant). This is because if we write out the population regression function as
+\begin{align}
+\mathbb{E}\left[Y_{i}\middle|X_{i}\right] &= \delta_{0} + \delta_{1}X_{i} + \mathbb{E}\left[U_{i}\middle| X_{i}\right] \\
+&= \left(\delta_{0} + \gamma_{0}\right) + \left(\delta_{1} + \gamma_{1}\right)X_{i}
+\end{align}
+then we can see that we will end up estimating $\delta_{1} + \gamma_{1}$ rather than $\delta_{1}$.
+
+\subsubsection{Randomised Controlled Trials}
+
+If we are given freedom to design the values of the explanatory variable $X_{i}$, then a way to decorrelate $X_{i}$ from $U_{i}$ is to randomly assign the values of $X_{i}$ in each observation, independent of anything else. This is known as the method of randomised controlled trials. However, this approach is not possible if in the data we collect we simply `observe' the value of $X_{i}$ (ie. the values of the explanatory variables are drawn from some distribution in the data generating process).
+
+\subsection{Omitted Variable Bias}
+
+Suppose a causal equation of the form
+\begin{equation}
+Y_{i} = \beta_{0} + \beta_{1}X_{1, i} + \beta_{2}X_{2, i} + U_{i}
+\end{equation}
+where the explanatory variables are endogenous and $\mathbb{E}\left[U_{i}\right] = 0$. Omitting $X_{2, i}$ from the causal equation, we can write
+\begin{equation}
+Y_{i} = \beta_{0} + \beta_{1}X_{1, i} + V_{i}
+\end{equation}
+where the effect of $X_{2, i}$ has been absorbed into the error term. Now if $X_{1, i}$ and $X_{2, i}$ are uncorrelated, then $X_{1, i}$ and $V_{i}$ will be uncorrelated, and we are able to identify the coefficient $\beta_{1}$. However assume that $X_{1, i}$ and $X_{2, i}$ are correlated with
+\begin{equation}
+\mathbb{E}\left[X_{2, i}\middle| X_{1, i}\right] = \gamma_{0} + \gamma_{1}X_{1, i}
+\end{equation}
+Then $X_{1, i}$ will no longer be endogenous in the causal equation with the omitted variable. In the population regression function we can see that
+\begin{align}
+\mathbb{E}\left[Y_{i}\middle| X_{1, i}\right] &= \beta_{0} + \beta_{1}X_{1, i} + \mathbb{E}\left[V_{i}\middle| X_{1, i}\right] \\
+&= \beta_{0} + \beta_{1}X_{1, i} + \beta_{2}\mathbb{E}\left[X_{2, i}\middle| X_{1, i}\right] \\
+&= \left(\beta_{0} + \beta_{2}\gamma_{0}\right) + \left(\beta_{1} + \beta_{2}\gamma_{1}\right)X_{1, i}
+\end{align}
+Suppose the population regression function has been specified as
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle| X_{1, i}\right] = \delta_{0} + \delta_{1}X_{1, i}
+\end{equation}
+Equating above, we have
+\begin{equation}
+\delta_{1} = \beta_{1} + \beta_{2}\gamma_{1}
+\end{equation}
+Thus ordinary least squares will end up estimating the value of $\delta_{1} = \beta_{1} + \beta_{2}\gamma_{1}$, whereas we may be interested in identifying the value of $\beta_{1}$. The interpretation of each is as follows:
+\begin{itemize}
+\item $\beta_{1}$ is the marginal effect of $X_{1, i}$ controlling for $X_{2, i}$.
+\item $\delta_{1}$ is the marginal effect of $X_{1, i}$ without controlling for $X_{2, i}$.
+\end{itemize}
+The bias $\beta_{2}\gamma_{1}$ is known as the omitted variable bias. The signs of $\beta_{2}$ and $\gamma_{1}$ determine the direction of bias. Note that this bias is different from bias in the statistical sense. Ordinary least squares with an omitted variable under the standard assumptions will be statistically unbiased for $\delta_{1}$, however it will be biased for the true causal coefficient $\beta_{1}$.
+
+\subsection{Measurement Errors}
+
+\subsection{Simultaneous Causal Equations}
+
+Another source of endogeneity can be from simultaneity. Suppose we have a pair of simultaneous causal equations given by
+\begin{gather}
+Y_{i} = \delta X_{i} + U_{i} \\
+X_{i} = \alpha Y_{i} + V_{i}
+\end{gather}
+where $\delta$ and $\alpha$ are causal coefficients, while $U_{i}$ and $V_{i}$ are error terms. It is clear that $X_{i}$ is endogeneous, since a change in $U_{i}$ causes a change in $Y_{i}$ through the first causal equation, which simultaneously causes a change in $X_{i}$ through the second causal equation. Thus $X_{i}$ and $U_{i}$ will be correlated. This poses a question, that if we estimate the coefficient in the PRF of the form
+\begin{equation}
+\mathbb{E}\left[Y_{i}\middle| X_{i}\right] = \beta X_{i}
+\end{equation}
+that how $\beta$ relates to the causal coefficients $\delta$ and $\alpha$. From the OLS formula (noting that there is only a single coefficient in this PRF), $\beta$ is given by
+\begin{equation}
+\beta = \dfrac{\mathbb{E}\left[X_{i}Y_{i}\right]}{\mathbb{E}\left[X_{i}^{2}\right]}
+\end{equation}
+If we solve the two causal equations simultaneously, we end up with
+\begin{gather}
+Y_{i} = \dfrac{1}{1 - \delta\alpha}\left(U_{i} + \delta V_{i}\right) \\
+X_{i} = \dfrac{1}{1 - \delta\alpha}\left(\alpha U_{i} + V_{i}\right)
+\end{gather}
+This is known as the `reduced form'. Let $\mathbb{E}\left[U_{i}^{2}\right] = \sigma_{U}^{2}$, $\mathbb{E}\left[V_{i}^{2}\right] = \sigma_{V}^{2}$ and for simplicity assume that $\mathbb{E}\left[U_{i}V_{i}\right] = 0$ (ie. $U_{i}$ and $V_{i}$ are uncorrelated). Then we can compute the following expectations:
+\begin{align}
+\mathbb{E}\left[X_{i}^{2}\right] &= \mathbb{E}\left[\left(\dfrac{1}{1 - \delta\alpha}\left(\alpha U_{i} + V_{i}\right)\right)^{2}\right] \\
+&= \dfrac{1}{\left(1 - \delta\alpha\right)^{2}}\mathbb{E}\left[\alpha^{2}U_{i}^{2} + 2\alpha U_{i}V_{i} + V_{i}^{2}\right] \\
+&= \dfrac{\alpha^{2}\sigma_{U}^{2} + \sigma_{V}^{2}}{\left(1 - \delta\alpha\right)^{2}}
+\end{align}
+and
+\begin{align}
+\mathbb{E}\left[X_{i}Y_{i}\right] &= \mathbb{E}\left[\left(\dfrac{1}{1 - \delta\alpha}\left(\alpha U_{i} + V_{i}\right)\right)\left(\dfrac{1}{1 - \delta\alpha}\left(U_{i} + \delta V_{i}\right)\right)\right] \\
+&= \dfrac{1}{\left(1 - \delta\alpha\right)^{2}}\mathbb{E}\left[\alpha U_{i}^{2} + \alpha\delta U_{i}V_{i} + U_{i}V_{i} + \delta V_{i}^{2}\right] \\
+&= \dfrac{\alpha\sigma_{U}^{2} + \delta\sigma_{V}^{2}}{\left(1 - \delta\alpha\right)^{2}}
+\end{align}
+Thus we can show
+\begin{equation}
+\beta = \dfrac{\alpha\sigma_{U}^{2} + \delta\sigma_{V}^{2}}{\alpha^{2}\sigma_{U}^{2} + \sigma_{V}^{2}}
+\end{equation}
+which implies that the coefficient $\beta$ is a mixture of the causal coefficients $\delta$ and $\alpha$. Therefore an unbiased estimator for $\beta$ will be a biased estimator for either $\delta$ or $1/\alpha$. This is sometimes referred to as simultaneity bias.
+
+\subsection{Systems of Simultaneous Causal Equations \cite{Green2012}}
+
+\subsubsection{Structural Form of Simultaneous Causal Equations}
+
+Generally, we can have a system of $M$ causal equations involving $M$ endogenous variables $\left(Y_{1}, \dots, Y_{M}\right)$, $K$ exogenous variables $\left(X_{1}, \dots, X_{K}\right)$ (which may include a $1$ variable for the intercept coefficient), and $M$ error terms $\left(U_{1}, \dots, U_{M}\right)$.  A system of $M$ simultaneous causal equations takes the form (dropping the index subscript for notational ease):
+\begin{align}
+Y_{1} &= \alpha_{21}Y_{2} + \dots + \alpha_{M1}Y_{M} + \delta_{11}X_{1} + \dots + \delta_{K1}X_{K} + U_{1} \\
+Y_{2} &= \alpha_{12}Y_{1} + \dots + \alpha_{M2}Y_{M} + \delta_{12}X_{1} + \dots + \delta_{K2}X_{K} + U_{2} \\
+&\vdots \\
+Y_{M} &= \alpha_{1M}Y_{1} + \dots  + \delta_{1M}X_{1} + \dots + \delta_{KM}X_{K} + U_{M}
+\end{align}
+This is known as the structural form of the model. 
+
+\subsubsection{Matrix Form of Simultaneous Causal Equations}
+
+We can rearrange the system of simultaneous causal equations into the matrix form:
+\begin{equation}
+\green\underbrace{\black\begin{bmatrix}
+Y_{1} & \dots & Y_{M}
+\end{bmatrix}}_{\green \mathbf{Y}^{\top}}\black\green\underbrace{\black\begin{bmatrix}
+\gamma_{11} & \dots & \gamma_{1M} \\
+\vdots & \ddots & \vdots \\
+\gamma_{M1} & \dots & \gamma_{MM}
+\end{bmatrix}}_{\green \boldsymbol{\Gamma}}\black + \green\underbrace{\black\begin{bmatrix}
+X_{1} & \dots & X_{K}
+\end{bmatrix}}_{\green \mathbf{X}^{\top}}\black \green\underbrace{\black\begin{bmatrix}
+\beta_{11} & \dots & \beta_{1M} \\
+\vdots & \ddots & \vdots \\
+\beta_{K1} & \dots & \beta_{KM}
+\end{bmatrix}}_{\green \mathbf{B}}\black = \green\underbrace{\black\begin{bmatrix}
+U_{1} & \dots & U_{M}
+\end{bmatrix}}_{\green \mathbf{U}^{\top}}\black
+\end{equation}
+or compactly:
+\begin{equation}
+\mathbf{Y}^{\top}\boldsymbol{\Gamma} + \mathbf{X}^{\top}\mathbf{B} = \mathbf{U}^{\top}
+\end{equation}
+For normalisation, we may restrict there to be at least a $1$ in each column of $\boldsymbol{\Gamma}$ (for example, the main diagonal can be all $1$s).
+
+\subsubsection{Reduced Form of Simultaneous Causal Equations}
+
+If $\boldsymbol{\Gamma}$ is non-singular (known as the completeness condition for simultaneous causal equations), then the solution of $\mathbf{Y}$ to the system of simultaneous causal equations is given by
+\begin{equation}
+\mathbf{Y}^{\top} = -\mathbf{X}^{\top}\mathbf{B}\boldsymbol{\Gamma}^{-1} + \mathbf{U}^{\top}\boldsymbol{\Gamma}^{-1}
+\end{equation}
+Let $\boldsymbol{\Pi} := -\mathbf{B}\boldsymbol{\Gamma}^{-1}$ and $\mathbf{V}^{\top} := \mathbf{U}^{\top}\boldsymbol{\Gamma}^{-1}$, then we have
+\begin{equation}
+\mathbf{Y}^{\top} = \mathbf{X}^{\top}\boldsymbol{\Pi} + \mathbf{V}^{\top}
+\end{equation}
+where $\mathbf{V}$ is known as the reduced form errors. The reduced form can be used to `generate' $\mathbf{Y}$ from known $\mathbf{X}$, $\boldsymbol{\Pi}$ and $\mathbf{V}$. 
+
+\subsubsection{Rank Condition for Simultaneous Causal Equations \cite{Amemiya1985}}
+
+We consider the identifiability of the parameters in $\mathbf{B}$ and $\boldsymbol{\Gamma}$, by which we mean whether there exists a consistent estimator for these parameters. From the reduced form $\mathbf{Y}^{\top} = \mathbf{X}^{\top}\boldsymbol{\Pi} + \mathbf{V}^{\top}$, we see that under standard assumptions, ordinary least squares will provide a consistent estimator for $\boldsymbol{\Pi}$. Thus to address identifiability we can ask whether the parameters in $\mathbf{B}$ and $\boldsymbol{\Gamma}$ can be uniquely determined if $\boldsymbol{\Pi} = -\mathbf{B}\boldsymbol{\Gamma}^{-1}$ has been uniquely determined. Intuitively, we might suggest that the parameters are identifiable if there are `not too many' non-zero entries in $\mathbf{B}$ and $\boldsymbol{\Gamma}^{-1}$. This condition can be formalised as follows. Assume that there are some zero entries in $\mathbf{B}$ and $\boldsymbol{\Gamma}$, and without loss of generality fix the main diagonal of $\boldsymbol{\Gamma}$ to be $1$s (for normalisation):
+\begin{equation}
+\boldsymbol{\Gamma} = \begin{bmatrix}
+1 & \dots & \gamma_{1M} \\
+\vdots & \ddots & \vdots \\
+\gamma_{M1} & \dots & 1
+\end{bmatrix}
+\end{equation}
+We focus on the $i$\textsuperscript{th} simultaneous causal equation, so write out the columns of $\mathbf{B}$ as
+\begin{equation}
+\mathbf{B} = \begin{bmatrix} \mathbf{B}_{1} & \dots & \mathbf{B}_{M} \end{bmatrix}
+\end{equation}
+and similarly for $\boldsymbol{\Gamma}$:
+\begin{equation}
+\boldsymbol{\Gamma} = \begin{bmatrix} \boldsymbol{\Gamma}_{1} & \dots & \boldsymbol{\Gamma}_{M} \end{bmatrix}
+\end{equation}
+Then the $i$\textsuperscript{th} simultaneous causal equation involves the parameters in $\mathbf{B}_{i}$ and $\boldsymbol{\Gamma}_{i}$. Now let $\boldsymbol{\beta}_{i}$ be a column vector of length $K_{i}$ consisting of the subset of elements in $\mathbf{B}_{i}$ which are non-zero. Then the vector
+\begin{equation}
+\mathbf{B}_{i}' = \begin{bmatrix} \boldsymbol{\beta}_{i} \\ \mathbf{0}_{K - K_{i}} \end{bmatrix}
+\end{equation}
+where $\mathbf{0}_{K - K_{i}}$ denotes a zero column vector of length $K - K_{i}$ will be a permutation (ie. row-swapped version) of $\mathbf{B}_{i}$. Similarly let $\boldsymbol{\gamma}_{i}$ be a column vector of length $M_{i}$ consisting of the subset of elements in $\boldsymbol{\Gamma}_{i}$ which are non-zero and also not fixed to $1$. Then
+\begin{equation}
+\boldsymbol{\Gamma}_{i}' = \begin{bmatrix} 1 \\ \boldsymbol{\gamma}_{i} \\ \mathbf{0}_{M - M_{i} - 1} \end{bmatrix}
+\end{equation}
+will be a permutation of $\boldsymbol{\Gamma}_{i}$. Then because $\boldsymbol{\Pi}\boldsymbol{\Gamma} = -\mathbf{B}$, we can accordingly write using some column-swapped permutation of $\boldsymbol{\Pi}$ (the same arrangement used for $\boldsymbol{\Gamma}_{i}'$):
+\begin{equation}
+\begin{bmatrix}
+\boldsymbol{\pi}_{i1} & \boldsymbol{\Pi}_{i1} & \boldsymbol{\Pi}_{i1}' \\
+\boldsymbol{\pi}_{i0} & \boldsymbol{\Pi}_{i0} & \boldsymbol{\Pi}_{i0}'
+\end{bmatrix}\begin{bmatrix} 1 \\ \boldsymbol{\gamma}_{i} \\ \mathbf{0}_{M - M_{i} - 1} \end{bmatrix} = -\begin{bmatrix} \boldsymbol{\beta}_{i} \\ \mathbf{0}_{K - K_{i}} \end{bmatrix}
+\end{equation}
+Here, $\boldsymbol{\Pi}_{i1}'$ and $\boldsymbol{\Pi}_{i0}'$ can be miscellaneous values which do not affect the matrix multiplication so we can compactly write
+\begin{equation}
+\begin{bmatrix}
+\boldsymbol{\pi}_{i1} & \boldsymbol{\Pi}_{i1}  \\
+\boldsymbol{\pi}_{i0} & \boldsymbol{\Pi}_{i0} 
+\end{bmatrix}\begin{bmatrix} 1 \\ \boldsymbol{\gamma}_{i}\end{bmatrix} = -\begin{bmatrix} \boldsymbol{\beta}_{i} \\ \mathbf{0}_{K - K_{i}} \end{bmatrix}
+\end{equation}
+This leads to two equations:
+\begin{align}
+\boldsymbol{\pi}_{i1} + \boldsymbol{\Pi}_{i1}\boldsymbol{\gamma}_{i} &= - \boldsymbol{\beta}_{i}  \\
+\boldsymbol{\pi}_{i0} + \boldsymbol{\Pi}_{i0} \boldsymbol{\gamma}_{i} &= \mathbf{0}
+\end{align}
+For the second equation, we have a system of linear equations in $\boldsymbol{\gamma}_{i}$:
+\begin{equation}
+ \boldsymbol{\Pi}_{i0} \boldsymbol{\gamma}_{i} = -\boldsymbol{\pi}_{i0}
+\end{equation}
+This has a unique solution for $\boldsymbol{\gamma}_{i}$ if the rank of $\boldsymbol{\Pi}_{i0}$ is equal to the number of variables to solve for, or in other words,
+\begin{equation}
+\operatorname{rank}\left(\boldsymbol{\Pi}_{i0}\right) = M_{i}
+\end{equation}
+This is known as the rank condition for identifiability for the $i$\textsuperscript{th} simultaneous causal equation, because we can see that if $\boldsymbol{\gamma}_{i}$ is uniquely determined, it then follows that $\boldsymbol{\beta}_{i}$ can be uniquely determined from the first equation by
+\begin{equation}
+\boldsymbol{\beta}_{i} = -\boldsymbol{\pi}_{i1} - \boldsymbol{\Pi}_{i1}\boldsymbol{\gamma}_{i}
+\end{equation}
+The rank condition is a sufficient condition for identifiability.
+
+\subsubsection{Order Condition for Simultaneous Causal Equations \cite{Amemiya1985}}
+
+Since the dimension of $\boldsymbol{\Pi}_{i0}$ is $\left(K - K_{i}\right)\times M_{i}$, then
+\begin{equation}
+\operatorname{rank}\left(\boldsymbol{\Pi}_{i0}\right) \leq \min\left\{K - K_{i}, M_{i}\right\}
+\end{equation}
+Thus a necessary condition in order for the rank condition to hold is that
+\begin{equation}
+K - K_{i} \geq M_{i}
+\end{equation}
+To interpret these integers, $K - K_{i}$ is the number of exogenous variables which are excluded from the $i$\textsuperscript{th} simultaneous causal equation, while $M_{i}$ is the number of additional endogenous variables included in the $i$\textsuperscript{th} simultaneous causal equation. For example, the order condition may be trivially satisfied if each simultaneous causal equation has its own exogenous variable which does not appear elsewhere, because then $K - K_{i} \geq M - 1$ and $M_{i} \leq M - 1$. We also say that:
+\begin{itemize}
+\item If $K - K_{i} < M_{i}$, then the equation is under-identified.
+\item If $K - K_{i} = M_{i}$, then the equation is just-identified.
+\item If $K - K_{i} > M_{i}$, then the equation is over-identified.
+\end{itemize}
+
+\subsection{Two-Stage Least Squares}
+
+
+\subsection{Two-Stage Least Squares Inference}
+
+
+\subsubsection{Sargan-Hansen Overidentifying Restrictions $J$-Test \cite{Stock2015, Verbeek2017, Hill2011, Hayashi2000}}
+
 
 \section{Panel Data Regression}
 
@@ -8740,9 +9882,15 @@ And finally by $\operatorname{Cov}\left(Y_{t}, Y_{t - j}\right) = \operatorname{
 
 \chapter{Machine Learning}
 
-\section{Classification Algorithms}
+\section{Machine Learning Datasets}
 
-\subsection{Datasets}
+\subsection{Training Dataset}
+
+\subsection{Validation Dataset}
+
+\subsection{Test Dataset}
+
+\section{Classification Algorithms}
 
 \subsection{Performance Metrics in Classification \cite{Goodfellow2016}}
 
@@ -8792,6 +9940,15 @@ A classifier may also be coded so that it can refuse to make a decision (eg. if 
 \subsection{Support Vector Machines}
 
 \subsection{Linear Discriminant Analysis}
+
+\section{Cross-Validation}
+
+\subsection{$K$-fold Cross-Validation}
+
+In $K$-fold cross-validation, we partition the sample into $K$ equally-sized (or nearly equally-sized) subsamples. For each subsample $k = 1, \dots, K$, we do the following. We train the model on all except the $k$\textsuperscript{th} subsample, and then we evaluate model fit on the $k$\textsuperscript{th} subsample to obtain an estimate $E_{k}$ of model performance. Averaging over all $K$ folds, the overall estimate of model performance is given by
+\begin{equation}
+E = \sum_{k = 1}^{K}E_{k}
+\end{equation}
 
 \section{Neural Networks}
 
@@ -9110,9 +10267,83 @@ Treating each vote as a Bernoulli random variable, then by the strong law of lar
 \end{proof}
 This suggests that ensembling more models should lead to greater predictive accuracy, provided that each model is better than a coin flip. However, the assumption that each model is independent will usually not be satisfied since each model is conditioned on the data.
 
-\section{Decision Trees}
+\section{Decision Trees \cite{James2013}}
+
+\subsection{Regression Trees}
+
+A regression tree consists of a partition of the predictor space $\mathcal{X} \subseteq \mathbb{R}^{d}$ into $J$ distinct and non-overlapping rectangular regions $R_{1} \subset \mathcal{X}, \dots, R_{J} \subset \mathcal{X}$. For each $j = 1, \dots, J$, we assign the prediction for the corresponding region $R_{j}$ to be the mean of observations in that region. That is, with sample $\left\{\left(\mathbf{x}_{1}, y_{1}\right), \dots, \left(\mathbf{x}_{n}, y_{n}\right)\right\}$, we set
+\begin{equation}
+c_{j} = \dfrac{1}{\left|\left\{i: \mathbf{x}_{i} \in R_{j}\right\}\right|}\sum_{i: \mathbf{x}_{i} \in R_{j}}y_{i}
+\end{equation}
+Then a prediction on a test example $\mathbf{x}_{*}$ is made by
+\begin{equation}
+f\left(\mathbf{x}_{*}\right) = \sum_{j = 1}^{J}c_{j}\mathbb{I}_{\mathbf{x}_{*} \in R_{j}}
+\end{equation}
+
+\subsubsection{Regression Tree Learning}
+
+One method to obtain the regions $R_{1}, \dots, R_{J}$ is known as binary recursive splitting. To begin, we split $\mathcal{X}$ into two half-planes along a single predictor at $s$. That is, we designate
+\begin{gather}
+R_{1}\left(p, s\right) = \left\{\mathbf{x} = \left(x_{1}, \dots, x_{p}, \dots, x_{d}\right) \in \mathcal{X}: x_{p} < s\right\} \\
+R_{2}\left(p, s\right) = \left\{\mathbf{x} = \left(x_{1}, \dots, x_{p}, \dots, x_{d}\right) \in \mathcal{X}: x_{p} \geq s\right\}
+\end{gather}
+In order to choose $p$ and $s$, we minimise the residual sum of squares (RSS) that would result in making that split:
+\begin{equation}
+\min_{p, s}\left\{\sum_{i: \mathbf{x}_{i} \in R_{1}\left(p, s\right)}\left(y_{i} - \widehat{y}_{R_{1}}\right)^{2} + \sum_{i: \mathbf{x}_{i} \in R_{2}\left(p, s\right)}\left(y_{i} - \widehat{y}_{R_{2}}\right)^{2} \right\}
+\end{equation}
+where $\widehat{y}_{R_{1}}$ is the mean response of training observations contained in $R_{1}$, and $\widehat{y}_{R_{2}}$ is the mean response of training observations contained in $R_{2}$. To make the third split, we further split one of the existing half-planes and decide on a predictor $p$ and split $s$ to minimise the RSS criterion. Explicitly, suppose we are currently at $J$ regions. To `grow' the tree and produce the $\left(J + 1\right)$\textsuperscript{th} region, we solve
+\begin{equation}
+\left(j^{*}, p^{*}, s^{*}\right) = \argmin_{j, p, s}\left\{ \sum_{i: \mathbf{x}_{i} \in R_{j}^{-}\left(p, s\right)}\left(y_{i} - \widehat{y}_{R_{j}^{-}}\right)^{2} + \sum_{i: \mathbf{x}_{i} \in R_{j}^{+}\left(p, s\right)}\left(y_{i} - \widehat{y}_{R_{j}^{+}}\right)^{2} + \sum_{j'\neq j}\sum_{i: \mathbf{x}_{i} \in R_{j'}}\left(y_{i} - \widehat{y}_{R_{j'}}\right)^{2} \right\}
+\end{equation}
+where for shorthand:
+\begin{gather}
+R_{j}^{-}\left(p, s\right) := R_{j}\cap\left\{\mathbf{x} \in \mathcal{X}: x_{p} < s\right\} \\
+R_{j}^{+}\left(p, s\right) := R_{j}\cap\left\{\mathbf{x} \in \mathcal{X}: x_{p} \geq s\right\}
+\end{gather}
+Then perform the split by modifying current region:
+\begin{equation}
+R_{j^{*}} \gets R_{j^{*}}\cap\left\{\mathbf{x} \in \mathcal{X}: x_{p^{*}} < s^{*}\right\}
+\end{equation}
+and adding new region
+\begin{equation}
+R_{J + 1} = R_{j^{*}}\cap\left\{\mathbf{x} \in \mathcal{X}: x_{p^{*}} \geq s^{*}\right\}
+\end{equation}
+This procedure is repeated and the tree is grown until some specified termination condition, such as when each region has fewer that some number of observations. The end result is a binary tree where each terminal node corresponds to a partitioned region.
+
+\subsubsection{Cost Complexity Pruning}
+
+To prevent overfitting, nodes can be `pruned' from the tree. To achieve this, we introduce some hyperparameter $\alpha \geq 0$. Denote the fully-fitted tree by $T_{0}  = \left\{R_{1}, R_{2}, \dots, R_{J}\right\}$. Then a subtree $T$ is such that $T \subset T_{0}$. For each $\alpha \geq 0$, we can find the subtree
+\begin{equation}
+T_{\alpha} = \argmin_{T \subset T_{0}}\left\{\sum_{j = 1}^{\left|T\right|}\sum_{i: \mathbf{x}_{i}\in R_{j}}\left(y_{i} - \widehat{y}_{R_{j}}\right)^{2} + \alpha\left|T\right|\right\}
+\end{equation}
+In this sense, $\alpha$ acts like a regularisation parameter on having too many nodes. The value of $\alpha$ may be chosen manually, or it may be chosen via a cross-validation method such as $K$-fold cross-validation.
+
+\subsection{Classification Trees}
+
+Decision trees can be used for multi-class classification with $K$ classes. The main difference to regression trees is that for each region, we classify using the most commonly occurring class in the training sample for that region. The learning process also occurs in a similar manner, using binary recursive splitting. Rather than RSS however, the misclassification rate can be used as a performance criterion. Denoting $\widehat{p}_{R_{j}, k}$ as the proportion of observations from the $k$\textsuperscript{th} class in region $R_{j}$, the missclassification rate for terminal node $j$ is given by $1 - \max_{k}\widehat{p}_{R_{j}, k}$, and the general binary recursive splitting rule is defined by
+\begin{equation}
+\left(j^{*}, p^{*}, s^{*}\right) = \argmin_{j, p, s}\left\{\left(1 - \max_{k}\widehat{p}_{R_{j}^{-}\left(p, s\right), k}\right) + \left(1 - \max_{k}\widehat{p}_{R_{j}^{+}\left(p, s\right), k}\right) + \sum_{j' \neq j}\left(1 - \max_{k}\widehat{p}_{R_{j'}, k}\right)\right\}
+\end{equation}
+
+\subsubsection{Gini Index}
+
+An alternative criterion is to use the Gini index $\sum_{k = 1}^{K}\widehat{p}_{R_{j}, k}\left(1 - \widehat{p}_{R_{j}, k}\right)$, which is a measure of the total variance across the $K$ classes (note that the variance of a single class is $\widehat{p}_{R_{j}, k}\left(1 - \widehat{p}_{R_{j}, k}\right)$ by the binomial distribution). A sketch of the graph of $\widehat{p}_{R_{j}, k}\left(1 - \widehat{p}_{R_{j}, k}\right)$ will reveal that it is smaller when $\widehat{p}_{R_{j}, k}$ is closer to zero or to one. Hence the Gini index takes on smaller values if all the proportions in a region are close to zero or one, as would be the case if the majority of examples in a region belonged to a single class. In this way, the Gini index is sometimes referred to as a measure of node `purity'. The binary recursive splitting rule using the Gini index is
+\begin{multline}
+\left(j^{*}, p^{*}, s^{*}\right) = \argmin_{j, p, s}\left\{\sum_{k = 1}^{K}\widehat{p}_{R_{j}^{-}\left(p, s\right), k}\left(1 - \widehat{p}_{R_{j}^{-}\left(p, s\right), k}\right) + \sum_{k = 1}^{K}\widehat{p}_{R_{j}^{-}\left(p, s\right), k}\left(1 - \widehat{p}_{R_{j}^{-}\left(p, s\right), k}\right) \right. \\
+\left. + \sum_{j' \neq j}\sum_{k = 1}^{K}\widehat{p}_{R_{j'}, k}\left(1 - \widehat{p}_{R_{j'}, k}\right)\right\}
+\end{multline}
+
+\subsubsection{Information Gain in Decision Trees}
+
+Another criterion is the entropy of the distribution among the classes for a region, given by $-\sum_{k = 1}^{K}\widehat{p}_{R_{j}, k}\log\widehat{p}_{R_{j}, k}$. From the characterisation of entropy it is clear that having the majority of examples in a single class for a region will result in smaller entropy. A sketch of the graph of $-\widehat{p}_{R_{j}, k}\log\widehat{p}_{R_{j}, k}$ will also reveal that this performance criterion behaves similarly to the Gini index. This performance criterion is sometimes referred to as the information gain. The binary recursive splitting rule with information gain is
+\begin{multline}
+\left(j^{*}, p^{*}, s^{*}\right) = \argmin_{j, p, s}\left\{-\sum_{k = 1}^{K}\widehat{p}_{R_{j}^{-}\left(p, s\right), k}\log\widehat{p}_{R_{j}^{-}\left(p, s\right), k} - \sum_{k = 1}^{K}\widehat{p}_{R_{j}^{+}\left(p, s\right), k}\log\widehat{p}_{R_{j}^{+}\left(p, s\right), k} \right. \\
+\left. - \sum_{j' \neq j}\sum_{k = 1}^{K}\widehat{p}_{R_{j'}, k}\log\widehat{p}_{R_{j'}, k}\right\}
+\end{multline}
 
 \subsection{Random Forests}
+
+Random forests are an ensemble learning method using decision trees, built upon bagging. As in bagging, a `forest' of trees are grown from bootstrapped training samples. However, each time a split is considered, a random sample of the $d$ predictors are used as the split candidates. The rationale for this is that under conventional bagging, a strong predictor may cause the prediction from each tree to be highly correlated. Using a subset of predictors at each split has the effect of decorrelating the trees, making the ensemble average (or majority vote, in the case of classification) more reliable.
 
 \section{Unsupervised Learning}
 
@@ -9139,22 +10370,63 @@ Note that this is effectively the same as taking the risk with respect to a dist
 \begin{equation}
 \widehat{h}_{S} = \argmin_{h \in \mathcal{H}}L_{S}\left(h\right) 
 \end{equation}
-In the probability approximately correct (PAC) framework, we consider learners (or learning algorithms) which are functions $\mathcal{L}: \bigcup_{m = 1}^{\infty} \to \mathcal{H}$ which are capable of taking a sample of any size, and outputting a classifier from the hypothesis class $\mathcal{H}$. A hypothesis class is said to be \textit{agnostic PAC learnable} if for all $\varepsilon \in \left(0, 1\right)$, $\delta \in \left(0, 1\right)$ and any distribution $\mathcal{D}$, there exists learner $\mathcal{L}$ and an integer  (ie. dependent on $\delta$ and $\varepsilon$) such that for all $m \geq m_{\mathcal{H}}\left(\varepsilon, \delta\right)$, the learner returns a classifier $\widehat{h}$ that with probability at least $1 - \delta$,$m_{\mathcal{H}}\left(\varepsilon, \delta\right)$
+In the probability approximately correct (PAC) framework, we consider learners (or learning algorithms) which are functions $\mathcal{L}: \bigcup_{m = 1}^{\infty} \to \mathcal{H}$ capable of taking a sample of any size, and outputting a classifier from the hypothesis class $\mathcal{H}$. A hypothesis class is said to be \textit{agnostic PAC learnable} if for all $\varepsilon \in \left(0, 1\right)$, $\delta \in \left(0, 1\right)$ and any distribution $\mathcal{D}$, there exists learner $\mathcal{L}$ and an integer  (ie. dependent on $\delta$ and $\varepsilon$) such that for all $m \geq m_{\mathcal{H}}\left(\varepsilon, \delta\right)$, the learner returns a classifier $\widehat{h}$ that with probability at least $1 - \delta$,
 \begin{equation}
 L_{\mathcal{D}}\left(\widehat{h}\right) \leq L_{\mathcal{D}}\left(h^{*}\right) + \varepsilon
 \end{equation}
-That is, the learner is `probably' (with probability no less than $1 - \delta$) `approximately correct' (with allowable error up to $\varepsilon$ from the optimal risk). The `agnostic' tag refers to the fact that nothing is assumed about the distribution $\mathcal{D}$. We usually treat $\mathcal{H}$ to be reasonably restricted, ie. a learner should not be allowed to simply memorise the sample because although this causes $L_{S}\left(\widehat{h}_{S}\right) = 0$, this will lead to overfitting on $\mathcal{D}$.
+That is, the learner is `probably' (with probability no less than $1 - \delta$) `approximately correct' (with allowable error up to $\varepsilon$ from the optimal risk). The `agnostic' tag refers to the fact that nothing is assumed about the distribution $\mathcal{D}$. We usually treat $\mathcal{H}$ to be reasonably restricted, ie. a learner should not be allowed to simply memorise the sample because although this causes $L_{S}\left(\widehat{h}_{S}\right) = 0$, this will lead to overfitting when tested with examples from $\mathcal{D}$.
 
 \subsubsection{Sample Complexity}
 
-The function $m$
+The function $m_{\mathcal{H}}\left(\varepsilon, \delta\right)$ is known as the sample complexity of learning the hypothesis class $\mathcal{H}$. That is, it is the minimum number of examples guaranteed to guarantee a probably approximately correct solution.
 
 \subsubsection{Agnostic PAC Learnability of Finite Hypothesis Classes}
 
 \begin{theorem}
-Suppose the hypothesis class $\mathcal{H}$ is finite, ie. $\left|H\right| < infty$. Then $\mathcal{H}$ is agnostically PAC learnable.
+Suppose the hypothesis class $\mathcal{H}$ is finite, ie. $\left|H\right| < \infty$. Then $\mathcal{H}$ is agnostically PAC learnable.
 \end{theorem}
 \begin{proof}
+We show that the choice of empirical risk minimisation learning algorithm is enough to satisfy the condition for agnostic PAC learnability. First, we define $\varepsilon$-representativeness as a property of a sample $S$ which satisfies
+\begin{equation}
+\left|L_{S}\left(h\right) - L_{\mathcal{D}}\left(h\right)\right| \leq \varepsilon
+\end{equation}
+for all $h \in \mathcal{H}$. This formalises the notion that the empirical risk is close to the true risk. We can then show that if $S$ is $\dfrac{\varepsilon}{2}$-representative, then the empirical risk minimiser $\widehat{h}_{S}$ satisfies for any $h \in \mathcal{H}$:
+\begin{align}
+L_{\mathcal{D}}\left(\widehat{h}_{S}\right) &\leq L_{S}\left(\widehat{h}_{S}\right) + \dfrac{\varepsilon}{2} \\
+&\leq L_{S}\left(h\right) + \dfrac{\varepsilon}{2} \\
+&\leq L_{\mathcal{D}}\left(h\right) + \dfrac{\varepsilon}{2} + \dfrac{\varepsilon}{2} \\
+&\leq L_{\mathcal{D}}\left(h\right) + \varepsilon
+\end{align}
+where the first and third inequalities follow from the definition of $\varepsilon$-representativeness, and the second inequality is due to the characterisation of the empirical risk minimiser. Hence, it holds for the optimal $h^{*} = \argmin_{h \in \mathcal{H}}L_{\mathcal{D}}\left(h\right)$ that:
+\begin{equation}
+L_{\mathcal{D}}\left(\widehat{h}_{S}\right) \leq L_{\mathcal{D}}\left(h^{*}\right) + \varepsilon
+\end{equation}
+Thus to show that $\mathcal{H}$ is agnostic PAC learnable, it suffices to show that there exists a minimum number of examples $m_{\mathcal{H}}\left(\varepsilon, \delta\right)$ such that $S$ will be $\dfrac{\varepsilon}{2}$-representative with probability of at least $1 - \delta$. We first show a similar property of $\mathcal{H}$ (called the uniform convergence property) that there exists a minimum number of examples such that $S$ will be $\varepsilon$-representative with probability of at least $1 - \delta$. That is, we find the condition for
+\begin{equation}
+\operatorname{Pr}\left(\bigcap_{h\in\mathcal{H}}\left\{\left|L_{S}\left(h\right) - L_{\mathcal{D}}\left(h\right)\right| \leq \varepsilon\right\}\right) \geq 1 - \delta
+\end{equation}
+By DeMorgan's laws, an equivalent condition is
+\begin{equation}
+\operatorname{Pr}\left(\bigcup_{h\in\mathcal{H}}\left\{\left|L_{S}\left(h\right) - L_{\mathcal{D}}\left(h\right)\right| > \varepsilon\right\}\right) \leq  \delta
+\end{equation}
+From the union bound (Boole's inequality):
+\begin{equation}
+\operatorname{Pr}\left(\bigcup_{h\in\mathcal{H}}\left\{\left|L_{S}\left(h\right) - L_{\mathcal{D}}\left(h\right)\right| > \varepsilon\right\}\right) \leq  \sum_{h\in\mathcal{H}}\operatorname{Pr}\left(\left|L_{S}\left(h\right) - L_{\mathcal{D}}\left(h\right)\right| > \varepsilon\right)
+\end{equation}
+Recognise that $L_{S}\left(h\right)$ is a sample mean of indicator random variables $0 \leq \mathbb{I}_{h\left(x\right) \neq y} \leq 1$ with expectation $\mathbb{E}\left[L_{S}\left(h\right)\right] = \mathbb{E}_{\left(x, y\right)\sim\mathcal{D}}\left[\mathbb{I}_{h\left(x\right) \neq y}\right] = L_{\mathcal{D}}\left(h\right)$, so it satisfies the criteria to apply Hoeffding's inequality. Applying said inequality to each summand gives
+\begin{align}
+\sum_{h\in\mathcal{H}}\operatorname{Pr}\left(\left|L_{S}\left(h\right) - L_{\mathcal{D}}\left(h\right)\right| > \varepsilon\right) &\leq \sum_{h\in\mathcal{H}}2\exp\left(-2m\varepsilon^{2}\right) \\
+&\leq 2\left|\mathcal{H}\right|\exp\left(-2m\varepsilon^{2}\right)
+\end{align}
+We can then see that for $m \geq \dfrac{\log\left(\frac{2\left|\mathcal{H}\right|}{\delta}\right)}{2\varepsilon^{2}}$, we will have
+\begin{equation}
+\operatorname{Pr}\left(\bigcup_{h\in\mathcal{H}}\left\{\left|L_{S}\left(h\right) - L_{\mathcal{D}}\left(h\right)\right| > \varepsilon\right\}\right) \leq  \delta
+\end{equation}
+Therefore by choosing $m \geq \left\lceil\dfrac{\log\left(\frac{2\left|\mathcal{H}\right|}{\delta}\right)}{2\varepsilon^{2}}\right\rceil$, we have shown that $\mathcal{H}$ satisfies the uniform convergence property. To find the condition for $\dfrac{\varepsilon}{2}$-representativeness, simply repeat the above steps with $\dfrac{\varepsilon}{2}$, which yields a sample complexity of
+\begin{align}
+m_{\mathcal{H}}\left(\varepsilon, \delta\right) &= \left\lceil\dfrac{\log\left(\frac{2\left|\mathcal{H}\right|}{\delta}\right)}{2\left(\varepsilon/2\right)^{2}}\right\rceil \\
+&= \left\lceil\dfrac{2\log\left(\frac{2\left|\mathcal{H}\right|}{\delta}\right)}{\varepsilon^{2}}\right\rceil
+\end{align}
 
 \end{proof}
 
