@@ -16,7 +16,7 @@
 \pretitle{\begin{center}\Huge\bf}
 \posttitle{\normalfont\end{center}}
 \title{Stochastics \& Statistics}
-\author{R. C.}
+\author{Robert Chin}
 %\date{\vspace{-5ex}} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed 
 
@@ -278,7 +278,7 @@ Consider the number of different ways to pick $k$ objects from a pool of $n$ dis
 \end{equation}
 which is the number of different groups of $k$ can be picked from $n$ distinct objects. This is known as the binomial coefficient, and denoted $\mathstrut^{n}\mathsf{C}_{k}$, which may also be read as "$n$ choose $k$". It is also sometimes denoted
 \begin{equation}
-\mathstrut^{n}\mathsf{C}_{k} = \begin{pmatrix}n\\k\end{pmatrix}
+\mathstrut^{n}\mathsf{C}_{k} = \binom{n}{k}
 \end{equation}
 This number can also be thought of as the number of different ways to arrange $k$ homogeneous objects among $\left(n - k\right)$ other homogeneous objects in a line. Note that the following properties hold for the binomial coefficient:
 \begin{equation}
@@ -311,7 +311,7 @@ different ways to arrange objects in groups $1$ and $2$, without regard for the 
 \end{multline}
 gives the number of different ways to arrange all objects in all groups. By cancellation of terms, the multinomial coefficient can be denoted as
 \begin{equation}
-\begin{pmatrix} n \\ k_{1}, \dots, k_{m}\end{pmatrix} = \dfrac{n!}{k_{1}!k_{2}!\dots k_{m}!}
+\binom{n}{k_{1}, \dots, k_{m}} = \dfrac{n!}{k_{1}!k_{2}!\dots k_{m}!}
 \end{equation}
 This number can also be thought of as the number of ways of depositing $n$ distinct objects into $m$ bins, where the $j$\textsuperscript{th} bin requires $k_{j}$ objects.
 
@@ -1019,7 +1019,12 @@ for all $x$ and $y$. Equivalently (this also applies to discrete random variable
 \begin{equation}
 \operatorname{Pr}\left(X \leq x, Y \leq y\right) = \operatorname{Pr}\left(X \leq x\right)\operatorname{Pr}\left(Y \leq y\right)
 \end{equation}
-for all $x$ and $y$.
+for all $x$ and $y$. Alternatively, in terms of marginal distributions, if $X$ and $Y$ are independent, then for all $x$ and $y$
+\begin{gather}
+f_{X|Y}\left(x|y\right) = f_{X}\left(x\right) \\
+f_{Y|X}\left(y|x\right) = f_{Y}\left(y\right)
+\end{gather}
+because $f_{X|Y}\left(x|y\right) = \dfrac{f_{XY}\left(x, y\right)}{f_{Y}\left(y\right)}$ and $f_{Y|X}\left(y|x\right) = \dfrac{f_{XY}\left(x, y\right)}{f_{X}\left(x\right)}$.
 
 \subsubsection{Pairwise Independent Random Variables}
 
@@ -1084,6 +1089,81 @@ In fact, we can tell this only holds with equality if and only if $a = 0$ or $b 
 \end{equation}
 which yields the subadditivity property for the standard deviation.
 
+\subsection{Conditional Expectation Equal to Unconditional Expectation}
+
+For random variables $X$ and $Y$, if $\mathbb{E}\left[X\middle|Y\right] = \mathbb{E}\left[X\right]$ or $\mathbb{E}\left[Y\middle|X\right] = \mathbb{E}\left[Y\right]$ (that is, the conditional expectation is equal to the unconditional expectation), then this is something in between independence and uncorrelatedness. If $X$ and $Y$ are independent, then $\mathbb{E}\left[X\middle|Y\right] = \mathbb{E}\left[X\right]$ and $\mathbb{E}\left[Y\middle|X\right] = \mathbb{E}\left[Y\right]$.
+\begin{proof}
+To show this, consider that if $X$ and $Y$ are continuous random variables and independent, then for all $y$:
+\begin{align}
+\mathbb{E}\left[X\middle|Y = y\right] &= \int_{-\infty}^{\infty}f_{X|Y}\left(x\middle| y\right)dx \\
+&= \int_{-\infty}^{\infty}f_{X}\left(x\right)dx \\
+&= \mathbf{E}\left[X\right]
+\end{align}
+This holds analogously for $\mathbb{E}\left[Y\middle|X = x\right]$ and if $X$ and $Y$ were discrete. 
+\end{proof}
+However, the converse is not generally true. If $\mathbb{E}\left[X\middle|Y\right] = \mathbb{E}\left[X\right]$ or $\mathbb{E}\left[Y\middle|X\right] = \mathbb{E}\left[Y\right]$, this does not necessarily imply $X$ and $Y$ are independent.
+\begin{proof}
+To show with a counterexample, let $X$ and $Y$ be two independent zero-mean random variables. Define $Z = XY$. Then
+\begin{align}
+\mathbb{E}\left[Z\middle|X\right] &= \mathbb{E}\left[XY\middle|X\right] \\
+&= X\mathbb{E}\left[Y\middle|X\right] \\
+&= X\mathbb{E}\left[Y\right] \\
+&= 0
+\end{align}
+Also because of independence,
+\begin{align}
+\mathbb{E}\left[Z\right] &= \mathbb{E}\left[XY\right] \\
+&= \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] \\
+&= 0
+\end{align}
+Therefore $\mathbb{E}\left[Z\middle|X\right] = \mathbb{E}\left[Z\right]$. However, $Z$ and $X$ are not independent because $Z$ is formed by $Z = XY$.
+\end{proof}
+Also note that $\mathbb{E}\left[X\middle|Y\right] = \mathbb{E}\left[X\right]$ does not necessarily imply $\mathbb{E}\left[Y\middle|X\right] = \mathbb{E}\left[Y\right]$.
+\begin{proof}
+A counterexample of this is as follows. Let $Y$ be a random variable defined by
+\begin{equation}
+\operatorname{Pr}\left(Y = y\right) = \begin{cases} 1/3, & y = -1, 0, 1 \\ 0, & \mathrm{elsewhere}\end{cases}
+\end{equation}
+so that $\mathbb{E}\left[Y\right] = 0$. Let $X$ be an indicator random variable for $Y = 0$. Hence
+\begin{equation}
+\operatorname{Pr}\left(X = x\right) = \begin{cases} 2/3, & x = 0 \\ 1/3, & x = 1 \\ 0, & \mathrm{elsewhere}\end{cases}
+\end{equation}
+From this characterisation, we see that
+\begin{gather}
+\mathbb{E}\left[Y \middle| X = 0\right] = 0 \\
+\mathbb{E}\left[Y \middle| X = 1\right] = 0 
+\end{gather}
+Hence $\mathbb{E}\left[Y\right] = \mathbb{E}\left[Y \middle|X\right]$. However, $\mathbb{E}\left[X\right] \neq \mathbb{E}\left[X \middle|Y\right]$ because
+\begin{gather}
+\mathbb{E}\left[X \middle| Y = 0\right] = 1 \\
+\mathbb{E}\left[X \middle| Y = 1\right] = 0 \\
+\mathbb{E}\left[X \middle| Y = -1\right] = 0
+\end{gather}
+\end{proof}
+Now if $\mathbb{E}\left[X\middle|Y\right] = \mathbb{E}\left[X\right]$ or $\mathbb{E}\left[Y\middle|X\right] = \mathbb{E}\left[Y\right]$, then this implies $X$ and $Y$ are uncorrelated.
+\begin{proof}
+Suppose $\mathbb{E}\left[X\middle|Y\right] = \mathbb{E}\left[X\right]$. Then using the Law of Iterated Expectations,
+\begin{align}
+\mathbb{E}\left[XY\right] &= \mathbb{E}\left[\mathbb{E}\left[XY\middle|Y\right]\right] \\
+&= \mathbb{E}\left[Y\mathbb{E}\left[X\middle|Y\right]\right] \\
+&= \mathbb{E}\left[Y\mathbb{E}\left[X\right]\right] \\
+&= \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right]
+\end{align}
+which is one of the definitions for uncorrelatedness. The same can be analogously shown if $\mathbb{E}\left[Y\middle|X\right] = \mathbb{E}\left[Y\right]$.
+\end{proof}
+However, the converse need not necessarily be true. If $X$ and $Y$ are uncorrelated, this does not necessarily imply that $\mathbb{E}\left[X\middle|Y\right] = \mathbb{E}\left[X\right]$ or $\mathbb{E}\left[Y\middle|X\right] = \mathbb{E}\left[Y\right]$.
+\begin{proof}
+We demonstrate again with the counterexample where
+\begin{equation}
+\operatorname{Pr}\left(Y = y\right) = \begin{cases} 1/3, & y = -1, 0, 1 \\ 0, & \mathrm{elsewhere}\end{cases}
+\end{equation}
+and $X$ is an indicator random variable for $Y = 0$ with
+\begin{equation}
+\operatorname{Pr}\left(X = x\right) = \begin{cases} 2/3, & x = 0 \\ 1/3, & x = 1 \\ 0, & \mathrm{elsewhere}\end{cases}
+\end{equation}
+By this construction, $XY = 0$ always so $\mathbb{E}\left[XY\right] = 0$. Also since $\mathbb{E}\left[Y\right] = 0$, then $\mathbb{E}\left[XY\right] = \mathbb{E}\left[X\right]\mathbb{E}\left[Y\right] = 0$ so $X$ and $Y$ are uncorrelated. However as already established, $\mathbb{E}\left[X\right] \neq \mathbb{E}\left[X \middle|Y\right]$. And since the naming of $X$ and $Y$ is arbitrary, we can construct an analogous counterexample where $\mathbb{E}\left[Y\right] \neq \mathbb{E}\left[Y \middle|X\right]$.
+\end{proof}
+
 \subsection{Conditional Independence}
 
 \subsubsection{Conditionally Independent Events}
@@ -1105,9 +1185,33 @@ Similarly, two random variables $X$ and $Y$ are conditionally independent on a t
 f_{XY|Z}\left(x, y\right) = f_{X|Z}\left(x\right)f_{Y|Z}\left(y\right)
 \end{equation}
 
+
+
 \subsection{Orthogonality \cite{Yates2005}}
 
 Two random variables $X$ and $Y$ are said to be orthogonal if $\mathbb{E}\left[XY\right] = 0$. If $X$ and $Y$ are uncorrelated and at least one of them is zero-mean, then they are also orthogonal.
+
+\subsection{Variance Using Independent Copies}
+
+The variance of a random variable $X$ can alternatively be represented as
+\begin{equation}
+\operatorname{Var}\left(X\right) = \dfrac{1}{2}\mathbb{E}\left[\left(X - Y\right)^{2}\right]
+\end{equation}
+where $Y$ is an independent copy of $X$. This can be shown as follows. Using the variance of linear combinations,
+\begin{align}
+\operatorname{Var}\left(X - Y\right) &= \operatorname{Var}\left(X\right) - 2\operatorname{Cov}\left(X, Y\right) + \operatorname{Var}\left(Y\right) \\
+&= 2\operatorname{Var}\left(X\right)
+\end{align}
+since $\operatorname{Var}\left(X\right) = \operatorname{Var}\left(Y\right)$ and $\operatorname{Cov}\left(X, Y\right) = 0$ by independence. Also due to the definition of independence:
+\begin{align}
+\operatorname{Var}\left(X - Y\right) &= \mathbb{E}\left[\left(X - Y - \mathbb{E}\left[X - Y\right]\right)^{2}\right] \\
+&= \mathbb{E}\left[\left(X - Y\right)^{2}\right]
+\end{align}
+because $\mathbb{E}\left[X - Y\right] = \mathbb{E}\left[X\right] - \mathbb{E}\left[Y\right] = 0$. Thus combining the above, it can be seen that
+\begin{equation}
+\operatorname{Var}\left(X\right) = \dfrac{1}{2}\mathbb{E}\left[\left(X - Y\right)^{2}\right]
+\end{equation}
+
 
 \chapter{Introductory Statistics}
 
@@ -1279,7 +1383,13 @@ For a sample of observations $x_{1}, \dots, x_{n}$, the sample variance is an es
 \begin{equation}
 s^{2} = \dfrac{1}{n - 1}\sum_{i = 1}^{n}\left(x_{i} - \overline{x}\right)^{2}
 \end{equation}
-where $\overline{x}$ is the sample mean.
+where $\overline{x}$ is the sample mean. The sample variance has an alternative expanded form, analogously to the population variance:
+\begin{align}
+s^{2} &= \dfrac{1}{n - 1}\left[\sum_{i = 1}^{n}\left(x_{i} - \overline{x}\right)^{2}\right] \\
+&= \dfrac{1}{n - 1}\left[\sum_{i = 1}^{n}\left(x_{i}^{2} - 2x_{i}\overline{x} + \overline{x}^{2}\right)\right] \\
+&= \dfrac{1}{n - 1}\left[\sum_{i = 1}^{n}x_{i}^{2} - 2\overline{x}\sum_{i = 1}^{n}x_{i} + n\overline{x}^{2}\right] \\
+&= \dfrac{1}{n - 1}\left[\sum_{i = 1}^{n}x_{i}^{2} - n\overline{x}^{2}\right]
+\end{align}
 
 \subsubsection{Bessel's Correction}
 
@@ -1482,6 +1592,13 @@ Given two samples $x_{1}, \dots, x_{n}$ and $y_{1}, \dots, y_{n}$ where each pai
 \begin{equation}
 s_{xy} = \dfrac{1}{n - 1}\sum_{i = 1}^{n}\left(x_{i} - \overline{x}\right)\left(y_{i} - \overline{y}\right)
 \end{equation}
+An analogous identity to the population covariance exists for the sample covariance:
+\begin{align}
+s_{xy} &= \dfrac{1}{n - 1}\sum_{i = 1}^{n}\left(x_{i} - \overline{x}\right)\left(y_{i} - \overline{y}\right) \\
+&= \dfrac{1}{n-1}\left(\sum_{i=1}^{n}x_{i}y_{i}-\sum_{i=1}^{n}x_{i}\bar{y}-\sum_{i=1}^{n}\bar{x}y_{i}+\sum_{i=1}^{n}\bar{x}\bar{y}\right) \\
+&= \dfrac{1}{n-1}\left(\sum_{i=1}^{n}x_{i}y_{i}-n\bar{x}\bar{y}-n\bar{x}\bar{y}+n\bar{x}\bar{y}\right) \\
+&= \dfrac{1}{n-1}\left(\sum_{i=1}^{n}x_{i}y_{i}-n\bar{x}\bar{y}\right)
+\end{align}
 Bessel's correction also applies for computing an unbiased estimate of the population covariance. The proof of unbiasedness is a generalisation of the way unbiasedness is proved for the sample variance. First, we start by showing that for two random samples $X_{1}, \dots, X_{n}$ and $Y_{1}, \dots, Y_{n}$:
 \begin{equation}
 \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)\left(Y_{i}-\overline{Y}\right)=\sum_{i=1}^{n}\left(X_{i}-\mu_{X}\right)\left(Y_{i}-\mu_{Y}\right)-n\left(\overline{X}-\mu_{X}\right)\left(\overline{Y}-\mu_{Y}\right)
@@ -1885,6 +2002,52 @@ y = f\left(x\right) + \varepsilon
 \end{equation}
 where $\varepsilon$ is called the noise or `error' term, and is usually treated as random.
 
+\subsection{Decomposition of the Total Sum of Squares}
+
+In simple linear regression, the total sum of squares $\mathrm{SST}$ is given by
+\begin{align}
+\mathrm{SST} &= \sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^{2} \\
+&= \sum_{i=1}^{n}\left(y_{i}-\widehat{y}_{i}+\widehat{y}_{i}-\bar{y}\right)^{2} \\
+&= \sum_{i=1}^{n}\left[\left(y_{i}-\widehat{y}_{i}\right)^{2}+2\left(y_{i}-\widehat{y}_{i}\right)\left(\widehat{y}_{i}-\bar{y}\right)+\left(\widehat{y}_{i}-\bar{y}\right)^{2}\right] \\
+&= \sum_{i=1}^{n}\left(y_{i}-\widehat{y}_{i}\right)^{2}+2\sum_{i=1}^{n}\left(y_{i}-\widehat{y}_{i}\right)\left(\widehat{y}_{i}-\bar{y}\right)+\sum_{i=1}^{n}\left(\widehat{y}_{i}-\bar{y}\right)^{2} \\
+&= \mathrm{SSR}+2\sum_{i=1}^{n}\left(y_{i}-\widehat{y}_{i}\right)\left(\widehat{y}_{i}-\bar{y}\right)+\mathrm{SSE}
+\end{align}
+which is in terms of the sum of squares of the residuals $\mathrm{SSR}$ and the sum of squares of the estimate $\mathrm{SSE}$. We assert that the middle term is zero. To show this, we first take it and write it in terms of the residuals $e_{i}$:
+\begin{align}
+\sum_{i=1}^{n}\left(y_{i}-\widehat{y}_{i}\right)\left(\widehat{y}_{i}-\bar{y}\right) &= \sum_{i=1}^{n}e_{i}\left(\widehat{y}_{i}-\bar{y}\right) \\
+&= \sum_{i=1}^{n}e_{i}\widehat{y}_{i}-\bar{y}\sum_{i=1}^{n}e_{i}
+\end{align}
+Note that the sum of the residuals is zero:
+\begin{align}
+\sum_{i=1}^{n}e_{i} &= \sum_{i=1}^{n}\left(y_{i}-\widehat{y}_{i}\right) \\
+&= \sum_{i=1}^{n}y_{i}-\sum_{i=1}^{n}\left(\widehat{\beta}_{0}+\widehat{\beta}_{1}x_{i}\right) \\
+&= n\bar{y}-n\left(\widehat{\beta}_{0}+\widehat{\beta}_{1}\bar{x}\right) \\
+&= n\bar{y}-n\bar{y} \\
+&= 0
+\end{align}
+Hence
+\begin{align}
+\sum_{i=1}^{n}\left(y_{i}-\widehat{y}_{i}\right)\left(\widehat{y}_{i}-\bar{y}\right) &= \sum_{i=1}^{n}e_{i}\widehat{y}_{i} \\
+&= \sum_{i=1}^{n}e_{i}\left(\widehat{\beta}_{0}+\widehat{\beta}_{1}x_{i}\right) \\
+&= \widehat{\beta}_{0}\sum_{i=1}^{n}e_{i}+\widehat{\beta}_{1}\sum_{i=1}^{n}e_{i}x_{i} \\
+&= \widehat{\beta}_{1}\sum_{i=1}^{n}e_{i}x_{i}
+\end{align}
+We focus on expanding the term $\sum_{i=1}^{n}e_{i}x_{i}$:
+\begin{align}
+\sum_{i=1}^{n}e_{i}x_{i} &= \sum_{i=1}^{n}\left(y_{i}-\widehat{\beta}_{0}+\widehat{\beta}_{1}x_{i}\right)x_{i} \\
+&= \sum_{i=1}^{n}x_{i}y_{i}-n\widehat{\beta}_{0}\bar{x}-\widehat{\beta}_{1}\sum_{i=1}^{n}x_{i}^{2} \\
+&= \sum_{i=1}^{n}x_{i}y_{i}-n\left(\bar{y}-\widehat{\beta}_{1}\bar{x}\right)\bar{x}-\widehat{\beta}_{1}\sum_{i=1}^{n}x_{i}^{2} \\
+&= \sum_{i=1}^{n}x_{i}y_{i}-n\bar{x}\bar{y}+\widehat{\beta}_{1}\left(n\bar{x}^{2}-\sum_{i=1}^{n}x_{i}^{2}\right)
+\end{align}
+If this expression is zero, then we can rearrange it to
+\begin{equation}
+\widehat{\beta}_{1}=\dfrac{\sum_{i=1}^{n}x_{i}y_{i}-n\bar{x}\bar{y}}{\sum_{i=1}^{n}x_{i}^{2}-n\bar{x}^{2}}
+\end{equation}
+which is true by the definition of the simple least squares estimator. This proves the assertion that $\sum_{i=1}^{n}\left(y_{i}-\widehat{y}_{i}\right)\left(\widehat{y}_{i}-\bar{y}\right) = 0$ and therefore the total sum of squares can be decomposed into
+\begin{equation}
+\mathrm{SST} = \mathrm{SSR} + \mathrm{SSE}
+\end{equation}
+
 \subsection{Confidence Intervals of the Conditional Mean}
 
 \subsection{Prediction Intervals of the Observed Response}
@@ -1899,7 +2062,7 @@ where $\varepsilon$ is called the noise or `error' term, and is usually treated 
 
 \subsection{Linear Transformations of Random Variables}
 
-Suppose random variable $X$ has probability density function $f_{X}\left(x\right)$ and cumulative distribution function $F_{X}\left(x\right)$. Define the linearly transformed random variable $Y = aX + b$. We derive expressions for the density function $f_{Y}\left(y\right)$, cumulative distribution $F_{Y}\left(y\right)$ and quantile function $F_{Y}^{-1}\left(p\right)$. Firstly by definition of the cumulative distribution,
+Suppose random variable $X$ has probability density function $f_{X}\left(x\right)$ and cumulative distribution function $F_{X}\left(x\right)$. Define the linearly transformed random variable $Y = aX + b$, with $a > 0$. We derive expressions for the density function $f_{Y}\left(y\right)$, cumulative distribution $F_{Y}\left(y\right)$ and quantile function $F_{Y}^{-1}\left(p\right)$. Firstly by definition of the cumulative distribution,
 \begin{align}
 F_{Y}\left(y\right) &= \operatorname{Pr}\left(Y \leq y\right) \\
 &= \operatorname{Pr}\left(aX + b \leq y\right) \\
@@ -2363,6 +2526,46 @@ Also, since $\Phi\left(x\right) = Q\left(-x\right)$, then we also have
 \Phi\left(x\right) = \dfrac{1}{2}\operatorname{erfc}\left(-\dfrac{x}{\sqrt{2}}\right)
 \end{equation}
 
+\subsubsection{Gaussian Integrals}
+
+The Gaussian integral is the integral $\int_{-\infty}^{\infty}e^{-x^{2}}dx$. Note that this integral is closely related to the error function as the limits tend to infinity. However unlike the error function with finite argument, the Gaussian integral has a closed-form solution. To compute this integral, first realise
+\begin{equation}
+\int_{-\infty}^{\infty}e^{-x^{2}}dx = 2\int_{0}^{\infty}e^{-x^{2}}dx
+\end{equation}
+Then squaring both sides,
+\begin{align}
+\left(\int_{-\infty}^{\infty}e^{-x^{2}}dx\right)^{2} &= 4\left(\int_{0}^{\infty}e^{-x^{2}}dx\right)^{2} \\
+&= 4\int_{0}^{\infty}\int_{0}^{\infty}e^{-x^{2}}e^{-y^{2}}dydx \\
+&= 4\int_{0}^{\infty}\int_{0}^{\infty}e^{-\left(x^{2} + y^{2}\right)}dydx
+\end{align}
+In the inner integral, make a change of variables $y = xs$, $dy = x ds$ so
+\begin{align}
+\left(\int_{-\infty}^{\infty}e^{-x^{2}}dx\right)^{2} &= 4\int_{0}^{\infty}\int_{0}^{\infty}e^{-x^{2}\left(1 + s^{2}\right)}xdsdx \\
+&= 4\int_{0}^{\infty}\int_{0}^{\infty}e^{-x^{2}\left(1 + s^{2}\right)}xdxds
+\end{align}
+For this inner integral, make a change of variables $u = x^{2}$, $du = 2dx$ so that
+\begin{align}
+\int_{0}^{\infty}e^{-x^{2}\left(1 + s^{2}\right)}xdx &= \int_{0}^{\infty}e^{-u\left(1 + s^{2}\right)}\dfrac{du}{2} \\
+&= \left[-\dfrac{1}{2\left(1 + s^{2}\right)}e^{-u\left(1 + s^{2}\right)}\right]_{u = 0}^{u = 
+\infty} \\
+&= -\left(-\dfrac{1}{2\left(1 + s^{2}\right)}\right)
+\end{align}
+Hence
+\begin{align}
+\left(\int_{-\infty}^{\infty}e^{-x^{2}}dx\right)^{2} &= 4\int_{0}^{\infty}\dfrac{1}{2\left(1 + s^{2}\right)}ds \\
+&= 2\left[\arctan s\right]_{s = 0}^{s = \infty} \\
+&= \pi
+\end{align}
+Therefore the evaluation of the Gaussian integral yields
+\begin{equation}
+\int_{-\infty}^{\infty}e^{-x^{2}}dx = \sqrt{\pi}
+\end{equation}
+More generally, integrals of the form $\int_{-\infty}^{\infty}a\exp\left[-\left(x - b\right)^{2}/\left(2c^{2}\right)\right]dx$ can be evaluated. By a change of variables $z = \dfrac{x - b}{c\sqrt{2}}$, we have
+\begin{align}
+\int_{-\infty}^{\infty}a\exp\left[-\left(x - b\right)^{2}/\left(2c^{2}\right)\right]dx &= a\int_{-\infty}^{\infty}a\exp\left(-z^{2}\right)c\sqrt{2}dz \\
+&= ac\sqrt{2\pi}
+\end{align}
+This can be used to compute the normalising constant of a Gaussian density.
 
 \subsubsection{Mill's Ratio}
 
@@ -2725,7 +2928,7 @@ Hence
 \sum_{i = 1}^{n}\left(\dfrac{X_{i} - \mu}{\sigma}\right)^{2} &= \sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}+n\left(\dfrac{\overline{X}-\mu}{\sigma}\right)^{2} \\
 &= \sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}+\left(\sqrt{n}\dfrac{\overline{X}-\mu}{\sigma}\right)^{2}
 \end{align}
-We reason that as the chi-squared distribution is the sum i.i.d. standard normal random variables, if $Q_{1}\sim\chi_{n_{1}}^{2}$ and $Q_{2}\sim\chi_{n_{2}}^{2}$, then $Q_{3} = Q_{1} + Q_{2} \sim \chi_{n_{1} + n_{2}}^{2}$. Therefore if given some $Q_{3}$ and $Q_{2}$, we deduce that there exists a random variable $Q_{1} \sim \chi_{n_{1}}^{2}$ independent of $Q_{2}$. Notice that the left hand side of the expression above means $\sum_{i = 1}^{n}Z_{i}^{2} \sim \chi_{n}^{2}$. Further note that $\sqrt{n}\dfrac{\overline{X}-\mu}{\sigma} \sim \mathcal{N}\left(0, 1\right)$. Then the term $\sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}$ should be chi-squared distributed with $k = n - 1$ degrees of freedom. Define the random variable
+We reason that since the chi-squared distribution is the sum i.i.d. standard normal random variables, therefore if $Q_{1}\sim\chi_{n_{1}}^{2}$ and $Q_{2}\sim\chi_{n_{2}}^{2}$, then $Q_{3} = Q_{1} + Q_{2} \sim \chi_{n_{1} + n_{2}}^{2}$. Thus if given some $Q_{3}$ and $Q_{2}$, we deduce that there exists a random variable $Q_{1} \sim \chi_{n_{1}}^{2}$ that is independent of $Q_{2}$. Notice that the left hand side of the expression above means $\sum_{i = 1}^{n}Z_{i}^{2} \sim \chi_{n}^{2}$. Further note that $\sqrt{n}\dfrac{\overline{X}-\mu}{\sigma} \sim \mathcal{N}\left(0, 1\right)$. Then the term $\sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}$ should be chi-squared distributed with $k = n - 1$ degrees of freedom. Define the random variable
 \begin{equation}
 V = \sum_{i=1}^{n}\left(\dfrac{X_{i}-\overline{X}}{\sigma}\right)^{2}
 \end{equation}
@@ -2947,7 +3150,7 @@ F\left(k\right) &= \dfrac{\operatorname{B}\left(1 - p; n - k, k + 1\right)}{\ope
 &= \dfrac{1}{\operatorname{B}\left(n - k, k + 1\right)}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt \\
 &= \dfrac{\Gamma\left(n + 1\right)}{\Gamma\left(n - k\right)\Gamma\left(k + 1\right)}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt \\
 &= \dfrac{n!}{\left(n - k - 1\right)!k!}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt \\
-&= \left(n - k\right)\begin{pmatrix}n \\ k\end{pmatrix}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt
+&= \left(n - k\right)\binom{n}{k}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt
 \end{align}
 This can be shown by repeated application of integration by parts on the Beta integral. Let $u = \left(1 - t\right)^{k}$ and $v' = t^{n - k - 1}$, then $u' = -k\left(1 - t\right)^{k - 1}$ and $v = \dfrac{1}{n - k}t^{n - k}$. So
 \begin{align}
@@ -2977,12 +3180,12 @@ Via cancellations, we see that
 \end{align}
 Hence
 \begin{equation}
-\left(n - k\right)\begin{pmatrix}n \\ k\end{pmatrix}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt = \sum_{j = 0}^{k}\begin{pmatrix}n \\ k - j\end{pmatrix}p^{k - j}\left(1 - p\right)^{n - k + j}
+\left(n - k\right)\binom{n}{k}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt = \sum_{j = 0}^{k}\binom{n}{k - j}p^{k - j}\left(1 - p\right)^{n - k + j}
 \end{equation}
 Then replace $k - j$ with $i$ in the sum to obtain the expression for the cumulative binomial distribution:
 \begin{align}
-F\left(k\right) &= \left(n - k\right)\begin{pmatrix}n \\ k\end{pmatrix}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt \\
-&= \sum_{i = 0}^{k}\begin{pmatrix}n \\ i\end{pmatrix}p^{i}\left(1 - p\right)^{n - i}
+F\left(k\right) &= \left(n - k\right)\binom{n}{k}\int_{0}^{1 - p}t^{n - k - 1}\left(1 - t\right)^{k}dt \\
+&= \sum_{i = 0}^{k}\binom{n}{i}p^{i}\left(1 - p\right)^{n - i}
 \end{align}
 
 \subsection{Poisson Distribution}
@@ -3031,17 +3234,17 @@ Let $X$ be the random variable for the number of successes. Observe that if $n >
 \end{multline}
 of being chosen. Therefore the probability of $X = x$ is
 \begin{align}
-\operatorname{Pr}\left(X = x\right) &= \begin{pmatrix}n \\ x\end{pmatrix}\dfrac{\left[K!/\left(K - x\right)!\right]\times\left(N - K\right)!/\left[\left(N - K\right) - \left(n - x\right)\right]!}{N!\left(N - n\right)!} \\
-&= \begin{pmatrix}n \\ x\end{pmatrix}\cdot\dfrac{K!\left(N - K\right)!}{N!}\cdot\dfrac{\left(N - n\right)!}{\left(K - x\right)!\left[\left(N - n\right) - \left(K - x\right)!\right]} \\
-&= \begin{pmatrix}n \\ x\end{pmatrix}\begin{pmatrix}N - n \\ K - x\end{pmatrix}/\begin{pmatrix}N \\ K\end{pmatrix}
+\operatorname{Pr}\left(X = x\right) &= \binom{n}{x}\dfrac{\left[K!/\left(K - x\right)!\right]\times\left(N - K\right)!/\left[\left(N - K\right) - \left(n - x\right)\right]!}{N!\left(N - n\right)!} \\
+&= \binom{n}{x}\cdot\dfrac{K!\left(N - K\right)!}{N!}\cdot\dfrac{\left(N - n\right)!}{\left(K - x\right)!\left[\left(N - n\right) - \left(K - x\right)!\right]} \\
+&= \binom{n}{x}\binom{N - n}{K - x}/\binom{N}{K}
 \end{align}
 We can arrive at the hypergeometric distribution in a simpler, different manner. There are $\mathstrut^{N}\mathsf{C}_{n}$ ways to choose a sample and of those, $\mathstrut^{K}\mathsf{C}_{x}\times\mathstrut^{N - K}\mathsf{C}_{n - k}$ will be samples in which there are $x$ successes. Thus
 \begin{equation}
-\operatorname{Pr}\left(X = x\right) = \begin{pmatrix}K \\ x\end{pmatrix}\begin{pmatrix}N - K \\ n - x\end{pmatrix}/\begin{pmatrix}N \\ n\end{pmatrix}
+\operatorname{Pr}\left(X = x\right) = \binom{K}{x}\binom{N - n}{K - x}/\binom{N}{n}
 \end{equation}
 We can show that the two distributions above are the same, ie.
 \begin{equation}
-\begin{pmatrix}n \\ x\end{pmatrix}\begin{pmatrix}N - n \\ K - x\end{pmatrix}/\begin{pmatrix}N \\ K\end{pmatrix} = \begin{pmatrix}K \\ x\end{pmatrix}\begin{pmatrix}N - K \\ n - x\end{pmatrix}/\begin{pmatrix}N \\ n\end{pmatrix}
+\binom{n}{x}\binom{N - n}{K - x}/\binom{N}{K} = \binom{K}{x}\binom{N - n}{K - x}/\binom{N}{n}
 \end{equation}
 from the symmetry of the characterisation, and of the equation itself. Suppose in a data generating process that $K$ successes are randomly assigned after the sample had been chosen. In this case, we can then view a `success' as whether an individual was selected in a sample or not (because it would have automatically been chosen if it had). Thus, $n$ and $K$ are interchangeable parameters. \\
 
@@ -3051,67 +3254,31 @@ Also by its characterisation as a finite population version of the binomial dist
 
 To derive the mean of the hypergeometric distribution, first observe the identity
 \begin{align}
-x\begin{pmatrix}K\\
-x
-\end{pmatrix} &= \dfrac{K!}{\left(x-1\right)!\left(K-x\right)!} \\
+x\binom{K}{x} &= \dfrac{K!}{\left(x-1\right)!\left(K-x\right)!} \\
 &= K\dfrac{\left(K-1\right)!}{\left(x-1\right)!\left(K-x\right)!} \\
 &= K\dfrac{\left(K-1\right)!}{\left(x-1\right)!\left[\left(K-1\right)-\left(x-1\right)\right]!} \\
-&= K\begin{pmatrix}K-1\\
-x-1
-\end{pmatrix}
+&= K\binom{K - 1}{x - 1}
 \end{align}
 Then we can write
 \begin{align}
-x\operatorname{Pr}\left(X=x\right) &= x\begin{pmatrix}K\\
-x
-\end{pmatrix}\begin{pmatrix}N-K\\
-n-x
-\end{pmatrix}/\begin{pmatrix}N\\
-n
-\end{pmatrix} \\
-&= K\begin{pmatrix}K-1\\
-x-1
-\end{pmatrix}\begin{pmatrix}N-K\\
-n-x
-\end{pmatrix}/\begin{pmatrix}N\\
-n
-\end{pmatrix}
+x\operatorname{Pr}\left(X=x\right) &= x\binom{K}{x}\binom{N - K}{n - x}/\binom{N}{n} \\
+&= K\binom{K - 1}{x - 1}\binom{N - K}{n - x}/\binom{N}{n}
 \end{align}
 Also note the following:
 \begin{gather}
-\begin{pmatrix}N-K\\
-n-x
-\end{pmatrix}=\begin{pmatrix}N-1-\left(K-1\right)\\
-n-1-\left(x-1\right)
-\end{pmatrix} \\
-\begin{pmatrix}N\\
-n
-\end{pmatrix}=\dfrac{N}{n}\begin{pmatrix}N-1\\
-n-1
-\end{pmatrix}
+\binom{N - K}{n - x} = \binom{N - 1 - \left(K - 1\right)}{n - 1 - \left(x - 1\right)} \\
+\binom{N}{n}=\dfrac{N}{n}\binom{N-1}{n-1}
 \end{gather}
 Therefore
 \begin{equation}
-x\operatorname{Pr}\left(X=x\right)=n\dfrac{K}{N}\begin{pmatrix}K-1\\
-x-1
-\end{pmatrix}\begin{pmatrix}N-1-\left(K-1\right)\\
-n-1-\left(x-1\right)
-\end{pmatrix}/\begin{pmatrix}N-1\\
-n-1
-\end{pmatrix}
+x\operatorname{Pr}\left(X=x\right)=n\dfrac{K}{N}\binom{K - 1}{x - 1}\binom{N - 1 - \left(K - 1\right)}{n - 1 - \left(x - 1\right)}/\binom{N - 1}{n - 1}
 \end{equation}
 Taking the expectation,
 \begin{align}
 \mathbb{E}\left[X\right] &= \sum_{x}x\operatorname{Pr}\left(X=x\right) \\
-&= n\dfrac{K}{N}\sum_{x}\begin{pmatrix}K-1\\
-x-1
-\end{pmatrix}\begin{pmatrix}N-1-\left(K-1\right)\\
-n-1-\left(x-1\right)
-\end{pmatrix}/\begin{pmatrix}N-1\\
-n-1
-\end{pmatrix}
+&= n\dfrac{K}{N}\sum_{x}\binom{K - 1}{x - 1}\binom{N - 1 - \left(K - 1\right)}{n - 1 - \left(x - 1\right)}/\binom{N - 1}{n - 1}
 \end{align}
-where to avoid unnecessary complications over support, the sum is taken over the non-negative integers and it is understood that the binomial coefficient $\mathstrut^{n}\mathsf{C}_{k} = 0$ when $k \not\in \left\{0, 1, \dots, n\right\}$. Then we see that the summands are the masses of the hypergeometric distribution with population size $N - 1$, success states $K - 1$ and sample size $n - 1$, so the summation equals $1$. Hence
+where to avoid unnecessary complications over support, the sum is taken over the non-negative integers and it is understood that the binomial coefficient $\binom{n}{k} = 0$ when $k \not\in \left\{0, 1, \dots, n\right\}$. Then we see that the summands are the masses of the hypergeometric distribution with population size $N - 1$, success states $K - 1$ and sample size $n - 1$, so the summation equals $1$. Hence
 \begin{equation}
 \mathbb{E}\left[X\right]=n\dfrac{K}{N}
 \end{equation}
@@ -3293,7 +3460,7 @@ Alternatively, we have the marginal distributions for $X_{1}, \dots, X_{n}$ with
 
 \subsection{Covariance Matrices}
 
-The covariance matrix $\mathbf{C}$ of a random vector $\mathbf{X}$ generalises the notion of variance and covariance to random vectors and can be defined by
+The covariance matrix $\mathbf{C} = \operatorname{Cov}\left(\mathbf{X}\right)$ of a random vector $\mathbf{X}$ generalises the notion of variance and covariance to random vectors and can be defined by
 \begin{equation}
 \mathbf{C} = \mathbb{E}\left[\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)^{\top}\right]
 \end{equation}
@@ -3318,15 +3485,39 @@ Let $Y := \mathbf{u}^{\top}\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\
 &= \sigma^{2} \\
 &\geq 0
 \end{align}
-Therefore $\mathbf{C}$ satisfies the property of a positive semi-definite matrix.
+Therefore $\mathbf{C}$ satisfies the property of a positive semi-definite matrix. \\
+
+An alternative formula for the covariance exists, analogous to the variance:
+\begin{align}
+\operatorname{Cov}\left(\mathbf{X}\right) &= \mathbb{E}\left[\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)^{\top}\right] \\
+&= \mathbb{E}\left[\mathbf{X}\mathbf{X}^{\top} - \mathbf{X}\mathbb{E}\left[\mathbf{X}\right]^{\top} - \mathbb{E}\left[\mathbf{X}\right]\mathbf{X}^{\top} + \mathbb{E}\left[\mathbf{X}\right]\mathbb{E}\left[\mathbf{X}\right]^{\top}\right] \\
+&= \mathbb{E}\left[\mathbf{X}\mathbf{X}^{\top}\right] - \mathbb{E}\left[\mathbf{X}\right]\mathbb{E}\left[\mathbf{X}\right]^{\top} - \mathbb{E}\left[\mathbf{X}\right]\mathbb{E}\left[\mathbf{X}\right]^{\top} + \mathbb{E}\left[\mathbf{X}\right]\mathbb{E}\left[\mathbf{X}\right]^{\top} \\
+&= \mathbb{E}\left[\mathbf{X}\mathbf{X}^{\top}\right] - \mathbb{E}\left[\mathbf{X}\right]\mathbb{E}\left[\mathbf{X}\right]^{\top}
+\end{align}
 
 \subsubsection{Precision Matrix}
 
 The precision matrix of a random vector $\mathbf{X}$ is defined as the inverse of the covariance matrix, ie. $\mathbf{C}^{-1}$.
 
-\subsubsection{Covariance Between Random Vectors}
+\subsubsection{Scalarised Variance of Random Vectors}
 
-Suppose we have random vectors $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ and $\mathbf{Y} = \left(Y_{1}, \dots, Y_{m}\right)$. Then we can define the covariance between $\mathbf{X}$ and $\mathbf{Y}$ as either a $n\times m$ or $m \times n$ matrix. Specifically,
+Another generalisation for the definition of the variance $\operatorname{Var}\left(X\right) = \mathbb{E}\left[\left(X - \mathbb{E}\left[X\right]\right)^{2}\right]$ to random vectors $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ is
+\begin{equation}
+\operatorname{V}\left(\mathbf{X}\right) = \mathbb{E}\left[\left\Vert \mathbf{X} - \mathbf{E}\left[\mathbf{X}\right]\right\Vert^{2} \right]
+\end{equation}
+which is a scalar term. This can be shown to be equal to the trace of the covariance matrix $\mathbf{C} = \operatorname{Cov}\left(\mathbf{X}\right)$ as follows:
+\begin{align}
+\mathbb{E}\left[\left\Vert \mathbf{X} - \mathbf{E}\left[\mathbf{X}\right]\right\Vert^{2} \right] &= \mathbb{E}\left[\left(\mathbf{X} - \mathbf{E}\left[\mathbf{X}\right]\right)\cdot \left(\mathbf{X} - \mathbf{E}\left[\mathbf{X}\right]\right) \right] \\
+&= \mathbb{E}\left[\sum_{i = 1}^{n}\left(X_{i} - \mathbb{E}\left[X_{i}\right]\right)^{2}\right] \\
+&= \sum_{i = 1}^{n}\mathbb{E}\left[\left(X_{i} - \mathbb{E}\left[X_{i}\right]\right)^{2}\right] \\
+&= \sum_{i = 1}^{n}\operatorname{Var}\left(X_{i}\right) \\
+&= \operatorname{trace}\left(\mathbf{C}\right)
+\end{align}
+Note that we have $\sum_{i = 1}^{n}\operatorname{Var}\left(X_{i}\right) = \operatorname{trace}\left(\mathbf{C}\right)$ because the diagonals of $\mathbf{C}$ contain the variances of each random element.
+
+\subsection{Cross-Covariance Matrices}
+
+Suppose we have random vectors $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ and $\mathbf{Y} = \left(Y_{1}, \dots, Y_{m}\right)$. Then we can define the cross-covariance between $\mathbf{X}$ and $\mathbf{Y}$ as either a $n\times m$ or $m \times n$ matrix. Specifically,
 \begin{equation}
 \operatorname{Cov}\left(\mathbf{X}, \mathbf{Y}\right) = \begin{bmatrix}\operatorname{Cov}\left(X_{1},Y_{1}\right) & \dots & \operatorname{Cov}\left(X_{1},Y_{m}\right)\\
 \vdots & \ddots & \vdots\\
@@ -3340,10 +3531,15 @@ or
 \operatorname{Cov}\left(Y_{m},X_{1}\right) & \dots & \operatorname{Cov}\left(Y_{m},X_{n}\right)
 \end{bmatrix}
 \end{equation}
+This can also be written in terms of expectations as
+\begin{align}
+\operatorname{Cov}\left(\mathbf{X}, \mathbf{Y}\right) &= \mathbb{E}\left[\left(\mathbf{X} - \mathbb{E}\left[\mathbf{X}\right]\right)\left(\mathbf{Y} - \mathbb{E}\left[\mathbf{Y}\right]\right)^{\top}\right] \\
+&= \mathbb{E}\left[\mathbf{X}\mathbf{Y}^{\top}\right] - \mathbb{E}\left[\mathbf{X}\right]\mathbb{E}\left[\mathbf{Y}\right]^{\top}
+\end{align}
 
 \subsection{Independence of Random Vectors}
 
-To generate independence between random variables to independence between random vectors, we may say that random vectors $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ and $\mathbf{Y} = \left(Y_{1}, \dots, Y_{m}\right)$ are independent if their cumulative distribution functions satisfy
+To generalise independence between random variables to independence between random vectors, we may say that random vectors $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ and $\mathbf{Y} = \left(Y_{1}, \dots, Y_{m}\right)$ are independent if their cumulative distribution functions satisfy
 \begin{multline}
 \operatorname{Pr}\left(X_{1} \leq x_{1}, \dots, X_{n} \leq x_{n}, Y_{1} \leq y_{1}, \dots, Y_{m} \leq y_{m}\right) \\
 = \operatorname{Pr}\left(X_{1} \leq x_{1}, \dots, X_{n} \leq x_{n}\right)\operatorname{Pr}\left(Y_{1} \leq y_{1}, \dots, Y_{m} \leq y_{m}\right)
@@ -3357,9 +3553,83 @@ for any $\left(x_{1}, x_{n}, y_{1}, y_{m}\right)$. It follows that if $\mathbf{X
 \operatorname{Cov}\left(\mathbf{X}, \mathbf{Y}\right) = \mathbf{0}_{n \times m}
 \end{equation}
 
+\subsection{Transformations of Random Vectors}
+
+\subsubsection{Linear Transformations of Random Vectors}
+
+Suppose $\mathbf{X}$ is a continuous random vector with PDF $f_{\mathbf{X}}\left(\mathbf{x}\right)$ and the linear transformation $\mathbf{A}$ is an invertible matrix. Then the PDF of $\mathbf{Y} = \mathbf{AX}+\mathbf{b}$ is given by
+\begin{equation}
+f_{\mathbf{Y}}\left(\mathbf{y}\right) = \dfrac{1}{\left|\operatorname{det}\left(\mathbf{A}\right)\right|}f_{\mathbf{X}}\left(\mathbf{A}^{-1}\left(\mathbf{y} - \mathbf{b}\right)\right)
+\end{equation}
+\begin{proof}
+Let $B$ be defined by the set $B = \left\{\mathbf{y}: \mathbf{y} \leq \mathbf{y}'\right\}$ for some $\mathbf{y}'$, so the definition of the CDF can be written as $F_{\mathbf{Y}}\left(\mathbf{y}'\right) = \int_{B}f_{\mathbf{Y}}\left(\mathbf{y}\right)d\mathbf{y}$. Define the transformation $\mathbf{x} = T\left(\mathbf{y}\right) = \mathbf{A}^{-1}\left(\mathbf{y} - \mathbf{b}\right)$ (which is the inverse of the transformation of $\mathbf{X}$ to $\mathbf{Y}$). So
+\begin{equation}
+T\left(B\right) = \left\{\mathbf{x}: \mathbf{Ax} + \mathbf{b} \leq \mathbf{y}'\right\}
+\end{equation}
+is the image of $B$ under the transformation $T$. So the event $\mathbf{Y} \in B$ can be deemed the same event as $\mathbf{X} \in T\left(B\right)$. Hence
+\begin{align}
+F_{\mathbf{Y}}\left(\mathbf{y}'\right) &= \operatorname{Pr}\left(\mathbf{Y} \leq \mathbf{y}'\right) \\
+&= \operatorname{Pr}\left(\mathbf{Y} \in B\right) \\
+&= \operatorname{Pr}\left(\mathbf{X} \in T\left(B\right)\right) \\
+&= \int_{T\left(B\right)}f_{\mathbf{X}}\left(\mathbf{x}\right)d\mathbf{x}
+\end{align}
+By a change of variables $\mathbf{x} = T\left(\mathbf{y}\right) = \mathbf{A}^{-1}\left(\mathbf{y} - \mathbf{b}\right)$, this becomes
+\begin{equation}
+F_{\mathbf{Y}}\left(\mathbf{y}'\right) = \int_{B}f_{\mathbf{X}}\left(\mathbf{A}^{-1}\left(\mathbf{y} - \mathbf{b}\right)\right)\left|\operatorname{det}\left(\mathbf{A}^{-1}\right)\right|d\mathbf{y}
+\end{equation}
+where we note that $d\mathbf{x} = \left|\operatorname{det}\left(\mathbf{A}^{-1}\right)\right|d\mathbf{y}$ which can be rewritten as $dx_{1}\dots dx_{n} = \left|\operatorname{det}\left(\mathbf{A}^{-1}\right)\right|dy_{1}\dots dy_{n}$ due to the characterisation of the determinant as the hyoervolume scale factor under a linear transformation. So here $\left|\operatorname{det}\left(\mathbf{A}^{-1}\right)\right|$ is the scale factor of the hypervolume element $dy_{1}\dots dy_{n}$. Differentiating the CDF, we can see that
+\begin{equation}
+f_{\mathbf{Y}}\left(\mathbf{y}\right) = f_{\mathbf{X}}\left(\mathbf{A}^{-1}\left(\mathbf{y} - \mathbf{b}\right)\right)\left|\operatorname{det}\left(\mathbf{A}^{-1}\right)\right|
+\end{equation}
+Then applying the fact that $\left|\operatorname{det}\left(\mathbf{A}^{-1}\right)\right| = \left|\operatorname{det}\left(\mathbf{A}\right)\right|^{-1}$ gives
+\begin{equation}
+f_{\mathbf{Y}}\left(\mathbf{y}\right) = \dfrac{1}{\left|\operatorname{det}\left(\mathbf{A}\right)\right|}f_{\mathbf{X}}\left(\mathbf{A}^{-1}\left(\mathbf{y} - \mathbf{b}\right)\right)
+\end{equation}
+as required. Here, $\left|\operatorname{det}\left(\mathbf{A}^{-1}\right)\right|$ can also be interpreted as acting as the normalising constant.
+\end{proof}
+
+
 \section{Families of Multivariate Probability Distributions}
 
 \subsection{Multivariate Gaussian Distribution}
+
+\subsubsection{Multivariate Gaussian Integrals}
+
+A multivariate extension of Gaussian integrals is required to evaluate integrals of the form $\int_{-\infty}^{\infty}\exp\left(-\dfrac{1}{2}\mathbf{x}^{\top}A\mathbf{x}\right)d\mathbf{x}$ where $\mathbf{x}$ is $n$-dimensional and $A$ is an $n \times n$ symmetric positive semi-definite matrix. To obtain the form of this integral, we first evaluate the easier integral:
+\begin{align}
+\int_{-\infty}^{\infty}\exp\left(-\mathbf{x}^{\top}\mathbf{x}\right)d\mathbf{x} &= \int_{-\infty}^{\infty}\exp\left(-\sum_{i = 1}^{n}x_{i}^{2}\right)d\mathbf{x} \\
+&= \int_{-\infty}^{\infty}\prod_{i = 1}^{n}\exp\left(-x_{i}^{2}\right)d\mathbf{x} \\
+&= \int_{-\infty}^{\infty}\dots\int_{-\infty}^{\infty}\exp\left(-x_{1}^{2}\right)\dots\exp\left(-x_{n}^{2}\right)dx_{1}\dots dx_{n} \\
+&= \int_{-\infty}^{\infty}\exp\left(-x_{n}^{2}\right)\dots\int_{-\infty}^{\infty}\exp\left(-x_{1}^{2}\right) dx_{1}\dots dx_{n} \\
+&= \int_{-\infty}^{\infty}\exp\left(-x_{n}^{2}\right)\dots\int_{-\infty}^{\infty}\exp\left(-x_{2}^{2}\right)\sqrt{\pi} dx_{2}\dots dx_{n} \\
+&= \sqrt{\pi^{n}}
+\end{align}
+Then because by a change of variables $\int_{-\infty}^{\infty}\exp\left(-x^{2}/2\right)dx = \sqrt{2\pi}$, then it follows that
+\begin{equation}
+\int_{-\infty}^{\infty}\exp\left(-\dfrac{1}{2}\mathbf{x}^{\top}\mathbf{x}\right)d\mathbf{x} = \sqrt{2\pi^{n}}
+\end{equation}
+Because $A$ is positive semi-definite, it has a unique positive semi-definite square root $B = B^{\top}$, and we may write the multivariate Gaussian integral of interest as
+\begin{equation}
+\int_{-\infty}^{\infty}\exp\left(-\dfrac{1}{2}\mathbf{x}^{\top}A\mathbf{x}\right)d\mathbf{x} = \int_{-\infty}^{\infty}\exp\left(-\dfrac{1}{2}\mathbf{x}^{\top}BB\mathbf{x}\right)d\mathbf{x}
+\end{equation}
+Apply the change of variables $\mathbf{z} = B\mathbf{x}$, $d\mathbf{z} = \det\left(B\right)d\mathbf{x}$ so that
+\begin{align}
+\int_{-\infty}^{\infty}\exp\left(-\dfrac{1}{2}\mathbf{x}^{\top}A\mathbf{x}\right)d\mathbf{x} &= \dfrac{1}{\det\left(B\right)}\int_{-\infty}^{\infty}\exp\left(-\dfrac{1}{2}\mathbf{z}^{\top}\mathbf{z}\right)d\mathbf{z} \\
+&= \dfrac{\sqrt{2\pi^{n}}}{\det\left(B\right)}
+\end{align}
+Note that $\det\left(A\right) = \det\left(BB\right) = \det\left(B\right)\det\left(B\right)$ so $\det\left(B\right) = \sqrt{\det\left(A\right)}$. Hence
+\begin{equation}
+\int_{-\infty}^{\infty}\exp\left(-\dfrac{1}{2}\mathbf{x}^{\top}A\mathbf{x}\right)d\mathbf{x} = \sqrt{\dfrac{2\pi^{n}}{\det\left(A\right)}}
+\end{equation}
+and applying the scaling and reciprocal properties of the determinant, this can be rewritten as
+\begin{equation}
+\int_{-\infty}^{\infty}\exp\left(-\dfrac{1}{2}\mathbf{x}^{\top}A\mathbf{x}\right)d\mathbf{x} = \sqrt{\det \left(2\pi A^{-1}\right)}
+\end{equation}
+Even more generally, and since this integral is invariant to a translation in $\mathbf{x}$, we have
+\begin{equation}
+\int_{-\infty}^{\infty}a\exp\left[-\dfrac{1}{2}\left(\mathbf{x} - \mathbf{c}\right)^{\top}A\left(\mathbf{x} - \mathbf{c}\right)\right]d\mathbf{x} = a\sqrt{\det \left(2\pi A^{-1}\right)}
+\end{equation}
+This result is used to establish the normalising constant of a multivariate Gaussian density.
 
 \subsection{Multinomial Distribution}
 
@@ -3401,8 +3671,6 @@ and because it is given $\operatorname{Pr}\left(\bigcup_{i = 1}^{n}A_{i}\right) 
 \end{align}
 \end{proof}
 
-\subsection{Bonferroni's Inequality}
-
 \subsection{Comparison of Random Variables}
 
 \begin{theorem}
@@ -3417,7 +3685,7 @@ We have the event $\left\{X < \Delta \cap Y > \Delta\right\} \subseteq \left\{X 
 \begin{equation}
 \operatorname{Pr}\left(X < \Delta \cap Y > \Delta\right) \leq \operatorname{Pr}\left(X < Y\right)
 \end{equation}
-By taking complementary probabilities on the right-hand side and applying DeMorgain's laws on the left-hand side,
+By taking complementary probabilities on the right-hand side and applying DeMorgan's laws on the left-hand side,
 \begin{equation}
 1 - \operatorname{Pr}\left(X \geq \Delta \cup Y \leq \Delta\right) \leq 1 - \operatorname{Pr}\left(X \geq Y\right)
 \end{equation}
@@ -4021,6 +4289,8 @@ for any vector $\mathbf{a}$. The Cram\'{e}r-Wold Theorem is a stronger result wh
 
 \section{Branching Processes}
 
+\subsection{Galton-Watson Processes}
+
 \chapter{Intermediate Statistics}
 
 \section{Multivariate Statistics}
@@ -4086,7 +4356,7 @@ x_{1} - \overline{x}_{n} \\ \vdots \\ x_{n} - \overline{x}_{n}
 \end{align}
 since $\sum_{i = 1}^{n}x_{i} = \mathbf{1}^{\top}\mathbf{x}$. Then by applying the properties of symmetry and idempotence for $M$, the formula for sample variance can be rewritten as the quadratic form:
 \begin{align}
-s^{2} &= \dfrac{1}{n - 1}\sum_{i = 1}\left(x_{i} - \overline{x}_{n}\right)^{2} \\
+s^{2} &= \dfrac{1}{n - 1}\sum_{i = 1}^{n}\left(x_{i} - \overline{x}_{n}\right)^{2} \\
 &= \dfrac{1}{n - 1}\left(M\mathbf{x}\right)^{\top}M\mathbf{x} \\
 &= \dfrac{1}{n - 1}\mathbf{x}^{\top}M^{\top}M\mathbf{x} \\
 &= \dfrac{1}{n - 1}\mathbf{x}^{\top}MM\mathbf{x} \\
@@ -4514,7 +4784,7 @@ Hence the fact that this statistic is $t$-distributed with $n - p$ degrees of fr
 
 \subsection{Total Least Squares}
 
-\subsection{Deming Regression}
+\subsubsection{Deming Regression}
 
 \subsection{Weighted Least Squares}
 
@@ -4538,13 +4808,58 @@ Solving for the estimator $\hat{\beta}$ takes similar steps as for ordinary leas
 \end{equation}
 Note that if $w_{1} = \dots = w_{n}$, then the problem effectively reduces to ordinary least squares.
 
-\subsection{Generalised Least Squares}
+\subsection{Generalised Least Squares \cite{Verbeek2017}}
+
+Generalised least squares (GLS) may be thought of as generalisations to both ordinary and weighted least squares. The major difference is that instead of assuming that the error covariance is $\sigma^{2}I$, it is instead some positive definite matrix $\sigma^{2}\Sigma$. For now we suppose that $\sigma^{2}$ and $\Sigma$ are known. In a linear model
+\begin{equation}
+\mathbf{Y} = \mathbf{X}\beta + \varepsilon
+\end{equation}
+with $\operatorname{Cov}\left(\varepsilon\right) = \Sigma$, computing standard errors using the ordinary least squares method will be incorrect. What can be done instead is to firstly note that $\Sigma$ can be written as
+\begin{equation}
+\Sigma^{-1} = LL^{\top}
+\end{equation}
+where $L$ is an invertible square matrix which is a square root of $\Sigma^{-1}$ (for example, it could be from the Cholesky decomposition). Then we can observe
+\begin{align}
+L^{\top}\Sigma L &= L^{\top} \left(LL^{\top}\right)^{-1} L \\
+&= L^{\top}\left[\left(L^{\top}\right)^{-1}L^{-1}\right]L \\
+&= I
+\end{align}
+From this we can see
+\begin{align}
+\operatorname{Cov}\left(L^{\top}\varepsilon\right) &= L^{\top}\operatorname{Cov}\left(\varepsilon\right)L \\
+&= \sigma^{2}L^{\top}\Sigma L \\
+&= \sigma^{2}I
+\end{align}
+Thus pre-multiplying the linear model by $L^{\top}$ yields a modified linear model:
+\begin{equation}
+L^{\top}\mathbf{Y} = L^{\top}\mathbf{X}\beta + L^{\top}\varepsilon
+\end{equation}
+in which the errors $L^{\top}\varepsilon$ have covariance $\sigma^{2}I$, and so the covariance computation of ordinary least squares can be applied to this. For convenience of notation denote this modified linear model by
+\begin{equation}
+\widetilde{\mathbf{Y}} = \widetilde{\mathbf{X}} + \widetilde{\varepsilon}
+\end{equation}
+The generalised least squares estimator is then given by
+\begin{align}
+\widehat{\beta}_{\mathrm{GLS}} &= \left(\widetilde{\mathbf{X}}^{\top}\widetilde{\mathbf{X}}\right)^{-1}\widetilde{\mathbf{X}}^{\top}\widetilde{\mathbf{Y}} \\
+&= \left(\mathbf{X}^{\top}LL^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}LL^{\top}\mathbf{Y} \\
+&= \left(\mathbf{X}^{\top}\Sigma^{-1}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\Sigma^{-1}\mathbf{Y}
+\end{align}
+And the covariance can be obtained from the ordinary least squares expression:
+\begin{align}
+\operatorname{Cov}\left(\widehat{\beta}_{\mathrm{GLS}}\right) &= \sigma^{2}\left(\widetilde{\mathbf{X}}^{\top}\widetilde{\mathbf{X}}\right)^{-1} \\
+&= \sigma^{2}\left(\mathbf{X}LL^{\top}\mathbf{X}\right)^{-1} \\
+&= \sigma^{2}\left(\mathbf{X}\Sigma^{-1}\mathbf{X}\right)^{-1}
+\end{align}
+
+\subsubsection{Estimated Generalised Least Squares}
+
+In practice the matrix $\Sigma$ and/or $\sigma^{2}$ may not be known, so we can instead replace these with estimates. If $\Sigma$ is known and $\sigma^{2}$ is not known, then $\sigma^{2}$ can be estimated by $\widehat{\sigma}^{2}$ in the standard way from the OLS estimate of $\mathbf{Y}$ on $\mathbf{X}$. If $\Sigma$ is also not known, then $\Sigma$ must be replaced by an estimate $\widehat{\Sigma}$ from the residuals of a `first-pass' using OLS. To do this, typically some structure may be imposed on $\Sigma$ depending on the type of model. This estimator is known as estimated generalised least squares (EGLS) or also feasible generalised least squares (FGLS).
 
 \subsection{Regularised Least Squares}
 
 \subsection{Recursive Least Squares}
 
-Suppose we have $n$ observations, which we denote with subscripts in the matrices $\mathbf{X}_{n}$ and $\mathbf{Y}_{n}$. The ordinary least squares estimate is given by
+Suppose we have $n$ observations, which we denote with subscripts in the matrices $\mathbf{X}_{n}$ and $\mathbf{Y}_{n}$. The ordinary least squares estimate indexed by $n$ is given by
 \begin{equation}
 \hat{\beta}_{n} = \left(\mathbf{X}_{n}^{\top}\mathbf{X}_{n}\right)^{-1}\mathbf{X}_{n}^{\top}\mathbf{Y}_{n}
 \end{equation}
@@ -4805,14 +5120,74 @@ or
 which completes the proof.
 \end{proof}
 
-
 \subsection{Sufficient Statistics}
-
-\subsection{Minimum Mean Square Error Estimators}
 
 \subsection{Minimum Variance Unbiased Estimators}
 
+Consider $X_{1}, \dots, X_{n}$ to be a sample of i.i.d. data from some underlying distribution, in which $\theta$ is a parameter. Let $T\left(X_{1}, \dots, X_{n}\right)$ be an unbiased estimator for $\theta$. Then the unbiased estimator $T^{*}\left(X_{1}, \dots, X_{n}\right)$ is said to be the minimum variance unbiased estimator for $\theta$ if
+\begin{equation}
+\operatorname{Var}\left(T^{*}\left(X_{1}, \dots, X_{n}\right)\right) \leq \operatorname{Var}\left(T\left(X_{1}, \dots, X_{n}\right)\right)
+\end{equation}
+for any other unbiased estimator $T\left(X_{1}, \dots, X_{n}\right)$. For vector-valued estimators, this can be generalised to the matrix inequality involving the covariance matrices of the estimators, or a scalar inequality involving the trace of the covariance matrices (equal to the sum of the variances).
+
+\subsection{Best Linear Unbiased Estimators}
+
+Best linear unbiased estimators are a special class of minimum variance unbiased estimators, for when the estimator can be written as a linear combination of the random data:
+\begin{equation}
+T\left(X_{1}, \dots, X_{n}\right) = c_{1}X_{1} + c_{2}X_{2} + \dots + c_{n}X_{n}
+\end{equation}
+where $c_{1}, \dots, c_{n}$ are not allowed to depend on the true value of the parameter $\theta$ being estimated.
+
 \subsection{Gauss-Markov Theorem}
+
+The Gauss-Markov theorem states that ordinary least squares is the best linear unbiased estimator for linear regression under some standard assumptions. Consider the standard linear regression model:
+\begin{equation}
+\mathbf{Y} = \mathbf{X}\beta + \varepsilon
+\end{equation}
+where $\mathbf{X}$ is a fixed design matrix. The assumptions required are:
+\begin{itemize}
+\item Zero-mean residuals $\mathbb{E}\left[\varepsilon\right] = 0$.
+\item Homoskedastic errors: $\operatorname{Var}\left(\varepsilon_{i}\right) = \sigma^{2}$.
+\item Uncorrelatedness between distinct error terms: $\operatorname{Cov}\left(\varepsilon_{i}, \varepsilon_{j}\right) = 0$ for $i \neq j$.
+\end{itemize}
+These three conditions together imply that $\operatorname{Cov}\left(\varepsilon\right) = \mathbb{E}\left[\varepsilon\varepsilon^{\top}\right] = \sigma^{2}I$. To prove the Gauss-Markov theorem, suppose $\widetilde{\beta} = C\mathbf{Y}$ is a linear estimator with
+\begin{equation}
+C = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} + D
+\end{equation}
+where $D$ is an arbitrary matrix such that $\widetilde{\beta}$ can be made into any linear estimator by choice of $D$. To obtain the necessary conditions for this estimator to be unbiased, we have
+\begin{align}
+\mathbb{E}\left[\widetilde{\beta}\right] &= \mathbb{E}\left[C\mathbf{Y}\right] \\
+&= \mathbb{E}\left[\left(\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} + D\right)\left(\mathbf{X}\beta + \varepsilon\right)\right] \\
+&= \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{X}\beta + D\mathbf{X}\beta
+&= \left(I + D\mathbf{X}\right)\beta
+\end{align}
+where we have used $\mathbb{E}\left[\varepsilon\right] = 0$ and the fact that $\mathbf{X}$ is deterministic with respect to the data generating process. Hence $D\mathbf{X} = \mathbf{0}$ necessarily in order for the estimator to be unbiased. Then
+\begin{align}
+\operatorname{Cov}\left(\widetilde{\beta}\right) &= \operatorname{Cov}\left(C\mathbf{Y}\right) \\
+&= C\operatorname{Cov}\left(\mathbf{Y}\right)C^{\top} \\
+&= C\operatorname{Cov}\left(\mathbf{X}\beta + \varepsilon\right)C^{\top} \\
+&= C\operatorname{Cov}\left(\varepsilon\right)C^{\top} \\
+&= \sigma^{2}CC^{\top} \\
+&= \sigma^{2}\left[\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} + D\right]\left[\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top} + D\right]^{\top} \\
+&= \sigma^{2}\left[\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1} + \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}D^{\top} + D\mathbf{X}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1} + DD^{\top}\right]
+\end{align}
+As $D\mathbf{X} = \mathbf{0}$, then
+\begin{align}
+\operatorname{Cov}\left(\widetilde{\beta}\right) &= \sigma^{2}\left[\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}  + DD^{\top}\right] \\
+&= \sigma^{2}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1} + \sigma^{2}DD^{\top}
+\end{align}
+Recognise that $\sigma^{2}\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}$ is the covariance of the ordinary least squares estimator $\widehat{\beta} = \left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y}$ so
+\begin{align}
+\operatorname{Cov}\left(\widetilde{\beta}\right) &= \operatorname{Cov}\left(\widehat{\beta}\right) + \sigma^{2}DD^{\top} \\
+&\succeq \operatorname{Cov}\left(\widehat{\beta}\right)
+\end{align}
+since $\sigma^{2}DD^{\top}$ will be some symmetric positive semidefinite matrix. Additionally since $\operatorname{trace}\left(\sigma^{2}DD^{\top}\right) \geq 0$, this implies
+\begin{equation}
+\operatorname{trace}\left(\operatorname{Cov}\left(\widetilde{\beta}\right)\right) \geq \operatorname{trace}\left(\operatorname{Cov}\left(\widehat{\beta}\right)\right)
+\end{equation}
+so the total variance of any other linear estimator will be lower bounded by the total variance of the OLS estimator.
+
+\subsection{Minimum Mean Square Error Estimators}
 
 \section{Maximum Likelihood Estimation}
 
@@ -5855,7 +6230,7 @@ Under further technical assumptions \cite{Wilks1962}, the sampling distribution 
 \overline{X} \overset{\mathrm{approx.}}{\sim} \mathcal{N}\left(\mu, \dfrac{N-n}{N-1}\cdot\dfrac{\sigma^{2}}{n}\right)
 \end{equation}
 
-\section{Multivariate Gaussian Identities}
+\section{Multivariate Gaussian Properties}
 
 \subsection{Joint Moment Generating Function of Multivariate Gaussians}
 
@@ -5901,6 +6276,25 @@ Since $\mathbf{K}$ is a diagonal matrix, this can be written as
 \end{align}
 which is the product of the individual MGFs of $X_{1}, \dots, X_{n}$. Hence this implies that $X_{1}, \dots, X_{n}$ are independent.
 \end{proof}
+
+It also follows that two Gaussian random variables $X$ and $Y$ being uncorrelated is equivalent to $\mathbb{E}\left[X\middle|Y\right] = \mathbb{E}\left[X\right]$ and to $\mathbb{E}\left[Y\middle|X\right] = \mathbb{E}\left[Y\right]$.
+
+\subsection{Marginal Gaussians and Joint Gaussians}
+
+If $X_{1}, \dots, X_{n}$ are dependent Gaussian random variables (ie. the marginal distributions are Gaussian densities), this does not necessarily imply that $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ is a multivariate Gaussian random vector.
+\begin{proof}
+Consider the following counterexample. Let $X$ be a zero-mean Gaussian random variable and let $S$ have the distribution
+\begin{equation}
+\operatorname{Pr}\left(S = s\right) = \begin{cases} 1/2, & s = -1, 1 \\ 0, & \mathrm{elsewhere} \end{cases}
+\end{equation}
+Now define $Y = SX$, ie. $Y$ will either be $X$ or the negative of $X$. Since $X$ is symmetric and zero-centered, then the marginal distribution of $Y$ will also be Gaussian. However, the joint distribution of $X$ and $Y$ (written using Dirac delta distributions) is given by
+\begin{align}
+f_{X, Y}\left(x, y\right) &= f_{Y|X}\left(y\middle| x\right)f_{X}\left(x\right) \\
+&= \left(\dfrac{1}{2}\delta\left(y - x\right) + \dfrac{1}{2}\delta\left(y + x\right)\right)f_{X}\left(x\right)
+\end{align}
+which is not a bivariate Gaussian density.
+\end{proof}
+However of course, if $X_{1}, \dots, X_{n}$ are independent Gaussian random variables then $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ is going to be a multivariate Gaussian random vector.
 
 \subsection{Conditional Gaussian Densities}
 
@@ -6199,7 +6593,7 @@ p\left(y\right) = \mathcal{N}_{y}\left(C^{\top}a, B^{-1} + C^{\top}A^{-1}C\right
 
 \section{Stochastic Processes}
 
-A continuous time stochastic process $X\left(t\right)$ assigns a function of time $x\left(t\right)$ to each outcome in the sample space. The function $x\left(t\right)$ is said to be a sample path, ie. a realisation of the stochastic process. At some fixed time $t_{0}$, the variable $X\left(t_{0}\right)$ is a random variable. A discrete time stochastic process $X_{k}$ assigns a sequence to each outcome in the sample space, where similarly for some fixed integer $k_{0}$, the variable $X_{k_{0}}$ is a random variable. Note that $X\left(t_{0}\right)$ and $X_{k_{0}}$ can be discrete or continuous-valued random variables (or both), so we can consider four different types of stochastic processes (excluding hybrids):
+A continuous time stochastic process $X\left(t\right)$ assigns a function of time $x\left(t\right)$ to each outcome in the sample space. The function $x\left(t\right)$ is said to be a sample path, ie. a realisation of the stochastic process. At some fixed time $t_{0}$, the variable $X\left(t_{0}\right)$ is a random variable. A discrete time stochastic process $X_{k}$ assigns a sequence to each outcome in the sample space, where similarly for some fixed integer $k_{0}$, the variable $X_{k_{0}}$ is a random variable. Note that $X\left(t_{0}\right)$ and $X_{k_{0}}$ can be discrete or continuous-valued random variables (or both), so we can consider four different classes of stochastic processes (excluding hybrids):
 \begin{enumerate}
 \item Continuous-time continuous-valued
 \item Continuous-time discrete-valued
@@ -6208,6 +6602,18 @@ A continuous time stochastic process $X\left(t\right)$ assigns a function of tim
 \end{enumerate}
 
 \subsection{Properties of Stochastic Processes}
+
+\subsubsection{$n$\textsuperscript{th} Order Distribution Functions}
+
+The $n$\textsuperscript{th} order cumulative distribution function of a continuous-time stochastic process $X\left(t\right)$ for times $t_{1}, \dots, t_{n}$ is given by the joint distribution of the random variables $X\left(t_{1}\right), \dots, X\left(t_{n}\right)$:
+\begin{equation}
+F_{X\left(t_{1}\right), \dots, X\left(t_{n}\right)}\left(x_{1}, \dots, x_{n}\right) = \operatorname{Pr}\left(X\left(t_{1}\right) \leq x_{1}, \dots, X\left(t_{n}\right) \leq x_{n}\right)
+\end{equation}
+If the stochastic process is continuous-valued, then the $n$\textsuperscript{th} order probability density function may be defined as
+\begin{equation}
+f_{X\left(t_{1}\right), \dots, X\left(t_{n}\right)}\left(x_{1}, \dots, x_{n}\right) = \dfrac{\partial^{n}}{\partial x_{1} \dots \partial x_{n}}F_{X\left(t_{1}\right), \dots, X\left(t_{n}\right)}\left(x_{1}, \dots, x_{n}\right) 
+\end{equation}
+The $n$\textsuperscript{th} order cumulative distribution functions and probability density functions of a discrete-time stochastic process may be analogously defined.
 
 \subsubsection{Mean Function}
 
@@ -6323,7 +6729,35 @@ R_{XY}\left(t, \tau\right) = R_{XY}\left(\tau\right)
 
 If for an independent increment process the distribution of $X\left(t\right) - X\left(s\right)$ only depends on the time difference $t - s$, then the process is said to be a stationary increment process.
 
-\subsection{Gaussian Processes}
+\subsection{Ergodicity}
+
+Ergodicity is a stronger form of stationarity that expresses in some sense a notion of 'repetition' in the stochastic process - that a single sample path is sufficiently `rich' in information because it repeats over and over again that we can determine the properties of the entire stochastic process just by looking at the sample path.
+
+\subsubsection{Mean-Ergodicity}
+
+A stationary process is said to be mean-ergodic (or usually simply `ergodic') if the ensemble average equals the time average of almost all sample paths. What this means is that if we take the mean function (which is necessarily a constant $\mu_{X}$ due to stationarity), and compare it to the time average of a sample path (for example the time-average of the continuous-time sample path $x\left(t\right)$), then they will be the same:
+\begin{equation}
+\mu_{X} = \lim_{T\to\infty}\dfrac{1}{2T}\int_{-T}^{T}x\left(t\right)dt
+\end{equation}
+For a discrete-time stochastic process starting at time $k = 0$, the mean-ergodicity condition is
+\begin{equation}
+\mu_{X} = \lim_{N\to\infty}\dfrac{1}{N}\sum_{0}^{N - 1}x_{k}
+\end{equation}
+for almost all sample paths. Or in other words,
+\begin{equation}
+\operatorname{Pr}\left(\lim_{N\to\infty}\dfrac{1}{N}\sum_{0}^{N - 1}X_{k} = \mu_{X}\right) = 1
+\end{equation}
+The strong law of large numbers easily establishes that any sequence of i.i.d. random variables with finite mean is a mean-ergodic stochastic process. However, not all stationary processes are ergodic. Consider the stochastic process defined by $X\left(t\right) = Y$ where $Y$ is a random variable with finite mean. That is, a realisation of $X\left(t\right)$ is a constant function with value drawn from the distribution of $Y$. Then $X\left(t\right)$ is stationary because first-order distribution is the same for all time (namely, the distribution of $Y$) and moreover, the $n$\textsuperscript{th}-order distributions do not change with time. However, $X\left(t\right)$ is not ergodic because it is not possible to reconstruct the mean function $\mu_{X} = \mathbb{E}\left[Y\right]$ from a single realisation $x\left(t\right) = y$.
+
+\subsection{Families of Stochastic Processes}
+
+\subsubsection{Bernoulli Processes}
+
+\subsubsection{Binomial Processes}
+
+\subsubsection{Poisson Processes}
+
+\subsubsection{Gaussian Processes}
 
 \section{Concentration Inequalities}
 
@@ -6372,6 +6806,8 @@ Cromwell's rule asserts that prior probabilities of zero should be avoided, exce
 \subsection{Uninformative Priors}
 
 An uninformative prior gives no subjective information. An improper prior may be used as an uninformative prior. An improper prior is a prior whose sum or integral does not necessarily sum to 1. From Bayes' theorem, it can be seen that scaling all prior probabilities or densities by some constant will still give the same result for the posterior. So it is still possible to use improper priors in Bayesian inference. An example of an improper prior is a uniform distribution over an infinite interval.
+
+\subsection{Jeffrey's Priors}
 
 \subsection{Conjugate Priors}
 
@@ -6859,6 +7295,45 @@ p\left(\mathbf{y}\middle|X\right) = \sum_{i}p\left(\mathbf{y}\middle|X, \mathcal
 \end{equation}
 ie. it is a weighted average of some probability density functions, and acts as a normalising constant for the posterior of $\mathcal{H}_{i}$.
 
+\section{Posterior Approximations}
+
+\subsection{Laplace's Approximation}
+
+Laplace's approximation may be used to approximate definite integrals of the form $\int_{a}^{b}\exp\left(Mf\left(x\right)\right)dx$ where $f\left(x\right)$ is a twice-differentiable function which has a unique global minimum $a < x_{0} < b$ and $M$ is a large number. The terminals $a$ and $b$ are allowed to be infinite. The approximation first begins with a second-order Taylor approximation of $f\left(x\right)$ about its global minimum $x_{0}$:
+\begin{equation}
+f\left(x\right) \approx f\left(x_{0}\right) + f'\left(x_{0}\right)\left(x - x_{0}\right) + \dfrac{1}{2}f''\left(x_{0}\right)\left(x - x_{0}\right)^{2}
+\end{equation}
+Since $x_{0}$ is a global maximum, $f'\left(x_{0}\right) = 0$ (also note $f''\left(x_{0}\right) \leq 0$) so the first order term vanishes:
+\begin{align}
+f\left(x\right) &\approx f\left(x_{0}\right) + \dfrac{1}{2}f''\left(x_{0}\right)\left(x - x_{0}\right)^{2} \\
+&\approx f\left(x_{0}\right) - \dfrac{1}{2}\left|f''\left(x_{0}\right)\right|\left(x - x_{0}\right)^{2}
+\end{align}
+Putting this approximation in the integral:
+\begin{align}
+\int_{a}^{b}\exp\left(Mf\left(x\right)\right)dx &\approx \int_{a}^{b}\exp\left[M\left(f\left(x_{0}\right) - \dfrac{1}{2}\left|f''\left(x_{0}\right)\right|\left(x - x_{0}\right)^{2}\right)\right]dx \\
+&\approx e^{Mf\left(x_{0}\right)}\int_{a}^{b}\exp\left[-\dfrac{M}{2}\left|f''\left(x_{0}\right)\right|\left(x - x_{0}\right)^{2}\right]dx
+\end{align}
+As $M$ is assumed large, the exponential inside the integrand decays quickly, such that even for finite $a$, $b$ we can approximate the integral with the Gaussian integral:
+\begin{align}
+\int_{a}^{b}\exp\left[\dfrac{M}{2}f''\left(x_{0}\right)\left(x - x_{0}\right)^{2}\right]dx &\approx \int_{-\infty}^{\infty}\exp\left[\dfrac{M}{2}\left|f''\left(x_{0}\right)\right|\left(x - x_{0}\right)^{2}\right]dx \\
+&\approx \sqrt{\dfrac{2\pi}{Mf''\left(x_{0}\right)}}
+\end{align}
+Hence this gives Laplace's approximation:
+\begin{equation}
+\int_{a}^{b}\exp\left(Mf\left(x\right)\right)dx \approx e^{Mf\left(x_{0}\right)}\sqrt{\dfrac{2\pi}{M\left|f''\left(x_{0}\right)\right|}}
+\end{equation}
+
+\subsubsection{Multivariate Laplace's Approximation}
+
+Laplace's approximation can be extended to the multivariate case. We approximate the integral $\int_{\mathcal{X}}\exp\left(Mf\left(\mathbf{x}\right)\right)d\mathbf{x}$ where twice-differentiable $f\left(\mathbf{x}\right)$ is a scalar function of $n$-dimensional $\mathbf{x}$ which has a unique global maximum $\mathbf{x}_{0} \in \mathcal{X}$, and $M$ is large. Deriving the approximation follows the same arguments as above:
+\begin{align}
+\int_{\mathcal{X}}\exp\left(Mf\left(\mathbf{x}\right)\right)d\mathbf{x} &\approx \int_{\mathcal{X}}\exp\left[M\left(f\left(\mathbf{x}_{0}\right) + \left(\mathbf{x} - \mathbf{x}_{0}\right)^{\top}\nabla f\left(\mathbf{x}_{0}\right) + \dfrac{1}{2}\left(\mathbf{x} - \mathbf{x}_{0}\right)^{\top}\nabla^{2}f\left(\mathbf{x}_{0}\right)\left(\mathbf{x} - \mathbf{x}_{0}\right)\right)\right]d\mathbf{x} \\
+&\approx \int_{\mathcal{X}}\exp\left[M\left(f\left(\mathbf{x}_{0}\right) + \dfrac{1}{2}\left(\mathbf{x} - \mathbf{x}_{0}\right)^{\top}\nabla^{2}f\left(\mathbf{x}_{0}\right)\left(\mathbf{x} - \mathbf{x}_{0}\right)\right)\right]d\mathbf{x} \\
+&\approx e^{Mf\left(\mathbf{x}_{0}\right)}\int_{\mathcal{X}}\exp\left[-\dfrac{M}{2}\left(\mathbf{x} - \mathbf{x}_{0}\right)^{\top}\left(-\nabla^{2}f\left(\mathbf{x}_{0}\right)\right)\left(\mathbf{x} - \mathbf{x}_{0}\right)\right]d\mathbf{x} \\
+&\approx e^{Mf\left(\mathbf{x}_{0}\right)}\int_{-\infty}^{\infty}\exp\left[-\dfrac{M}{2}\left(\mathbf{x} - \mathbf{x}_{0}\right)^{\top}\left(-\nabla^{2}f\left(\mathbf{x}_{0}\right)\right)\left(\mathbf{x} - \mathbf{x}_{0}\right)\right]d\mathbf{x} \\
+&\approx e^{Mf\left(\mathbf{x}_{0}\right)}\sqrt{\left(\dfrac{2\pi}{M}\right)^{n}\cdot\dfrac{1}{\det\left(-\nabla^{2}f\left(\mathbf{x}_{0}\right)\right)}}
+\end{align}
+
 \section{Bernstein-von Mises Theorem}
 
 \section{Bayesian Classifiers}
@@ -7038,7 +7513,11 @@ This can be shown by applying the non-negativity axiom and the monotonicity prop
 
 \subsubsection{Almost Sure Events}
 
-An event $E\in\mathcal{F}$ is said to happen almost surely if the event of $E$ not happening has probability measure zero, that is $\mathbb{P}\left(\overline{E}\right) = 0$. Alternatively, we can say that $E$ has probability measure $\mathbb{P}\left(E\right) = 1$.
+An event $E\in\mathcal{F}$ is said to happen \textit{almost surely} if the event of $E$ not happening has probability measure zero, that is $\mathbb{P}\left(\overline{E}\right) = 0$. Alternatively, we can say that $E$ has probability measure $\mathbb{P}\left(E\right) = 1$. In contrast, \textit{almost never} describes events which have probability measure zero.
+
+\subsubsection{Atomic Probability Spaces}
+
+A measurable set $A \in \mathcal{F}$ of a probability space $\left(\Omega, \mathcal{F}, \mathbb{P}\right)$ is said to be \textit{atomic} if $\mathbb{P}\left(A\right) > 0$ for each measurable subset $B \subseteq A$, either $\mathbb{P}\left(B\right) = 0$ or $\mathbb{P}\left(B\right) = \mathbb{P}\left(A\right)$. This intuitively means that we cannot `break down' the event $A$ any further in terms of probability. Elementary events are atomic, provided they have positive measure. Any probability space with countable sample space can be considered to be \textit{purely atomic} (as any outcome of the sample space with zero measure can simply be omitted). A probability space without any atoms is referred to as \textit{non-atomic}.
 
 \subsection{Lebesgue Integration}
 
@@ -7223,27 +7702,9 @@ Therefore $1 - \mathbb{P}\left(\limsup_{n \to \infty}E_{n}\right) = \lim_{N \to 
 
 \section{Karhunen-Lo\`eve Theorem}
 
+\section{Measure Theoretic Stochastic Processes}
 
 \chapter{Advanced Statistics}
-
-\section{Copulas}
-
-A copula is a multivariate probability distribution on support the unit hypercube, with uniform marginal distributions. An example of a copula is the Frank distribution, with cumulative distribution function
-\begin{equation}
-H\left(x, y; \psi\right) = \begin{cases}
-\begin{array}{c}
-\dfrac{1}{\psi}\log\left(1+\dfrac{\left(e^{\psi x}-1\right)\left(e^{\psi y}-1\right)}{e^{\psi}-1}\right)\\
-xy,
-\end{array} & \begin{array}{c}
-\psi\neq0\\
-\psi=0
-\end{array}\end{cases}
-\end{equation}
-where $\psi$ is a parameter which determines the dependence structure of the copula. We can verify that the following properties hold for this distribution: $H\left(0, 0; \psi\right) = 0$, $H\left(1, 1; \psi\right) = 1$. Additionally, we can verify that $H\left(1, y; \psi\right) = y$, $H\left(x, 1; \psi\right) = x$ which are the cumulative distribution functions of the uniform marginal distributions. \\
-
-The usefulness of copulas in statistics starts with the property that for some continuous random variable $X$ with cumulative distribution function $F_{X}\left(x\right)$, then the transformed random variable $F_{X}\left(X\right)$ will be uniformly distributed on $\left[0, 1\right]$. The reason for this is related to the inverse transform sampling theorem. Thus if we observe some data and suspect that their marginal distributions follow some distributions (eg. $F_{X}\left(x\right)$ and $F_{Y}\left(y\right)$), then we can fit the data to a copula. \\
-
-For example with the Frank copula, we can fit it to a distribution of the form $H\left(F_{X}\left(x\right), F_{Y}\left(y\right); \psi\right)$. Since by construction the random variables $F_{X}\left(X\right)$ and $F_{Y}\left(Y\right)$ have uniform marginals, then the random variables $X$ and $Y$ have cumulative distribution functions $F_{X}\left(x\right)$ and $F_{Y}\left(y\right)$ respectively. The parameter $\psi$ can then be used to model the dependencies of the variables based on what is observed in the data. The maximum likelihood technique is typically used for estimating the parameters of the copula, which can be jointly estimated with any parameters of the marginal distributions.
 
 \section{Empirical Measures}
 
@@ -7970,7 +8431,7 @@ For time indices $t_{1}, \dots, t_{k}$, we can assign a cumulative distribution 
 \begin{equation}
 F_{t_{1}, \dots, t_{k}}\left(x_{1}, \dots, x_{k}\right) = \mathbb{P}\left(\left\{X\left(t_{1}; \omega\right) \leq x_{1}, \dots, X\left(t_{k}; \omega\right) \leq x_{k}\right\}\right)
 \end{equation}
-called the finite-dimensional distribution. A stochastic process may be uniquely determined by all its finite-dimensional distributions (the conditions which guarantee this are covered in the Kolgomorov extension theorem).
+called the finite-dimensional distribution (also known as the $k$\textsuperscript{th} order distribution). A stochastic process may be uniquely determined by all its finite-dimensional distributions (the conditions which guarantee this are covered in the Kolgomorov extension theorem).
 
 \subsubsection{Ensembles}
 
@@ -8161,9 +8622,13 @@ Then this becomes equivalent to the mean function being Riemann integrable on $\
 
 \section{Diffusions}
 
-\chapter{Combinatorial Probability}
+\chapter{Probabilistic Combinatorics}
+
+\section{Stirling's Approximation}
 
 \section{Inclusion-Exclusion Principle}
+
+\subsection{Bonferroni Inequalities \cite{Lange2010}}
 
 \section{Pigeonhole Principle}
 
@@ -8207,13 +8672,17 @@ An explicit formula for the number of derangements can also be obtained via the 
 &= n!\sum_{i = 0}^{n}\dfrac{\left(-1\right)}{i!}
 \end{align}
 
+\section{Random Graphs}
+
+\subsection{Erd\"{o}s-R\'{e}nyi Graphs}
+
 \part{Applications}
 
 \chapter{Information Theory}
 
 \section{Entropy}
 
-For a discrete random variable $X$ with probability mass function $P\left(x\right)$, the self-information of event $\left\{X = x\right\}$ is defined as
+For a discrete random variable $X$ with probability mass function $P\left(x\right)$, the self-information of the event $\left\{X = x\right\}$ is defined as
 \begin{equation}
 \operatorname{I}\left(x\right) = \log\dfrac{1}{P\left(x\right)}
 \end{equation}
@@ -8270,6 +8739,15 @@ x=1\\
 \end{equation}
 We regard the occurrence of the event $X = 0$ as containing more information than the occurrence of the event $X = 1$, since it is rarer and hence more of a `surprise' (the occurrence of $X = 0$ says more about the experiment than the occurrence $X = 1$). This is reflected in $\log\dfrac{1}{0.05} > \log\dfrac{1}{0.95}$.
 \end{itemize}
+
+
+\subsection{Differential Entropy}
+
+The continuous analog of information entropy is differential entropy, where the discrete sum is converted to an integral over the probability density function $f\left(x\right)$.
+\begin{equation}
+\operatorname{h}\left(X\right) = -\int f\left(x\right)\log f\left(x\right) dx
+\end{equation}
+Note however that this measure of entropy does not share all the same properties as information entropy defined above. One such property is non-negativity. Since $f\left(x\right)$ may be greater than 1, then it is possible for $-\log f\left(x\right) < 0$. Despite this, we can still use differential entropy as a measure of uncertainty.
 
 \subsection{Joint Entropy}
 
@@ -8352,7 +8830,7 @@ This is intuitive because the distribution of $g\left(X\right)$ cannot be any le
 
 \subsubsection{Entropy of Sums}
 
-Suppose there are two independent random variables $X$ and $Y$, and their sum is $Z = X + Y$. We can obtain upper and lower bounds on $\operatorname{H}\left[Z\right]$. Firstly, we can show
+Suppose there are two independent discrete random variables $X$ and $Y$, and their sum is $Z = X + Y$. We can obtain upper and lower bounds on $\operatorname{H}\left[Z\right]$. Firstly, we can show
 \begin{align}
 \operatorname{H}\left[Z\middle|X\right] &= \sum_{x}\operatorname{Pr}\left(X = x\right)\sum_{z}\operatorname{Pr}\left(Z = z\middle|X = x\right)\log\dfrac{1}{\operatorname{Pr}\left(Z = z\middle|X = x\right)} \\
 &= \sum_{x}\operatorname{Pr}\left(X = x\right)\sum_{z}\operatorname{Pr}\left(Y = z - x\middle|X = x\right)\log\dfrac{1}{\operatorname{Pr}\left(Y = z - x\middle|X = x\right)} \\
@@ -8387,11 +8865,49 @@ We can even establish conditions on $X$ and $Y$ for equality to hold. Since $Z =
 \end{equation}
 and equality holds if we can show $\operatorname{H}\left[Z\right] = \operatorname{H}\left[X, Y\right]$. This requires that $\left(X, Y\right)$ be a function of $Z$, which implies that $X$ or $Y$ be constant.
 
+\subsubsection{Entropy of Scalings \cite{Cover2006}}
+
+Note that if a discrete random variable is scaled by a non-zero factor, then its entropy does not change, because the probability masses themselves do not change. However, this property does not extend to continuous random variables. We have for a continuous random variable $X$ and its scaling $Y = aX$ that
+\begin{align}
+\operatorname{h}\left(aX\right) &= -\int_{-\infty}^{\infty}f_{Y}\left(y\right)\log f_{Y}\left(y\right) dy \\
+&= -\int_{-\infty}^{\infty}\dfrac{1}{\left|a\right|}f_{X}\left(\dfrac{y}{a}\right)\log\left(\dfrac{1}{\left|a\right|} f_{X}\left(\dfrac{x}{a}\right) \right)dy
+\end{align}
+since $f_{Y}\left(y\right) = \dfrac{1}{\left|a\right|}f_{X}\left(\dfrac{y}{a}\right)$. Then apply the change of variables $x = \dfrac{y}{\left|a\right|}$ to give
+\begin{align}
+\operatorname{h}\left(aX\right) &= -\int_{-\infty}^{\infty}\dfrac{1}{\left|a\right|}f_{X}\left(\dfrac{x\left|a\right|}{a}\right)\log \left(\dfrac{1}{\left|a\right|} f_{X}\left(\dfrac{x\left|a\right|}{a}\right)\right) \left|a\right| dx \\
+&= -\int_{-\infty}^{\infty}f_{X}\left(x\cdot\operatorname{sgn}\left(a\right)\right)\log\left(\dfrac{1}{\left|a\right|} f_{X}\left(x\cdot\operatorname{sgn}\left(a\right)\right)\right) dx
+\end{align}
+The $\operatorname{sgn}\left(a\right)$ term does not make a difference in the computation since the integral is taken over the real line, so
+\begin{align}
+\operatorname{h}\left(aX\right) &= -\int_{-\infty}^{\infty}f_{X}\left(x\right)\log \left(\dfrac{1}{\left|a\right|}f_{X}\left(x\right)\right) dx  \\
+&= -\int_{-\infty}^{\infty}f_{X}\left(x\right)\left(\log f_{X}\left(x\right) - \left|a\right| \right) dx \\
+&= -\int_{-\infty}^{\infty}f_{X}\left(x\right)\log f_{X}\left(x\right) dx +  \int_{-\infty}^{\infty}f_{X}\left(x\right)\log\left|a\right| dx \\
+&= \operatorname{h}\left(X\right) + \log\left|a\right|
+\end{align}
+This expresses that increasing (decreasing) the variance of a random variable will increase (decrease) the entropy, provided the random variance remains in the same family of distribution.
+
+\subsubsection{Entropy of Linear Transformations}
+
+The differential entropy of a continuous random vector $\mathbf{X}$ under an invertible linear transformation $\mathbf{Y} = A\mathbf{X}$ is found by
+\begin{equation}
+\operatorname{h}\left(A\mathbf{X}\right) = -\int_{-\infty}^{\infty}\dots\int_{-\infty}^{\infty}f_{\mathbf{Y}}\left(\mathbf{y}\right)\log f_{\mathbf{Y}}\left(\mathbf{y}\right) d\mathbf{y}
+\end{equation}
+Using the relation for densities of linear transformations of random vectors, $f_{\mathbf{Y}}\left(\mathbf{y}\right) = \dfrac{1}{\left|\operatorname{det}\left(A\right)\right|}f_{\mathbf{X}}\left(A^{-1}\mathbf{y}\right)$. Hence
+\begin{equation}
+\operatorname{h}\left(A\mathbf{X}\right) = -\int_{-\infty}^{\infty}\dots\int_{-\infty}^{\infty}\dfrac{1}{\left|\operatorname{det}\left(A\right)\right|}f_{\mathbf{X}}\left(A^{-1}\mathbf{y}\right)\log \left(\dfrac{1}{\left|\operatorname{det}\left(A\right)\right|}f_{\mathbf{X}}\left(A^{-1}\mathbf{y}\right)\right) d\mathbf{y}
+\end{equation}
+Applying the change of variables $\mathbf{x} = A^{-1}\mathbf{y}$ and using the Jacobian determinant as the scale factor of the volume element $d\mathbf{y} = \left|\operatorname{det}\left(A\right)\right|d\mathbf{x}$, this becomes
+\begin{align}
+\operatorname{h}\left(A\mathbf{X}\right) &= -\int_{-\infty}^{\infty}\dots\int_{-\infty}^{\infty}f_{\mathbf{X}}\left(\mathbf{x}\right)\log \left(\dfrac{1}{\left|\operatorname{det}\left(A\right)\right|}f_{\mathbf{X}}\left(\mathbf{x}\right)\right) d\mathbf{x} \\
+&= -\int_{-\infty}^{\infty}\dots\int_{-\infty}^{\infty}f_{\mathbf{X}}\left(\mathbf{x}\right)\log f_{\mathbf{X}}\left(\mathbf{x}\right) d\mathbf{x} + \log\left|\operatorname{det}\left(A\right)\right|\int_{-\infty}^{\infty}\dots\int_{-\infty}^{\infty}f_{\mathbf{X}}\left(\mathbf{x}\right)d\mathbf{x} \\
+&= \operatorname{h}\left(\mathbf{X}\right) + \log\left|\operatorname{det}\left(A\right)\right| \\ 
+\end{align}
+
 \subsection{Cross Entropy}
 
 For two probability mass functions $p\left(x_{i}\right)$ and $q\left(x_{i}\right)$, where $q\left(x_{i}\right)$ is the approximating distribution of $p\left(x_{i}\right)$, the cross entropy between $p$ and $q$ is defined as
 \begin{align}
-\operatorname{H}_{p, q} &= -\mathbb{E}\left[\log q\left(x_{i}\right)\right]\\
+\operatorname{H}_{p, q} &= -\mathbb{E}_{p}\left[\log q\left(X\right)\right]\\
 &= \sum_{i}p\left(x_{i}\right)\log\dfrac{1}{q\left(x_{i}\right)}
 \end{align}
 Similar properties of joint entropies apply to cross entropies of multivariate distributions. Suppose we have multivariate distributions $p\left(x_{1}, \dots, x_{n}\right)$ and the approximating distribution $q\left(x_{1}, \dots, x_{n}\right)$ (note the slight abuse in notation from before). Then the cross entropy is
@@ -8418,14 +8934,6 @@ if the limit exists. If the sequence is i.i.d., then the entropy rate is
 \begin{equation}
 \operatorname{H}\left[\mathcal{X}\right] = \lim_{n\to\infty}\dfrac{1}{n}\operatorname{H}\left[X_{1}, X_{2}, \dots, X_{n}\right] = \lim_{n\to\infty}\dfrac{n\operatorname{H}\left[X\right]}{n} = \operatorname{H}\left[X\right]
 \end{equation}
-
-\subsection{Differential Entropy}
-
-The continuous analog of information entropy is differential entropy, where the discrete sum is converted to an integral over the probability density function $f\left(x\right)$.
-\begin{equation}
-\operatorname{H}\left[X\right] = -\int f\left(x\right)\log f\left(x\right) dx
-\end{equation}
-Note however that this measure of entropy does not share all the same properties as information entropy defined above. One such property is non-negativity. Since $f\left(x\right)$ may be greater than 1, then it is possible for $-\log f\left(x\right) < 0$. Despite this, we can still use differential entropy as a measure of uncertainty.
 
 \subsection{Asymptotic Equipartition Property}
 
@@ -8578,7 +9086,10 @@ where it attains the property that $\operatorname{KL}_{\mathrm{sym}}\left(P\midd
 The principle of maximum entropy roughly states that, given limited information about a prior, then the best choice of prior distribution (out of all possible priors which satisfy the limited information given) is the distribution with maximum entropy. Intuitively, this distribution makes the least number of assumptions about the variable in question.
 
 \subsection{Maximum Entropy Distributions on Bounded Support}
-For any discrete distribution on support $\left\{a, a + 1, \dots, b - 1, b\right\}$, the discrete uniform distribution has the maximum entropy. For any continuous distribution on support $\left[a, b\right]$, the continuous uniform distribution has the maximum entropy. This agrees with the intuition that the uniform distributions contain the most amount of `surprise' (ie. everything is equally likely).
+
+For any discrete distribution on support $\left\{a, a + 1, \dots, b - 1, b\right\}$, the discrete uniform distribution has the maximum entropy. For any continuous distribution on support $\left[a, b\right]$, the continuous uniform distribution has the maximum entropy. This agrees with the intuition that the uniform distributions contain the most amount of `surprise' (ie. everything is equally likely). \\
+
+This characterisation of the uniform distribution can also be used to demonstrate that more entropy does not necessarily equate to more variance. Suppose a distribution were created from the uniform distribution by shifting some of the mass (symmetrically) towards the bounds. Then the variance would clearly increase, but we know it will have less entropy than the uniform distribution.
 
 \subsection{Maximum Entropy Distributions on Unbounded Support}
 
@@ -8704,9 +9215,52 @@ this is the same as the expression above for AIC (up to multiplication by a cons
 
 The BIC of a model parametrised by $\theta$ can be defined in terms of its maximum log likelihood $\log\mathcal{L}\left(\theta\right)$ from $n$ observations.
 \begin{equation}
-\operatorname{BIC}\left(\theta\right) = n\dim\left(\theta\right) - 2\max_{\theta}\left\{\log\mathcal{L}\left(\theta\right)\right\}
+\operatorname{BIC}\left(\theta\right) = \log n\dim\left(\theta\right) - 2\max_{\theta}\left\{\log\mathcal{L}\left(\theta\right)\right\}
 \end{equation}
-The BIC is also used as a model selection technique, where we aim to select the model with lowest BIC (as defined above).
+Like the AIC, the BIC is also used as a model selection technique, where we aim to select the model with lowest BIC (as defined above). The BIC can be derived as follows. Let $M_{1},  M_{2}, \dots$ be multiple competing models. Given data $\mathbf{y} = \left(y_{1}, y_{2}, \dots, y_{n}\right)$, we address the goal of finding the model with the highest posterior probability:
+\begin{equation}
+p\left(M_{i}\middle|\mathbf{y}\right) = \dfrac{p\left(\mathbf{y}\middle|M_{i}\right)p\left(M_{i}\right)}{p\left(\mathbf{y}\right)}
+\end{equation}
+If we assume that each model is equally likely with a flat prior (ie. $p\left(M_{i}\right)$ is a constant), then the task becomes the same as finding the model with the highest marginal likelihood: $M^{*} = \argmax_{i}p\left(\mathbf{y}\middle|M_{i}\right)$. We call $p\left(\mathbf{y}\middle|M_{i}\right)$ the marginal likelihood because it is obtained by marginalising over the prior distribution for the parameters $\boldsymbol{\theta}_{i}$ associated with model $M_{i}$:
+\begin{equation}
+p\left(\mathbf{y}\middle|M_{i}\right) = \int p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}_{i}\right) d\boldsymbol{\theta}_{i}
+\end{equation}
+Denote $k_{i}$ to be the number of parameters in model $M_{i}$ so that $\boldsymbol{\theta}_{i}$ has dimension $k_{i}$. Also note that $p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right)$ is the likelihood of $\boldsymbol{\theta}_{i}$ given the data. Now suppose that $p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}\right)$ is twice differentiable in $\boldsymbol{\theta}_{i}$ and has a unique global maximum $\boldsymbol{\theta}_{i}^{*}$, which implies $\log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}\right)$ has the same global maximum. It is then valid to apply a Laplace approximation for $p\left(\mathbf{y}\middle|M_{i}\right)$:
+\begin{align}
+p\left(\mathbf{y}\middle|M_{i}\right) &= \int \exp\left[\log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}_{i}\right)\right] d\boldsymbol{\theta}_{i} \\
+&\approx \exp\left[\log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}^{*}\right) p\left(\boldsymbol{\theta}_{i}^{*}\right)\right]\sqrt{\dfrac{\left(2\pi\right)^{k_{i}}}{\det\left(-\nabla_{\boldsymbol{\theta}_{i}}^{2}p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}_{i}\right)\right)}} \\
+&\approx p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}^{*}\right) p\left(\boldsymbol{\theta}_{i}^{*}\right)\sqrt{\dfrac{\left(2\pi\right)^{k_{i}}}{\det\left(-\nabla_{\boldsymbol{\theta}_{i}}^{2}\log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}_{i}\right)\right)}}
+\end{align}
+Taking the log of both sides:
+\begin{equation}
+\log p\left(\mathbf{y}\middle|M_{i}\right) \approx \log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}^{*}\right) + \log p\left(\boldsymbol{\theta}_{i}^{*}\right) + \dfrac{k_{i}}{2}\log 2\pi  - \dfrac{1}{2}\log \det\left(-\nabla_{\boldsymbol{\theta}_{i}}^{2}p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}_{i}\right)\right)
+\end{equation}
+Note that under independence of each observation,
+\begin{equation}
+\log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}_{i}\right) = \sum_{j = 1}^{n}\log p\left(y_{j}\middle|\boldsymbol{\theta}_{i}\right) + \log p\left(\boldsymbol{\theta}_{i}\right)
+\end{equation}
+Hence
+\begin{equation}
+-\nabla_{\boldsymbol{\theta}_{i}}^{2}\log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}_{i}\right) = -\sum_{j = 1}^{n}\nabla_{\boldsymbol{\theta}_{i}}^{2}\log p\left(y_{j}\middle|\boldsymbol{\theta}_{i}\right)  -\nabla_{\boldsymbol{\theta}_{i}}^{2}\log p\left(\boldsymbol{\theta}_{i}\right)
+\end{equation}
+where each $-\nabla_{\boldsymbol{\theta}_{i}}^{2}\log p\left(y_{j}\middle|\boldsymbol{\theta}_{i}\right)$ is the observed information for a single observation. For large $n$, then by application of the law of large numbers we have
+\begin{equation}
+-\nabla_{\boldsymbol{\theta}_{i}}^{2}\log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}_{i}\right) \approx n I_{\boldsymbol{\theta}_{i}} -\nabla_{\boldsymbol{\theta}_{i}}^{2}\log p\left(\boldsymbol{\theta}_{i}\right)
+\end{equation}
+where $I_{\boldsymbol{\theta}_{i}}$ is the Fisher information for a single observation. Moreover, for large $n$, the overall Hessian term is dominated by the term involving $n$ so we are able to approximate:
+\begin{align}
+\det\left(-\nabla_{\boldsymbol{\theta}_{i}}^{2}\log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}\right) p\left(\boldsymbol{\theta}_{i}\right)\right) &\approx \det\left(n I_{\boldsymbol{\theta}_{i}}\right) \\
+&\approx n^{k_{i}}\det\left(I_{\boldsymbol{\theta}_{i}}\right)
+\end{align}
+Thus the log marginal likelihood of model $M_{i}$ gets approximated by
+\begin{equation}
+\log p\left(\mathbf{y}\middle|M_{i}\right) \approx \log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}^{*}\right) + \log p\left(\boldsymbol{\theta}_{i}^{*}\right) + \dfrac{k_{i}}{2}\log 2\pi  - \dfrac{k_{i}}{2}\log n - \dfrac{1}{2}\log\det\left(I_{\boldsymbol{\theta}_{i}}\right)
+\end{equation}
+Finally, for large $n$ we again ignore terms which do not contain $n$, leaving
+\begin{equation}
+\log p\left(\mathbf{y}\middle|M_{i}\right) \approx \log p\left(\mathbf{y}\middle|\boldsymbol{\theta}_{i}^{*}\right) - \dfrac{k_{i}}{2}\log n
+\end{equation}
+The right-hand side of this is the BIC of model $M_{i}$, where we select the model with the highest BIC.
 
 \subsection{Deviance Information Criterion}
 
@@ -8716,7 +9270,7 @@ The BIC is also used as a model selection technique, where we aim to select the 
 
 \section{Optimal Experimental Design}
 
-\subsection{Optimal Experimental Design for Linear Regression}
+\subsection{Optimal Experimental Design for Least Squares}
 
 Consider a data generating process
 \begin{equation}
@@ -8812,6 +9366,8 @@ Note that the Hessian can be formed from the matrix of all second partial deriva
 D\left(\theta'\right) \approx \dfrac{1}{2}\left(\theta' - \theta\right)^{\top}\left.\nabla_{\theta'}^{2}\operatorname{KL}\left(f\left(x;\theta\right)\middle\Vert f\left(x;\theta'\right)\right)\right|_{\theta' = \theta}\left(\theta' - \theta\right)
 \end{align}
 where we have used the facts that $D\left(\theta\right) = \operatorname{KL}\left(f\left(x;\theta\right)\middle\Vert f\left(x;\theta\right)\right) = 0$ and is a minimum, so the gradient also vanishes. Then the Fisher information metric may be interpreted as the curvature of the KL divergence with respect to $\theta'$ at $\theta$. The intuition is that the larger the Fisher information (ie. the larger the curvature), the more easily the parameter can be distinguished, hence the more `information' implied by $\theta$.
+
+\subsection{Bregman Divergence}
 
 \chapter{Econometrics}
 
@@ -9110,6 +9666,15 @@ By the independence of the sample, we have $\mathbb{E}\left[Y_{i}\middle| \mathc
 &= \boldsymbol{\beta}
 \end{align}
 
+\subsection{Gauss-Markov Theorem in Econometrics}
+
+The Gauss-Markov theorem can be stated for when the regressor matrix $\mathbf{X}$ is random. The general idea is to condition on $\mathbf{X}$, for which we need the following assumptions about the errors $\boldsymbol{\varepsilon}$:
+\begin{itemize}
+\item Strict exogneity: $\mathbb{E}\left[\varepsilon\middle|\mathbf{X}\right] = \mathbf{0}$.
+\item `Spherical' errors: $\operatorname{Cov}\left(\boldsymbol{\varepsilon}\right) = \mathbb{E}\left[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^{\top}\right] = \sigma^{2}I$.
+\end{itemize}
+Then the results of the Gauss-Markov theorem follow if the covariance of the arbitrary linear estimator and OLS are conditioned on $\mathbf{X}$.
+
 \subsection{Asymptotic Normality of Ordinary Least Squares}
 
 Retaining the same assumptions as for unbiasedness of OLS (simple random sample, linear PRF, no perfect multicollinearity), we can show the asymptotic normality of the OLS coefficient estimates. Define the prediction errors
@@ -9142,7 +9707,7 @@ by $\mathbb{E}\left[U_{i}\middle| X_{i}\right] = 0$ as established above. Note t
 \begin{equation}
 \sqrt{n}\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right) = \left(\dfrac{1}{n}\sum_{i=1}^{n}X_{i}X_{i}^{\top}\right)^{-1}\dfrac{1}{\sqrt{n}}\sum_{i=1}^{n}X_{i}U_{i}
 \end{equation}
-By applying Slutsky's theorem, we get
+By applying Slutsky's theorem (and the fact we are dealing with random quantities which converge in distribution to constants), we get
 \begin{equation}
 \sqrt{n}\left(\widehat{\boldsymbol{\beta}} - \boldsymbol{\beta}\right) \overset{\mathrm{d}}{\to} \mathbb{E}\left[X_{i}X_{i}^{\top}\right]^{-1}\mathcal{N}\left(\mathbf{0}, \Omega_{XU}\right)
 \end{equation}
@@ -9198,9 +9763,25 @@ are consistent for $\mathcal{V}$. Also note the parallel to the case when we hav
 \end{align}
 These standard errors can be used to perform homoskedasticity-only $t$-tests and construct confidence intervals that are asymptotically valid (and with approximately correct size and coverage properties in large samples) if the regressors are stochastic and we do not have the standard assumption that error terms are normally distributed.
 
+\subsection{Heteroskedasticity}
+
+Heteroskedasticity is defined as the case where generally $\operatorname{Var}\left(Y_{i}\middle| X_{i}\right) \neq \sigma^{2}$. That is, if the model is written in the form
+\begin{equation}
+\mathbb{E}\left[\mathbf{Y}\middle| \mathbf{X}\right] = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon} 
+\end{equation}
+and if the errors are uncorrelated, then $\operatorname{Cov}\left(\boldsymbol{\varepsilon}\right)$ will be equal to some diagonal matrix with non-negative entries.
+
+\subsection{Tests for Heteroskedasticity}
+
+\subsubsection{Tests for Multiple Heteroskedasticity}
+
+\subsubsection{The Breusch-Pagan Test}
+
+\subsubsection{The White Test}
+
 \subsection{White Standard Errors}
 
-The asymptotic covariance $\mathcal{V} = \dfrac{1}{n}\Sigma_{XX}^{-1}\Omega_{XU}\Sigma_{XX}^{-1}$ gives an idea on how to compute consistent standard errors in the case of heteroskedasticity, where we cannot assume $\operatorname{Var}\left(Y_{i}\middle| X_{i}\right) = \sigma^{2}$. We have a consistent estimator $\widehat{\Sigma}_{XX}$ for $\Sigma_{XX}$ as before. To estimate $\Omega_{XU}$, we can use
+The asymptotic covariance $\mathcal{V} = \dfrac{1}{n}\Sigma_{XX}^{-1}\Omega_{XU}\Sigma_{XX}^{-1}$ of $\widehat{\boldsymbol{\beta}}$ gives an idea on how to compute consistent standard errors in the case of heteroskedasticity, where we cannot assume $\operatorname{Var}\left(Y_{i}\middle| X_{i}\right) = \sigma^{2}$. We have a consistent estimator $\widehat{\Sigma}_{XX}$ for $\Sigma_{XX}$ as before. To estimate $\Omega_{XU}$, we can use
 \begin{equation}
 \widehat{\Omega}_{XU} = \dfrac{1}{n}\sum_{i = 1}^{n}\widehat{U}_{i}^{2}X_{i}X_{i}^{\top}
 \end{equation}
@@ -9425,9 +10006,9 @@ Now consider the difference between $\mathrm{USSR}$ and $\mathrm{RSSR}$; we obta
 \begin{equation}
 \mathrm{RSSR} - \mathrm{USSR} = \mathbf{Y}^{\top}M_{1}\mathbf{X}_{2}\left(\mathbf{X}_{2}^{\top}M_{1}\mathbf{X}_{2}\right)^{-1}\mathbf{X}_{2}^{\top}M_{1}\mathbf{Y}
 \end{equation}
-which is equal to the expression in the denominator for the $F$-statistic. Also using the relation $\widehat{\sigma}^{2} = USSR/\left(n - k\right)$, this shows that the Wald test statistic can be written as
+which is equal to the expression in the denominator for the $F$-statistic. Also using the relation $\widehat{\sigma}^{2} = \mathrm{USSR}/\left(n - k\right)$, this shows that the Wald test statistic can be written as
 \begin{equation}
-\dfrac{\left(\mathrm{RSSR} - \mathrm{USSR}\right)/q}{USSR/\left(n - k\right)} \sim F_{q, n- k}
+\dfrac{\left(\mathrm{RSSR} - \mathrm{USSR}\right)/q}{\mathrm{USSR}/\left(n - k\right)} \sim F_{q, n- k}
 \end{equation}
 A very special case is when we wish to test the joint significance of the regression by restricting all the coefficients, excluding the intercept coefficient. This means the restricted model is $\mathbf{Y}$ regressed on an intercept only, giving an estimate as the sample mean of $\mathbf{Y}$. Then in this case, $q = k - 1$ and $R$ takes the form
 \begin{equation}
@@ -9566,7 +10147,7 @@ Thus we can show
 \end{equation}
 which implies that the coefficient $\beta$ is a mixture of the causal coefficients $\delta$ and $\alpha$. Therefore an unbiased estimator for $\beta$ will be a biased estimator for either $\delta$ or $1/\alpha$. This is sometimes referred to as simultaneity bias.
 
-\subsection{Systems of Simultaneous Causal Equations \cite{Green2012}}
+\subsection{Systems of Simultaneous Causal Equations \cite{Greene2012}}
 
 \subsubsection{Structural Form of Simultaneous Causal Equations}
 
@@ -9639,7 +10220,7 @@ Then the $i$\textsuperscript{th} simultaneous causal equation involves the param
 \begin{equation}
 \mathbf{B}_{i}' = \begin{bmatrix} \boldsymbol{\beta}_{i} \\ \mathbf{0}_{K - K_{i}} \end{bmatrix}
 \end{equation}
-where $\mathbf{0}_{K - K_{i}}$ denotes a zero column vector of length $K - K_{i}$ will be a permutation (ie. row-swapped version) of $\mathbf{B}_{i}$. Similarly let $\boldsymbol{\gamma}_{i}$ be a column vector of length $M_{i}$ consisting of the subset of elements in $\boldsymbol{\Gamma}_{i}$ which are non-zero and also not fixed to $1$. Then
+(where $\mathbf{0}_{K - K_{i}}$ denotes a zero column vector of length $K - K_{i}$) will be a permutation (ie. row-swapped version) of $\mathbf{B}_{i}$. Similarly let $\boldsymbol{\gamma}_{i}$ be a column vector of length $M_{i}$ consisting of the subset of elements in $\boldsymbol{\Gamma}_{i}$ which are non-zero and also not fixed to $1$. Then
 \begin{equation}
 \boldsymbol{\Gamma}_{i}' = \begin{bmatrix} 1 \\ \boldsymbol{\gamma}_{i} \\ \mathbf{0}_{M - M_{i} - 1} \end{bmatrix}
 \end{equation}
@@ -9712,6 +10293,8 @@ An autoregressive model of order $p$ is denoted $\operatorname{AR}\left(p\right)
 X_{t} = c + \sum_{i = 1}^{p}\varphi_{i}X_{t - i} + \varepsilon_{t}
 \end{equation}
 where $\varphi_{1}, \dots, \varphi_{2}$ are parameters of the model, $c$ is a constant term and $\varepsilon_{t}$ is white noise.
+
+\subsection{Autoregressive Distributed Lag (ARDL) Models}
 
 \subsection{Moving Average (MA) Models}
 A moving average model of order $q$ is denoted $\operatorname{MA}\left(q\right)$ and is defined by
@@ -9789,12 +10372,23 @@ X_{t} = c + \sum_{i = 1}^{p}A_{i}X_{t - i} + \varepsilon_{t}
 \end{equation}
 where $X_{t}$ is a stochastic vector, $c$ is a constant vector, $A_{1}, \dots, A_{p}$ are square matrix parameters, and $\varepsilon_{t}$ is a zero-mean vector error term with no correlation across time, ie. $\mathbb{E}\left[\varepsilon_{t}\varepsilon_{t - k}^{\top}\right] = 0$ for any non-zero $k$.
 
+\subsection{Vector Autoregressive Exogenous (VARX) Models}
+
+Also known as dynamic simultaneous equations models, VARX models generalise VAR models with an exogenous input. A VAR model of orders $p$ and $s$ (denoted $\operatorname{VARX}\left(p, s\right)$) may be written as
+\begin{align}
+Y_{t} &= A_{1}Y_{t - 1} + \dots + A_{p}y_{t - p} + B_{0}X_{t} + \dots + B_{s}X_{t - s} + U_{t} \\
+&= \sum_{i = 1}^{p}A_{i}Y_{t - i} + B_{0}X_{t} + \sum_{j = 1}^{s}B_{j}X_{t - j} + U_{t}
+\end{align}
+where $Y_{t}$, $X_{t}$ are vector-valued (not necessarily of the same dimension), $A_{1}, \dots, A_{p}, B_{0}, \dots, B_{1}$ are parameter matrices of appropriate dimension and $U_{t}$ is the error term.
+
 \subsection{Nonlinear Autoregressive Exogeneous (NARX) Models}
 A NARX model is a generalisation of the AR model, and is denoted by $\operatorname{NARX}\left(p, b\right)$. The model is defined by
 \begin{equation}
 X_{t} = F\left(X_{t - 1}, \dots, X_{t - p}, d_{t}, d_{t - 1}, \dots, d_{t - b}\right) + \varepsilon_{t}
 \end{equation}
-where $F$ is a nonlinear function.
+where $F$ is a nonlinear function and $d_{t}, \dots, d_{t - b}$ are exogenous variables.
+
+\subsection{Seasonal ARIMA (SARIMA) Models}
 
 \section{Time-Series Regression}
 
@@ -9880,15 +10474,19 @@ And finally by $\operatorname{Cov}\left(Y_{t}, Y_{t - j}\right) = \operatorname{
 &= \dfrac{\beta_{1}^{j}\omega^{2}}{1 - \beta_{1}^{2}}
 \end{align}
 
+\subsection{Slutsky-Yule Effect}
+
 \chapter{Machine Learning}
 
 \section{Machine Learning Datasets}
 
-\subsection{Training Dataset}
+\subsection{Training Data}
 
-\subsection{Validation Dataset}
+\subsection{Validation Data}
 
-\subsection{Test Dataset}
+\subsection{Test Data}
+
+\subsection{Imbalanced Datasets}
 
 \section{Classification Algorithms}
 
@@ -10829,7 +11427,7 @@ The spectral factorisation theorem (or more generally known as the polynomial ma
 \begin{equation}
 S_{X}\left(\omega\right) = G\left(s\right)G\left(-s\right)
 \end{equation}
-where $s = j\omega$ and $G\left(s\right)$ is the transfer function of a non-minimum phase system (ie. roughly speaking it will have poles and zeros in the left-half plane). It follows that $G\left(-s\right)$ is a non-minimum phase system, and it will have poles and zeros in the right-half plane.
+where $s = j\omega$ and $G\left(s\right)$ is the transfer function of a non-minimum phase system (ie. roughly speaking it will have poles and zeros in the left-half plane). It follows that $G\left(-s\right)$ is a non-minimum phase system, as it will have poles and zeros in the right-half plane.
 \begin{proof}
 To show this theorem, we will begin with establishing some properties about $S_{X}\left(\omega\right)$. Firstly, $S_{X}\left(\omega\right)$ is an even function because $S_{X}\left(\omega\right) = \int_{-\infty}^{\infty}R_{X}\left(\tau\right)e^{-j\omega\tau}d\tau = S_{X}\left(-\omega\right)$. Since $S_{X}\left(\omega\right)$ is also a rational function (ie. its numerator and denominator are polynomials), it can be written as
 \begin{align}
@@ -10925,13 +11523,15 @@ H\left(z\right) &= \dfrac{A\left(z\right)}{B\left(z\right)} \\
 \end{align}
 with poles and zeros within the unit circle. From this we can also see that if $a_{k}$ is a zero, then $\overline{a_{k}}$ is also a zero, and likewise for the poles. Then from the Fundamental Theorem of Algebra, the polynomials $A\left(z\right)$ and $B\left(z\right)$ will have real coefficients. Hence $H\left(z\right)$ is minimum phase and physically realisable.
 \end{proof}
-The implication of the spectral factorisation theorem in discrete-time is analogous to continuous-time, except we do not need to deal with the complication of continuous-time white noise as the variance of discrete-time white noise is finite. The theorem ensures that if there exists a rational spectral density $S_{X}\left(\omega\right)$ of a discrete-time random sequence, then there exists a physically realisable dynamical system $H\left(z\right)$ such that sending discrete-time white noise through that system will generate the random sequence. This justifies modelling discrete-time noise as white noise.
+The implication of the spectral factorisation theorem in discrete-time is analogous to continuous-time, except we do not need to deal with the complication of continuous-time white noise as the variance of discrete-time white noise is finite. The theorem ensures that if we have a rational spectral density $S_{X}\left(\omega\right)$ of a discrete-time random sequence, then there exists a physically realisable dynamical system $H\left(z\right)$ such that sending discrete-time white noise through that system will generate the random sequence. This justifies modelling discrete-time noise as white noise.
 
 \section{Spectral Density Estimation}
 
 \section{Linear Filtering}
 
 \subsection{Least Squares Filter}
+
+\subsection{Matched Filtering}
 
 \subsection{Wiener-Kolgomorov Filtering}
 
@@ -11463,23 +12063,534 @@ The extension of this framework to obtaining the posterior over trajectory follo
 
 \chapter{Stochastic Control}
 
-\section{Linear System Identification}
+\section{Linear Systems Identification}
 
-\subsection{Identification of Linear State Space Systems}
+\subsection{Identifiability of Linear Systems}
+
+\subsection{Persistency of Excitation \cite{Verhaegen2007}}
+
+Persistency of excitation characterises whether an excitation signal excites enough of the frequency spectrum to be able to identify a model. To illustrate with an extreme example, a constant excitation signal will not excite the system dynamics so a model cannot be identified. Suppose we have an input signal $u_{k}$ for $k = 0, 1, 2, \dots$. Then formally the sequence is said to be persistently exciting of order $n$ if and only if there exists some integer $N$ such that the $n\times N$ matrix
+\begin{equation}
+U_{n, N} = \begin{bmatrix}u_{0} & u_{1} & \dots & u_{N-1}\\
+u_{1} & u_{2} & \dots & u_{N}\\
+\vdots & \vdots & \ddots & \vdots\\
+u_{n-1} & u_{n} & \dots & u_{N+n-2}
+\end{bmatrix}
+\end{equation}
+has full row rank $n$. This means that $U_{n, N}$ has no linearly dependent rows. Periodic signals will not have persistency of excitation for all orders. For example, suppose we have a periodic input signal with period $T$, ie. $u_{k} = u_{k + T}$. Then the signal will not be persistently exciting of order $T + 1$ because the matrix
+\begin{equation}
+U_{T + 1, N} = \begin{bmatrix}u_{0} & u_{1} & \dots & u_{N-1}\\
+u_{1} & u_{2} & \dots & u_{N}\\
+\vdots & \vdots & \ddots & \vdots\\
+u_{T} & u_{T+1} & \dots & u_{N+T-1}
+\end{bmatrix}
+\end{equation}
+will have first row equal to last row for all $N$ so it is automatically not full row rank. \\
+
+For ergodic input signals, there is an equivalent condition for persistency of excitation. Note that
+\begin{align}
+U_{n, N}U_{n, N}^{\top} &= \begin{bmatrix}u_{0} & u_{1} & \dots & u_{N-1}\\
+\vdots & \vdots & \ddots & \vdots\\
+u_{n-1} & u_{n} & \dots & u_{N+n-2}
+\end{bmatrix}\begin{bmatrix}u_{0} & \dots & u_{n-1}\\
+u_{1} & \dots & u_{n}\\
+\vdots & \ddots & \vdots\\
+u_{N-1} & \dots & u_{N+n-2}
+\end{bmatrix} \\
+&= \begin{bmatrix}\sum_{k=0}^{N-1}u_{k}^{2} & \dots & \sum_{k=0}^{N-1}u_{k}u_{k+n-1}\\
+\vdots & \ddots & \vdots\\
+\sum_{k=0}^{N-1}u_{k}u_{k+n-1} & \dots & \sum_{k=n-1}^{n+N-2}u_{k}^{2}
+\end{bmatrix}
+\end{align}
+Thus by the law of large numbers,
+\begin{equation}
+\lim_{N\to\infty}U_{n, N}U_{n, N}^{\top} = \begin{bmatrix}R_{u}\left(0\right) & R_{u}\left(1\right) & \dots & R_{u}\left(n-1\right)\\
+R_{u}\left(1\right) & R_{u}\left(0\right) & \dots & R_{u}\left(n-2\right)\\
+\vdots & \vdots & \ddots & \vdots\\
+R_{u}\left(n-1\right) & R_{u}\left(n-2\right) & \dots & R_{u}\left(0\right)
+\end{bmatrix}
+\end{equation}
+where $R_{u}\left(\kappa\right)$ is the autocorrelation function of $u_{k}$, if this limit exists (ie. $u_{k}$ is a second-order process). If $U_{n, N}$ is full row rank with some $N$ large enough, then this matrix will be nonsingular. Thus $u_{k}$ is persistently exciting of order $n$ if the $n \times n$ matrix of autocorrelations is nonsingular. From this condition, we can also deduce that if $u_{k}$ is white noise (ie. its autocorrelation function is $R_{u}\left(\kappa\right) = c\delta_{\kappa}$), then the autocorrelation matrix will be $cI_{n\times n}$ which is nonsingular for all $n$. Thus white noise is persistently exciting for all orders $n$. 
+
+\subsection{Frequency Domain Identification}
+
+\subsection{Subspace Identification \cite{Ljung1999}}
+
+Consider the state space system
+\begin{gather}
+x_{k + 1} = Ax_{k} + Bu_{k} + w_{k} \\
+y_{k} = Cx_{k} + Du_{k} + v_{k}
+\end{gather}
+with dimensions $x_{k} \in \mathbb{R}^{n}$, $u_{k} \in \mathbb{R}^{m}$ and $y_{k} \in \mathbb{R}^{p}$. The noise terms $w_{k}$ and $v_{k}$ are considered to be zero-mean and white. Also assume the system is observable and controllable, and that this is a minimal realisation of the system (ie. there are no `redundant' states), however the order of the system ($n$) may be not known. The subspace identification approach finds estimates for the system matrices $A$, $B$, $C$ and $D$ from only input and output observations, and is formulated as follows. Define the stacked output and input vectors
+\begin{equation}
+Y_{r, k} = \begin{bmatrix}
+y_{k} \\ y_{k + 1} \\ \vdots \\ y_{k + r - 1}
+\end{bmatrix}
+\end{equation}
+and
+\begin{equation}
+U_{r, k} = \begin{bmatrix}
+u_{k} \\ u_{k + 1} \\ \vdots \\ u_{k + r - 1}
+\end{bmatrix}
+\end{equation}
+where $r$ is known as the maximal prediction horizon. It can be checked that $Y_{r, k}$ can be written as
+\begin{equation}
+Y_{r, k} = \green\underbrace{\black\begin{bmatrix}
+C \\ CA \\ \vdots \\ CA^{r - 1}
+\end{bmatrix}}_{\green \mathcal{O}_{r}}\black x_{k} + \green\underbrace{\black \begin{bmatrix}D\\
+CB & D\\
+\vdots & \vdots & \ddots\\
+\vdots & \vdots &  & \ddots\\
+CA^{r-2}B & CA^{r-3}B & \dots & CB & D
+\end{bmatrix}}_{\green \mathcal{S}_{r}}\black U_{r, k} + V_{k}
+\end{equation}
+where $V_{k}$ is another stacked vector of noise terms given by
+\begin{equation}
+V_{k} = \begin{bmatrix}
+v_{k} \\ Cw_{k} + v_{k + 1} \\ CAw_{k} + Cw_{k + 1} + v_{k + 2} \\ \vdots \\ CA^{r - 2}w_{k} + \dots + Cw_{k + r - 2} + v_{k + r - 1}
+\end{bmatrix}
+\end{equation}
+The matrix $\mathcal{O}_{r}$ is called the extended observability matrix, and is the matrix of interest in the first step of estimating the system matrices. Suppose we have $N + r - 1$ input and output observations, indexed by $\left(u_{1}, y_{1}\right), \dots, \left(u_{N + r - 1}, y_{N + r - 1}\right)$. Then concatenating horizontally, we can write
+\begin{equation}
+\green\underbrace{
+\black\begin{bmatrix}
+Y_{r, 1} & \dots & Y_{r, N}
+\end{bmatrix}}_{\green \mathbf{Y}}\black = \mathcal{O}_{r}\green\underbrace{\black\begin{bmatrix}
+x_{1} & \dots & x_{N}
+\end{bmatrix}}_{\green \mathbf{X}}\black + \mathcal{S}_{r}\green\underbrace{\black\begin{bmatrix}
+U_{r, 1} & \dots & U_{r, N}
+\end{bmatrix}}_{\green \mathbf{U}}\black + \green\underbrace{\black\begin{bmatrix}
+V_{1} & \dots & V_{N}
+\end{bmatrix}}_{\green \mathbf{V}}\black
+\end{equation}
+Define $\mathbf{M} = I - \mathbf{U}^{\top}\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}$ which is a matrix that performs an orthogonal projection to the $\mathbf{U}$ matrix, since we see that $\mathbf{U}\mathbf{M} = \mathbf{0}$. Then multiplying the formula for $\mathbf{Y}$ above from the right by $\mathbf{M}$, the term containing $\mathbf{U}$ will be eliminated, which leaves
+\begin{equation}
+\mathbf{Y}\mathbf{M} = \mathcal{O}_{r}\mathbf{X}\mathbf{M} + \mathbf{V}\mathbf{M}
+\end{equation}
+Define a `suitable' matrix $\Phi$ of dimension $s \times N$, where $s \geq n$. It consists of vectors
+\begin{equation}
+\Phi = \begin{bmatrix}
+\phi_{s, 1} & \dots & \phi_{s, N}
+\end{bmatrix}
+\end{equation}
+Then let
+\begin{align}
+G &= \dfrac{1}{N}\mathbf{Y}\mathbf{M}\Phi^{\top} \\
+&= \dfrac{1}{N}\mathcal{O}_{r}\mathbf{X}\mathbf{M}\Phi^{\top} + \dfrac{1}{N}\mathbf{V}\mathbf{M}\Phi^{\top} \\
+&= \mathcal{O}_{r}\green\underbrace{\black \widetilde{T}_{N}}_{\green \frac{1}{N}\mathbf{X}\mathbf{M}\Phi^{\top}}\black + \green\underbrace{\black E_{N}}_{\green \frac{1}{N}\mathbf{V}\mathbf{M}\Phi^{\top}}\black
+\end{align}
+where $\widetilde{T}_{N} \in \mathbb{R}^{n\times s}$ and $E_{N} \in \mathbb{R}^{pr\times s}$. Now suppose that $\Phi$ is suitable in the sense that as $N \to \infty$, we have
+\begin{gather}
+E_{N} \overset{\mathrm{p}}{\to} \mathbf{0} \\
+\widetilde{T}_{N} \overset{\mathrm{p}}{\to} \widetilde{T}
+\end{gather}
+where $\widetilde{T}$ is a full (row) rank matrix of rank $n$. To examine what makes a suitable choice of $\Phi$, we first write out $E_{N}$ in terms of sums.
+\begin{align}
+E_{N} &= \dfrac{1}{N}\begin{bmatrix}
+V_{1} & \dots & V_{N}
+\end{bmatrix}\left[I - \mathbf{U}^{\top}\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\right]\begin{bmatrix}
+\phi_{s, 1}^{\top} \\ \vdots \\ \phi_{s, N}^{\top}
+\end{bmatrix} \\
+&= \dfrac{1}{N}\sum_{k = 1}^{N}V_{k}\phi_{s, k}^{\top} - \dfrac{1}{N}\sum_{k = 1}^{N}V_{k}U_{r, k}^{\top}\left(\dfrac{1}{N}\sum_{k = 1}^{N}U_{r, k}U_{r, k}^{\top}\right)^{-1}\dfrac{1}{N}\sum_{k = 1}^{N}U_{r, k}\phi_{s, k}^{\top}
+\end{align}
+Under the conditions of the weak law of large numbers (or a generalisation), the probability limit is
+\begin{equation}
+E_{N} \overset{\mathrm{p}}{\to} \mathbb{E}\left[V_{k}\phi_{s, k}^{\top}\right] - \mathbb{E}\left[V_{k}U_{r, k}^{\top}\right]\left(\mathbb{E}\left[U_{r, k}U_{r, k}^{\top}\right]\right)^{-1}\mathbb{E}\left[U_{r, k}\phi_{s, k}^{\top}\right]
+\end{equation}
+As the noise is zero-mean, then if the noise and input are independent (as would be the case if the input is open-loop), then
+\begin{equation}
+\mathbb{E}\left[V_{k}U_{r, k}^{\top}\right] = \mathbf{0}
+\end{equation}
+Also assume that $\mathbb{E}\left[U_{r, k}U_{r, k}^{\top}\right]$ is invertible (which means the input should be persistently exciting). Then in order for the probability limit to be zero, we require $V_{k}$ and $\phi_{s, k}$ to be uncorrelated. Since $V_{k}$ contains only terms for times on or after time $k$, then an example choice of $\phi_{s, k}$ which satisfies uncorrelatedness are the inputs/outputs which happen before time $k$:
+\begin{equation}
+\phi_{s, k} = \begin{bmatrix}
+y_{k - 1} \\ \vdots \\ y_{k - s_{1}} \\ u_{k - 1} \\ \vdots \\ u_{k - s_{2}}
+\end{bmatrix}
+\end{equation}
+with $s_{1} + s_{2} = s$. A simple choice in implementation is to let $s_{1} = s_{2}$, and then also fix $r = s$. Focusing our attention on the probability limit of $\widetilde{T}_{N}$, we similarly find that
+\begin{equation}
+\widetilde{T}_{N} = \dfrac{1}{N}\sum_{k = 1}^{N}x_{k}\phi_{s, k}^{\top} - \dfrac{1}{N}\sum_{k = 1}^{N}x_{k}U_{r, k}^{\top}\left(\dfrac{1}{N}\sum_{k = 1}^{N}U_{r, k}U_{r, k}^{\top}\right)^{-1}\dfrac{1}{N}\sum_{k = 1}^{N}U_{r, k}\phi_{s, k}^{\top}
+\end{equation}
+and under the conditions of the weak law of large numbers (or a generalisation),
+\begin{equation}
+\widetilde{T}_{N} \overset{\mathrm{p}}{\to} \widetilde{T} = \mathbb{E}\left[x_{k}\phi_{s, k}^{\top}\right] - \mathbb{E}\left[x_{k}U_{r, k}^{\top}\right]\left(\mathbb{E}\left[U_{r, k}U_{r, k}^{\top}\right]\right)^{-1}\mathbb{E}\left[U_{r, k}\phi_{s, k}^{\top}\right]
+\end{equation}
+It can be established that $\widetilde{T}$ is full-rank with the following sufficient conditions:
+\begin{itemize}
+\item The expectation
+\begin{equation}
+\mathbb{E}\left[\begin{bmatrix}x_{k}\\
+U_{r,k}
+\end{bmatrix}\begin{bmatrix}x_{k}^{\top} & U_{r,k}^{\top}\end{bmatrix}\right] = \begin{bmatrix}\mathbb{E}\left[x_{k}x_{k}^{\top}\right] & \mathbb{E}\left[x_{k}U_{r,k}^{\top}\right] \\
+\mathbb{E}\left[U_{r,k}x_{k}^{\top}\right] & \mathbb{E}\left[U_{r,k}U_{r,k}^{\top}\right]
+\end{bmatrix}
+\end{equation}
+is positive definite (hence full-rank). Note that this expresses that none of the $r$ future inputs can be linearly dependent with the current state. This also implies that $\mathbb{E}\left[U_{r, k}U_{r, k}^{\top}\right]$ is invertible and $\mathbb{E}\left[x_{k}U_{r,k}^{\top}\right]$ is full-rank. 
+\item The horizons $s_{1}$ and $s_{2}$ are sufficiently large such that the states can be well-estimated from the past input and output as $x_{k} \approx L_{x}\phi_{s, k}$ for some $L_{x}$ (which should also be full-rank). For this $L_{x}$ to exist ($L_{x}$ can be thought of as the coefficients in a linear predictor), we can also require that $\mathbb{E}\left[\phi_{s, k}\phi_{s, k}^{\top}\right]$ is positive definite (hence full-rank).
+\end{itemize}
+To show this, consider that the Schur complement $\mathbb{E}\left[x_{k}x_{k}^{\top}\right] - \mathbb{E}\left[x_{k}U_{r,k}^{\top}\right]\left(\mathbb{E}\left[U_{r,k}U_{r,k}^{\top}\right]\right)^{-1}\mathbb{E}\left[U_{r,k}x_{k}^{\top}\right]$ is positive definite and full rank ($n$), due to the first condition. Then
+\begin{multline}
+\mathbb{E}\left[x_{k}x_{k}^{\top}\right] - \mathbb{E}\left[x_{k}U_{r,k}^{\top}\right]\left(\mathbb{E}\left[U_{r,k}U_{r,k}^{\top}\right]\right)^{-1}\mathbb{E}\left[U_{r,k}x_{k}^{\top}\right] \\
+\approx \mathbb{E}\left[x_{k}\phi_{s, k}^{\top}L_{x}^{\top}\right] - \mathbb{E}\left[x_{k}U_{r,k}^{\top}\right]\left(\mathbb{E}\left[U_{r,k}U_{r,k}^{\top}\right]\right)^{-1}\mathbb{E}\left[U_{r,k}\phi_{s, k}^{\top}L_{x}^{\top}\right]
+\end{multline}
+Treating $L_{x}$ as non-random (ie. it could be fixed to the data), then
+\begin{multline}
+\mathbb{E}\left[x_{k}x_{k}^{\top}\right] - \mathbb{E}\left[x_{k}U_{r,k}^{\top}\right]\left(\mathbb{E}\left[U_{r,k}U_{r,k}^{\top}\right]\right)^{-1}\mathbb{E}\left[U_{r,k}x_{k}^{\top}\right] \\
+\approx \left(\mathbb{E}\left[x_{k}\phi_{s, k}^{\top}\right] - \mathbb{E}\left[x_{k}U_{r, k}^{\top}\right]\left(\mathbb{E}\left[U_{r, k}U_{r, k}^{\top}\right]\right)^{-1}\mathbb{E}\left[U_{r, k}\phi_{s, k}^{\top}\right]\right)L_{x}^{\top}
+\end{multline}
+and note that the right-hand side is $\widetilde{T}L_{x}^{\top}$. Therefore if $L_{x}$ is full column rank, then $L_{x}^{\top}$ is full row rank. Then the rank of the left-hand side will be equal to the rank of $\widetilde{T}$ (assuming the approximation is good enough to preserve rank), and since the left-hand side is full rank, then $\operatorname{rank}\left(\widetilde{T}\right) = n$ as required. \\
+
+Thus we have established that $G = \dfrac{1}{N}\mathbf{Y}\mathbf{M}\Phi^{\top}$ is a noisy estimate of the matrix $\mathcal{O}_{r}\widetilde{T}_{N}$, that is related to the extended observability matrix $\mathcal{O}_{r}$, with the noise converging in probability to zero and $\widetilde{T}_{N}$ converging in probability to a full rank matrix as $N \to \infty$. To recover an estimate of $\mathcal{O}_{r}$, we can perform a singular value decomposition on $G$, which gives
+\begin{equation}
+G = \mathcal{U}\Sigma\mathcal{V}^{\top}
+\end{equation}
+which takes the form (with $r = s$ and $p \geq 1$):
+\begin{equation}
+G = \mathcal{U}\begin{bmatrix}\sigma_{1}\\
+ & \ddots\\
+ &  & \sigma_{s}\\
+0 & \dots & 0\\
+\vdots & \ddots & \vdots\\
+0 & \dots & 0
+\end{bmatrix}\mathcal{V}^{\top}
+\end{equation}
+where $\mathcal{U} \in \mathbb{R}^{pr \times pr}$ and $\mathcal{V} \in \mathbb{R}^{s \times s}$ are orthogonal. If the order of the system is known (or predetermined), then we can further write this as
+\begin{equation}
+G = \begin{bmatrix}\mathcal{U}_{1} & \mathcal{U}_{2} \end{bmatrix}\begin{bmatrix}
+\Sigma_{1} & \\ & \Sigma_{2}
+\end{bmatrix}\begin{bmatrix}
+\mathcal{V}_{1}^{\top} \\ \mathcal{V}_{2}^{\top}
+\end{bmatrix}
+\end{equation}
+with dimensions $\mathcal{U}_{1} \in \mathbb{R}^{pr \times n}$, $\mathcal{V}_{1} \in \mathbb{R}^{n \times s}$ and $\Sigma_{1} \in \mathbb{R}^{n \times n}$. By convention, $\Sigma_{1}$ contains the $n$ largest singular values of $G$. If the true order of the system is $n$ and the noise is small, it is reasonable to think that the singular values in $\Sigma_{2}$ will also be small, leading to
+\begin{equation}
+G \approx \widehat{G} = \mathcal{U}_{1}\Sigma_{1}\mathcal{V}_{1}^{\top}
+\end{equation}
+From another characterisation of SVD, this can be viewed as taking a low-rank approximation of $G$, with the objective to minimise the Frobenius norm between $G$ and $\widehat{G}$, with the constraint that $\operatorname{rank}\left(\widehat{G}\right) = n$. If the order of the system is not known or predetermined, then it may be estimated by examining the first $n$ singular values which are `significantly' non-zero. Thus for large $N$ we have approximately
+\begin{gather}
+G \approx \mathcal{O}_{r}\widetilde{T} \\
+\mathcal{U}_{1}^{\top}\Sigma_{1}\mathcal{V}_{1}^{\top} \approx \mathcal{O}_{r}\widetilde{T}
+\end{gather}
+where $\widetilde{T}$ is full rank. Multiplying from the right by $\mathcal{V}_{1}$, we use that $\mathcal{V}_{1}^{\top}\mathcal{V}_{1} = I$ by orthogonality of $\mathcal{V}$ to give
+\begin{equation}
+\mathcal{U}_{1}^{\top}\Sigma_{1} \approx \mathcal{O}_{r}\widetilde{T}\mathcal{V}_{1} 
+\end{equation}
+where $T = \widetilde{T}\mathcal{V}_{1}$ is a square matrix that is also invertible, since it will have rank $n$ (preserved by multiplication with $\mathcal{V}_{1}$ which has linearly independent columns). Thus $T$ is a similarity transform which only affects the choice of basis of the state-space representation. We can estimate the extended observability matrix up to a similarity transform, and can simply take
+\begin{equation}
+\widehat{\mathcal{O}}_{r} = \mathcal{U}_{1}^{\top}\Sigma_{1}
+\end{equation}
+For further generality, we could postmultiply $G$ by some matrix $\mathcal{W}$ so that $G\mathcal{W} \approx \mathcal{O}_{r}\widetilde{T}\mathcal{W}$. Then by SVD to take the reduced-rank approximation: $G\mathcal{W} \approx \mathcal{U}_{1}\Sigma_{1}\mathcal{V}_{1}^{\top}$ will still recover an estimate of the extended observability matrix up to a similarity transform (under the appropriate rank conditions on $\mathcal{W}$), because $\mathcal{O}_{r}\widetilde{T}\mathcal{W}\mathcal{V}_{1} \approx \mathcal{U}_{1}\Sigma_{1}$. For even further generality, we can use $\widehat{\mathcal{O}}_{r} = \mathcal{U}_{1}\mathcal{R}$ where $\mathcal{R}$ is any invertible matrix. \\
+
+From the structure of the extended observability matrix, the estimate $\widehat{C}$ can be obtained from inspection by taking the first $p$ rows of $\widehat{\mathcal{O}}_{r}$. To estimate $A$, notice that
+\begin{equation}
+\green\underbrace{\black \begin{bmatrix}CA\\
+\vdots\\
+CA^{r-1}
+\end{bmatrix}}_{\green \mathcal{O}_{2:r}}\black = \green\underbrace{\black\begin{bmatrix}C\\
+\vdots\\
+CA^{r-2}
+\end{bmatrix}}_{\green \mathcal{O}_{1:\left(r - 1\right)}}\black A
+\end{equation}
+where $\mathcal{O}_{2:r}$ and $\mathcal{O}_{1:\left(r - 1\right)}$ may be estimated respectively as $\widehat{\mathcal{O}}_{2:r}$ and $\widehat{\mathcal{O}}_{1:\left(r - 1\right)}$ by inspection of $\widehat{O}_{r}$. So an estimate of $A$ in the least-squares sense may be given by
+\begin{equation}
+\widehat{A} = \widehat{\mathcal{O}}_{1:\left(r - 1\right)}^{\dagger}\widehat{\mathcal{O}}_{2:r}
+\end{equation}
+where $\widehat{\mathcal{O}}_{1:\left(r - 1\right)}^{\dagger}$ is the Moore-Penrose pseudoinverse of $\widehat{\mathcal{O}}_{1:\left(r - 1\right)}$. Subsequently, $B$ and $D$ may be estimated by forming the equation
+\begin{equation}
+\widehat{y}_{k} = \widehat{C}\left(qI - \widehat{A}\right)^{-1}Bu_{k} + Du_{k}
+\end{equation}
+by recalling that $C\left(qI - A\right)^{-1}B + D$ is the formula for the discrete-time transfer function, where $q$ is the forward shift in time operator. Upon appropriate reformulation, this gives a form suitable for linear regression:
+\begin{equation}
+\widehat{y}_{k} = \varphi_{k}\begin{bmatrix}
+\operatorname{vec}\left(B\right) \\ \operatorname{vec}\left(D\right)
+\end{bmatrix}
+\end{equation}
+where $\varphi_{k}$ is some regressor matrix that involves $u_{k}$ as well as its shifts, and elements of $\widehat{A}$ and $\widehat{C}$. The estimates $\widehat{B}$ and $\widehat{D}$ can therefore be obtained by least squares. Optionally, the initial condition $x_{0}$ (where it is originally presumed to be zero) can also be estimated by constructing the form
+\begin{equation}
+\widehat{y}_{k} = \widehat{C}\left(qI - \widehat{A}\right)^{-1}x_{0} + \delta_{k} \widehat{C}\left(qI - \widehat{A}\right)^{-1}Bu_{k} + Du_{k}
+\end{equation}
+where $\delta_{k}$ is the Kronecker delta (unit pulse at time $k = 0$). To summarise the steps for subspace identification:
+\begin{enumerate}
+\item From input and output data, form $G = \dfrac{1}{N}\mathbf{Y}\mathbf{M}\Phi^{\top}$.
+\item Take the SVD of $G$ and approximate it by $\widehat{G} = \mathcal{U}_{1}\Sigma_{1}\mathcal{V}_{1}^{\top}$ using some choice of the model order $n$.
+\item Estimate the extended observability matrix by $\widehat{\mathcal{O}}_{r} = \mathcal{U}_{1}\Sigma_{1}$.
+\item From $\widehat{\mathcal{O}}_{r}$, estimate $C$ by inspection followed by estimation of $A$ using least squares.
+\item Using $\widehat{A}$ and $\widehat{C}$ together with the input and output data, estimate $B$, $D$ and optionally $x_{0}$ by least squares.
+\end{enumerate}
+
+\subsubsection{Consistency of Subspace Identification}
+
+Under the stated conditions, the extended observability matrix $\mathcal{O}_{r}$ can be consistently estimated up to a similarity transform. This implies that $A$ and $C$ can also be consistently estimated (the former relies on the consistency properties of least squares). Then if consistent estimates $\widehat{A}$ and $\widehat{C}$ are used, then consistency of $\widehat{B}$ and $\widehat{D}$ (as well as $\widehat{x}_{0}$) are guaranteed by assuming that the input is run in open-loop (which causes $u_{k}$ to be independent with the noise terms).
+
+\subsubsection{Noise Statistics with Subspace Identification}
+
+The covariances of the noise terms $w_{k}$ and $v_{k}$ can be obtained from the subspace identification approach. Firstly, construct a predictor of the form
+\begin{equation}
+Y_{r, k} = \Theta \phi_{s, k} + \Gamma U_{r, k} + E_{k}
+\end{equation}
+where $Y_{r, k}$, $U_{r, k}$, $\phi_{s, k}$ are as above, $E_{k}$ is a stacked vector of error terms and $\Theta$, $\Gamma$ contain parameters. Collecting these vectors horizontally for $k = 1, \dots, N$ gives the model
+\begin{align}
+\mathbf{Y} &= \Theta \Phi + \Gamma\mathbf{U} + \mathbf{E} \\
+&= \begin{bmatrix}
+\Theta & \Gamma
+\end{bmatrix}\begin{bmatrix}
+\Phi \\ \mathbf{U}
+\end{bmatrix} + \mathbf{E}
+\end{align}
+The least squares estimates for $\Theta$ and $\Gamma$ are obtained from the Moore-Penrose pseudoinverse of the partitioned matrix:
+\begin{align}
+\begin{bmatrix}
+\Phi \\ \mathbf{U}
+\end{bmatrix}^{\dagger} &= \begin{bmatrix}
+\Phi^{\top} & \mathbf{U}^{\top}\end{bmatrix}\left(\begin{bmatrix}
+\Phi \\ \mathbf{U}
+\end{bmatrix}\begin{bmatrix}
+\Phi^{\top} & \mathbf{U}^{\top}
+\end{bmatrix}\right)^{-1} \\
+&= \begin{bmatrix}
+\Phi^{\top} & \mathbf{U}^{\top}\end{bmatrix}\begin{bmatrix}
+\Phi\Phi^{\top} & \Phi\mathbf{U}^{\top} \\ \mathbf{U}\Phi^{\top} & \mathbf{U}\mathbf{U}^{\top}
+\end{bmatrix}^{-1}
+\end{align}
+giving
+\begin{align}
+\begin{bmatrix}
+\widehat{\Theta} & \widehat{\Gamma}
+\end{bmatrix} &= \mathbf{Y}\begin{bmatrix}
+\Phi^{\top} & \mathbf{U}^{\top}\end{bmatrix}\begin{bmatrix}
+\Phi\Phi^{\top} & \Phi\mathbf{U}^{\top} \\ \mathbf{U}\Phi^{\top} & \mathbf{U}\mathbf{U}^{\top}
+\end{bmatrix}^{-1} \\
+&= \begin{bmatrix}
+\mathbf{Y}\Phi^{\top} & \mathbf{Y}\mathbf{U}^{\top}\end{bmatrix}\begin{bmatrix}
+\Phi\Phi^{\top} & \Phi\mathbf{U}^{\top} \\ \mathbf{U}\Phi^{\top} & \mathbf{U}\mathbf{U}^{\top}
+\end{bmatrix}^{-1}
+\end{align}
+Using block matrix inversion formulae and isolating only the blocks which are used in the calculation of $\widehat{\Theta}$:
+\begin{align}
+\begin{bmatrix}\Phi\Phi^{\top} & \Phi\mathbf{U}^{\top}\\
+\mathbf{U}\Phi^{\top} & \mathbf{U}\mathbf{U}^{\top}
+\end{bmatrix}^{-1} &= \begin{bmatrix}\left(\Phi\Phi^{\top}-\Phi\mathbf{U}^{\top}\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\Phi^{\top}\right)^{-1} & *\\
+-\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\Phi^{\top}\left(\Phi\Phi^{\top}-\Phi\mathbf{U}^{\top}\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\Phi^{\top}\right)^{-1} & *
+\end{bmatrix} \\
+&= \begin{bmatrix}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1} & *\\
+-\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1} & *
+\end{bmatrix}
+\end{align}
+where in the second step we have used the definition of the orthogonal projection matrix $\mathbf{M} = I - \mathbf{U}^{\top}\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}$ defined above. Thus the computation of $\widehat{\Theta}$ is given by
+\begin{align}
+\widehat{\Theta} &= \begin{bmatrix}\mathbf{Y}\Phi^{\top} & \mathbf{Y}\mathbf{U}^{\top}\end{bmatrix}\begin{bmatrix}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}\\
+-\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}
+\end{bmatrix} \\
+&= \begin{bmatrix}\mathbf{Y}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}-\mathbf{Y}\mathbf{U}^{\top}\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}\end{bmatrix} \\
+&= \mathbf{Y}\mathbf{M}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}
+\end{align}
+where we have again used the definition of $\mathbf{M}$. Note that the form of this estimate bears analogy to the form of the estimates for the partitioned parameters in the Frisch-Waugh-Lovell theorem from econometrics (which also involves an orthogonal projection matrix). Then $\mathbf{Y}$ can be predicted in the following way:
+\begin{align}
+\widehat{\mathbf{Y}} &= \widehat{\Theta}\Phi \\
+&= \mathbf{Y}\mathbf{M}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}\Phi
+\end{align}
+We explain that $\widehat{\Gamma}$ drops out of the prediction because it is not sensible to use future values of the input to predict past values of the output (eg. using $u_{k + r - 1}$ to predict $y_{k}$). Moreover, the `best prediction' in some sense can be viewed as when the future inputs are taken to be zero (for instance if the input sequence is white noise). We then see that $\widehat{\mathbf{Y}}$ is a case of the postmultiplication $G\mathcal{W}$ where $\mathcal{W} = N\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}\Phi$ which is a $s \times N$ matrix. Thus $\widehat{\mathbf{Y}}$ can be decomposed by SVD to recover $\widehat{A}$, $\widehat{B}$, $\widehat{C}$, $\widehat{D}$ and optionally $\widehat{x}_{0}$.  Then through $\mathbf{Y} = \mathcal{O}_{r}\mathbf{X} + \mathcal{S}_{r}\mathbf{U} + \mathbf{V}$, we obtain
+\begin{equation}
+\widehat{\mathbf{Y}} \approx \mathcal{O}_{r}\widehat{\mathbf{X}}
+\end{equation}
+where $\mathbf{U}$ drops out in the prediction due to the reasoning explained above. As $\widehat{\mathcal{O}_{r}}$ can be written as $\mathcal{U}_{1}\mathcal{R}$ for some invertible $\mathcal{R}$, then exploiting the orthogonality $\mathcal{U}_{1}^{\top}\mathcal{U}_{1} = I$ gives
+\begin{equation}
+\widehat{\mathbf{X}} = \mathcal{R}^{-1}\mathcal{U}_{1}^{\top}\widehat{\mathbf{Y}}
+\end{equation}
+which gives the state estimates in the same state-space basis as that used to estimate the system matrices. This also shows the state estimates can be written in the form $\widehat{\mathbf{X}} = L_{x}\Phi$ as 
+\begin{equation}
+\widehat{\mathbf{X}} = \mathcal{R}^{-1}\mathcal{U}_{1}^{\top}\mathbf{Y}\mathbf{M}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}\Phi
+\end{equation}
+which is one of the requirements for $\widetilde{T}$ to be full rank. The condition $\mathbb{E}\left[\phi_{s, k}\phi_{s, k}^{\top}\right]$ being positive definite helps ensure $\Phi\mathbf{M}\Phi^{\top}$ to be invertible. Lastly from the state estimates, the noises can be estimated by
+\begin{gather}
+\widehat{w}_{k} = \widehat{x}_{k + 1} - \widehat{A}\widehat{x}_{k} - \widehat{B}u_{k} \\
+\widehat{v}_{k} = y_{k} - \widehat{C}\widehat{x}_{k} - \widehat{D}u_{k}
+\end{gather}
+from which their respective covariance estimates $\widehat{Q}$ and $\widehat{R}$ can be computed (for example, by taking the sample covariance).
 
 \subsection{Closed Loop Identification \cite{Kumar1986}}
 
-\subsection{Subspace Identification}
+\section{Stochastic Optimal Control}
 
-\section{Linear Quadratic Gaussian Control}
+\subsection{Linear Quadratic Gaussian Control}
 
-\section{Stochastic Model Predictive Control}
+\subsection{Stochastic Model Predictive Control}
+
+\section{Queueing Theory \cite{Leon-Garcia2008}}
 
 \section{Stochastic Stability}
 
 \section{Stochastic Games}
 
-\section{Stochastic Dynamic Programming}
+\subsection{Non-sequential Decision Under Uncertainty \cite{Bertsekas1976}}
+
+Consider a decision-making framework in which we have the following sets:
+\begin{itemize}
+\item A set $\mathcal{D}$ of decisions.
+\item A set $\mathcal{N}$ representing all the possible actions of `nature'.
+\item A set $\Omega$ of outcomes.
+\end{itemize}
+These sets are related by a function $f: \mathcal{D} \times \mathcal{N} \to \Omega$ which maps each possible decision and action of nature to an outcome. We use $\preceq$ to denote a binary relation on $\Omega$, which is totally ordered (ie. any two outcomes can be compared and any three outcomes satisfy transitivity). This relation $\preceq$ induces a \textit{payoff function} $G: \Omega \to \mathbb{R}$ which assigns a numerical value (payoff) to each outcome. This payoff function must satisfy the property that $G\left(\omega_{1}\right) \leq G\left(\omega_{2}\right)$ implies $\omega_{1} \preceq \omega_{2}$ and vice-versa for any two $\omega_{1}, \omega_{2} \in \Omega$. Denote the compound function $J = G \circ f$:
+\begin{equation}
+J\left(d, n\right) := G\left(f\left(d, n\right)\right)
+\end{equation}
+which maps decisions and actions of nature to payoffs. We see that if $\mathcal{N}$ has a single element, then $\mathcal{D}$ is totally ordered (it is always possible to compare any two decisions). However if $\mathcal{N}$ has multiple elements, then $\mathcal{D}$ will in general be only partially ordered (it it not always possible to compare any two decisions because it might depend on the value of $d$).
+
+\subsubsection{Min-Max Approach of Ranking Decisions}
+
+We can obtain a notion of the `best' decision with a min-max formulation. We say that for two decisions $d_{1}, d_{2} \in \mathcal{D}$, we have $d_{1} \preceq d_{2}$ if and only if
+\begin{equation}
+\inf_{n\in N}J\left(d_{1}, n\right) \leq \inf_{n\in N}J\left(d_{2}, n\right)
+\end{equation}
+That is, we evaluate each decision by the payoff the worst possible action of nature that could occur given that decision.
+
+\subsubsection{Expected Utility Approach of Ranking Decisions}
+
+Suppose there is some probability distribution for the actions of nature $\operatorname{Pr}\left(N = n\right)$ on support $\mathcal{N}$ (assume that $\mathcal{N}$ is finite or countable). Then this induces a probability distribution over outcomes for a given decisions. Denote this by
+\begin{equation}
+P_{d}\left(\omega\right) = \operatorname{Pr}\left(N \in \left\{n: f\left(d, n\right) = \omega \right\} \middle| D = d\right)
+\end{equation}
+where $\left\{n: f\left(d, n\right) = \omega \right\}$ is the subset of all actions of nature which lead to outcome $\omega$ given decision $d$. Introduce the utility function $U: \Omega \to \mathbb{R}$ which takes the same role as the payoff function as above. Then a ranking of all decisions via an expected utility approach is to say that $d_{1} \preceq d_{2}$ if and only if
+\begin{equation}
+\mathbb{E}\left[U\left(f\left(d_{1}, N\right)\right) \middle| D = d_{1}\right] \leq \mathbb{E}\left[U\left(f\left(d_{2}, N\right)\right) \middle| D = d_{2}\right]
+\end{equation}
+where is expected utility is computed by
+\begin{equation}
+\mathbb{E}\left[U\left(f\left(d, N\right)\right) \middle| D = d\right]  = \sum_{\omega \in \Omega}U\left(\omega\right)P_{d}\left(\omega\right)
+\end{equation}
+The expected utility maximisation problem is to find the decision which yields the highest expected utility:
+\begin{equation}
+d^{*} = \max_{d \in \mathcal{D}}\mathbb{E}\left[U\left(f\left(d, N\right)\right) \middle| D = d\right]
+\end{equation}
+
+\subsection{Multi-player Stochastic Games \cite{Neyman2003}}
+
+\section{Stochastic Dynamic Programming \cite{Bertsekas1976}}
+
+\subsection{Stochastic Dynamic Programming over Finite Horizons}
+
+Consider the discrete-time dynamical system which terminates in finite time:
+\begin{equation}
+x_{k + 1} = f_{k}\left(x_{k}, u_{k}, w_{k}\right)
+\end{equation}
+for $k = 0, 1, \dots, N - 1$ with states $x_{k} \in \mathbb{X}_{k}$, inputs $u_{k} \in \mathbb{U}_{k}\left(x_{k}\right)$ (where the input constraint set $\mathbb{U}_{k}\left(x_{k}\right)$ is possibly dependent on $x_{k}$), and random noise/disturbance $w_{k} \in \mathbb{W}_{k}$. Assume that the noise $w_{k}$ may depend on $x_{k}$, $u_{k}$, but is independent of $w_{0}, w_{1}, \dots, w_{k - 1}$. A policy $\pi$ is given by
+\begin{equation}
+\pi = \left\{\mu_{0}\left(x_{0}\right), \mu_{1}\left(x_{1}\right), \dots, \mu_{N - 1}\left(x_{N - 1}\right)\right\}
+\end{equation}
+which defines for each $k = 0, 1, \dots, N - 1$ the input $\mu_{k}\left(x_{k}\right)$ that should be applied given the current state $x_{k}$. A policy is admissible if it satisfies the input constraints $u_{k} \in \mathbb{U}_{k}\left(x_{k}\right)$ for all $x_{k} \in \mathbb{X}_{k}$. The problem is to find an admissible policy that minimises the following cost functional:
+\begin{equation}
+J_{\pi}\left(x_{0}\right) = \mathbb{E}\left[g_{N}\left(x_{N}\right) + \sum_{k = 0}^{N - 1}g_{k}\left(x_{k}, \mu_{k}\left(x_{k}\right), w_{k}\right)\right]
+\end{equation}
+subject to the dynamics $x_{k + 1} = f_{k}\left(x_{k}, u_{k}, w_{k}\right)$ for each $k = 0, \dots, N - 1$. The functions $g_{N}\left(\cdot\right)$ and $g_{j}\left(\cdot, \cdot, \cdot\right)$ are real-valued and treated as given. The \textit{optimal value function} is defined as
+\begin{equation}
+J^{*}\left(x_{0}\right) = \min_{\pi \in \Pi}J_{\pi}\left(x_{0}\right)
+\end{equation} 
+which assigns an optimal value to the optimal policy $\pi^{*}$ starting from each initial condition $x_{0}$. Here, $\Pi$ is the set of all admissible policies. More generally, if the optimal policy does not exist, the optimal value function can be defined as
+\begin{equation}
+J^{*}\left(x_{0}\right) = \inf_{\pi \in \Pi}J_{\pi}\left(x_{0}\right)
+\end{equation}
+We assume that the random variable $g_{N}\left(x_{N}\right) + \sum_{k = 0}^{N - 1}g_{k}\left(x_{k}, \mu_{k}\left(x_{k}\right), w_{k}\right)$ is well-defined with a well-defined expectation. In order for this to hold, additional measurability assumptions may be required for some of the functions. One way to satisfy this condition it to assume that the support of the disturbances $\mathbb{W}_{k}$ is a finite set and that the expected values of all terms in the cost functional are finite for all admissible policies. If we proceed with this assumption, then it becomes easier to write expectations in terms of summations. For a given policy $\pi$, we write the expected cost incurred at the beginning of time $N - 1$ as
+\begin{multline}
+J_{\pi}^{N - 1}\left(x_{N -1}\right) = \sum_{w_{N - 1, i} \in \mathbb{W}_{N - 1}}p\left(w_{N - 1, i}\middle|x_{N - 1}, \mu_{N - 1}\left(x_{N - 1}\right)\right) \\
+\times \left[g_{N}\left(f_{N - 1}\left(x_{N - 1}, \mu_{N - 1}\left(x_{N - 1}\right), w_{N - 1, i}\right)\right) + g_{N - 1}\left(x_{N - 1}, \mu_{N - 1}\left(x_{N - 1}\right), w_{N - 1, i}\right)\right]
+\end{multline}
+where $p\left(w_{k, i}\middle|x_{k}, \mu_{k}\left(x_{k}\right)\right)$ denotes the probability of disturbance $w_{k, i}$ given $x_{k}$, $\mu_{k}\left(x_{k}\right)$. We see that the expected future cost at time $k$ is recursively related to the expected future cost at time $k + 1$ by
+\begin{multline}
+J_{\pi}^{k}\left(x_{k}\right) = \sum_{w_{k, i} \in \mathbb{W}_{k}}p\left(w_{k, i}\middle|x_{k}, \mu_{k}\left(x_{k}\right)\right) \\
+\times \left[J_{\pi}^{k + 1}\left(f_{k}\left(x_{k}, \mu_{k}\left(x_{k}\right), w_{k, i}\right)\right) + g_{k}\left(x_{k}, \mu_{k}\left(x_{k}\right), w_{k, i}\right)\right]
+\end{multline}
+for which we can recursively compute for $k = N - 2, \dots, 1, 0$ to obtain the value function
+\begin{equation}
+J_{\pi}\left(x_{0}\right) = J_{\pi}^{0}\left(x_{0}\right)
+\end{equation}
+An alternative way to compute the value function is to first notice that this problem induces a transition distribution on the states $p\left(x_{k + 1}\middle|x_{k}\right)$, driven by the randomness of $w_{k}$ and because the policy is state-dependent. So the value function can be written using the Law of Iterated Expectations as
+\begin{align}
+J_{\pi}\left(x_{0}\right) &= \mathbb{E}\left[g_{N}\left(x_{N}\right)+\sum_{k=0}^{N-1}g_{k}\left(x_{k},\mu_{k}\left(x_{k}\right),w_{k}\right)\right] \\
+&= \mathbb{E}_{x_{1},\dots,x_{N}}\left[g_{N}\left(x_{N}\right)+\sum_{k=0}^{N-1}\mathbb{E}_{w_{k}}\left[g_{k}\left(x_{k},\mu_{k}\left(x_{k}\right),w_{k}\right)\middle|x_{k},\mu\left(x_{k}\right)\right]\middle|x_{0}\right]
+\end{align}
+where the expectation has always been implicitly conditioned on $x_{0}$, but we only explicitly denote it now. For brevity, define
+\begin{equation}
+\overline{g}_{k}\left(x_{k},\mu_{k}\left(x_{k}\right)\right)=\mathbb{E}_{w_{k}}\left[g_{k}\left(x_{k},\mu_{k}\left(x_{k}\right),w_{k}\right)\middle|x_{k},\mu\left(x_{k}\right)\right]
+\end{equation}
+so that
+\begin{equation}
+J_{\pi}\left(x_{0}\right)=\mathbb{E}_{x_{1},\dots,x_{N}}\left[g_{N}\left(x_{N}\right)+\sum_{k=0}^{N-1}\overline{g}_{k}\left(x_{k},\mu_{k}\left(x_{k}\right)\right)\middle|x_{0}\right]
+\end{equation}
+As $\overline{g}_{0}\left(x_{0},\mu_{0}\left(x_{0}\right)\right)$ is a constant with respect to the expectation (taken over the distribution $p\left(x_{1}, \dots, x_{N}\middle|x_{0}\right)$), we take it out:
+\begin{equation}
+J_{\pi}\left(x_{0}\right)=\overline{g}_{0}\left(x_{0},\mu_{0}\left(x_{0}\right)\right)+\mathbb{E}_{x_{1},\dots,x_{N}}\left[g_{N}\left(x_{N}\right)+\sum_{k=1}^{N-1}\overline{g}_{k}\left(x_{k},\mu_{k}\left(x_{k}\right)\right)\middle|x_{0}\right]
+\end{equation}
+Again using the Law of Iterated Expectations and taking out what is known with respect to the expectation:
+\begin{align}
+J_{\pi}\left(x_{0}\right) &= \overline{g}_{0}\left(x_{0},\mu_{0}\left(x_{0}\right)\right)+\mathbb{E}_{x_{1}}\left[\mathbb{E}_{x_{2},\dots,x_{N}}\left[g_{N}\left(x_{N}\right)+\sum_{k=1}^{N-1}\overline{g}_{k}\left(x_{k},\mu_{k}\left(x_{k}\right)\right)\middle|x_{1}\right]\middle|x_{0}\right] \\
+&= \overline{g}_{0}\left(x_{0},\mu_{0}\left(x_{0}\right)\right)+\mathbb{E}_{x_{1}}\left[\overline{g}_{1}\left(x_{1},\mu_{1}\left(x_{1}\right)\right)+\mathbb{E}_{x_{2},\dots,x_{N}}\left[g_{N}\left(x_{N}\right)+\sum_{k=2}^{N-1}\overline{g}_{k}\left(x_{k},\mu_{k}\left(x_{k}\right)\right)\middle|x_{1}\right]\middle|x_{0}\right]
+\end{align}
+Repeating this procedure yields
+\begin{multline}
+J_{\pi}\left(x_{0}\right) = \overline{g}_{0}\left(x_{0},\mu_{0}\left(x_{0}\right)\right)+\mathbb{E}_{x_{1}}\left[\overline{g}_{1}\left(x_{1},\mu_{1}\left(x_{1}\right)\right)+\mathbb{E}_{x_{2}}\left[\dots \right.\right. \\
+\left.\left. +\mathbb{E}_{x_{N-1}}\left[\overline{g}_{N-1}\left(x_{N-1},\mu_{N-1}\left(x_{N-1}\right)\right)+\mathbb{E}_{x_{N}}\left[g_{N}\left(x_{N}\right)\middle|x_{N-1}\right]\middle|x_{N-2}\right]\dots\middle|x_{1}\right]\middle|x_{0}\right]
+\end{multline}
+
+\subsubsection{Bellman's Principle of Optimality}
+
+The principle of optimality states that if $\pi^{*} = \left\{\mu_{0}^{*}, \mu_{1}^{*}, \dots, \mu_{N - 1}^{*}\right\}$ is an optimal control law, then the truncated policy $\left\{\mu_{i}^{*}, \mu_{i + 1}^{*}, \dots, \mu_{N - 1}^{*}\right\}$ is also an optimal policy for the subproblem beginning at time $i$ with `cost-to-go'
+\begin{equation}
+J_{\pi}^{i}\left(x_{i}\right) = \mathbb{E}\left[g_{N}\left(x_{N}\right)+\sum_{k=i}^{N-1}g_{k}\left(x_{k},\mu_{k}\left(x_{k}\right),w_{k}\right)\right]
+\end{equation}
+
+\subsubsection{Stochastic Dynamic Programming Algorithm}
+
+Consider the following algorithm in which we proceed backward in time, starting from
+\begin{equation}
+J_{N}\left(x_{N}\right) = g_{N}\left(x_{N}\right)
+\end{equation}
+followed by finding
+\begin{equation}
+J_{k}\left(x_{k}\right) = \inf_{u_{k} \in \mathbb{U}_{k}\left(x_{k}\right)}\mathbb{E}_{w_{k}}\left[g_{k}\left(x_{k}, u_{k}, w_{k}\right) + J_{k + 1}\left(f_{k}\left(x_{k}, u_{k}, w_{k}\right)\right)\right]
+\end{equation}
+for each $k = N - 1, \dots, 1, 0$. Then the value obtained at the end:
+\begin{equation}
+J^{*}\left(x_{0}\right) = J_{0}\left(x_{0}\right)
+\end{equation}
+is the optimal value function, and moreover the optimal policy consists of the sequence of control laws $\left\{\mu_{0}^{*}\left(x_{0}\right), \dots, \mu_{N - 1}^{*}\left(x_{N - 1}\right)\right\}$ which are defined as the minimisers of the above minimisation problem for each $k = 0, \dots, N - 1$, given the respective $x_{0}, \dots, x_{N - 1}$.
+\begin{proof}
+From the definition of the optimal policy:
+\begin{equation}
+J^{*}\left(x_{0}\right) = \inf_{\mu_{0}, \dots, \mu_{N - 1}}\mathbb{E}_{w_{0}, \dots, w_{N - 1}}\left[g_{N}\left(x_{N}\right)+\sum_{k=0}^{N-1}g_{k}\left(x_{k},\mu_{k}\left(x_{k}\right),w_{k}\right)\right]
+\end{equation}
+Because $w_{k}$ is independent with $w_{k - 1}, \dots, w_{0}$, we can write $\mathbb{E}_{w_{0}, \dots, w_{N - 1}}\left[\cdot\right] = \mathbb{E}_{w_{0}}\left[\mathbb{E}_{w_{1}, \dots, w_{N - 1}}\left[\cdot\middle|w_{0}\right]\right] = \mathbb{E}_{w_{0}}\left[\mathbb{E}_{w_{1}, \dots, w_{N - 1}}\left[\cdot\right]\right]$ and thus
+\begin{multline}
+J^{*}\left(x_{0}\right) = \inf_{\mu_{0},\dots,\mu_{N-1}}\mathbb{E}_{w_{0}}\left[g_{0}\left(x_{0},\mu_{0}\left(x_{0}\right),w_{0}\right)+\mathbb{E}_{w_{1}}\left[g_{1}\left(x_{1},\mu_{1}\left(x_{1}\right),w_{1}\right)+ \right.\right. \dots \\
+\left.\left. +\mathbb{E}_{w_{N-1}}\left[g_{N-1}\left(x_{N-1},\mu_{N-1}\left(x_{N-1}\right),w_{N-1}\right)+g_{N}\left(x_{N}\right)\right]\dots\right]\right]
+\end{multline}
+subject to dynamics $x_{k + 1} = f_{k}\left(x_{k}, u_{k}, w_{k}\right)$. From Bellman's optimality principle, we can split up the infimum so that we find the optimal control law for each sub-problem:
+\begin{multline}
+J^{*}\left(x_{0}\right) = \inf_{\mu_{0}}\left\{ \mathbb{E}_{w_{0}}\left[g_{0}\left(x_{0},\mu_{0}\left(x_{0}\right),w_{0}\right)+\inf_{\mu_{1}}\left\{ \mathbb{E}_{w_{1}}\left[g_{1}\left(x_{1},\mu_{1}\left(x_{1}\right),w_{1}\right)+\dots\right.\right.\right.\right. \\
+\left.\left.\left.\left. +\inf_{\mu_{N-1}}\left\{ \mathbb{E}_{w_{N-1}}\left[g_{N-1}\left(x_{N-1},\mu_{N-1}\left(x_{N-1}\right),w_{N-1}\right)+g_{N}\left(x_{N}\right)\right]\right\} \dots\right]\right\}\right] \right\} 
+\end{multline}
+Then observe that $\inf_{\mu_{k}}\left\{\cdot\right\} = \inf_{u_{k} \in \mathbb{U}_{k}}\left\{\cdot\right\}$, ie. the optimal control law on the left-hand side by definition encapsulates all the optimal inputs for each given state. The form of the optimal value function then becomes identical to that obtained by the algorithm above.
+\end{proof}
+
+\subsection{Stochastic Dynamic Programming over Infinite Horizons}
+
+In the problem where the dynamic programming does not terminate in finite time, but instead continues on indefinitely, we assume stationarity of the system. This means that the transition function $f\left(x_{k}, u_{k}, w_{k}\right)$ and input constraint $\mathbb{U}\left(x_{k}\right)$ do not change over time, and the conditional distribution of disturbances $p\left(w_{k}\middle| x_{k}, u_{k}\right)$ also does not change over time. We also assume that the stage cost $g\left(x_{k}, u_{k}, w_{k}\right)$ is bounded and also does not change over time. The cost functional is now a discounted infinite-horizon cost:
+\begin{equation}
+J_{\pi}\left(x_{0}\right) = \mathbb{E}\left[\sum_{k = 0}^{\infty}\alpha^{k}g\left(x_{k}, \mu_{k}\left(x_{k}\right), w_{k}\right)\middle|x_{0}\right]
+\end{equation}
+where $0 < \alpha < 1$ is the discount factor. Note that the conditions of stationarity are satisfied if we assume the system to be a finite or countable state Markov decision process.  Due to stationarity, the optimal value function is no longer time-dependent, only state-dependent, and can be written as
+\begin{equation}
+J^{*}\left(x\right) = \min_{\pi \in \Pi}J_{\pi}\left(x\right)
+\end{equation}
+where we drop the time index.
+
+\subsubsection{Bellman Equation}
+
+The optimal value function satisfies what is known as the Bellman equation:
+\begin{equation}
+J^{*}\left(x\right) = \min_{u \in \mathbb{U}\left(x\right)}\left\{\mathbb{E}_{w}\left[g\left(x, u, w\right)\middle|x, u\right] + \alpha \mathbb{E}_{w}\left[J^{*}\left(f\left(x, u, w\right)\right)\middle|x, u\right]\right\}
+\end{equation}
+This form is similar to that found in the stochastic dynamic programming algorithm above. Here however, when we find ourselves in the next state $f\left(x, u^{*}, w\right)$ where $u^{*} = \mu^{*}\left(x\right)$ from the optimal policy, we are in another situation with an infinite horizon cost, except all costs are discounted by an additional factor of $\alpha$ from the perspective of the current time. To solve the Bellman equation means to find the function $J^{*}\left(x\right)$.
+
 
 \section{Stochastic Approximation}
 
@@ -11488,6 +12599,25 @@ The extension of this framework to obtaining the posterior over trajectory follo
 \section{Reinforcement Learning}
 
 \chapter{Quantitative Finance}
+
+\section{Copulas}
+
+A copula is a multivariate probability distribution on support the unit hypercube, with uniform marginal distributions. An example of a copula is the Frank distribution, with cumulative distribution function
+\begin{equation}
+H\left(x, y; \psi\right) = \begin{cases}
+\begin{array}{c}
+\dfrac{1}{\psi}\log\left(1+\dfrac{\left(e^{\psi x}-1\right)\left(e^{\psi y}-1\right)}{e^{\psi}-1}\right)\\
+xy,
+\end{array} & \begin{array}{c}
+\psi\neq0\\
+\psi=0
+\end{array}\end{cases}
+\end{equation}
+where $\psi$ is a parameter which determines the dependence structure of the copula. We can verify that the following properties hold for this distribution: $H\left(0, 0; \psi\right) = 0$, $H\left(1, 1; \psi\right) = 1$. Additionally, we can verify that $H\left(1, y; \psi\right) = y$, $H\left(x, 1; \psi\right) = x$ which are the cumulative distribution functions of the uniform marginal distributions. \\
+
+The usefulness of copulas in statistics starts with the property that for some continuous random variable $X$ with cumulative distribution function $F_{X}\left(x\right)$, then the transformed random variable $F_{X}\left(X\right)$ will be uniformly distributed on $\left[0, 1\right]$. The reason for this is related to the inverse transform sampling theorem. Thus if we observe some data and suspect that their marginal distributions follow some distributions (eg. $F_{X}\left(x\right)$ and $F_{Y}\left(y\right)$), then we can fit the data to a copula. \\
+
+For example with the Frank copula, we can fit it to a distribution of the form $H\left(F_{X}\left(x\right), F_{Y}\left(y\right); \psi\right)$. Since by construction the random variables $F_{X}\left(X\right)$ and $F_{Y}\left(Y\right)$ have uniform marginals, then the random variables $X$ and $Y$ have cumulative distribution functions $F_{X}\left(x\right)$ and $F_{Y}\left(y\right)$ respectively. The parameter $\psi$ can then be used to model the dependencies of the variables based on what is observed in the data. The maximum likelihood technique is typically used for estimating the parameters of the copula, which can be jointly estimated with any parameters of the marginal distributions.
 
 \section{Portfolio Optimisation}
 

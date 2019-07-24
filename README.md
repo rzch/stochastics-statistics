@@ -54,7 +54,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Cumulants](#cumulants)
         -   [Central Limit Theorems](#central-limit-theorems)
         -   [Multivariate Gaussian
-            Identities](#multivariate-gaussian-identities)
+            Properties](#multivariate-gaussian-properties)
         -   [Exponential Families](#exponential-families)
         -   [Random Matrices](#random-matrices)
         -   [Stochastic Processes](#stochastic-processes)
@@ -67,6 +67,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Bayesian Updating](#bayesian-updating)
         -   [Bayesian Networks](#bayesian-networks)
         -   [Bayesian Inference](#bayesian-inference)
+        -   [Posterior Approximations](#posterior-approximations)
         -   [Bernstein-von Mises Theorem](#bernstein-von-mises-theorem)
         -   [Bayesian Classifiers](#bayesian-classifiers)
         -   [Subjective Probability
@@ -85,8 +86,9 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
             Theorem](#dominated-convergence-theorem-1)
         -   [Radon-Nikodym Theorem](#radon-nikodym-theorem)
         -   [Karhunen-Loève Theorem](#karhunen-loève-theorem)
+        -   [Measure Theoretic Stochastic
+            Processes](#measure-theoretic-stochastic-processes)
     -   [Advanced Statistics](#advanced-statistics)
-        -   [Copulas](#copulas)
         -   [Empirical Measures](#empirical-measures)
         -   [Order Statistics](#order-statistics)
         -   [Monte-Carlo Methods](#monte-carlo-methods)
@@ -105,13 +107,15 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Stochastic Differential
             Equations](#stochastic-differential-equations)
         -   [Diffusions](#diffusions)
-    -   [Combinatorial Probability](#combinatorial-probability)
+    -   [Probabilistic Combinatorics](#probabilistic-combinatorics)
+        -   [Stirling's Approximation](#stirlings-approximation)
         -   [Inclusion-Exclusion
             Principle](#inclusion-exclusion-principle)
         -   [Pigeonhole Principle](#pigeonhole-principle)
         -   [Partitions](#partitions)
         -   [Catalan Numbers [@Lange2010]](#catalan-numbers)
         -   [Derangements](#derangements)
+        -   [Random Graphs](#random-graphs)
 -   [Applications](#applications)
     -   [Information Theory](#information-theory)
         -   [Entropy](#entropy)
@@ -159,20 +163,19 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Particle Filtering](#particle-filtering)
         -   [Wavelets](#wavelets)
     -   [Stochastic Control](#stochastic-control)
-        -   [Linear System
-            Identification](#linear-system-identification)
-        -   [Linear Quadratic Gaussian
-            Control](#linear-quadratic-gaussian-control)
-        -   [Stochastic Model Predictive
-            Control](#stochastic-model-predictive-control)
+        -   [Linear Systems
+            Identification](#linear-systems-identification)
+        -   [Stochastic Optimal Control](#stochastic-optimal-control)
+        -   [Queueing Theory [@Leon-Garcia2008]](#queueing-theory)
         -   [Stochastic Stability](#stochastic-stability)
         -   [Stochastic Games](#stochastic-games)
-        -   [Stochastic Dynamic
-            Programming](#stochastic-dynamic-programming)
+        -   [Stochastic Dynamic Programming
+            [@Bertsekas1976]](#stochastic-dynamic-programming)
         -   [Stochastic Approximation](#stochastic-approximation)
         -   [Multi-armed Bandits](#multi-armed-bandits)
         -   [Reinforcement Learning](#reinforcement-learning)
     -   [Quantitative Finance](#quantitative-finance)
+        -   [Copulas](#copulas)
         -   [Portfolio Optimisation](#portfolio-optimisation)
         -   [Derivatives Pricing](#derivatives-pricing)
         -   [Optimal Stopping](#optimal-stopping)
