@@ -18,9 +18,11 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Descriptive Statistics](#descriptive-statistics)
         -   [Normal Statistics](#normal-statistics)
         -   [Inferential Statistics](#inferential-statistics)
-        -   [Multi-Sample Inference](#multi-sample-inference)
+        -   [Two-Sample Inference](#two-sample-inference)
         -   [Simple Linear Regression](#simple-linear-regression)
         -   [Analysis of Variance](#analysis-of-variance)
+        -   [Design of Experiments](#design-of-experiments)
+        -   [Statistical Graphics](#statistical-graphics)
         -   [Method of Moments](#method-of-moments)
     -   [Intermediate Probability](#intermediate-probability)
         -   [Transformations of Random
@@ -73,12 +75,25 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Subjective Probability
             [@Schervish1995]](#subjective-probability)
     -   [Markov Processes](#markov-processes)
-        -   [Markov Chains](#markov-chains)
+        -   [Finite-State Discrete-Time Markov
+            Chains](#finite-state-discrete-time-markov-chains)
+        -   [Countable-State Discrete-Time Markov
+            Chains](#countable-state-discrete-time-markov-chains)
+        -   [Countable-State Continuous-Time Markov
+            Chains](#countable-state-continuous-time-markov-chains)
+        -   [Uncountable-State Discrete-Time Markov
+            Processes](#uncountable-state-discrete-time-markov-processes)
+        -   [Uncountable-State Continuous-Time Markov
+            Processes](#uncountable-state-continuous-time-markov-processes)
+        -   [Time-Inhomogeneous Markov
+            Chains](#time-inhomogeneous-markov-chains)
         -   [Markov Networks](#markov-networks)
         -   [Hidden Markov Models](#hidden-markov-models)
         -   [Markov Decision Processes](#markov-decision-processes)
         -   [Inference of Markov
             Processes](#inference-of-markov-processes)
+        -   [Quasistationary Distributions
+            [@Collet2012]](#quasistationary-distributions)
     -   [Measure Theoretic Probability](#measure-theoretic-probability)
         -   [Probability Spaces](#probability-spaces)
         -   [Borel-Cantelli Lemma](#borel-cantelli-lemma)
@@ -98,10 +113,11 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Survival Analysis](#survival-analysis)
         -   [Rao-Blackwell Estimators](#rao-blackwell-estimators)
         -   [Nonparametric Statistics](#nonparametric-statistics)
+        -   [Robust Statistics](#robust-statistics)
     -   [Stochastic Calculus](#stochastic-calculus)
         -   [Analysis of Stochastic
             Processes](#analysis-of-stochastic-processes)
-        -   [Martingales](#martingales)
+        -   [Martingales](#martingales-1)
         -   [Itô Calculus](#itô-calculus)
         -   [Stratonovich Integral](#stratonovich-integral)
         -   [Stochastic Differential
@@ -124,7 +140,6 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
             Distributions](#maximum-entropy-distributions)
         -   [Coding Theory [@Cover2006]](#coding-theory)
         -   [Information Criteria](#information-criteria)
-        -   [Sanov's Theorem](#sanovs-theorem)
         -   [Minimum Description Length](#minimum-description-length)
         -   [Optimal Experimental Design](#optimal-experimental-design)
         -   [Statistical Distances](#statistical-distances)
@@ -139,15 +154,13 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Time-Series Models](#time-series-models)
         -   [Time-Series Regression](#time-series-regression)
         -   [Time-Series Analysis](#time-series-analysis)
+        -   [Time-Series Forecasting](#time-series-forecasting)
     -   [Machine Learning](#machine-learning)
         -   [Machine Learning Datasets](#machine-learning-datasets)
-        -   [Classification Algorithms](#classification-algorithms)
+        -   [Statistical Classification](#statistical-classification)
         -   [Cross-Validation](#cross-validation)
         -   [Neural Networks](#neural-networks)
-        -   [Convolutional Neural
-            Networks](#convolutional-neural-networks)
-        -   [Recurrent Neural Networks](#recurrent-neural-networks)
-        -   [Mixture Density Networks](#mixture-density-networks)
+        -   [Gaussian Process Regression](#gaussian-process-regression)
         -   [Ensemble Methods](#ensemble-methods)
         -   [Decision Trees [@James2013]](#decision-trees)
         -   [Unsupervised Learning](#unsupervised-learning)
@@ -158,19 +171,20 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Spectral Density Estimation](#spectral-density-estimation)
         -   [Linear Filtering](#linear-filtering)
         -   [Kalman Filtering](#kalman-filtering)
-        -   [Kalman Smoother](#kalman-smoother)
         -   [Viterbi Algorithm](#viterbi-algorithm)
         -   [Particle Filtering](#particle-filtering)
+        -   [Independent Component
+            Analysis](#independent-component-analysis)
         -   [Wavelets](#wavelets)
     -   [Stochastic Control](#stochastic-control)
-        -   [Linear Systems
-            Identification](#linear-systems-identification)
-        -   [Stochastic Optimal Control](#stochastic-optimal-control)
+        -   [Linear System
+            Identification](#linear-system-identification)
         -   [Queueing Theory [@Leon-Garcia2008]](#queueing-theory)
         -   [Stochastic Stability](#stochastic-stability)
         -   [Stochastic Games](#stochastic-games)
         -   [Stochastic Dynamic Programming
             [@Bertsekas1976]](#stochastic-dynamic-programming)
+        -   [Stochastic Optimal Control](#stochastic-optimal-control)
         -   [Stochastic Approximation](#stochastic-approximation)
         -   [Multi-armed Bandits](#multi-armed-bandits)
         -   [Reinforcement Learning](#reinforcement-learning)
