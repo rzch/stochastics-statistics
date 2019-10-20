@@ -1960,7 +1960,7 @@ A distribution with negative excess kurtosis is said to be platykurtic. Platykur
 
 The central limit theorem illustrates the ubiquitous nature of the normal distribution. It relates to the sampling distribution of the sample mean from an arbitrary population as the sample size grows. Qualitatively, the sampling distribution of the sample mean resembles a normal distribution for large sample sizes. More formally, let $X_{1}, \dots, X_{n}$ be a random i.i.d. sample from a population with finite mean $\mu$ and variance $\sigma^{2}$. Then for large $n$, the sample mean $\overline{X}_{n}$ is approximately distributed as
 \begin{equation}
-\overline{X}_{n} \underset{\mathrm{approx.}}{\sim} \mathcal{N}\left(\mu, \dfrac{\sigma^{2}}{n}\right)
+\overline{X}_{n} \overset{\mathrm{approx.}}{\sim} \mathcal{N}\left(\mu, \dfrac{\sigma^{2}}{n}\right)
 \end{equation}
 Note that if the population is normally distributed, then the approximation is exact. The central limit theorem allows for inference and estimation to be conducted on unknown population parameters, even when little is known about the underlying distribution.
 
@@ -2502,7 +2502,7 @@ The distribution of random variable $Z$ is said to be decomposable if $Z$ can be
 
 The distribution of random variable $Z$ is said to be divisible if $Z$ can be expressed as the sum of independent and identically distributed random variables $X_{1}$ and $X_{2}$. If $Z$ can be expressed as a sum of arbitrarily many i.i.d. random variables, then the distribution of $Z$ is said to be infinitely divisible.
 
-\subsubsection{Cram\'{e}r's Decomposition Theorem}
+\subsubsection{Cram\'{e}r's Decomposition Theorem \cite{Lukacs1970}}
 
 Cram\'{e}r's decomposition theorem states that if $X$ and $Y$ are independent real-valued random variables whose sum $X + Y$ is a normal random variable, then $X$ and $Y$ must also be normal. By induction, if the sum of finitely many independent random variables is normal, then the summands must be normal. 
 
@@ -2988,7 +2988,7 @@ F_{R}\left(r\right) = 1 - e^{r^{2}/2\sigma^{2}}
 \end{equation}
 Note that the the PDF of the Rayleigh distribution with $\sigma = 1$ is the vertical reflection (and also the horizontal reflection) of the derivative of the standard Gaussian PDF. That is,
 \begin{align}
-\left.f_{R}\left(r\right)\right|_{\sigma = 1} 7= -\left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = r} \\
+\left.f_{R}\left(r\right)\right|_{\sigma = 1} &= -\left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = r} \\
 &= \left.\dfrac{d\mathcal{N}\left(z; 0, 1^{2}\right)}{dz}\right|_{z = -r}
 \end{align}
 
@@ -4290,7 +4290,7 @@ Lyapunov's inequality for probability can be derived from H\"{o}lder's inequalit
 \end{equation}
 for $0 < \alpha \leq \beta$, noting that this inequality is trivially satisfied (with equality) when $\alpha = \beta$.
 
-\section{Notions of Convergence}
+\section{Notions of Probabilistic Convergence}
 
 \subsection{Convergence in Distribution}
 
@@ -4518,6 +4518,14 @@ for any vector $\mathbf{a}$. The Cram\'{e}r-Wold Theorem is a stronger result wh
 
 \section{Multivariate Statistics}
 
+\subsection{Multivariate Sample Mean}
+
+For a multivariate sample $\mathbf{x}_{1}, \dots, \mathbf{x}_{n}$, the sample mean is computed by
+\begin{equation}
+\overline{\mathbf{x}} = \dfrac{1}{n}\sum_{i = 1}^{n}\mathbf{x}_{i}
+\end{equation}
+which is an unbiased estimator for the population mean vector, because each element is simply the univariate sample mean.
+
 \subsection{Multivariate Medians}
 
 The notion of median and sample median can be generalised to multivariate domains in several ways.
@@ -4589,9 +4597,42 @@ $M$ is sometimes referred to the centering matrix, since $M\mathbf{x}$ has the s
 
 \subsection{Sample Covariance Matrix}
 
+For a multivariate sample $\mathbf{x}_{1}, \dots, \mathbf{x}_{n}$, the canonical sample covariance $C$ is computed by
+\begin{equation}
+C = \dfrac{1}{n - 1}\sum_{i = 1}^{n}\left(\mathbf{x}_{i} - \overline{\mathbf{x}}\right)\left(\mathbf{x}_{i} - \overline{\mathbf{x}}\right)^{\top}
+\end{equation}
+where $\overline{\mathbf{x}} = \dfrac{1}{n}\sum_{i = 1}^{n}\mathbf{x}_{i}$ is the sample mean. We see that this estimator also contains Bessel's correction (factor of $n - 1$ in the denominator), so each element of the sample covariance matrix is an unbiased estimator of the corresponding population covariance. So it follows that this estimator for the sample covariance is overall unbiased. \\
+
+We can derive an identity for the sample covariance analogous to the bivariate sample covariance and the population covariance. This is done by expanding the formula above (leaving out the $\dfrac{1}{n - 1}$ factor for simplicity):
+\begin{align}
+\sum_{i = 1}^{n}\left(\mathbf{x}_{i} - \overline{\mathbf{x}}\right)\left(\mathbf{x}_{i} - \overline{\mathbf{x}}\right)^{\top} &= \sum_{i = 1}^{n}\mathbf{x}_{i}\mathbf{x}_{i}^{\top} -  \sum_{i = 1}^{n}\mathbf{x}_{i}\overline{\mathbf{x}}^{\top} - \sum_{i = 1}^{n}\overline{\mathbf{x}}\mathbf{x}_{i}^{\top} + \sum_{i = 1}^{n}\overline{\mathbf{x}}\overline{\mathbf{x}}^{\top} \\
+&= \sum_{i = 1}^{n}\mathbf{x}_{i}\mathbf{x}_{i}^{\top} - n\overline{\mathbf{x}}\overline{\mathbf{x}}^{\top} - n\overline{\mathbf{x}}\overline{\mathbf{x}}^{\top} + n\overline{\mathbf{x}}\overline{\mathbf{x}}^{\top} \\
+&= \sum_{i = 1}^{n}\mathbf{x}_{i}\mathbf{x}_{i}^{\top} - n\overline{\mathbf{x}}\overline{\mathbf{x}}^{\top}
+\end{align}
+Hence
+\begin{equation}
+C = \dfrac{1}{n - 1}\sum_{i = 1}^{n}\mathbf{x}_{i}\mathbf{x}_{i}^{\top} - \dfrac{n}{n - 1}\overline{\mathbf{x}}\overline{\mathbf{x}}^{\top}
+\end{equation}
+
 \subsubsection{Sample Correlation Matrix}
 
+The sample correlation matrix is the matrix of sample correlations between pairs of variables. Thus the sample correlation matrix will have all diagonal elements equal to $1$ and all off-diagonal elements will be between $-1$ and $1$. The sample correlation matrix can be computed in the following way. Let $D$ be a diagonal matrix of sample standard deviations for each component of $\mathbf{x} \in \mathbb{R}^{d}$:
+\begin{equation}
+D = \begin{bmatrix} s_{1} \\ & \ddots \\ & & s_{d} \end{bmatrix}
+\end{equation}
+Hence $D^{-1} = \operatorname{diag}\left\{s_{1}^{-1}, \dots, s_{d}^{-1}\right\}$ and the transformed data $D^{-1}\mathbf{x}$ will have unit sample variance for each component. Therefore the sample correlation matrix $P$ can be represented by
+\begin{align}
+P &= \dfrac{1}{n - 1}\sum_{i = 1}^{n}\left[D^{-1}\left(\mathbf{x}_{i} - \overline{\mathbf{x}}\right)\right]\left[D^{-1}\left(\mathbf{x}_{i} - \overline{\mathbf{x}}\right)\right]^{\top} \\
+&= D^{-1}CD^{-1}
+\end{align}
+
 \subsubsection{Scatter Matrix}
+
+For a $n$ samples $\mathbf{x}_{1}, \dots, \mathbf{x}_{n}$, the scatter matrix $S$ is defined as
+\begin{equation}
+S = \sum_{i = 1}^{n}\left(\mathbf{x}_{i} - \overline{\mathbf{x}}\right)\left(\mathbf{x}_{i} - \overline{\mathbf{x}}\right)^{\top}
+\end{equation}
+where $\overline{\mathbf{x}} = \dfrac{1}{n}\sum_{i = 1}^{n}\mathbf{x}_{i}$ is the sample mean. Note that this is just the sample covariance without the $\dfrac{1}{n - 1}$ factor. The scatter matrix generalises the sum of squared deviations from univariate data.
 
 \subsection{Partial Correlation}
 
@@ -5057,11 +5098,11 @@ which is the value of $\beta$ which `solves' $\mathbf{X}\beta = \mathbf{Y}$.
 
 \subsubsection{Distribution of Residuals in Ordinary Least Squares}
 
-Assume the data generating process
+Assume the data generating process (which we call the `general linear model'):
 \begin{equation}
 \mathbf{Y} = \mathbf{X}\beta + \varepsilon
 \end{equation}
-where $\beta \in \mathbb{R}^{p\times 1}$, $\varepsilon \sim \mathcal{N}\left(\mathbf{0}, \sigma^{2}I\right)$ and we assume that the regressors $\mathbf{X}$ are non-random. Then the residuals $\hat{\varepsilon} = \mathbf{Y} - \mathbf{X}\hat{\beta}$ under the ordinary least squares estimate is given by
+where parameter vector $\beta \in \mathbb{R}^{p}$, error terms $\varepsilon \sim \mathcal{N}\left(\mathbf{0}, \sigma^{2}I\right)$ and we assume that the regressors $\mathbf{X}$ are non-random. Then the residuals $\hat{\varepsilon} = \mathbf{Y} - \mathbf{X}\hat{\beta}$ under the ordinary least squares estimate is given by
 \begin{align}
 \hat{\varepsilon} &= \mathbf{Y} - \mathbf{X}\hat{\beta} \\
 &= \mathbf{Y} - \mathbf{X}\left[\left(\mathbf{X}^{\top}\mathbf{X}\right)^{-1}\mathbf{X}^{\top}\mathbf{Y}\right] \\
@@ -5220,6 +5261,8 @@ t_{k} &= \dfrac{z_{k}}{\sqrt{V/\left(n - p\right)}} \\
 &= \dfrac{\hat{\beta}_{k} - \beta_{k}}{\operatorname{se}\left(\hat{\beta}_{k}\right)}
 \end{align}
 Hence the fact that this statistic is $t$-distributed with $n - p$ degrees of freedom may be used to conduct hypothesis tests and construct confidence intervals for $\beta_{k}$.
+
+\subsubsection{Prediction Intervals in Ordinary Least Squares}
 
 \subsection{Total Least Squares}
 
@@ -5400,13 +5443,13 @@ Define the Jacobian matrix as
 Taking the derivative of the least squares cost function, we have by the chain rule
 \begin{align}
 \nabla V\left(\theta\right) &= \dfrac{1}{2}\sum_{i = 1}^{n}2r_{i}\left(\theta\right)\nabla r_{i}\left(\theta\right) \\
-&= \begin{bmatrix} \nabla r_{1}\left(\theta\right) & \dots & r_{n}\left(\theta\right)\end{bmatrix}^{\top} \begin{bmatrix} r_{1}\left(\theta\right) \\ \vdots \\ r_{n}\left(\theta\right) \end{bmatrix} \\
+&= \begin{bmatrix} \nabla r_{1}\left(\theta\right) & \dots & \nabla r_{n}\left(\theta\right)\end{bmatrix}^{\top} \begin{bmatrix} r_{1}\left(\theta\right) \\ \vdots \\ r_{n}\left(\theta\right) \end{bmatrix} \\
 &= \mathbf{J}\left(\theta\right)^{\top}r\left(\theta\right)
 \end{align}
 We also obtain the Hessian of the least squares cost function by the product rule
 \begin{align}
 \nabla^{2}V\left(\theta\right) &= \sum_{i = 1}^{n}\nabla r_{i}\left(\theta\right)\nabla r_{i}\left(\theta\right)^{\top} + \sum_{i = 1}^{n}r_{i}\left(\theta\right)\nabla^{2}r_{i}\left(\theta\right) \\
-&= \begin{bmatrix} \nabla r_{1}\left(\theta\right) & \dots & r_{n}\left(\theta\right)\end{bmatrix}^{\top} \begin{bmatrix} \nabla r_{1}\left(\theta\right)^{\top} \\ \vdots \\ \nabla r_{n}\left(\theta\right)^{\top} \end{bmatrix} + \sum_{i = 1}^{n}r_{i}\left(\theta\right)\nabla^{2}r_{i}\left(\theta\right) \\
+&= \begin{bmatrix} \nabla r_{1}\left(\theta\right) & \dots & \nabla r_{n}\left(\theta\right)\end{bmatrix}^{\top} \begin{bmatrix} \nabla r_{1}\left(\theta\right)^{\top} \\ \vdots \\ \nabla r_{n}\left(\theta\right)^{\top} \end{bmatrix} + \sum_{i = 1}^{n}r_{i}\left(\theta\right)\nabla^{2}r_{i}\left(\theta\right) \\
 &= \mathbf{J}\left(\theta\right)^{\top}\mathbf{J}\left(\theta\right) + \sum_{i = 1}^{n}r_{i}\left(\theta\right)\nabla^{2}r_{i}\left(\theta\right)
 \end{align}
 In the Gauss-Newton algorithm, the approximation is made on the Hessian
@@ -5637,6 +5680,196 @@ so the total variance of any other linear estimator will be lower bounded by the
 
 \section{Maximum Likelihood Estimation}
 
+\subsection{Likelihood Function}
+
+Suppose we have a random sample $\mathbf{X}$ from a parametrised family of distributions, parametrised in $\theta \in \Theta \subseteq \mathbb{R}^{p}$, where $\Theta$ is the parameter space. If $\mathbf{X}$ is a discrete random vector, then it is drawn from a parametrised joint probability mass function $p_{\mathbf{X}}\left(\mathbf{x}; \theta\right)$. This can be thought of as the probability of $\mathbf{x}$, given $\theta$. The likelihood function can be imagined as a `reversal' of this characterisation - it is a function of $\theta$, given $\mathbf{x}$ (the data). The value of the likelihood loosely means how likely it was that the parameter $\theta$ generated the data $\mathbf{x}$. We write the likelihood function by
+\begin{equation}
+\mathcal{L}\left(\theta; \mathbf{x}\right) = p_{\mathbf{X}}\left(\mathbf{x}; \theta\right)
+\end{equation}
+If $\mathbf{X}$ is a continuous random vector with parametrised joint density $f_{\mathbf{X}}\left(\mathbf{x}; \theta\right)$, then we use the density for the likelihood instead:
+\begin{equation}
+\mathcal{L}\left(\theta; \mathbf{x}\right) = f_{\mathbf{X}}\left(\mathbf{x}; \theta\right)
+\end{equation}
+Note that likelihoods should not always be interpreted as probabilities. In the case $\mathbf{X}$ is a continuous random variable, then the density hence likelihood may be greater than one. Also the likelihood function will generally not sum/integrate to one over $\Theta$.
+
+\subsubsection{Likelihood Function of Independent and Identically Distributed Samples}
+
+If the random sample $\mathbf{X}$ of size $n$ is an i.i.d. sample from the density $f_{X}\left(x\right)$, then the likelihood function can be written as a product of densities:
+\begin{equation}
+\mathcal{L}\left(\theta; x_{1}, \dots, x_{n}\right) = \prod_{i = 1}^{n}f_{X}\left(x_{i}; \theta\right)
+\end{equation}
+This analogously holds if $\mathbf{X}$ is a discrete random variable.
+
+\subsubsection{Log-Likelihood Function}
+
+The log-likelihood function is simply the log of the likelihood function, denoted $\log\mathcal{L}\left(\theta; \mathbf{x}\right)$. If the sample is i.i.d., then taking the log-likelihood means taking the sum of the log of the individual likelihoods:
+\begin{align}
+\log\mathcal{L}\left(\theta; x_{1}, \dots, x_{n}\right) &= \log\left(\prod_{i = 1}^{n}f_{X}\left(x_{i}; \theta\right)\right) \\
+&= \sum_{i = 1}^{n}\log f_{X}\left(x_{i}; \theta\right)
+\end{align}
+
+\subsection{Maximum Likelihood Estimator}
+
+The maximum likelihood estimator for a parameter $\theta$ given the sample $\mathbf{x}$ finds the value of $\theta$ which `most likely' explains $\mathbf{x}$. It is expressed as
+\begin{equation}
+\widehat{\theta}_{\mathrm{MLE}} = \argmax_{\theta \in \Theta}\mathcal{L}\left(\theta; \mathbf{x}\right)
+\end{equation}
+Since $\log$ is a strictly positive monotonic transformation, then this is equivalent of maximising the log-likelihood:
+\begin{equation}
+\widehat{\theta}_{\mathrm{MLE}} = \argmax_{\theta \in \Theta}\log\mathcal{L}\left(\theta; \mathbf{x}\right)
+\end{equation}
+This is also equivalent to minimising the negative log-likelihood:
+\begin{equation}
+\widehat{\theta}_{\mathrm{MLE}} = \argmin_{\theta \in \Theta}\left\{-\log\mathcal{L}\left(\theta; \mathbf{x}\right)\right\}
+\end{equation}
+If the negative log-likelihood is twice-differentiable, then the sufficient conditions that a local minimum is found at the maximum likelihood estimate is that the gradient is zero and the Hessian is positive semi-definite at the maximum likelihood estimate:
+\begin{gather}
+-\left.\nabla_{\theta}\log\mathcal{L}\left(\theta; \mathbf{x}\right)\right|_{\theta = \widehat{\theta}_{\mathrm{MLE}}} = 0 \\
+-\left.\nabla_{\theta}^{2}\log\mathcal{L}\left(\theta; \mathbf{x}\right)\right|_{\theta = \widehat{\theta}_{\mathrm{MLE}}} \succeq 0
+\end{gather}
+
+\subsubsection{Maximum Likelihood Estimator for Normal Distribution}
+
+Given an i.i.d. sample $\mathbf{X} = \left(X_{1}, \dots, X_{n}\right)$ where each $X_{i}$ is normally distributed with $X_{i} \sim \mathcal{N}\left(\mu, \sigma^{2}\right)$, maximum likelihood estimates for the parameters $\mu$ and $\sigma^{2}$ can be derived as follows. First writing the likelihood of the sample using the normal density:
+\begin{equation}
+\mathcal{L}\left(\mu, \sigma^{2}; \mathbf{X}\right) = \prod_{i = 1}^{n}\dfrac{1}{\sqrt{2\pi \sigma^{2}}}\exp\left[-\dfrac{\left(X_{i} - \mu\right)^{2}}{2\sigma^{2}}\right]
+\end{equation}
+Taking the log-likelihood yields:
+\begin{align}
+\log\mathcal{L}\left(\mu, \sigma^{2}; \mathbf{X}\right) &= \log\left[\prod_{i = 1}^{n}\dfrac{1}{\sqrt{2\pi \sigma^{2}}}\exp\left[-\dfrac{\left(X_{i} - \mu\right)^{2}}{2\sigma^{2}}\right]\right] \\
+&= \sum_{i = 1}^{n}\log\left[\dfrac{1}{\sqrt{2\pi \sigma^{2}}}\exp\left[-\dfrac{\left(X_{i} - \mu\right)^{2}}{2\sigma^{2}}\right]\right] \\
+&=  -\dfrac{1}{2}\sum_{i = 1}^{n}\log\left(2\pi \sigma^{2}\right) + \sum_{i = 1}^{n}\log\left[\exp\left[-\dfrac{\left(X_{i} - \mu\right)^{2}}{2\sigma^{2}}\right]\right] \\
+&= -\dfrac{n}{2}\log\left(2\pi \sigma^{2}\right) - \dfrac{1}{2\sigma^{2}}\sum_{i = 1}^{n}\left(X_{i} - \mu\right)^{2}
+\end{align}
+The partial derivative with respect to $\mu$ is
+\begin{equation}
+\dfrac{\partial}{\partial \mu}\log\mathcal{L}\left(\mu, \sigma^{2}; \mathbf{X}\right) = -\dfrac{1}{2\sigma^{2}}\sum_{i = 1}^{n}\left[-2\left(X_{i} - \mu\right)\right]
+\end{equation}
+Setting the derivative to zero and solving for $\mu$ yields the maximum likelihood estimator the the population mean:
+\begin{gather}
+\sum_{i = 1}^{n}\left(X_{i} - \widehat{\mu}\right) = 0 \\
+\widehat{\mu} = \dfrac{1}{n}\sum_{i = 1}^{n}X_{i}
+\end{gather}
+which is the usual sample mean. Now taking the partial derivative with respect to $\sigma^{2}$ gives
+\begin{equation}
+\dfrac{\partial}{\partial \sigma^{2}}\log\mathcal{L}\left(\mu, \sigma^{2}; \mathbf{X}\right) = -\dfrac{n}{2}\cdot \dfrac{2\pi}{2\pi \sigma^{2}} + \dfrac{1}{2\sigma^{4}}\sum_{i = 1}^{n}\left(X_{i} - \mu\right)^{2}
+\end{equation}
+Setting the derivative to zero and solving for $\sigma^{2}$ yields the maximum likelihood estimator the the population variance:
+\begin{gather}
+\dfrac{n}{\widehat{\sigma}^{2}} = \dfrac{1}{\widehat{\sigma}^{4}}\sum_{i = 1}^{n}\left(X_{i} - \mu\right)^{2} \\
+\widehat{\sigma}^{2} = \dfrac{1}{n}\sum_{i = 1}^{n}\left(X_{i} - \mu\right)^{2}
+\end{gather}
+We have previously found that $\widehat{\mu} = \dfrac{1}{n}\sum_{i = 1}^{n}X_{i}$ causes $\dfrac{\partial}{\partial \mu}\log\mathcal{L}\left(\mu, \sigma^{2}; \mathbf{X}\right) = 0$, which is necessary for the maximum likelihood estimate. Hence replacing $\mu$ with $\widehat{\mu}$ gives
+\begin{equation}
+\widehat{\sigma}^{2} = \dfrac{1}{n}\sum_{i = 1}^{n}\left(X_{i} - \widehat{\mu}\right)^{2}
+\end{equation}
+Note that this estimate of the population variance does not contain Bessel's correction, hence it is a biased estimate.
+
+\subsubsection{Maximum Likelihood Estimator for Multivariate Normal Distribution}
+
+Given an i.i.d. sample $\mathbb{X} = \left(\mathbf{X}_{1}, \dots, \mathbf{X}_{n}\right)$ where each $\mathbf{X}_{i} \in \mathbb{R}^{p}$ is multivariate normally distributed with $\mathbf{X}_{i} \sim \mathcal{N}\left(\boldsymbol{\mu}, \Sigma\right)$, maximum likelihood estimates for the mean vector $\boldsymbol{\mu}$ and covariance matrix $\Sigma$ can be derived as follows. First writing the likelihood of the sample using the multivariate normal density:
+\begin{equation}
+\mathcal{L}\left(\boldsymbol{\mu}, \Sigma; \mathbb{X}\right) = \prod_{i = 1}^{n}\left(2\pi\right)^{-p/2}\operatorname{det}\left(\Sigma\right)^{-1/2}\exp\left[-\dfrac{1}{2}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\right]
+\end{equation}
+Taking the log-likelihood yields:
+\begin{align}
+\log\mathcal{L}\left(\boldsymbol{\mu}, \Sigma; \mathbb{X}\right) &= \log\left[\prod_{i = 1}^{n}\left(2\pi\right)^{-p/2}\operatorname{det}\left(\Sigma\right)^{-1/2}\exp\left[-\dfrac{1}{2}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\right]\right] \\
+&= \sum_{i = 1}^{n}\log\left[\left(2\pi\right)^{-p/2}\operatorname{det}\left(\Sigma\right)^{-1/2}\exp\left[-\dfrac{1}{2}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\right]\right] \\
+&= -\dfrac{np}{2}\log\left(2\pi\right) - \dfrac{n}{2}\log\operatorname{det}\left(\Sigma\right) - \dfrac{1}{2}\sum_{i = 1}^{n}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right) \\
+&= -\dfrac{np}{2}\log\left(2\pi\right) - \dfrac{n}{2}\log\operatorname{det}\left(\Sigma\right) - \dfrac{1}{2}\sum_{i = 1}^{n}\operatorname{trace}\left[\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\right] \\
+&= -\dfrac{np}{2}\log\left(2\pi\right) - \dfrac{n}{2}\log\operatorname{det}\left(\Sigma\right) - \dfrac{1}{2}\sum_{i = 1}^{n}\operatorname{trace}\left[\Sigma^{-1}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\right] \\
+&= -\dfrac{np}{2}\log\left(2\pi\right) - \dfrac{n}{2}\log\operatorname{det}\left(\Sigma\right) - \dfrac{1}{2}\operatorname{trace}\left[\Sigma^{-1}\sum_{i = 1}^{n}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\right]
+\end{align}
+where we took the trace of a scalar and applied the property of invariance to cyclic permutations for the trace. Then taking the derivative of the log-likelihood with respect to $\boldsymbol{\mu}$:
+\begin{align}
+\dfrac{\partial}{\partial\boldsymbol{\mu}}\log\mathcal{L}\left(\boldsymbol{\mu}, \Sigma; \mathbb{X}\right) &= \dfrac{\partial}{\partial\boldsymbol{\mu}}\sum_{i = 1}^{n}\operatorname{trace}\left[\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\Sigma^{-1}\right] \\
+&= \sum_{i = 1}^{n}\left[\dfrac{\partial}{\partial\boldsymbol{\mu}}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\right]\Sigma^{-1} \\
+&= -\sum_{i = 1}^{n}2\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}
+\end{align}
+where we have used the fact $\dfrac{\partial\operatorname{trace}\left(AZB\right)}{\partial Z} = BA$, followed by the chain rule. Setting the derivative to zero and rearranging, we will recover the usual multivariate sample mean estimator for the population mean:
+\begin{gather}
+-\sum_{i = 1}^{n}2\left(\mathbf{X}_{i} - \widehat{\boldsymbol{\mu}}\right)^{\top}\Sigma^{-1} = 0 \\
+\widehat{\boldsymbol{\mu}} = \dfrac{1}{n}\sum_{i = 1}^{n}\mathbf{X}_{i}
+\end{gather}
+For the covariance, we use the fact that the differential of a determinant is given by:
+\begin{equation}
+d\operatorname{det}\left(\Sigma\right) = \operatorname{det}\left(\Sigma\right) \operatorname{trace}\left(\Sigma^{-1}d\Sigma\right)
+\end{equation}
+Hence by the chain rule
+\begin{align}
+d\log\operatorname{det}\left(\Sigma\right) &= \dfrac{\operatorname{det}\left(\Sigma\right) \operatorname{trace}\left(\Sigma^{-1}d\Sigma\right)}{\operatorname{det}\left(\Sigma\right)} \\
+&= \operatorname{trace}\left(\Sigma^{-1}d\Sigma\right)
+\end{align}
+The differential of a matrix inverse is
+\begin{equation}
+d\Sigma^{-1} = -\Sigma^{-1}\left(d\Sigma\right)\Sigma^{-1}
+\end{equation}
+Combining this with the chain rule and using the fact that the trace is a linear operator and so commutes with the derivative:
+\begin{align}
+d\operatorname{trace}\left[\Sigma^{-1}\sum_{i = 1}^{n}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\right] &= \operatorname{trace}\left[d\Sigma^{-1}\sum_{i = 1}^{n}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\right] \\
+&= \operatorname{trace}\left[-\Sigma^{-1}\left(d\Sigma\right)\Sigma^{-1}\sum_{i = 1}^{n}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\right]
+\end{align}
+Therefore the differential of the log-likelihood (using our earlier result of the derivative with respect to the mean):
+\begin{multline}
+d\log\mathcal{L}\left(\boldsymbol{\mu}, \Sigma; \mathbb{X}\right) = -\dfrac{n}{2}\operatorname{trace}\left(\Sigma^{-1}d\Sigma\right) - \dfrac{1}{2}\operatorname{trace}\left[-\Sigma^{-1}\left(d\Sigma\right)\Sigma^{-1}\sum_{i = 1}^{n}\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\right] \\
+ - \sum_{i = 1}^{n}2\left(\mathbf{X}_{i} - \boldsymbol{\mu}\right)^{\top}\Sigma^{-1}d\boldsymbol{\mu}
+\end{multline}
+For the first order condition $d\log\mathcal{L}\left(\boldsymbol{\mu}, \Sigma; \mathbb{X}\right) = 0$, we require the terms multiplying $d\boldsymbol{\mu}$ and $d\Sigma$ be zero. We solved for $\widehat{\boldsymbol{\mu}}$ earlier, so substituting $\boldsymbol{\mu}$ for this yields
+\begin{equation}
+d\log\mathcal{L}\left(\boldsymbol{\mu}, \Sigma; \mathbb{X}\right) = -\dfrac{n}{2}\operatorname{trace}\left(\Sigma^{-1}d\Sigma\right) - \dfrac{1}{2}\operatorname{trace}\left[-\Sigma^{-1}\left(d\Sigma\right)\Sigma^{-1}\sum_{i = 1}^{n}\left(\mathbf{X}_{i} - \widehat{\boldsymbol{\mu}}\right)\left(\mathbf{X}_{i} - \widehat{\boldsymbol{\mu}}\right)^{\top}\right]
+\end{equation}
+Let $S = \sum_{i = 1}^{n}\left(\mathbf{X}_{i} - \widehat{\boldsymbol{\mu}}\right)\left(\mathbf{X}_{i} - \widehat{\boldsymbol{\mu}}\right)^{\top}$ represent the scatter matrix, so we simplify by
+\begin{align}
+d\log\mathcal{L}\left(\boldsymbol{\mu}, \Sigma; \mathbb{X}\right) &= -\dfrac{n}{2}\operatorname{trace}\left(\Sigma^{-1}d\Sigma\right) - \dfrac{1}{2}\operatorname{trace}\left[-\Sigma^{-1}\left(d\Sigma\right)\Sigma^{-1}S\right] \\
+&= -\dfrac{1}{2}\operatorname{trace}\left[\Sigma^{-1}d\Sigma\left(nI - \Sigma^{-1}S\right)\right]
+\end{align}
+The first order condition holds when $nI - \Sigma^{-1}S = 0$, so solving for the maximum likelihood estimator:
+\begin{gather}
+nI = \widehat{\Sigma}^{-1}S \\
+\widehat{\Sigma} = \dfrac{1}{n}S
+\end{gather}
+which is written out in full as
+\begin{equation}
+\widehat{\Sigma} = \dfrac{1}{n}\sum_{i = 1}^{n}\left(\mathbf{X}_{i} - \widehat{\boldsymbol{\mu}}\right)\left(\mathbf{X}_{i} - \widehat{\boldsymbol{\mu}}\right)^{\top}
+\end{equation}
+This shows that the maximum likelihood estimator for the covariance of a multivariate normal  sample is of the same form as the sample covariance, but without Bessel's correction (hence it will be a biased estimate).
+
+\subsection{Asymptotic Consistency of Maximum Likelihood Estimator}
+
+Suppose $\theta_{0}$ is the `true' parameter of the parametrised distribution from which a sample of $X_{i}$ is generated. To derive the asymptotic consistency of the maximum likelihood estimator, we first note the (weak) Law of Large Numbers implies
+\begin{equation}
+\dfrac{1}{n}\sum_{i = 1}^{n}\log \mathcal{L}\left(\theta; X_{i}\right) \overset{\mathrm{p}}{\to} \mathbb{E}\left[\log f_{X}\left(X; \theta\right)\right]
+\end{equation}
+We assume the following regularity condition:
+\begin{equation}
+\max_{\theta \in \Theta} \left\{\dfrac{1}{n} \sum_{i = 1}^{n}\log\mathcal{L}\left(\theta; X_{i}\right)\right\} \overset{\mathrm{p}}{\to} \max_{\theta \in \Theta}\mathbb{E}\left[\log f_{X}\left(X; \theta\right)\right]
+\end{equation}
+which holds under `nice enough' conditions, ie. roughly speaking $\theta_{0}$ is the unique maximiser of the likelihood, $\Theta$ should be compact, $\log \mathcal{L}\left(\theta; x\right)$ should be continuous in $\theta$ for all $x$, and the expectation $\mathbb{E}\left[\log f_{X}\left(X; \theta\right)\right]$ should be always finite. We then claim that $\argmax_{\theta \in \Theta}\mathbb{E}\left[\log f_{X}\left(X; \theta\right)\right] = \theta_{0}$, which is shown as follows. For any $\theta \in \Theta$,
+\begin{equation}
+\mathbb{E}\left[\log f_{X}\left(X; \theta\right)\right] - \mathbb{E}\left[\log f_{X}\left(X; \theta_{0}\right)\right] = \mathbb{E}\left[\log\dfrac{f_{X}\left(X; \theta\right)}{f_{X}\left(X; \theta_{0}\right)}\right]
+\end{equation}
+Since $\log$ is concave, then using Jensen's inequality we have
+\begin{align}
+\mathbb{E}\left[\log\dfrac{f_{X}\left(X; \theta\right)}{f_{X}\left(X; \theta_{0}\right)}\right] &\leq \log\mathbb{E}\left[\dfrac{f_{X}\left(X; \theta\right)}{f_{X}\left(X; \theta_{0}\right)}\right] \\
+&\leq \log\left(\int \dfrac{f_{X}\left(x; \theta\right)}{f_{X}\left(x; \theta_{0}\right)}f\left(x; \theta_{0}\right) dx\right) \\
+&\leq \log\left(\int f_{X}\left(x; \theta\right) dx\right) \\
+&\leq \log 1 \\
+&\leq 0
+\end{align}
+Note that although we have treated $X$ as continuous, it can analogously shown if $X$ were discrete. Hence
+\begin{equation}
+\mathbb{E}\left[\log f_{X}\left(X; \theta\right)\right] - \mathbb{E}\left[\log f_{X}\left(X; \theta_{0}\right)\right] \leq 0
+\end{equation}
+or
+\begin{equation}
+\mathbb{E}\left[\log f_{X}\left(X; \theta\right)\right] \leq \mathbb{E}\left[\log f_{X}\left(X; \theta_{0}\right)\right]
+\end{equation}
+for all $\theta \in \Theta$, which means $\argmax_{\theta \in \Theta}\mathbb{E}\left[\log f_{X}\left(X; \theta\right)\right] = \theta_{0}$. Therefore
+\begin{equation}
+\argmax_{\theta \in \Theta} \left\{\dfrac{1}{n} \sum_{i = 1}^{n}\log\mathcal{L}\left(\theta; X_{i}\right)\right\} \overset{\mathrm{p}}{\to} \theta_{0}
+\end{equation}
+This can also analogously be shown with almost sure convergence using the Strong Law of Large numbers (yielding strong consistency).
+
 \subsection{Maximum Likelihood Justification of Least Squares}
 
 Suppose we have data consisting of $n$ data pairs with regressors $x_{i}$ and observations $y_{i}$ along with a model $f\left(x_{i}; \theta\right)$ which is parametrised by the parameter vector $\theta$ to be estimated. If we assume the data generating process
@@ -5648,7 +5881,7 @@ with Gaussian errors $\varepsilon \sim \mathcal{N}\left(0, \sigma^{2}\right)$, t
 \mathcal{L}\left(\theta\middle|Y_{1}, \dots, Y_{n}\right) &= p\left(Y_{1}, \dots, Y_{n}\middle|\theta\right) \\
 &= p\left(Y_{1}\middle|\theta\right)\dots p\left(Y_{n}\middle|\theta\right) \\
 &= \prod_{i = 1}^{n}p\left(Y_{i}\middle|\theta\right) \\
-&= \prod_{i = 1}^{n}\dfrac{1}{\sigma\sqrt{2\pi}}\exp\left(-\dfrac{\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2}}{2\sigma^{2}}\right)
+&= \prod_{i = 1}^{n}\dfrac{1}{\sigma\sqrt{2\pi}}\exp\left[-\dfrac{\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2}}{2\sigma^{2}}\right]
 \end{align}
 The log-likelihood is given by
 \begin{equation}
@@ -5666,6 +5899,8 @@ so we arrive at the least squares cost function. Hence the least squares fitting
 \theta^{*} = \argmin_{\theta}\dfrac{1}{2}\sum_{i = 1}^{n}\dfrac{\left(y_{i} - f\left(x_{i};\theta\right)\right)^{2}}{\sigma_{i}^{2}}
 \end{equation}
 and the formulation becomes equivalent to weighted least squares.
+
+\subsubsection{Maximum Likelihood Estimator for Linear Regression}
 
 \subsection{Maximum Likelihood Justification of Least Absolute Deviations}
 
@@ -5842,6 +6077,13 @@ This shows that the Fisher information is equal to the negative of the curvature
 \mathcal{I}\left(\theta\right) = - \mathbb{E}_{X}\left[\nabla_{\theta}^{2}\log f\left(X;\theta\right)\right]
 \end{equation}
 
+\subsection{Observed Fisher Information}
+
+The observed Fisher information (sometimes also referred to as the empirical Fisher information) is a sample-based version of Fisher information. As the Fisher information is the expectation of the negative Hessian of the log-likelihood of a single sample, the observed Fisher information is the sample mean of the negative Hessian of the log-likelihood for a sample of size $n$. The observed information evaluated at $\theta^{*}$ can be computed by
+\begin{equation}
+\mathcal{J}\left(\theta^{*}\right) = \left.-\dfrac{1}{n}\sum_{i = 1}^{n}\nabla_{\theta}^{2}\log \mathcal{L}\left(\theta; X_{i}\right)\right|_{\theta = \theta^{*}}
+\end{equation}
+
 \subsection{Fisher Information in Linear Regression}
 
 In a linear regression model with $y_{i} = x_{i}^{\top}\beta + \sigma\varepsilon_{i}$ where $\varepsilon \sim \mathcal{N}\left(0, 1\right)$, the log likelihood of an observation $\left(x_{i}, y_{i}\right)$ is given by
@@ -5916,6 +6158,109 @@ An estimator that achieves the Cramer-Rao bound with equality, ie.
 \end{equation}
 is said to be efficient. This implies that it is an unbiased estimator with the `least variance'. The maximum likelihood estimator can be shown to be asymptotically efficient (ie. as data size $n \to \infty$).
 
+\subsection{Asymptotic Normality of Maximum Likelihood Estimator}
+
+The maximum likelihood estimate $\widehat{\theta}$ is defined as maximising the log-likelihood $\log \mathcal{L}\left(\theta\right)$, where we have suppressed the notation of including the sample $\mathbf{X}$ in the log-likelihood. Hence the gradient of the log-likelihood satisfies
+\begin{equation}
+\nabla_{\theta}\log\mathcal{L}\left(\widehat{\theta}\right) = 0
+\end{equation}
+As established with the asymptotic consistency of the maximum likelihood estimator, for large $n$, $\widehat{\theta}$ will be `close' to the true parameter $\theta_{0}$ with high probability. So by applying a first order Taylor expansion of $\nabla_{\theta}\log\mathcal{L}\left(\widehat{\theta}\right)$ about $\theta_{0}$, we have
+\begin{equation}
+\nabla_{\theta}\log\mathcal{L}\left(\widehat{\theta}\right) \approx \nabla_{\theta}\log\mathcal{L}\left(\theta_{0}\right) + \nabla_{\theta}^{2}\log\mathcal{L}\left(\theta_{0}\right)\left(\widehat{\theta} - \theta_{0}\right)
+\end{equation}
+Hence
+\begin{gather}
+\nabla_{\theta}\log\mathcal{L}\left(\theta_{0}\right) + \nabla_{\theta}^{2}\log\mathcal{L}\left(\theta_{0}\right)\left(\widehat{\theta} - \theta_{0}\right) \approx 0 \\
+\widehat{\theta} - \theta_{0} \approx - \left[ \nabla_{\theta}^{2}\log\mathcal{L}\left(\theta_{0}\right)\right]^{-1}\nabla_{\theta}\log\mathcal{L}\left(\theta_{0}\right)
+\end{gather}
+Multiplying out both sides by $\sqrt{n}$ (as will be convenient for later on):
+\begin{equation}
+\sqrt{n}\left(\widehat{\theta} - \theta_{0}\right) \approx - \left[\dfrac{1}{n}\nabla_{\theta}^{2}\log\mathcal{L}\left(\theta_{0}\right)\right]^{-1}\dfrac{1}{\sqrt{n}}\nabla_{\theta}\log\mathcal{L}\left(\theta_{0}\right)
+\end{equation}
+For an i.i.d. sample $X_{1}, \dots, X_{n}$, we have
+\begin{equation}
+-\dfrac{1}{n}\nabla_{\theta}^{2}\log\mathcal{L}\left(\theta_{0}\right) = \left.-\dfrac{1}{n}\sum_{i = 1}^{n}\nabla_{\theta}^{2}\log f\left(X_{i}; \theta\right)\right|_{\theta = \theta_{0}}
+\end{equation}
+Recognising that this term is observed Fisher information evaluated at $\theta_{0}$, we have by the Law of Large numbers
+\begin{equation}
+-\dfrac{1}{n}\nabla_{\theta}^{2}\log\mathcal{L}\left(\theta_{0}\right) \overset{\mathrm{p}}{\to} \mathcal{I}\left(\theta_{0}\right)
+\end{equation}
+where recall that $\mathcal{I}\left(\theta\right) = - \mathbb{E}\left[\nabla_{\theta}^{2}\log f\left(X; \theta\right)\right]$. Next for the term
+\begin{equation}
+\dfrac{1}{\sqrt{n}}\nabla_{\theta}\log\mathcal{L}\left(\theta_{0}\right) = \left.-\dfrac{1}{\sqrt{n}}\sum_{i = 1}^{n}\nabla_{\theta}\log f\left(X_{i}; \theta\right)\right|_{\theta = \theta_{0}}
+\end{equation}
+recall that the expectation and covariance of the score (derivative of the log-likelihood for a random $X$) satisfy
+\begin{gather}
+\mathbb{E}\left[\nabla_{\theta}\log f\left(X; \theta\right)\right] = 0 \\
+\operatorname{Cov}\left(\nabla_{\theta}\log f\left(X; \theta\right)\right) = \mathcal{I}\left(\theta\right)
+\end{gather}
+So by the multivariate Central Limit Theorem, this gives
+\begin{align}
+\dfrac{1}{\sqrt{n}}\nabla_{\theta}\log\mathcal{L}\left(\theta_{0}\right) &= \sqrt{n}\left(\dfrac{1}{n}\nabla_{\theta}\log\mathcal{L}\left(\theta_{0}\right)\right) \\
+&\overset{\mathrm{d}}{\to} \mathcal{N}\left(0, \mathcal{I}\left(\theta_{0}\right)\right)
+\end{align}
+Now by the continuous mapping theorem,
+\begin{equation}
+\left[-\dfrac{1}{n}\nabla_{\theta}^{2}\log\mathcal{L}\left(\theta_{0}\right)\right]^{-1} \overset{\mathrm{p}}{\to} \mathcal{I}\left(\theta_{0}\right)^{-1}
+\end{equation}
+and combining this with Slutsky's theorem yields
+\begin{align}
+- \left[\dfrac{1}{n}\nabla_{\theta}^{2}\log\mathcal{L}\left(\theta_{0}\right)\right]^{-1}\dfrac{1}{\sqrt{n}}\nabla_{\theta}\log\mathcal{L}\left(\theta_{0}\right) &\overset{\mathrm{p}}{\to} \mathcal{I}\left(\theta_{0}\right)^{-1}\left(\dfrac{1}{\sqrt{n}}\nabla_{\theta}\log\mathcal{L}\left(\theta_{0}\right)\right) \\
+&\overset{\mathrm{d}}{\to} \mathcal{N}\left(0, \mathcal{I}\left(\theta_{0}\right)^{-1}\green\cancelto{}{\black\mathcal{I}\left(\theta_{0}\right)\left[\mathcal{I}\left(\theta_{0}\right)^{-1}\right]^{\top}}\black\right)
+\end{align}
+And for large $n$, we can ignore the higher order terms in the Taylor approximation and say that
+\begin{equation}
+\sqrt{n}\left(\widehat{\theta} - \theta_{0}\right) \overset{\mathrm{d}}{\to} \mathcal{N}\left(0, \mathcal{I}\left(\theta_{0}\right)^{-1}\right)
+\end{equation}
+Therefore this shows the asymptotic normality of the maximum likelihood estimator.
+
+\subsection{Inference for Maximum Likelihood Estimator}
+
+\subsubsection{Standard Errors for Maximum Likelihood Estimator}
+
+The asymptotic normality of the maximum likelihood estimator can be used to obtain standard errors for $\widehat{\theta}$, which can be used to construct confidence regions and conduct hypothesis tests. For large $n$, we will have
+\begin{equation}
+\widehat{\theta} \overset{\mathrm{approx}}{\sim} \mathcal{N}\left(\theta_{0}, \dfrac{1}{n}\mathcal{I}\left(\theta_{0}\right)^{-1}\right)
+\end{equation}
+Since the population parameter $\theta_{0}$ is treated as unknown and because $\widehat{\theta}$ is consistent for $\theta_{0}$ then it is reasonable to replace $\theta_{0}$ with the maximum likelihood estimate $\widehat{\theta}$ so that
+\begin{equation}
+\widehat{\theta} \overset{\mathrm{approx}}{\sim} \mathcal{N}\left(\theta_{0}, \dfrac{1}{n}\mathcal{I}\left(\widehat{\theta}\right)^{-1}\right)
+\end{equation}
+It may be that calculating the Fisher information (which requires expectation of the negative Hessian of the log-likelihood) can be tricky, so we can instead replace the Fisher information by the observed Fisher information, which will be `close' for large $n$:
+\begin{equation}
+-\dfrac{1}{n}\nabla_{\theta}^{2}\log\mathcal{L}\left(\widehat{\theta}\right) \approx \mathcal{I}\left(\widehat{\theta}\right)
+\end{equation}
+and moreover we can rearrange this to
+\begin{gather}
+n\left[-\nabla_{\theta}^{2}\log\mathcal{L}\left(\widehat{\theta}\right)\right]^{-1} \approx \mathcal{I}\left(\widehat{\theta}\right)^{-1} \\
+\left[-\nabla_{\theta}^{2}\log\mathcal{L}\left(\widehat{\theta}\right)\right]^{-1} \approx \dfrac{1}{n}\mathcal{I}\left(\widehat{\theta}\right)^{-1}
+\end{gather}
+Substituting this in the covariance gives
+\begin{equation}
+\widehat{\theta} \overset{\mathrm{approx}}{\sim} \mathcal{N}\left(\theta_{0}, \left[-\nabla_{\theta}^{2}\log\mathcal{L}\left(\widehat{\theta}\right)\right]^{-1}\right)
+\end{equation}
+This means we can take the inverse of the second derivative (ie. curvature) of the objective function being minimised at the maximum likelihood estimate itself, and use this to approximate the covariance of the estimate. Intuitively, a `flatter' curvature means the inverse is `larger', so the uncertainty is greater. Conversely, a more `pointed' curvature means the inverse is `smaller' indicating less uncertainty of the estimate. Furthermore, it could be that computing the analytical second derivative itself can be tricky. In this case, the second derivative can be replaced by a numerical estimate of the second derivative (via a method such as numerical differentiation). This yields
+\begin{equation}
+\widehat{\theta} \overset{\mathrm{approx}}{\sim} \mathcal{N}\left(\theta_{0}, \left[-\widehat{\nabla}_{\theta}^{2}\log\mathcal{L}\left(\widehat{\theta}\right)\right]^{-1}\right)
+\end{equation}
+One possible way to approximate the Hessian is via the `outer-product of gradients' from:
+\begin{equation}
+\nabla_{\theta}^{2}\log\mathcal{L}\left(\widehat{\theta}; \mathbf{X}\right) \approx \sum_{i = 1}^{n}\left(\nabla_{\theta}\log\mathcal{L}\left(\widehat{\theta}; X_{i}\right)\right)\left(\nabla_{\theta}\log\mathcal{L}\left(\widehat{\theta}; X_{i}\right)\right)^{\top}
+\end{equation}
+The justification for doing this is the same as for using the outer-product to approximate the Hessian in the Gauss-Newton algorithm. In all the above, we have reached an asymptotic approximation of the sampling distribution for the maximum likelihood estimator which takes the form $\widehat{\theta} \overset{\mathrm{approx}}{\sim} \mathcal{N}\left(\theta_{0}, \Sigma_{\widehat{\theta}}\right)$. Regardless of whichever method is used to obtain $\Sigma_{\widehat{\theta}}$, the standard error of the estimate for the $j$\textsuperscript{th} parameter is the usual square root of the $j$\textsuperscript{th} diagonal of $\Sigma_{\widehat{\theta}}$:
+\begin{equation}
+\operatorname{se}\left(\widehat{\theta}_{j}\right) = \sqrt{\Sigma_{\widehat{\theta}, jj}}
+\end{equation}
+
+\subsubsection{Wilks' Theorem}
+
+\subsubsection{Likelihood Ratio Test}
+
+\subsubsection{Lagrange Multiplier Test}
+
+\subsection{Efficiency of Maximum Likelihood Estimator}
+
+
 \section{James-Stein Estimation}
 
 \subsection{Stein's Lemma}
@@ -5944,22 +6289,26 @@ Notice that this probability will be bounded between $0$ and $1$. Denoting $p\le
 \end{equation}
 To fit a logistic regression to some data, we first construct the likelihood (assuming independent samples) as
 \begin{align}
-L\left(\beta\middle|x\right) &= \operatorname{Pr}\left(Y\middle|X = x, \beta\right) \\
+\mathcal{L}\left(\beta; x\right) &= \operatorname{Pr}\left(Y\middle|X = x, \beta\right) \\
 &= \prod_{i = 1}^{n} \operatorname{Pr}\left(y_{i}\middle|X = x_{i}, \beta\right) \\
 &= \prod_{i = 1}^{n} \left(\dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)^{y_{i}}\left(1 - \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)^{1 - y_{i}}
 \end{align}
 Note that since $y_{i}$ can only be $0$ or $1$, each multiplicand `selects' either the probability of occurrence of $\operatorname{Pr}\left(Y = 1\middle|X = x, \beta\right)$ if $y_{i} = 1$ or $\operatorname{Pr}\left(Y = 0\middle|X = x, \beta\right)$ if $y_{i} = 0$. The log-likelihood is
 \begin{equation}
-\log L\left(\beta\middle|x\right) = \sum_{i = 1}^{n} y_{i}\log\left(\dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right) + \sum_{i = 1}^{n}\left(1 - y_{i}\right)\log\left(1 - \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)
+\log \mathcal{L}\left(\beta; x\right) = \sum_{i = 1}^{n} y_{i}\log\left(\dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right) + \sum_{i = 1}^{n}\left(1 - y_{i}\right)\log\left(1 - \dfrac{1}{1 + \exp\left(-\beta^{\top}x\right)}\right)
 \end{equation}
-Hence the maximum-likelihood estimate is the solution to
+Hence the maximum likelihood estimate is the solution to
 \begin{equation}
-\min_{\beta} \left\{-\log L\left(\beta\middle|x\right)\right\}
+\widehat{\beta} = \argmin_{\beta} \left\{-\log \mathcal{L}\left(\beta; x\right)\right\}
 \end{equation}
 
 \subsection{Probit Regression}
 
 \subsection{Multinomial Logistic Regression}
+
+\subsection{Ordinal Regression}
+
+\section{Quantile Regression}
 
 \chapter{Advanced Probability}
 
@@ -7157,10 +7506,6 @@ p\left(y\right) = \mathcal{N}_{y}\left(C^{\top}a, B^{-1} + C^{\top}A^{-1}C\right
 
 \section{Exponential Families}
 
-\section{Random Matrices}
-
-\subsection{Wishart Distribution}
-
 \section{Stochastic Processes}
 
 A continuous time stochastic process $X\left(t\right)$ assigns a function of time $x\left(t\right)$ to each outcome in the sample space. The function $x\left(t\right)$ is said to be a sample path, ie. a realisation of the stochastic process. At some fixed time $t_{0}$, the variable $X\left(t_{0}\right)$ is a random variable. A discrete time stochastic process $X_{k}$ assigns a sequence to each outcome in the sample space, where similarly for some fixed integer $k_{0}$, the variable $X_{k_{0}}$ is a random variable. Note that $X\left(t_{0}\right)$ and $X_{k_{0}}$ can be discrete or continuous-valued random variables (or both), so we can consider four different classes of stochastic processes (excluding hybrids):
@@ -7342,6 +7687,13 @@ The strong law of large numbers easily establishes that any sequence of i.i.d. r
 \subsection{Sub-Gaussian Random Variables}
 
 \subsection{Sub-Gamma Random Variables}
+
+\subsection{McDiarmid's Inequality}
+
+\section{Random Matrices}
+
+\subsection{Wishart Distribution}
+
 
 \chapter{Bayesian Probability \& Statistics}
 
@@ -7671,6 +8023,10 @@ B_{12}|\mathcal{D} = \dfrac{\int p\left(\mathcal{D}\middle|\theta_{1}\right)p\le
 
 \subsection{Bayesian Regularisation}
 
+\subsection{Bayes Classifiers}
+
+\subsubsection{Na\"{i}ve Bayes}
+
 \subsection{Bayesian Linear Regression \cite{Rasmussen2006}}
 
 Consider a linear model of the form with weights $\mathbf{w}$:
@@ -7907,7 +8263,7 @@ Hence this gives Laplace's approximation:
 
 \subsubsection{Multivariate Laplace's Approximation}
 
-Laplace's approximation can be extended to the multivariate case. We approximate the integral $\int_{\mathcal{X}}\exp\left(Mf\left(\mathbf{x}\right)\right)d\mathbf{x}$ where twice-differentiable $f\left(\mathbf{x}\right)$ is a scalar function of $n$-dimensional $\mathbf{x}$ which has a unique global maximum $\mathbf{x}_{0} \in \mathcal{X}$, and $M$ is large. Deriving the approximation follows the same arguments as above:
+Laplace's approximation can be extended to the multivariate case. We approximate the integral $\int_{\mathcal{X}}\exp\left(Mf\left(\mathbf{x}\right)\right)d\mathbf{x}$ where twice-differentiable $f\left(\mathbf{x}\right)$ is a scalar function of $n$-dimensional $\mathbf{x}$ which has a unique global maximum $\mathbf{x}_{0} \in \mathcal{X}$, and $M$ is large. Deriving the approximation follows the analogous arguments as above:
 \begin{align}
 \int_{\mathcal{X}}\exp\left(Mf\left(\mathbf{x}\right)\right)d\mathbf{x} &\approx \int_{\mathcal{X}}\exp\left[M\left(f\left(\mathbf{x}_{0}\right) + \left(\mathbf{x} - \mathbf{x}_{0}\right)^{\top}\nabla f\left(\mathbf{x}_{0}\right) + \dfrac{1}{2}\left(\mathbf{x} - \mathbf{x}_{0}\right)^{\top}\nabla^{2}f\left(\mathbf{x}_{0}\right)\left(\mathbf{x} - \mathbf{x}_{0}\right)\right)\right]d\mathbf{x} \\
 &\approx \int_{\mathcal{X}}\exp\left[M\left(f\left(\mathbf{x}_{0}\right) + \dfrac{1}{2}\left(\mathbf{x} - \mathbf{x}_{0}\right)^{\top}\nabla^{2}f\left(\mathbf{x}_{0}\right)\left(\mathbf{x} - \mathbf{x}_{0}\right)\right)\right]d\mathbf{x} \\
@@ -7916,9 +8272,11 @@ Laplace's approximation can be extended to the multivariate case. We approximate
 &\approx e^{Mf\left(\mathbf{x}_{0}\right)}\sqrt{\left(\dfrac{2\pi}{M}\right)^{n}\cdot\dfrac{1}{\det\left(-\nabla^{2}f\left(\mathbf{x}_{0}\right)\right)}}
 \end{align}
 
-\section{Bernstein-von Mises Theorem}
+\subsection{Expectation Propagation}
 
-\section{Bayesian Classifiers}
+\subsection{Variational Inference}
+
+\section{Bernstein-von Mises Theorem}
 
 \section{Subjective Probability \cite{Schervish1995}}
 
@@ -7930,9 +8288,9 @@ Laplace's approximation can be extended to the multivariate case. We approximate
 
 \section{Countable-State Discrete-Time Markov Chains}
 
-\section{Countable-State Continuous-Time Markov Chains}
+\section{Countable-State Continuous-Time Markov Processes}
 
-\section{Uncountable-State Discrete-Time Markov Processes}
+\section{Uncountable-State Discrete-Time Markov Chains}
 
 \subsection{Gauss-Markov Processes}
 
@@ -7946,6 +8304,16 @@ Laplace's approximation can be extended to the multivariate case. We approximate
 
 \section{Markov Decision Processes}
 
+A Markov decision process is a stochastic process which can be minimally described as a process involving two different variables. There is a process for the states: $X_{0}, X_{1}, X_{2}, \dots$, and a process for actions: $A_{0}, A_{1}, A_{2}, \dots$ (we consider discrete-time). A Markov decision process then consists of the tuple $\left(\mathcal{X}, \mathcal{A}_{x}, p\left(x'\middle|x, a\right)\right)$, where
+\begin{itemize}
+\item $\mathcal{X}$ is the state space (which may generally be infinite).
+\item $\mathcal{A}_{x}$ is the action space (which may also generally be infinite), containing all the possible actions which are possible from state $x$.
+\item $p\left(x'\middle|x, a\right) = \operatorname{Pr}\left(X_{t + 1} = x'\middle| X_{t} = x, A_{t} = a\right)$ is the transition probability to new state $x'$ from previous state $x$ after taking action $a$.
+\end{itemize}
+Implicitly, there is also assumed to be some policy $\pi\left(a\middle|x\right) = \operatorname{Pr}\left(A_{t} = a\middle|X_{t} = x\right)$ which gives the probability distribution of choosing action $a$ at state $x$. The support of this distribution will then be $\mathcal{A}_{x}$. The combination of the Markov decision process $\left(\mathcal{X}, \mathcal{A}_{x}, p\left(x'\middle|x, a\right)\right)$ with a policy $\pi\left(a\middle|x\right)$ then induces the stochastic process $X_{0}, X_{1}, X_{2}, \dots$ to behave like a Markov chain, with the transition probability $p_{\pi}\left(x'\middle|x\right) = \operatorname{Pr}\left(X_{t + 1} = x'\middle|X_{t} = x\right)$.
+
+\subsection{Continuous-Time Markov Decision Processes}
+
 \subsection{Partially Observable Markov Decision Processes}
 
 \section{Inference of Markov Processes}
@@ -7953,6 +8321,8 @@ Laplace's approximation can be extended to the multivariate case. We approximate
 \subsection{Maximum Likelihood of Markov Chains}
 
 \subsection{Baum-Welch Algorithm}
+
+\subsection{Viterbi Algorithm}
 
 \section{Quasistationary Distributions \cite{Collet2012}}
 
@@ -8897,12 +9267,6 @@ So the percentile bootstrap interval is given by $\left(\theta_{\alpha/2}^{*}, \
 
 \subsection{Permutation Tests}
 
-\section{Principal Component Analysis}
-
-\subsection{Principal Component Regression}
-
-\subsection{Maximum Likelihood Principal Component Analysis \cite{Bishop2006}}
-
 \section{Survival Analysis}
 
 \subsection{Kaplan-Meier Estimator}
@@ -8913,7 +9277,34 @@ So the percentile bootstrap interval is given by $\left(\theta_{\alpha/2}^{*}, \
 
 \section{Nonparametric Statistics}
 
-\subsection{Kernel Ridge Regression}
+\subsection{Nonparametric Regression}
+
+\subsubsection{Kernel Ridge Regression}
+
+\subsubsection{Isotonic Regression}
+
+Isotonic regression (which can also be referred to as monotonic regression) is a nonparametric shape-constrained regression method which aims to estimate the labels which agree with monotonicity constraints on the regressors. To illustrate, consider the dataset of size $n$ consists of features
+\begin{equation}
+\mathbf{X} = \left(\mathbf{x}_{1}, \dots, \mathbf{x}_{n}\right)
+\end{equation}
+with each $\mathbf{x}_{i} \in \mathbb{R}^{d}$ and corresponding labels
+\begin{equation}
+\mathbf{y} = \left(y_{1}, \dots, y_{n}\right)
+\end{equation}
+Suppose it is known that a `true' regression function $f\left(\mathbf{x}\right)$ should satisfy $f\left(\mathbf{x}\right) \leq f\left(\mathbf{x}'\right)$ if and only if $\mathbf{x} \leq \mathbf{x}'$ (component-wise inequality). Then the aim is to find estimates $\widehat{y}_{1}, \dots, \widehat{y}_{n}$ which are `close' to the original labels, but however respect the monotonicity order implied by the dataset. Isotonic regression can be performed as follows. We can construct a directed acyclic graph $\mathcal{G}\left(V, E\right)$ with vertices $V$ and edges $E$, where each vertex represents a point in $\mathbf{X}$. The edges define a partial ordering between all the points, such that there is an edge from vertex $a$ to vertex $b$ if $\mathbf{x}_{a} \leq \mathbf{x}_{b}$. These are the constraints that the regression function $f\left(\mathbf{x}\right)$ has to satisfy. Then a least-squares approach is to solve the quadratic program:
+\begin{equation}
+\begin{aligned}
+\min_{\widehat{\mathbf{y}}} & & \sum_{i = 1}^{n}\left(\widehat{y}_{i} - y_{i}\right)^{2} & & \\
+\mathrm{s.t.} & & \widehat{y}_{a} \leq \widehat{y}_{b}, & & \forall \left(a, b\right) \in E
+\end{aligned}
+\end{equation}
+A possible extension/generalisation is to perform weighted least-squares with a weighting vector $\mathbf{w} = \left(w_{1}, \dots, w_{n}\right)$, giving the problem
+\begin{equation}
+\begin{aligned}
+\min_{\widehat{\mathbf{y}}} & & \sum_{i = 1}^{n}w_{i}\left(\widehat{y}_{i} - y_{i}\right)^{2} & & \\
+\mathrm{s.t.} & & \widehat{y}_{a} \leq \widehat{y}_{b}, & & \forall \left(a, b\right) \in E
+\end{aligned}
+\end{equation}
 
 \subsection{Nonparametric Density Estimation}
 
@@ -9015,6 +9406,10 @@ W &= \sum_{i = 1}^{n}\left(\sum_{j = 1}^{m}\mathbb{I}_{X_{j} < Y_{i}} + \sum_{k 
 &= U + 0 + 1 + \dots + \left(n - 1\right) + n \\
 &= U + \dfrac{n\left(n + 1\right)}{2}
 \end{align}
+
+\subsection{Nonparametric Confidence Intervals}
+
+\subsubsection{Cumulative Distribution Function Confidence Intervals}
 
 \section{Robust Statistics}
 
@@ -9746,6 +10141,8 @@ Suppose we have a probability model (ie. distribution) $q\left(x\right)$ for a s
 \end{equation}
 This perplexity may be roughly interpreted as the average difficulty in guessing events from the sample using the model, and can be used as a measure of model fit.
 
+\subsection{Channel Coding Theorem}
+
 \section{Information Criteria}
 
 \subsection{Akaike Information Criterion}
@@ -9948,7 +10345,27 @@ Roughly speaking, this conveys the distance between probability distributions in
 
 \subsection{Hellinger Distance}
 
-\subsection{$f$-Divergence}
+\subsection{$f$-Divergence \cite{Csiszar}}
+
+The $f$-divergence is a concept that can be used to generalise other measures of statistical distance such as the Kullback-Leibler divergence and the Hellinger distance. Suppose (for simplicity) that distributions $P$ and $Q$ are discrete on support $\mathcal{X}$. Let $f\left(t\right)$ be a convex function that is defined for $t > 0$, and $f\left(1\right) = 0$. The $f$-divergence of a distribution $P$ from $Q$ is defined by
+\begin{equation}
+\operatorname{D}_{f}\left(P\middle\Vert Q\right) = \sum_{x \in \mathcal{X}}Q\left(x\right)f\left(\dfrac{P\left(x\right)}{Q\left(x\right)}\right)
+\end{equation}
+To be precise, we need to take
+\begin{gather}
+0f\left(0\right) = 0 \\
+f\left(0\right) = \lim_{t \to 0}f\left(0\right) \\
+0f\left(\dfrac{a}{0}\right) = \lim_{t \to 0}tf\left(\dfrac{a}{t}\right)
+\end{gather}
+Rewriting the $f$-divergence as
+\begin{equation}
+\operatorname{D}_{f}\left(P\middle\Vert Q\right) = \mathbb{E}_{Q}\left[f\left(\dfrac{P\left(X\right)}{Q\left(X\right)}\right)\right]
+\end{equation}
+we can see that the $f$-divergence may be intuitively thought of as the average of the function $f\left(\cdot\right)$ of the odds ratio between $P$ and $Q$. Note that if we set $f\left(t\right) = t\log t$, then we recover the Kullback-Leibler divergence:
+\begin{align}
+\operatorname{D}_{t\log t}\left(P\middle\Vert Q\right) &= \sum_{x \in \mathcal{X}}Q\left(x\right)\dfrac{P\left(x\right)}{Q\left(x\right)}\log\left(\dfrac{P\left(x\right)}{Q\left(x\right)}\right) \\
+&= \sum_{x \in \mathcal{X}}P\left(x\right)\log\left(\dfrac{P\left(x\right)}{Q\left(x\right)}\right)
+\end{align}
 
 \section{Information Geometry}
 
@@ -10220,6 +10637,10 @@ then this regressor is known as an interaction term (capturing the `interaction'
 \end{equation}
 we obtain the marginal effect of $X_{1, i}$ as $\beta_{1} + \beta_{3}X_{2, i}$, which depends on the value of $X_{2, i}$. In this case, the statistical interpretation would be that a $1$ unit increase in $X_{1, i}$ is associated with a $\beta_{1} + \beta_{3}X_{2, i}$ unit increase in $Y_{i}$ on average, holding all else constant.
 
+\subsection{Specification Tests}
+
+\subsection{Quasi-Maximum Likelihood Estimates}
+
 \section{Regression Analysis}
 
 \subsection{Sample Regression Function Coefficients}
@@ -10374,7 +10795,7 @@ Heteroskedasticity is defined as the case where generally $\operatorname{Var}\le
 \begin{equation}
 \mathbb{E}\left[\mathbf{Y}\middle| \mathbf{X}\right] = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon} 
 \end{equation}
-and if the errors are uncorrelated, then $\operatorname{Cov}\left(\boldsymbol{\varepsilon}\right)$ will be equal to some diagonal matrix with non-negative entries.
+and if the errors are uncorrelated, then $\operatorname{Cov}\left(\boldsymbol{\varepsilon}\right)$ will be equal to some diagonal matrix (but not scaled identity matrix, as this would be homoskedasticity) with non-negative entries.
 
 \subsection{Tests for Heteroskedasticity}
 
@@ -11108,7 +11529,7 @@ V\left(\boldsymbol{\beta}\right) &= \mathbf{u}^{\top}\left(I_{T\times T} \otimes
 \end{align}
 Expanding out and applying Kronecker product properties in the same way as for the ordinary least squares estimator:
 \begin{align}
-V\left(\boldsymbol{\beta}\right) &\begin{multlined}=\mathbf{y}^{\top}\left(I_{T\times T}\otimes\Sigma_{U}^{-1}\right)\mathbf{y}-2\boldsymbol{\beta}^{\top}\left(\mathbf{Z}\otimes I_{K\times K}\right)\left(I_{T\times T}\otimes\Sigma_{U}^{-1}\right)\mathbf{y} \\
+\begin{multlined} V\left(\boldsymbol{\beta}\right) \\ \end{multlined} &\begin{multlined}=\mathbf{y}^{\top}\left(I_{T\times T}\otimes\Sigma_{U}^{-1}\right)\mathbf{y}-2\boldsymbol{\beta}^{\top}\left(\mathbf{Z}\otimes I_{K\times K}\right)\left(I_{T\times T}\otimes\Sigma_{U}^{-1}\right)\mathbf{y} \\
 +\boldsymbol{\beta}^{\top}\left(\mathbf{Z}\otimes I_{K\times K}\right)\left(I_{T\times T}\otimes\Sigma_{U}^{-1}\right)\left(\mathbf{Z}^{\top}\otimes I_{K\times K}\right)\boldsymbol{\beta}
 \end{multlined} \\
 &= \mathbf{y}^{\top}\left(I_{T\times T}\otimes\Sigma_{U}^{-1}\right)\mathbf{y}-2\boldsymbol{\beta}^{\top}\left(\mathbf{Z}\otimes\Sigma_{U}^{-1}\right)\mathbf{y}+\boldsymbol{\beta}^{\top}\left(\mathbf{Z}\otimes\Sigma_{U}^{-1}\right)\left(\mathbf{Z}^{\top}\otimes I_{K\times K}\right)\boldsymbol{\beta} \\
@@ -11289,8 +11710,6 @@ The RHS evaluates to zero, however evidence of residual autocorrelation suggests
 
 \subsection{Unit Root}
 
-\subsection{Box-Jenkins Method}
-
 \subsubsection{Stationarity in AR(1) Models}
 
 Consider an AR(1) model
@@ -11349,9 +11768,17 @@ And finally by $\operatorname{Cov}\left(Y_{t}, Y_{t - j}\right) = \operatorname{
 &= \dfrac{\beta_{1}^{j}\omega^{2}}{1 - \beta_{1}^{2}}
 \end{align}
 
+\subsubsection{Dickey-Fuller Test}
+
+\subsubsection{Augmented Dickey-Fuller Test}
+
+\subsection{Box-Jenkins Method}
+
 \subsection{Slutsky-Yule Effect}
 
 \section{Time-Series Forecasting}
+
+\section{Generalised Method of Moments}
 
 \chapter{Machine Learning}
 
@@ -11370,6 +11797,17 @@ The validation dataset is the dataset of examples that are used while training (
 The test dataset is a dataset that should be independent from the training and validation datasets, but also drawn from the same probability distribution. The purpose of the test dataset is to provide an unbiased evaluation of the model performance after all training and hyperparameter tuning has taken place.
 
 \subsection{Imbalanced Datasets}
+
+\subsection{Cross-Validation}
+
+\subsubsection{Leave-One-Out Cross-Validation}
+
+\subsubsection{$K$-fold Cross-Validation}
+
+In $K$-fold cross-validation, we partition the sample into $K$ equally-sized (or nearly equally-sized) subsamples. For each subsample $k = 1, \dots, K$, we do the following. We train the model on all except the $k$\textsuperscript{th} subsample, and then we evaluate model fit on the $k$\textsuperscript{th} subsample to obtain an estimate $E_{k}$ of model performance. Averaging over all $K$ folds, the overall estimate of model performance is given by
+\begin{equation}
+E = \sum_{k = 1}^{K}E_{k}
+\end{equation}
 
 \section{Statistical Classification}
 
@@ -11403,10 +11841,18 @@ For a binary classifier that detects an event, recall is the proportion of true 
 
 Given precision $p$ and recall $r$, an `$F_{1}$-score' can be calculated by the harmonic mean of $p$ and $r$ (since the harmonic mean is suitable for averaging over ratios), that is:
 \begin{gather}
-\frac{1}{F_{1}} = \dfrac{1}{2}\left(\dfrac{1}{p} + \dfrac{1}{r}\right) \\
+\dfrac{1}{F_{1}} = \dfrac{1}{2}\left(\dfrac{1}{p} + \dfrac{1}{r}\right) \\
 F_{1} = \dfrac{2pr}{p + r}
 \end{gather}
 This is a way to quantitatively trade between precision and recall, where a model with higher $F_{1}$-score is preferred.
+
+\subsubsection{$F_{\beta}$-score \cite{Shalev-Shwartz2014}}
+
+The $F_{\beta}$-score generalises the $F_{1}$-score, where $\beta^{2}$ times more weighting is attached to recall than to precision. It is calculated by
+\begin{gather}
+\dfrac{1}{F_{\beta}} = \dfrac{1}{1 + \beta^{2}}\left(\dfrac{1}{p} + \dfrac{\beta^{2}}{r}\right) \\
+F_{1} = \dfrac{1 + \beta^{2}}{1/p + \beta^{2}/r}
+\end{gather}
 
 \subsubsection{Coverage}
 
@@ -11418,28 +11864,126 @@ A classifier may also be coded so that it can refuse to make a decision (eg. if 
 
 \subsection{$k$-Nearest Neighbours}
 
-\subsection{Support Vector Machines}
-
 \subsection{Linear Discriminant Analysis}
 
-\section{Cross-Validation}
+\subsection{Quadratic Discriminant Analysis}
 
-\subsection{$K$-fold Cross-Validation}
+\subsection{Support Vector Machines}
 
-In $K$-fold cross-validation, we partition the sample into $K$ equally-sized (or nearly equally-sized) subsamples. For each subsample $k = 1, \dots, K$, we do the following. We train the model on all except the $k$\textsuperscript{th} subsample, and then we evaluate model fit on the $k$\textsuperscript{th} subsample to obtain an estimate $E_{k}$ of model performance. Averaging over all $K$ folds, the overall estimate of model performance is given by
+\subsubsection{Support Vector Machines for Linearly Separable Data \cite{Bishop2006}}
+
+Suppose our training data consists of $n$ pairs of $\left(\mathbf{x}, y\right)$ with $\mathbf{x} \in \mathbb{R}^{d}$ (which can be in some appropriate basis) and labels $y \in \left\{-1, 1\right\}$. Learning a support vector machine (SVM) involves learning a `linear discriminant function'
 \begin{equation}
-E = \sum_{k = 1}^{K}E_{k}
+f\left(\mathbf{x}\right) = \mathbf{w}^{\top}\mathbf{x} + b
 \end{equation}
+so that a classification is made by taking the sign:
+\begin{equation}
+\widehat{y}\left(\mathbf{x}\right) = \operatorname{sign}\left(f\left(\mathbf{x}\right)\right)
+\end{equation}
+For now, we assume that the data is linearly separable, which means that there does exist vectors $\mathbf{w}$, $\mathbf{b}$ such that $y_{i} \cdot \widehat{y}\left(\mathbf{x}_{i}\right) > 0$ or equivalently $y_{i} \cdot f\left(\mathbf{x}_{i}\right) > 0$ for all $i = 1, \dots, n$ (ie. the signs of $y_{i}$ and $\widehat{y}\left(\mathbf{x}_{i}\right)$ agree for the entire dataset). We claim that the perpendicular distance between any point $\mathbf{x}$ and the $\left(d - 1\right)$-dimensional hyperplane $\mathbf{w}^{\top}\mathbf{x} + b = 0$ is given by $\dfrac{\left|f\left(\mathbf{x}\right)\right|}{\left\Vert \mathbf{x}\right\Vert}$. This can be explained as follows. Consider distinct points $\mathbf{x}_{1}$ and $\mathbf{x}_{2}$ which lie on the hyperplane. Then the vector $\mathbf{x}_{2} - \mathbf{x}_{1}$ is lying on the hyperplane, and by $f\left(\mathbf{x}_{1}\right) = f\left(\mathbf{x}_{2}\right) = 0$ we have
+\begin{align}
+f\left(\mathbf{x}_{2}\right) - f\left(\mathbf{x}_{1}\right) &= \mathbf{w}^{\top}\mathbf{x}_{2} + b - \mathbf{w}^{\top}\mathbf{x}_{1} - b \\
+&= \mathbf{w}^{\top}\left(\mathbf{x}_{2} - \mathbf{x}_{1}\right) \\
+&= 0
+\end{align}
+Hence this means the vector $\mathbf{w}$ is normal to the hyperplane $f\left(\mathbf{x}\right) = 0$. Then let $\mathbf{x}$ be an arbitrary point and let $\mathbf{x}_{\perp}$ be its orthogonal projection on the hyperplane. That is to say,
+\begin{equation}
+\mathbf{x} = \mathbf{x}_{\perp} + r\dfrac{\mathbf{w}}{\left\Vert \mathbf{w}\right\Vert}
+\end{equation}
+where $\mathbf{x}_{\perp}$ lies on the hyperplane and $r\dfrac{\mathbf{w}}{\left\Vert \mathbf{w}\right\Vert}$ is the perpendicular vector from the hyperplane to $\mathbf{x}$. Thus our aim is to find the absolute perpendicular distance $\left|r\right|$. Left-multiplying both sides by $\mathbf{w}^{\top}$ and adding $b$, we see that
+\begin{gather}
+\mathbf{w}^{\top}\mathbf{x} + b = \mathbf{w}^{\top}\mathbf{x}_{\perp} + b + r\dfrac{\mathbf{w}^{\top}\mathbf{w}}{\left\Vert \mathbf{w}\right\Vert} \\
+f\left(\mathbf{x}\right) = 0 + r\dfrac{\left\Vert \mathbf{w}\right\Vert^{2}}{\left\Vert \mathbf{w}\right\Vert} \\
+r = \dfrac{f\left(\mathbf{x}\right)}{\left\Vert \mathbf{w}\right\Vert} \\
+\left|r\right| = \dfrac{\left|f\left(\mathbf{x}\right)\right|}{\left\Vert \mathbf{w}\right\Vert}
+\end{gather}
+For a given separating hyperplane, we define the `margin' as the minimum perpendicular distance from the hyperplane to a point, given by $\min_{i}\dfrac{\left|f\left(\mathbf{x}_{i}\right)\right|}{\left\Vert \mathbf{w}\right\Vert}$. This we have assumed for the separating hyperplane that $y_{i}f\left(\mathbf{x}_{i}\right) > 0$ for all $i$, we can modify the margin by rewriting it as $\min_{i}\dfrac{y_{i}\left(\mathbf{w}^{\top}\mathbf{x}_{i} + b\right)}{\left\Vert \mathbf{w}\right\Vert}$. The objective in learning an SVM classifier then becomes to find the $\mathbf{w}$, $b$ which maximises the margin:
+\begin{equation}
+\left(\mathbf{w}^{*}, \mathbf{b}^{*}\right) = \argmax_{\mathbf{w}, b}\left\{\dfrac{1}{\left\Vert \mathbf{w}\right\Vert}\min_{i}\left\{y_{i}\left(\mathbf{w}^{\top}\mathbf{x}_{i} + b\right)\right\}\right\}
+\end{equation}
+This optimisation problem can be difficult to solve, however it can be reformulated as follows. Note that scaling $\mathbf{w}$ and $b$ by some constant $\kappa > 0$ does not change the hyperplane $f\left(\mathbf{x}\right) = 0$ nor the classification decision. Hence choose $\kappa$ to be the value such that the numerator of the margin is normalised to one, ie.
+\begin{equation}
+\min_{i}\left\{y_{i}\left(\kappa\mathbf{w}^{\top}\mathbf{x}_{i} + \kappa b\right)\right\} = 1
+\end{equation}
+Denote $\widetilde{\mathbf{w}} = \kappa\mathbf{w}$ and $\widetilde{b} = \kappa b$, then we have that
+\begin{equation}
+y_{i}\left(\widetilde{\mathbf{w}}^{\top}\mathbf{x}_{i} + \widetilde{b}\right) \geq 1
+\end{equation}
+for all $i = 1, \dots, n$, where the points for which this holds with equality are called the `support vectors'. The optimisation problem now becomes
+\begin{equation}
+\begin{aligned}
+\max_{\widetilde{\mathbf{w}}, \widetilde{b}} & & \dfrac{1}{\left\Vert \widetilde{\mathbf{w}}\right\Vert} & & \\
+\mathrm{s.t.} & & y_{i}\left(\widetilde{\mathbf{w}}^{\top}\mathbf{x}_{i} + \widetilde{b}\right) \geq 1, & & i = 1, \dots, n
+\end{aligned}
+\end{equation}
+which is equivalent to solving the quadratic program
+\begin{equation}
+\begin{aligned}
+\min_{\widetilde{\mathbf{w}}, \widetilde{b}} & & \dfrac{1}{2}\left\Vert \widetilde{\mathbf{w}}\right\Vert^{2} & & \\
+\mathrm{s.t.} & & y_{i}\left(\widetilde{\mathbf{w}}^{\top}\mathbf{x}_{i} + \widetilde{b}\right) \geq 1, & & i = 1, \dots, n
+\end{aligned}
+\end{equation}
+An alternative specification of this problem is
+\begin{equation}
+\min_{\widetilde{\mathbf{w}}, \widetilde{b}}\left\{\sum_{i = 1}^{n}\zeta\left(y_{i}\left(\widetilde{\mathbf{w}}^{\top}\mathbf{x}_{i} + \widetilde{b}\right) - 1\right) + \dfrac{1}{2}\left\Vert \widetilde{\mathbf{w}}\right\Vert^{2} \right\}
+\end{equation}
+where $\zeta\left(\cdot\right)$ plays the role of a barrier function such that $\zeta\left(z\right) = 0$ if $z \geq 0$ and  $\zeta\left(z\right) = \infty$ otherwise. In this way, SVM methods can be compared to other learning methods in terms of an error function and a regularisation term.
 
-\section{Neural Networks}
+\subsubsection{Support Vector Machines for Non-Linearly Separable Data \cite{Murphy2012, Bishop2006}}
 
-\subsection{Multilayer Perceptrons}
+In the case where the data is non-linearly separable, we can take the approach of softening the barrier function in the formulation above. Introduce a vector of slack variables $\boldsymbol{\xi} = \left(\xi_{1}, \dots, \xi_{n}\right)$ where each $\xi_{i} \geq 0$, such that $\xi_{i} = 0$ if example $i$ is correctly classified and $y_{i}\widetilde{f}\left(\mathbf{x}_{i}\right) \geq 1$, and $\xi_{i} = \left|y_{i} - \widetilde{f}\left(\mathbf{x}_{i}\right)\right|$ otherwise, where $\widetilde{f}\left(\mathbf{x}\right) = \widetilde{\mathbf{w}}^{\top}\mathbf{x} + \widetilde{b}$. We see that :
+\begin{itemize}
+\item $\xi_{i} = 0$ if $\mathbf{x}_{i}$ is on or beyond the margin and correctly classified.
+\item $0 < \xi_{i} < 1$ if $\mathbf{x}_{i}$ is inside the margin and correctly classified (when for example $y_{i} = 1$ and $0 < \widetilde{f}\left(\mathbf{x}_{i}\right) < 1$).
+\item $\xi_{i} = 1$ if $\mathbf{x}_{i}$ is on the decision boundary (since $\widetilde{f}\left(\mathbf{x}_{i}\right) = 0$).
+\item $\xi_{i} > 0$ if $\mathbf{x}_{i}$ is misclassified (when for example $y_{i} = 1$ and $\widetilde{f}\left(\mathbf{x}_{i}\right) < 0$).
+\end{itemize}
+The above requirements can be fully specified by writing the inequalities
+\begin{gather}
+y_{i}\widetilde{f}\left(\mathbf{x}_{i}\right) \geq 1 - \xi_{i} \\
+\xi_{i} \geq 0
+\end{gather}
+for each $i = 1, \dots, n$. This leads to the optimisation problem
+\begin{equation}
+\begin{aligned}
+\min_{\widetilde{\mathbf{w}}, \widetilde{b}, \mathbf{\xi}} & & \dfrac{1}{2}\left\Vert \widetilde{\mathbf{w}}\right\Vert^{2} + C\sum_{i = 1}^{n}\xi_{i} & & \\
+\mathrm{s.t.} & & \xi_{i} \geq 0, & & i = 1, \dots, n \\
+& & y_{i}\widetilde{f}\left(\mathbf{x}_{i}\right) \geq 1 - \xi_{i}, & & i = 1, \dots, n
+\end{aligned}
+\end{equation}
+where the term $C$ is a parameter which can be used as the (inverse of) a regularisation coefficient. Increasing $C$ will result in fewer training errors, but will result in a larger $\left\Vert \widetilde{\mathbf{w}}\right\Vert$.
+
+\subsubsection{Probability Class Estimation with Support Vector Machines \cite{Murphy2012, Bishop2006}}
+
+SVM predictions produce a hard labelling $\widehat{y} \in \left\{-1, 1\right\}$, but can be augmented to produce class probabilities $\operatorname{Pr}\left(y = 1\middle|\mathbf{x}\right)$. This is done by assuming that the linear discriminant function $\widetilde{f}\left(\mathbf{x}\right)$ can be interpreted as a log-odds ratio:
+\begin{align}
+\widetilde{f}\left(\mathbf{x}\right) &= \log\left(\dfrac{\operatorname{Pr}\left(y = 1\middle|\mathbf{x}\right)}{\operatorname{Pr}\left(y = -1\middle|\mathbf{x}\right)}\right) \\
+&= \log\left(\dfrac{\operatorname{Pr}\left(y = 1\middle|\mathbf{x}\right)}{1 - \operatorname{Pr}\left(y = 1\middle|\mathbf{x}\right)}\right)
+\end{align}
+Recalling that the logistic function $\sigma\left(\cdot\right)$ is the inverse of the log-odds ratio (logit):
+\begin{align}
+\operatorname{Pr}\left(y = 1\middle|\mathbf{x}\right) &= \dfrac{1}{1 + \exp\left(-\widetilde{f}\left(\mathbf{x}\right)\right)} \\
+&= \sigma\left(\widetilde{f}\left(\mathbf{x}\right)\right)
+\end{align}
+Or more generally,
+\begin{equation}
+\theta_{1}\widetilde{f}\left(\mathbf{x}\right) + \theta_{2} = \log\left(\dfrac{\operatorname{Pr}\left(y = 1\middle|\mathbf{x}, \theta_{1}, \theta_{2}\right)}{\operatorname{Pr}\left(y = -1\middle|\mathbf{x}, \theta_{1}, \theta_{2}\right)}\right)
+\end{equation}
+which leads to
+\begin{equation}
+\operatorname{Pr}\left(y = 1\middle|\mathbf{x}, \theta_{1}, \theta_{2}\right) = \sigma\left(\theta_{1}\widetilde{f}\left(\mathbf{x}\right) + \theta_{2}\right)
+\end{equation}
+where hyperparameters $\theta_{1}$ and $\theta_{2}$ can be optimised on some validation dataset.
+
+\section{Artificial Neural Networks}
+
+\subsection{Multi-Layer Perceptrons}
 
 For an input vector $x\in\mathbb{R}^{Nx}$ with $x=\begin{bmatrix}x_{1} & \dots & x_{Nx}\end{bmatrix}^{\top}$, we have an associated (target/observed) output vector $y\in\mathbb{R}^{Ny}$ with $y=\begin{bmatrix}y_{1} & \dots & y_{Ny}\end{bmatrix}^{\top}$. Let there be $L + 1$ layers in the network, with structure given by
 \begin{equation}
 \left\{Nx,N1,N2,\dots,N\ell,\dots,NL\right\} \in \mathbb{N}^{L + 1}
 \end{equation}
-which denotes the number of nodes (size) of each layer. Note that $NL\equiv Ny$. For each layer excluding the input layer, there is an `intermediate output' $\mathstrut^{\ell}z\in\mathbb{R}^{N\ell}$, an activation $\mathstrut^{\ell}a\in\mathbb{R}^{N\ell}$, a bias $\mathstrut^{\ell}b\in\mathbb{R}^{N\ell}$, some weights $\mathstrut_{\ell-1}^{\ell}w\in\mathbb{R}^{N\ell\times N\left(\ell-1\right)}$ and an activation function $\mathstrut^{\ell}\sigma\left(\cdot\right)$. Their relationship in each layer from the one before it is given by
+which denotes the number of nodes (size) of each layer. Layers $1, \dots, L - 1$ are known as the hidden layer. A multi-layer perception network is often called a `deep neural network'. Note that $NL\equiv Ny$. For each layer excluding the input layer, there is an `intermediate output' $\mathstrut^{\ell}z\in\mathbb{R}^{N\ell}$, an activation $\mathstrut^{\ell}a\in\mathbb{R}^{N\ell}$, a bias $\mathstrut^{\ell}b\in\mathbb{R}^{N\ell}$, some weights $\mathstrut_{\ell-1}^{\ell}w\in\mathbb{R}^{N\ell\times N\left(\ell-1\right)}$ and an activation function $\mathstrut^{\ell}\sigma\left(\cdot\right)$. Their relationship in each layer from the one before it is given by the affine transformation
 \begin{equation}
 \mathstrut^{\ell}z=\mathstrut_{\ell-1}^{\ell}w\mathstrut^{\ell-1}a+\mathstrut^{\ell}b
 \end{equation}
@@ -11468,21 +12012,22 @@ Use the cost function
 C=\dfrac{1}{2n}\sum_{i=1}^{n}\left\Vert f\left(x\left[i\right]\right)-y\left[i\right]\right\Vert ^{2}
 \end{equation}
 This can be broken up into a cost for each training point:
-\begin{equation}
-C_{i}=\dfrac{1}{2}\left\Vert f\left(x\left[i\right]\right)-y\left[i\right]\right\Vert ^{2}=\dfrac{1}{2}\left(f_{1}\left(x\left[i\right]\right)-y_{1}\left[i\right]\right)^{2}+\dots+\dfrac{1}{2}\left(f_{Ny}\left(x\left[i\right]\right)-y_{Ny}\left[i\right]\right)^{2}
-\end{equation}
+\begin{align}
+C_{i} &= \dfrac{1}{2}\left\Vert f\left(x\left[i\right]\right)-y\left[i\right]\right\Vert ^{2} \\
+&= \dfrac{1}{2}\left(f_{1}\left(x\left[i\right]\right)-y_{1}\left[i\right]\right)^{2}+\dots+\dfrac{1}{2}\left(f_{Ny}\left(x\left[i\right]\right)-y_{Ny}\left[i\right]\right)^{2}
+\end{align}
 so that
 \begin{equation}
 C=\dfrac{1}{n}\sum_{i=1}^{n}C_{i}
 \end{equation}
-Using this cost function, the gradient descent equations for the weights and biases in each layer are
+Using this cost function, the gradient descent updates for the weights and biases in each layer are
 \begin{gather}
-\mathstrut_{\ell-1}^{\ell}w\rightarrow\mathstrut_{\ell-1}^{\ell}w-\eta\dfrac{\partial C}{\partial\mathstrut_{\ell-1}^{\ell}w}^{\top} \\
-\mathstrut^{\ell}b\rightarrow\mathstrut^{\ell}b-\eta\dfrac{\partial C}{\partial\mathstrut^{\ell}b}^{\top}
+\mathstrut_{\ell-1}^{\ell}w\gets\mathstrut_{\ell-1}^{\ell}w-\eta\dfrac{\partial C}{\partial\mathstrut_{\ell-1}^{\ell}w}^{\top} \\
+\mathstrut^{\ell}b\gets\mathstrut^{\ell}b-\eta\dfrac{\partial C}{\partial\mathstrut^{\ell}b}^{\top}
 \end{gather}
 where $\eta$ is the learning rate. For ease of notation we will use for a given $i$: $c := C_{i}$, $f := f\left(x\right)\left[i\right]$ and $y:= y\left[i\right]$. For example, instead of using the cumbersome notation for the gradient vector
 \begin{equation}
-\nabla_{f}C_{i}=\dfrac{\partial C_{i}}{\partial f}^{\top}=\begin{bmatrix}\dfrac{\partial C_{i}}{\partial f_{1}} & \dots & \dfrac{\partial C_{i}}{\partial f_{Ny}}\end{bmatrix}^{\top}=\begin{bmatrix}f_{1}\left(x\left[i\right]\right)-y_{1}\left[i\right]\\
+\nabla_{f}C_{i} = \dfrac{\partial C_{i}}{\partial f}^{\top} = \begin{bmatrix}\dfrac{\partial C_{i}}{\partial f_{1}} & \dots & \dfrac{\partial C_{i}}{\partial f_{Ny}}\end{bmatrix}^{\top} = \begin{bmatrix}f_{1}\left(x\left[i\right]\right)-y_{1}\left[i\right]\\
 \vdots\\
 f_{Ny}\left(x\left[i\right]\right)-y_{Ny}\left[i\right]
 \end{bmatrix}
@@ -11494,7 +12039,10 @@ we can instead write
 f_{Ny}-y_{Ny}
 \end{bmatrix}
 \end{equation}
-To make our way to finding $\dfrac{\partial C}{\partial\mathstrut_{\ell-1}^{\ell}w}$ and $\dfrac{\partial C}{\partial\mathstrut^{\ell}b}$, first consider $\nabla_{\mathstrut^{L}z}c$. We have from the chain rule
+
+\subsubsection{Backpropagation}
+
+To develop a method for computing $\dfrac{\partial C}{\partial\mathstrut_{\ell-1}^{\ell}w}$ and $\dfrac{\partial C}{\partial\mathstrut^{\ell}b}$, first consider $\nabla_{\mathstrut^{L}z}c$. We have from the chain rule
 \begin{equation}
 \nabla_{\mathstrut^{L}z}c=\begin{bmatrix}\dfrac{\partial c}{\partial\mathstrut^{L}z_{1}}\\
 \vdots\\
@@ -11573,11 +12121,11 @@ Reverting back to notation which specifies the layers, we have
 \begin{equation}
 \dfrac{\partial c}{\partial\mathstrut_{\ell-1}^{\ell}w}^{\top}=\mathstrut^{\ell}\delta\cdot\mathstrut^{\ell-1}a^{\top}
 \end{equation}
-Next, consider the relationship between $\mathstrut^{\ell - 1}\delta$ and $\mathstrut^{\ell}\delta$. Computing $\mathstrut^{\ell - 1}\delta$ from $\mathstrut^{\ell}\delta$ is known as backpropogation. First write
+Next, consider the relationship between $\mathstrut^{\ell - 1}\delta$ and $\mathstrut^{\ell}\delta$. Computing $\mathstrut^{\ell - 1}\delta$ from $\mathstrut^{\ell}\delta$ is known as backpropagation. First write
 \begin{equation}
-\mathstrut^{\ell}z=\mathstrut_{\ell-1}^{\ell}w\mathstrut^{\ell}\boldsymbol{\sigma}\left(\mathstrut^{\ell-1}z\right)+\mathstrut^{\ell}b
+\mathstrut^{\ell}z=\mathstrut_{\ell-1}^{\ell}w\mathstrut^{\ell - 1}\boldsymbol{\sigma}\left(\mathstrut^{\ell-1}z\right)+\mathstrut^{\ell}b
 \end{equation}
-For ease of notation, use $\sigma\left(\cdot\right):=\mathstrut^{\ell}\sigma\left(\cdot\right)$. Then writing out the sums arising from the matrix multiplication gives
+For ease of notation, use $\sigma\left(\cdot\right):=\mathstrut^{\ell - 1}\sigma\left(\cdot\right)$. Then writing out the sums arising from the matrix multiplication gives
 \begin{equation}
 \begin{bmatrix}\mathstrut^{\ell}z_{1}\\
 \mathstrut^{\ell}z_{2}\\
@@ -11589,14 +12137,14 @@ For ease of notation, use $\sigma\left(\cdot\right):=\mathstrut^{\ell}\sigma\lef
 \end{equation}
 We want to find
 \begin{equation}
-\mathstrut^{\ell-1}\delta=\begin{bmatrix}\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}\\
-\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{2}}\\
+\mathstrut^{\ell-1}\delta=\begin{bmatrix}\dfrac{d c}{d\mathstrut^{\ell-1}z_{1}}\\
+\dfrac{d c}{d\mathstrut^{\ell-1}z_{2}}\\
 \vdots
 \end{bmatrix}
 \end{equation}
-First consider $\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}$ as the contribution from all $\mathstrut^{\ell}z_{1}$, $\mathstrut^{\ell}z_{2}$, etc.
+Consider the first element $\dfrac{d c}{d \mathstrut^{\ell-1}z_{1}}$ as the total derivative with contribution from all $\mathstrut^{\ell}z_{1}$, $\mathstrut^{\ell}z_{2}$, etc.
 \begin{equation}
-\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}=\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot \red \dfrac{\partial\mathstrut^{\ell}z_{1}}{\partial\mathstrut^{\ell-1}z_{1}}\black +\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot \blue \dfrac{\partial\mathstrut^{\ell}z_{2}}{\partial\mathstrut^{\ell-1}z_{1}}\black+\dots
+\dfrac{d c}{d\mathstrut^{\ell-1}z_{1}}=\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot \red \dfrac{\partial\mathstrut^{\ell}z_{1}}{\partial\mathstrut^{\ell-1}z_{1}}\black +\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot \blue \dfrac{\partial\mathstrut^{\ell}z_{2}}{\partial\mathstrut^{\ell-1}z_{1}}\black+\dots
 \end{equation}
 Calculating some of these terms using the chain rule gives
 \begin{gather}
@@ -11606,12 +12154,12 @@ Calculating some of these terms using the chain rule gives
 \end{gather}
 So then
 \begin{equation}
-\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}=\left(\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot\mathstrut_{\ell-1}^{\ell}w_{11}+\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot\mathstrut_{\ell-1}^{\ell}w_{21}+\dots\right)\sigma'\left(\mathstrut^{\ell-1}z_{1}\right)
+\dfrac{d c}{d \mathstrut^{\ell-1}z_{1}}=\left(\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot\mathstrut_{\ell-1}^{\ell}w_{11}+\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot\mathstrut_{\ell-1}^{\ell}w_{21}+\dots\right)\sigma'\left(\mathstrut^{\ell-1}z_{1}\right)
 \end{equation}
 and more generally,
 \begin{equation}
-\begin{bmatrix}\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{1}}\\
-\dfrac{\partial c}{\partial\mathstrut^{\ell-1}z_{2}}\\
+\begin{bmatrix}\dfrac{d c}{d \mathstrut^{\ell-1}z_{1}}\\
+\dfrac{d c}{d \mathstrut^{\ell-1}z_{2}}\\
 \vdots
 \end{bmatrix}=\begin{bmatrix}\left(\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot\mathstrut_{\ell-1}^{\ell}w_{11}+\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot\mathstrut_{\ell-1}^{\ell}w_{21}+\dots\right)\sigma'\left(\mathstrut^{\ell-1}z_{1}\right)\\
 \left(\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{1}}\cdot\mathstrut_{\ell-1}^{\ell}w_{12}+\dfrac{\partial c}{\partial\mathstrut^{\ell}z_{2}}\cdot\mathstrut_{\ell-1}^{\ell}w_{22}+\dots\right)\sigma'\left(\mathstrut^{\ell-1}z_{2}\right)\\
@@ -11629,17 +12177,20 @@ Now reverting back to notation that is indexed by each training point $i$: $\mat
 \end{gather}
 So the gradient descent equations using the entire data set are
 \begin{gather}
-\mathstrut_{\ell-1}^{\ell}w\rightarrow\mathstrut_{\ell-1}^{\ell}w-\eta\cdot\dfrac{1}{n}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]\cdot\mathstrut^{\ell-1}a\left[i\right]^{\top} \\
-\mathstrut^{\ell}b\rightarrow\mathstrut^{\ell}b-\eta\cdot\dfrac{1}{n}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]
+\mathstrut_{\ell-1}^{\ell}w \gets \mathstrut_{\ell-1}^{\ell}w-\eta\cdot\dfrac{1}{n}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]\cdot\mathstrut^{\ell-1}a\left[i\right]^{\top} \\
+\mathstrut^{\ell}b \gets \mathstrut^{\ell}b-\eta\cdot\dfrac{1}{n}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]
 \end{gather}
+
+\subsubsection{Mini-Batch Gradient Descent}
+
 If the number of training points is very large, then gradient descent can take a long time, so learning occurs slowly. An idea is to use stochastic gradient descent, where a random mini-batch of $m$ inputs is chosen to approximate the gradient of $C$ and update the weights according to
 \begin{gather}
-\mathstrut_{\ell-1}^{\ell}w\rightarrow\mathstrut_{\ell-1}^{\ell}w-\eta\cdot\dfrac{1}{m}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]\cdot\mathstrut^{\ell-1}a\left[i\right]^{\top} \\
-\mathstrut^{\ell}b\rightarrow\mathstrut^{\ell}b-\eta\cdot\dfrac{1}{m}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]
+\mathstrut_{\ell-1}^{\ell}w \gets \mathstrut_{\ell-1}^{\ell}w-\eta\cdot\dfrac{1}{m}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]\cdot\mathstrut^{\ell-1}a\left[i\right]^{\top} \\
+\mathstrut^{\ell}b \gets \mathstrut^{\ell}b-\eta\cdot\dfrac{1}{m}\sum_{i=1}^{n}\mathstrut^{\ell}\delta\left[i\right]
 \end{gather}
 Then another mini-batch is chosen to update the weights. This occurs until the entirety of the training set is exhausted, in which this is called one training epoch. We may then start over again with a new epoch to continue training.
 
-\subsection{Cross Entropy Loss Function}
+\subsubsection{Cross Entropy Loss Function}
 
 In a classification model, we have data with training examples from $1, \dots, n$, and the outputs are the class probabilities for each of $1, \dots, M$ different classes. Denote by $y_{i, j}$ the $i$\textsuperscript{th} class probability of the $j$\textsuperscript{th} training example. Each training example target vector $\mathbf{y}_{j}$ should really be (but in a more general setting is not restricted to) a `one-hot' vector, eg. $\left(0, 1, 0\right)$. Similarly denote the estimates of class probabilities by the model as $\hat{y}_{i, j}$. A choice of loss function $L$ is the cross entropy loss function, given by
 \begin{equation}
@@ -11695,13 +12246,95 @@ If we find the estimates $\hat{\mathbf{y}}_{j}$ (in terms of the parameters of t
 
 \subsection{Convolutional Neural Networks}
 
-\subsection{Recurrent Neural Networks}
+\subsection{Recurrent Neural Networks \cite{Graves2012}}
+
+A recurrent neural network (RNN) can be thought of as a generalisation of a multi-layer perception network with cyclical connections, and now takes as input a sequence of $T$ vectors
+\begin{equation}
+\mathbf{X} = \left(\mathbf{x}_{1}, \dots, \mathbf{x}_{T}\right)
+\end{equation}
+and outputs a sequence of $T$ vectors
+\begin{equation}
+\mathbf{Y} = \left(\mathbf{y}_{1}, \dots, \mathbf{y}_{T}\right)
+\end{equation}
+An RNN also keeps `in memory' a sequence of hidden states $\left(\mathbf{a}_{0}, \dots, \mathbf{a}_{T}\right)$ which are the activations in the hidden layers. The value of $\mathbf{a}_{0}$ acts like an initial condition to the RNN, and may sometimes be set to the zero vector for simplicity. \\
+
+For the structure of the RNN, we use the convention $\left\{N_{x} = N_{0}, N_{1}, \dots, N_{L} = N_{y}\right\}$, where $N_{0}$ and $N_{L}$ are the number of nodes in the input and output layer respectively, and $N_{\ell}$ is the number of nodes in the $\ell$\textsuperscript{th} hidden layer. We consider `fully self-connected' hidden layers, where each node in a hidden layer has a connection to every other node in that layer. A forward pass of an RNN is described as follows. For each $t = 1, \dots, T$, we compute the affine transformations for each layer $\ell = 1, \dots, L - 1$:
+\begin{equation}
+\mathstrut^{\ell}z_{t} = \mathstrut_{\ell - 1}^{\ell}W\times\mathstrut^{\ell - 1}a_{t} + \mathstrut_{\ell - 1}^{r}W\times\mathstrut^{\ell}a_{t - 1} + \mathstrut^{\ell}b
+\end{equation}
+where we can take $\mathstrut^{0}a_{t} = \mathbf{x}_{t}$. The difference here from a standard neural network is that we have the matrix of `recurrent' weights $\mathstrut_{\ell - 1}^{r}W$ on the previous activations $\mathstrut^{\ell}a_{t - 1}$ at the same layer, which arises from the self-connections. The activations for each layer are then computed by
+\begin{equation}
+\mathstrut^{\ell}a_{t} = \mathstrut^{\ell}\boldsymbol{\sigma}\left(\mathstrut^{\ell}z_{t}\right)
+\end{equation}
+with any general (differentiable) activation function of choice $\boldsymbol{\sigma}\left(\cdot\right)$. The outputs in the final output layer (which doesn't have self-connections) are then computed by
+\begin{align}
+\mathbf{y}_{t} &= \mathstrut^{L}\boldsymbol{\sigma}\left(\mathstrut^{L}z_{t}\right) \\
+&= \mathstrut^{L}\boldsymbol{\sigma}\left(\mathstrut_{L - 1}^{L}W\times \mathstrut^{L}a_{t} + \mathstrut^{L}b\right)
+\end{align}
+From a `state-space' perspective with state vector $\mathbf{a}_{t} = \left(\mathstrut^{1}a_{t}, \dots, \mathstrut^{L - 1}a_{t}\right)$, input $\mathbf{x}_{t}$ and output $\mathbf{y}_{t}$, we can write the forward pass as
+\begin{gather}
+\mathbf{a}_{t} = f\left(\mathbf{a}_{t - 1}, \mathbf{x}_{t}\right) \\
+\mathbf{y}_{t} = h\left(\mathbf{a}_{t}\right)
+\end{gather}
+where
+\begin{equation}
+f\left(\mathbf{a}_{t - 1}, \mathbf{x}_{t}\right) = \begin{bmatrix}
+\mathstrut^{1}\boldsymbol{\sigma}\left(\mathstrut_{0}^{1}W\mathbf{x}_{t} + \mathstrut_{1}^{r}W\mathstrut^{1}a_{t - 1} + \mathstrut^{1}b\right) \\
+\mathstrut^{2}\boldsymbol{\sigma}\left(\mathstrut_{1}^{2}W\mathstrut^{1}\boldsymbol{\sigma}\left(\dots\right) + \mathstrut_{2}^{r}W\mathstrut^{2}a_{t - 1} + \mathstrut^{2}b\right) \\
+\vdots \\
+\mathstrut^{L - 1}\boldsymbol{\sigma}\left(\mathstrut_{L - 2}^{L - 1}W\mathstrut^{L - 2}\boldsymbol{\sigma}\left(\dots\right) + \mathstrut_{L - 1}^{r}W\mathstrut^{L - 1}a_{t - 1} + \mathstrut^{L - 1}b\right)
+\end{bmatrix}
+\end{equation}
+and
+\begin{equation}
+h\left(\mathbf{a}_{t}\right) = \mathstrut^{L}\boldsymbol{\sigma}\left(\mathstrut_{L - 1}^{L}W\times \mathstrut^{L}a_{t} + \mathstrut^{L}b\right)
+\end{equation}
+
+\subsubsection{Backpropagation Through Time}
+
+The same principles for backpropagation in multi-layer perceptrons can be used to derive the backpropagation rules in RNNs. However there are a few key differences, the first of which is defining an appropriate cost function for sequence data. Suppose the training data consists of $n$ training examples, each with an input and output sequence indexed by $i$:
+\begin{gather}
+\mathbf{X}\left[i\right] = \left(\mathbf{x}_{1}\left[i\right], \dots, \mathbf{x}_{T_{i}}\left[i\right]\right) \\
+\mathbf{Y}\left[i\right] = \left(\mathbf{y}_{1}\left[i\right], \dots, \mathbf{y}_{T_{i}}\left[i\right]\right)
+\end{gather}
+Then for each training example, an appropriate loss (for a regression problem) is:
+\begin{equation}
+\mathcal{L}\left[i\right] = \sum_{t = 1}^{T_{i}}\left\Vert \widehat{\mathbf{y}}_{t}\left[i\right] - \mathbf{y}_{t}\left[i\right]\right\Vert^{2}
+\end{equation}
+and we take the total cost as
+\begin{equation}
+C = \sum_{i = 1}^{n}\mathcal{L}\left[i\right]
+\end{equation}
+Define $\mathstrut^{\ell}\delta_{t}\left[i\right] := \nabla_{\mathstrut^{\ell}z_{t}}\mathcal{L}\left[i\right]$ as the gradient of the loss of the $i$\textsuperscript{th} training example for time $t$ with respect to the affine transformation of the $\ell$\textsuperscript{th} layer. For an arbitrary layer we can write
+\begin{equation}
+\mathstrut^{\ell}z_{t} = \mathstrut_{\ell-1}^{\ell}W\mathstrut^{\ell - 1}\boldsymbol{\sigma}\left(\mathstrut^{\ell-1}z_{t}\right) + \mathstrut_{r}^{\ell}W\mathstrut^{\ell}\boldsymbol{\sigma}\left(\mathstrut^{\ell}z_{t - 1}\right) +\mathstrut^{\ell}b
+\end{equation}
+We see that $\mathstrut^{\ell}z_{t}$ is used in the calculation of $\mathstrut^{\ell + 1}z_{t}$ and $\mathstrut^{\ell}z_{t + 1}$. Hence it follows (in similar way as derived for multi-layer perceptrons) that the backpropagation calculation of $\mathstrut^{\ell}\delta_{t}\left[i\right]$ should take the form
+\begin{align}
+\mathstrut^{\ell}\delta_{t}\left[i\right] &= \left(\left(\mathstrut_{\ell}^{\ell + 1}W\right)^{\top}\mathstrut^{\ell + 1}\delta_{t}\left[i\right]\right)\odot\mathstrut^{\ell}\boldsymbol{\sigma}'\left(\mathstrut^{\ell}z_{t}\right) + \left(\left(\mathstrut_{\ell}^{r}W\right)^{\top}\mathstrut^{\ell}\delta_{t + 1}\left[i\right]\right)\odot\mathstrut^{\ell}\boldsymbol{\sigma}'\left(\mathstrut^{\ell}z_{t}\right) \\
+&= \left(\left(\mathstrut_{\ell}^{\ell + 1}W\right)^{\top}\mathstrut^{\ell + 1}\delta_{t}\left[i\right] + \left(\mathstrut_{\ell}^{r}W\right)^{\top}\mathstrut^{\ell}\delta_{t + 1}\left[i\right]\right)\odot\mathstrut^{\ell}\boldsymbol{\sigma}'\left(\mathstrut^{\ell}z_{t}\right)
+\end{align}
+for $\ell = 1, \dots, L - 1$, and
+\begin{align}
+\mathstrut^{L}\delta_{t}\left[i\right] &= \nabla_{\mathstrut^{L}z_{t}}\mathcal{L}\left[i\right] \\
+&= \nabla_{\mathbf{y}_{t}}\mathcal{L}\left[i\right]\odot\mathstrut^{L}\boldsymbol{\sigma}'\left(\mathstrut^{L}z_{t}\right)
+\end{align}
+by the chain rule. Thus, this means that in order to compute $\mathstrut^{\ell}\delta_{t}\left[i\right]$ for all $\ell = 1, \dots, L$ and $t = 1, \dots, T_{i}$, we need to start at $t = T_{i}$ and recursively compute backwards through the layers (taking $\mathstrut^{\ell}\delta_{T_{i} + 1}\left[i\right] = 0$). Then we work backwards through time for $t = T_{i} - 1$, etc. Once this is done, the gradient of $\mathcal{L}\left[i\right]$ with respect to the weights and biases takes the same form as in multi-layer perceptrons, except we need to sum across all time (since the weights are used in every calculation in the sequence during the forward pass):
+\begin{gather}
+\dfrac{\partial \mathcal{L}\left[i\right]}{\partial \mathstrut_{\ell - 1}^{\ell}W}^{\top} = \sum_{t = 1}^{T_{i}}\mathstrut^{\ell}\delta_{t}\left[i\right]\cdot\mathstrut^{\ell - 1}a_{t}\left[i\right]^{\top} \\
+\dfrac{\partial \mathcal{L}\left[i\right]}{\partial \mathstrut^{\ell}b}^{\top} = \sum_{t = 1}^{T_{i}}\mathstrut^{\ell}\delta_{t}\left[i\right]
+\end{gather}
+This gradient can then be used in an appropriate algorithm to optimise the parameters of the network.
+
+\subsubsection{Long Short-Term Memory}
 
 \subsection{Mixture Density Networks}
 
 \section{Gaussian Process Regression}
 
 \subsection{Gaussian Process Classification}
+
+\subsubsection{Relevance Vector Machines \cite{Bishop2006}}
 
 \section{Ensemble Methods}
 
@@ -11833,6 +12466,102 @@ Random forests are an ensemble learning method using decision trees, built upon 
 \section{Unsupervised Learning}
 
 \subsection{$k$-means Clustering}
+
+\subsection{Gaussian Mixture Models}
+
+\section{Dimensionality Reduction}
+
+\subsection{Principal Component Analysis}
+
+Consider a random feature vector $\mathbf{X} \in \mathbb{R}^{d}$, with covariance matrix $\operatorname{Cov}\left(\mathbf{X}\right) = \Sigma$. By eigendecomposition, we can write the covariance matrix as
+\begin{equation}
+\Sigma = W\Lambda W^{\top}
+\end{equation}
+where $W$ is an orthonormal basis and $\Lambda$ is a diagonal matrix of eigenvalues. Assume that the diagonal elements of $\Lambda$ are ordered in decreasing magnitude:
+\begin{equation}
+\Lambda = \begin{bmatrix}
+\lambda_{1} \\
+ & \ddots \\
+ & & \lambda_{d}
+\end{bmatrix}
+\end{equation}
+with $\lambda_{1} \geq \dots \geq \lambda_{d}$. Now suppose we want to find some way to reduce the dimension of $\mathbf{X}$ while maintaining as much of the original variation in $\mathbf{X}$ as possible. Recall that we can show
+\begin{align}
+\operatorname{trace}\left(\Sigma\right) &= \operatorname{trace}\left(W\Lambda W^{\top}\right) \\
+&= \operatorname{trace}\left(\Lambda W^{\top}W\right) \\
+&= \operatorname{trace}\left(\Lambda\right) \\
+&= \sum_{j = 1}^{d}\lambda_{j}
+\end{align}
+If we wanted to reduce the dimension of the feature vector to $L$, then to maximise the trace of the covariance of the reduced-dimension feature vector, we should take the components containing the $L$ highest eigenvalues as the `principal components', of the `principal axis' given by the basis $W$. Thus this amounts to taking the first $L$ columns (ie. eigenvectors) of $W$, denoted $W_{L} \in \mathbb{R}^{d \times L}$, and defining the reduced-dimension feature vector $\mathbf{X}' \in \mathbb{R}^{L}$ as a result of the linear transformation
+\begin{equation}
+\mathbf{X}' = W_{L}^{\top}\mathbf{X} 
+\end{equation}
+with covariance $\Sigma' = W_{L}^{\top}\Sigma W_{L}$, which has trace
+\begin{equation}
+\operatorname{trace}\left(\Sigma'\right) = \operatorname{trace}\left(W_{L}^{\top}\Sigma W_{L}\right)
+\end{equation}
+Decomposing $W = \begin{bmatrix} W_{L} & \widetilde{W}\end{bmatrix}$ and $\Lambda = \operatorname{diag}\left\{\Lambda_{L}, \widetilde{\Lambda}\right\}$, we can write out $\Sigma$ as
+\begin{align}
+\Sigma &= \begin{bmatrix}W_{L} & \widetilde{W} \end{bmatrix}\begin{bmatrix}
+\Lambda_{L} \\ & \widetilde{\Lambda}
+\end{bmatrix}\begin{bmatrix}W_{L}^{\top} \\ \widetilde{W}^{\top} \end{bmatrix} \\
+&= W_{L}\Lambda_{L}W_{L}^{\top} + \widetilde{W}\widetilde{\Lambda}\widetilde{W}^{\top}
+\end{align}
+Hence
+\begin{align}
+\operatorname{trace}\left(\Sigma'\right) &= \operatorname{trace}\left(W_{L}^{\top}\left(W_{L}\Lambda_{L}W_{L}^{\top} + \widetilde{W}\widetilde{\Lambda}\widetilde{W}^{\top}\right) W_{L}\right) \\
+&= \operatorname{trace}\left(W_{L}^{\top}W_{L}\Lambda_{L}W_{L}^{\top} W_{L} + W_{L}^{\top}\widetilde{W}\widetilde{\Lambda}\widetilde{W}^{\top} W_{L}\right) \\
+&= \operatorname{trace}\left(\Lambda_{L}\right) \\
+&= \sum_{j = 1}^{L}\lambda_{j}
+\end{align}
+where we note that $W_{L}^{\top}W_{L} = I_{L\times L}$ since each column in $W_{L}$ is orthogonal to each other, and $W_{L}^{\top}\widetilde{W} = \mathbf{0}_{L \times \left(d - L\right)}$ since each column in $W_{L}$ is orthogonal to every other column in $\widetilde{W}$. Therefore this shows that $\mathbf{X}'$ retains as much of the variance as it can after being reduced to $L$ dimensions. This property motivates the following algorithm for dimension reduction on sample data. Suppose we have feature vectors $\left(\mathbf{x}_{1}, \dots, \mathbf{x}_{n}\right)$ from a dataset of size $n$. Then use the procedure:
+\begin{enumerate}
+\item Obtain an estimate of the covariance matrix, denoted $C$. This estimate could be the unbiased estimate (with Bessel's correction), or the maximum likelihood estimator (with factor $1/n$) can also be valid.
+\item Perform eigendecomposition of $C = VDV^{\top}$ where $D$ is in order of decreasing magnitude by eigenvalues.
+\item Take $V_{L}$ as the first $L$ columns of $V$, where $L$ is the desired number of dimensions after reduction.
+\item Project the features using the linear transformation $V_{L}^{\top}$ so that each reduced-dimension feature satisfies $\mathbf{x}_{i}' = V_{L}^{\top}\mathbf{x}_{i}$ for $i = 1, \dots, n$.
+\end{enumerate}
+
+\subsubsection{Principal Component Regression}
+
+In principal component regression, the idea is to using principal component analysis on the features before running a regression. For a linear regression model
+\begin{equation}
+Y_{i} = \boldsymbol{\beta}^{\top}X_{i} + \varepsilon_{i}
+\end{equation}
+where feature vector $X_{i} \in \mathbb{R}^{d}$, our goal is to obtain an estimator for $\boldsymbol{\beta}$. Using principal component analysis, we find the transformation $V_{L}^{\top}$ so that the reduced-dimension feature vector in $L$ dimensions is given by $Z_{i} = V_{L}^{\top}X_{i}$. Then $Y_{i}$ can be regressed on $Z_{i}$ (using an estimator such as ordinary least squares) to obtain the estimate $\widehat{\boldsymbol{\gamma}} \in \mathbb{R}^{L}$. Then to `invert' this to obtain an estimator for $\boldsymbol{\beta}$, we can use
+\begin{equation}
+\widehat{\boldsymbol{\beta}} = V_{L}\widehat{\boldsymbol{\gamma}}
+\end{equation}
+so that
+\begin{align}
+\widehat{Y}_{i} &= \widehat{\boldsymbol{\beta}}^{\top}X_{i} \\
+&= \widehat{\boldsymbol{\gamma}}^{\top}V_{L}^{\top}X_{i} \\
+&= \widehat{\boldsymbol{\gamma}}^{\top}Z_{i}
+\end{align}
+Performing principal component regression can have the dual purpose of regularisation as well as dimensionality reduction.
+
+\subsubsection{Maximum Likelihood Principal Component Analysis \cite{Bishop2006}}
+
+\subsection{Factor Analysis}
+
+\subsection{Canonical Correlation Analysis}
+
+\subsection{Random Projections}
+
+\subsubsection{Johnson-Lindenstrauss Lemma}
+
+\subsection{Multidimensional Scaling}
+
+\subsection{$t$-Distributed Stochastic Neighbour Embedding}
+
+\subsection{Autoencoders}
+
+An autoencoder is a particular type of deep neural network which aims to learn the identity function (that is, it should ideally output $f^{*}\left(x\right) = x$). This is achieved by training the network on identical input-output pairs $\left(x_{1}, x_{1}\right), \dots, \left(x_{n}, x_{n}\right)$. To use an autoencoder for dimensionality reduction, the structure of the network should begin with an `encoder' and end with a `decoder'. The output of the encoder $z = f_{\mathrm{E}}\left(x\right)$ should be a smaller dimension than $x$, and the decoder $\widehat{x} = f_{\mathrm{D}}\left(z\right)$ attempts to reconstruct $x$ from $z$. The full network output is given by the composition
+\begin{align}
+\widehat{x} &= f_{\mathrm{D}}\left(z\right) \\
+&= f_{\mathrm{D}}\circ f_{\mathrm{E}}\left(x\right)
+\end{align}
+In principle, once trained, the autoencoder should have learned to `compress' the vector $x$ into the smaller dimensional $z$.
 
 \section{Statistical Learning Theory}
 
@@ -11994,7 +12723,100 @@ The last steps are to apply the reverse Markov inequality $\operatorname{Pr}\lef
 
 \subsection{Vapnik-Chervonenkis Dimension}
 
-\subsection{Radermacher Complexity}
+Let $\mathcal{H}$ be a hypothesis class of functions from the feature space $\mathcal{X}$ to $\left\{0, 1\right\}$. Let $\mathcal{C} = \left\{c_{1}, \dots, c_{m}\right\}$ be a finite subset $\mathcal{C} \subset \mathcal{X}$. We define $\mathcal{H}_{\mathcal{C}}$ to be the restriction of $\mathcal{H}$ to $\mathcal{C}$. That is, $\mathcal{H}_{\mathcal{C}}$ is the set of all the possible functions from $\mathcal{H}$ but restricted on the domain $\mathcal{C}$. Then each function from $\mathcal{H}_{\mathcal{C}}$ is a member of $\left\{0, 1\right\}^{m}$. All the elements of $\left\{0, 1\right\}^{m}$ (each of which is a function from $\mathcal{C}$ to $\left\{0, 1\right\}$) may or may not be represented in $\mathcal{H}_{\mathcal{C}}$. If $\mathcal{H}_{\mathcal{C}}$ does contain all functions from $\mathcal{C}$ to $\left\{0, 1\right\}$, then we say that $\mathcal{H}$ \textit{shatters} $\mathcal{C}$, ie. if
+\begin{equation}
+\left|\mathcal{H}_{C}\right| = 2^{m}
+\end{equation}
+Combining this with the No Free Lunch theorem in learning, we have the following corollary. For a hypothesis class $\mathcal{H}$, suppose we have $m$ training examples and there exists a subset $\mathcal{C} \subset \mathcal{X}$ with $\left|\mathcal{C}\right| = 2m$ that is shattered by $\mathcal{H}$. This means it is possible to `build' any function from $\mathcal{C}$ to $\left\{0, 1\right\}$ from the hypothesis class $\mathcal{H}$. For any learning algorithm $\mathcal{A}$ applied to these $m$ training examples, then from the No Free Lunch theorem there exists a distribution $D_{*}$ on support $\mathcal{X} \times \left\{0, 1\right\}$ and a function $h^{*} \in \mathcal{H}$ (constructed in the same way as in the No Free Lunch theorem proof, allowable due to the shattering) such that $\mathcal{L}_{\mathcal{D}_{*}}\left(h^{*}\right) = 0$ but for samples $S \sim \mathcal{D}_{*}^{m}$, we have that
+\begin{equation}
+\operatorname{Pr}_{\mathcal{D}_{*}^{m}}\left(L_{\mathcal{D}_{*}}\left(\mathcal{A}\left(S\right)\right) \geq 1/8\right) \geq 1/7
+\end{equation}
+The Vapnik-Chervonenkis (VC) dimension of a hypothesis class $\mathcal{H}$ is the largest size of a set $\mathcal{C} \subset \mathcal{X}$ such that $\mathcal{H}$ shatters $\mathcal{C}$. This VC dimension is denoted $\operatorname{VCdim}\left(\mathcal{H}\right) = d$. Note that this does not necessarily mean that all subsets $\mathcal{C} \subset \mathcal{X}$ of size $d$ or less must be shattered by $\mathcal{H}$.
+\begin{theorem}
+If $\operatorname{VCdim}\left(\mathcal{H}\right) = \infty$, then $\mathcal{H}$ is not agnostic PAC learnable.
+\end{theorem}
+\begin{proof}
+Since $\mathcal{H}$ has infinite VC dimension, then for any finite training set size $m$ there exists a subset $\mathcal{C} \in \mathcal{X}$ of size $2m$ that is shattered by $\mathcal{H}$. This provides a counterexample, since for the definition of agnostic PAC learnability we require for any distribution $\mathcal{D}$ that that exists a large enough $m$ such that
+\begin{equation}
+\operatorname{Pr}_{\mathcal{D}^{m}}\left(L_{\mathcal{D}}\left(\mathcal{A}\left(S\right)\right) \leq \mathcal{L}_{\mathcal{D}}\left(h^{*}\right) + \varepsilon \right) \geq 1 - \delta
+\end{equation}
+for all $\varepsilon \in \left(0, 1\right]$, $\delta \in \left(0, 1\right)$ and for at least one learner $\mathcal{A}$. But from above we know that there is a distribution and a function such that $\mathcal{L}_{\mathcal{D}_{*}}\left(h^{*}\right) = 0$ and
+\begin{equation}
+\operatorname{Pr}_{\mathcal{D}_{*}^{m}}\left(L_{\mathcal{D}_{*}}\left(\mathcal{A}\left(S\right)\right) < 1/8\right) \leq 1 - 1/7
+\end{equation}
+for all learners $\mathcal{A}$ and for any sample size $m$. Putting any $\varepsilon < 1/8$ and any $\delta < 1/7$ gives
+\begin{align}
+\operatorname{Pr}_{\mathcal{D}_{*}^{m}}\left(L_{\mathcal{D}_{*}}\left(\mathcal{A}\left(S\right)\right) \leq \mathcal{L}_{\mathcal{D}_{*}}\left(h^{*}\right) + \varepsilon\right) &\leq \operatorname{Pr}_{\mathcal{D}_{*}^{m}}\left(L_{\mathcal{D}_{*}}\left(\mathcal{A}\left(S\right)\right) < \mathcal{L}_{\mathcal{D}_{*}}\left(h^{*}\right) + \dfrac{1}{8}\right) \\
+&\leq 1 - \dfrac{1}{7} \\
+&< 1 - \delta
+\end{align}
+which completes the counterexample.
+\end{proof}
+Hence, the VC dimension is an appropriate characterisation of agnostic PAC learnability for a hypothesis class.
+
+\subsection{Radermacher Complexity \cite{Shalev-Shwartz2014, Mohri2018}}
+
+Let $\mathcal{H}$ be a hypothesis class, $\mathcal{Z} = \mathcal{X} \times \mathcal{Y}$ be a domain and $\ell: \mathcal{Y} \times \mathcal{Y} \to \mathbb{R}$ be a class of loss function. For each $h \in \mathcal{H}$, we have a mapping from $z = \left(x, y\right) \in \mathcal{Z}$ to $\ell\left(h\left(x\right), y\right)$, which is the loss of example $z$ on function $h$. Define $\mathcal{G}$ to be the collection of these mappings $g: \mathcal{Z} \to \mathbb{R}$ over all $h \in \mathcal{H}$, ie.
+\begin{equation}
+\mathcal{G} = \left\{g: h \in \mathcal{H}\right\}
+\end{equation}
+We can interpret $\mathcal{G}$ as the family of all loss functions from the class $\ell$ that are possible under hypothesis class $\mathcal{H}$. For some $g \in \mathcal{G}$, the expected loss over distribution $\mathcal{D}$ on support $\mathcal{Z}$ is given by
+\begin{equation}
+L_{\mathcal{D}}\left(g\right) = \mathbb{E}_{z \sim \mathcal{D}}\left[g\left(z\right)\right]
+\end{equation}
+while the empirical loss over sample $S = \left(z_{1}, \dots, z_{m}\right) \sim \mathcal{D}^{m}$ is given by
+\begin{equation}
+L_{S}\left(g\right) = \dfrac{1}{m}\sum_{i = 1}^{m}g\left(z_{i}\right)
+\end{equation}
+One way to define how `representative' $S$ is of $\mathcal{D}$ with respect to the choice of hypothesis class $\mathcal{H}$ and class of loss function $\ell$ is by taking the supremum of the error in expected loss over $\mathcal{G}$:
+\begin{equation}
+\operatorname{Rep}_{S, \mathcal{D}}\left(\mathcal{G}\right) = \sup_{g\in \mathcal{G}}\left\{L_{\mathcal{D}}\left(g\right) - L_{S}\left(g\right)\right\}
+\end{equation}
+where a smaller $\operatorname{Rep}_{S, \mathcal{D}}\left(\mathcal{G}\right)$ is `more representative'. Suppose $\mathcal{D}$ is not available and we wish to estimate $\operatorname{Rep}_{S, \mathcal{D}}\left(\mathcal{G}\right)$ using only sample $S$. Then one approach is to split $S$ into disjoint validation set $S_{1}$ and training set $S_{2}$. Suppose $S$ is of even size, so that it can be split such that $S_{1}$ and $S_{2}$ are of the same size. Then this `empirical representativeness' is given by replacing $\mathcal{D}$ with the validation set $S_{1}$:
+\begin{equation}
+\widehat{\operatorname{Rep}}_{S}\left(\mathcal{G}\right) = \sup_{g\in \mathcal{G}}\left\{L_{S_{1}}\left(g\right) - L_{S_{2}}\left(g\right)\right\}
+\end{equation}
+If we define the vector $\boldsymbol{\sigma} = \left(\sigma_{1}, \dots, \sigma_{m}\right)$ such that $\sigma_{i} = 1$ if $z_{i}$ is in $S_{1}$ and $\sigma_{i} = -1$ otherwise, then the empirical representativeness can alternatively be written as
+\begin{align}
+\widehat{\operatorname{Rep}}_{S}\left(\mathcal{G}\right) &= \sup_{g\in \mathcal{G}}\left\{\dfrac{1}{m/2}\sum_{i: z_{i} \in S_{1}}g\left(z_{i}\right) - \dfrac{1}{m/2}\sum_{i: z_{i} \in S_{2}}g\left(z_{i}\right)\right\} \\
+&= \sup_{g\in \mathcal{G}}\left\{\dfrac{1}{m/2}\sum_{i: z_{i} \in S_{1}}\sigma_{i}g\left(z_{i}\right) + \dfrac{1}{m/2}\sum_{i: z_{i} \in S_{2}}\sigma_{i}g\left(z_{i}\right)\right\} \\
+&= \sup_{g\in \mathcal{G}}\left\{\dfrac{1}{m}\sum_{i = 1}^{m}\sigma_{i}g\left(z_{i}\right)\right\}
+\end{align}
+This leads us to the \textit{empirical Radermacher complexity} of $\mathcal{G}$ with respect to $S$, where we now treat $\boldsymbol{\sigma}$ as an random vector with independent Radermacher-distributed components (ie. uniformly distributed on support $\left\{-1, 1\right\}$), and then take the expectation of the empirical representativeness:
+\begin{equation}
+\widehat{\mathfrak{R}}_{S}\left(\mathcal{G}\right) = \mathbb{E}_{\boldsymbol{\sigma}}\left[\sup_{g\in \mathcal{G}}\left\{\dfrac{1}{m}\sum_{i = 1}^{m}\sigma_{i}g\left(z_{i}\right)\right\}\right]
+\end{equation}
+Let $\mathbf{g}_{S}$ denote the vector $\left(g\left(z_{1}\right), \dots, g\left(z_{m}\right)\right)$, then the empirical Radermacher complexity becomes
+\begin{equation}
+\widehat{\mathfrak{R}}_{S}\left(\mathcal{G}\right) = \dfrac{1}{m}\sup_{g\in \mathcal{G}}\mathbb{E}_{\boldsymbol{\sigma}}\left[\boldsymbol{\sigma}\cdot\mathbf{g}_{S}\right]
+\end{equation}
+This way, the empirical Radermacher complexity can be interpreted intuitively as follows. Regard $\boldsymbol{\sigma}$ as (zero-mean) random noise. Then $\mathbb{E}_{\boldsymbol{\sigma}}\left[\boldsymbol{\sigma}\cdot\mathbf{g}_{S}\right]$ corresponds to how well the `worst-case' $g$ from the class $\mathcal{G}$ correlates with random noise. Thus a more complex/richer class $\mathcal{G}$ (induced by the choice of classes $\mathcal{H}$ and $\ell$) will lead to better correlation with random noise. Another interpretation is that richer classes of $\mathcal{G}$ will be estimated to be less representative, on average. The \textit{Radermacher complexity} of class $\mathcal{G}$ for sample size $m$ from distribution $\mathcal{D}$ then characterises the overall richness of $\mathcal{G}$ by taking the expectation of the empirical Radermacher complexity over all samples of size $m$ drawn from $\mathcal{D}$:
+\begin{equation}
+\mathfrak{R}_{\mathcal{D}, m}\left(\mathcal{G}\right) = \mathbb{E}_{S \sim \mathcal{D}^{m}}\left[\widehat{\mathfrak{R}}_{S}\left(\mathcal{G}\right)\right]
+\end{equation}
+
+\subsubsection{Generalisation Bounds with Radermacher Complexity}
+
+\subsection{Growth Function \cite{Shalev-Shwartz2014, Mohri2018}}
+
+The \textit{growth function} of a hypothesis class $\mathcal{H}$ of functions from $\mathcal{X}$ to $\left\{0, 1\right\}$ is a function in argument $m$ which gives the maximum number of functions in the restriction of $\mathcal{H}$ on $\mathcal{C}$ (which recall is denoted $\mathcal{H}_{\mathcal{C}}$), with $\left|\mathcal{C}\right| = m$. The growth function $\mathscr{G}_{\mathcal{H}}: \mathbb{N} \to \mathbb{N}$ can be defined by:
+\begin{equation}
+\mathscr{G}_{\mathcal{H}}\left(m\right) = \max_{\left\{\mathcal{C} \subset \mathcal{X}: \left|\mathcal{C}\right| = m\right\}}\left|\mathcal{H}_{\mathcal{C}}\right|
+\end{equation}
+The growth function provides a combinatorial measure of the richness of class $\mathcal{H}$ in terms of a training set of size $m$.
+
+\subsubsection{Sauer's Lemma}
+
+\subsection{Fundamental Theorem of Statistical Learning \cite{Shalev-Shwartz2014}}
+
+An infinite VC dimension hypothesis class is not agnostic PAC learnable, but the converse is also true. Any hypothesis class $\mathcal{H}$ with finite VC dimension $\operatorname{VCdim}\left(\mathcal{H}\right) = d < \infty$ is agnostic PAC learnable. In particular, the sample complexity $m_{\mathcal{H}}\left(\varepsilon, \delta\right)$ is bounded by
+\begin{equation}
+C_{1}\dfrac{d + \log\left(1/\delta\right)}{\varepsilon^{2}} \leq m_{\mathcal{H}}\left(\varepsilon, \delta\right) \leq C_{2}\dfrac{d\log\left(d/\varepsilon\right) + \log\left(1/\delta\right)}{\varepsilon^{2}}
+\end{equation}
+where $C_{1}$, $C_{2}$ are absolute constants. This is known as the Fundamental Theorem of Statistical Learning.
+\begin{proof}
+
+\end{proof}
 
 \chapter{Statistical Signal Processing}
 
@@ -12926,8 +13748,6 @@ Note that we are necessarily assuming that the prior distribution is Gaussian (w
 
 \subsection{Kalman Smoother}
 
-\section{Viterbi Algorithm}
-
 \section{Particle Filtering}
 
 Also known as sequential Monte-Carlo filters, the class of particle filters use random sampling to approximate the posterior in Bayes filtering. It is suitable for systems with nonlinear dynamics and even non-Gaussian noise. The dynamics are described by an initial distribution of the state $p\left(x_{0}\right)$, and are required to satisfy the Markov property so that the transition distribution may be specified as $p\left(x_{k + 1}\middle|x_{k}\right)$. The observation $z_{k}$ is conditionally independent with $\mathbf{x}_{0:\left(k - 1\right)}$ given $x_{k}$ so that the distribution of $z_{k}$ is modelled with $p\left(z_{k}\middle|x_{k}\right)$.
@@ -13023,7 +13843,9 @@ The extension of this framework to obtaining the posterior over trajectory follo
 
 \subsection{Rao-Blackwellised Particle Filter}
 
-\section{Independent Component Analysis}
+\section{Independent Component Analysis \cite{Hyvaerinen2001}}
+
+\section{Compressed Sensing}
 
 \section{Wavelets}
 
@@ -13502,9 +14324,9 @@ by recalling that $C\left(qI - A\right)^{-1}B + D$ is the formula for the discre
 \operatorname{vec}\left(B\right) \\ \operatorname{vec}\left(D\right)
 \end{bmatrix}
 \end{equation}
-where $\varphi_{k}$ is some regressor matrix that involves $u_{k}$ as well as its shifts, and elements of $\widehat{A}$ and $\widehat{C}$. The estimates $\widehat{B}$ and $\widehat{D}$ can therefore be obtained by least squares. Optionally, the initial condition $x_{0}$ (where it is originally presumed to be zero) can also be estimated by constructing the form
+where $\varphi_{k}$ is some regressor matrix that involves $u_{k}$ as well as its shifts, and elements of $\widehat{A}$ and $\widehat{C}$. The estimates $\widehat{B}$ and $\widehat{D}$ can therefore be obtained by least squares by regressing the actual data $y_{k}$ on $\varphi_{k}$. Optionally, the initial condition $x_{0}$ (where it is originally presumed to be zero) can also be estimated by constructing the form
 \begin{equation}
-\widehat{y}_{k} = \widehat{C}\left(qI - \widehat{A}\right)^{-1}x_{0} + \delta_{k} \widehat{C}\left(qI - \widehat{A}\right)^{-1}Bu_{k} + Du_{k}
+\widehat{y}_{k} = \widehat{C}\left(qI - \widehat{A}\right)^{-1}x_{0}\delta_{k} +  \widehat{C}\left(qI - \widehat{A}\right)^{-1}Bu_{k} + Du_{k}
 \end{equation}
 where $\delta_{k}$ is the Kronecker delta (unit pulse at time $k = 0$). To summarise the steps for subspace identification:
 \begin{enumerate}
@@ -13573,7 +14395,7 @@ Using block matrix inversion formulae and isolating only the blocks which are us
 -\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1} & *
 \end{bmatrix}
 \end{align}
-where in the second step we have used the definition of the orthogonal projection matrix $\mathbf{M} = I - \mathbf{U}^{\top}\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}$ defined above. Thus the computation of $\widehat{\Theta}$ is given by
+where $*$ represents `don't care' and in the second step we have used the definition of the orthogonal projection matrix $\mathbf{M} = I - \mathbf{U}^{\top}\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}$ defined above. Thus the computation of $\widehat{\Theta}$ is given by
 \begin{align}
 \widehat{\Theta} &= \begin{bmatrix}\mathbf{Y}\Phi^{\top} & \mathbf{Y}\mathbf{U}^{\top}\end{bmatrix}\begin{bmatrix}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}\\
 -\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}
@@ -13581,7 +14403,7 @@ where in the second step we have used the definition of the orthogonal projectio
 &= \begin{bmatrix}\mathbf{Y}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}-\mathbf{Y}\mathbf{U}^{\top}\left(\mathbf{U}\mathbf{U}^{\top}\right)^{-1}\mathbf{U}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}\end{bmatrix} \\
 &= \mathbf{Y}\mathbf{M}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}
 \end{align}
-where we have again used the definition of $\mathbf{M}$. Note that the form of this estimate bears analogy to the form of the estimates for the partitioned parameters in the Frisch-Waugh-Lovell theorem from econometrics (which also involves an orthogonal projection matrix). Then $\mathbf{Y}$ can be predicted in the following way:
+where we have again used the definition of $\mathbf{M}$. Note that the form of this estimate bears similarity to the form of the estimates for the partitioned parameters in the Frisch-Waugh-Lovell theorem from econometrics (which also involves an orthogonal projection matrix). Then $\mathbf{Y}$ can be predicted in the following way:
 \begin{align}
 \widehat{\mathbf{Y}} &= \widehat{\Theta}\Phi \\
 &= \mathbf{Y}\mathbf{M}\Phi^{\top}\left(\Phi\mathbf{M}\Phi^{\top}\right)^{-1}\Phi
@@ -13604,6 +14426,33 @@ which is one of the requirements for $\widetilde{T}$ to be full rank. The condit
 \widehat{v}_{k} = y_{k} - \widehat{C}\widehat{x}_{k} - \widehat{D}u_{k}
 \end{gather}
 from which their respective covariance estimates $\widehat{Q}$ and $\widehat{R}$ can be computed (for example, by taking the sample covariance).
+
+\subsubsection{Subspace Identification for Specified Realisations}
+
+Suppose we want to estimate a model of the form
+\begin{equation}
+x_{k + 1} = Ax_{k} + Bu_{k} + w_{k}
+\end{equation}
+where the state-space realisation $x_{k}$ is pre-specified. Then we require data for $x_{k}$ and $u_{k}$ (essentially, $x_{k}$ is treated as the output). Subspace identification algorithms can be adapted in the following way to estimate $A$ and $B$. Firstly $n$ is fixed as the dimension of $x_{k}$. We then obtain the usual estimates for $\left(\widetilde{A}, \widetilde{B}, \widetilde{C}\right)$ via subspace identification for some arbitrary state-space realisation
+\begin{gather}
+\widetilde{x}_{k + 1} = \widetilde{A}\widetilde{x}_{k} + \widetilde{B}u_{k} + \widetilde{w}_{k} \\
+y_{k} = \widetilde{C}\widetilde{x}_{k} + \widetilde{D}u_{k} + v_{k}
+\end{gather}
+while fixing $\widetilde{D} = 0$ in the estimation. Recognise that treating $x_{k}$ as the output means that we want to find a change of coordinates such that $C = I$ in the new coordinate system. We have:
+\begin{align}
+x_{k} &= y_{k} \\
+&= \widetilde{C}\widetilde{x}_{k}
+\end{align}
+so it turns out the appropriate thing to do is to use the coordinate transform $x_{k} = \widetilde{C}\widetilde{x}_{k}$ or $\widetilde{x}_{k} = \widetilde{C}^{-1}x_{k}$. Then this yields
+\begin{gather}
+\widetilde{C}^{-1}x_{k} = \widetilde{A}\widetilde{C}^{-1}x_{k} + \widetilde{B}u_{k} + \widetilde{w}_{k} \\
+x_{k} = \widetilde{C}\widetilde{A}\widetilde{C}^{-1}x_{k} + \widetilde{C}\widetilde{B}u_{k} + \widetilde{C}\widetilde{w}_{k}
+\end{gather}
+This shows that we should take our estimates of $A$ and $B$ as
+\begin{gather}
+\widehat{A} = \widehat{\widetilde{C}}\widehat{\widetilde{A}}\widehat{\widetilde{C}}^{-1} \\
+\widehat{B} = \widehat{\widetilde{C}}\widehat{\widetilde{B}}
+\end{gather}
 
 \section{Queueing Theory \cite{Leon-Garcia2008}}
 
@@ -13652,7 +14501,9 @@ The expected utility maximisation problem is to find the decision which yields t
 d^{*} = \max_{d \in \mathcal{D}}\mathbb{E}\left[U\left(f\left(d, N\right)\right) \middle| D = d\right]
 \end{equation}
 
-\subsection{Multi-player Stochastic Games \cite{Neyman2003}}
+\subsection{Multi-Player Stochastic Games \cite{Neyman2003}}
+
+\subsubsection{Minimax Algorithm \cite{Russell2016}}
 
 \section{Stochastic Dynamic Programming \cite{Bertsekas1976}}
 
@@ -13780,6 +14631,14 @@ J^{*}\left(x\right) = \min_{u \in \mathbb{U}\left(x\right)}\left\{\mathbb{E}_{w}
 \end{equation}
 This form is similar to that found in the backwards induction algorithm above for finite horizons. Here however, when we find ourselves in the next state $f\left(x, u^{*}, w\right)$ where $u^{*} = \mu^{*}\left(x\right)$ from the optimal policy, we are in another situation with an infinite horizon cost, except all costs are discounted by an additional factor of $\alpha$ from the perspective of the current time. To solve the Bellman equation means to find the function $J^{*}\left(x\right)$.
 
+\subsubsection{Bellman Operator}
+
+The Bellman equation is written in terms of what is known as the Bellman operator. For an arbitrary policy $\pi = \mu\left(x\right)$, the Bellman operator can be denoted as $\mathcal{T}_{pi}$ and is an operator on the value function $J_{\pi}\left(x\right)$. It is defined as
+\begin{equation}
+\mathcal{TJ}_{\pi}\left(x\right) = \mathbb{E}_{w}\left[g\left(x, \mu\left(x\right), w\right)\middle|x, \mu\left(x\right)\right] + \alpha \mathbb{E}_{w}\left[J_{\pi}\left(f\left(x, \mu\left(x\right), w\right)\right)\middle|x, \mu\left(x\right)\right]
+\end{equation}
+Thus it can be seen that the Bellman equation is the Bellman operator applied to the optimal value function $J^{*}\left(x\right)$.
+
 \subsubsection{Value Iteration Algorithm \cite{Puterman2005, Sutton2018, Powell2011}}
 
 The value iteration algorithm is a method for solving discounted stochastic dynamic programming problems by turning the Bellman equation into an update rule. We begin with an initial value function $\widehat{J}_{0}^{*}\left(x\right)$. Then at each iteration we perform a pass through all the states and update the value function by
@@ -13819,6 +14678,8 @@ The policy iteration algorithm is another method for solving stochastic dynamic 
 \end{equation}
 where $\pi_{n}'$ denotes the greedy policy improvement step performed on policy $\pi_{n}$. This is then iterated until the policy stops changing (ie. it stops improving), which indicates we have found the optimal policy. This optimality applies in the case that the value function for a given policy can be evaluated perfectly, otherwise the found policy will be approximately optimal.
 
+\subsubsection{Linear Programming for Stochastic Dynamic Programming}
+
 \section{Stochastic Optimal Control}
 
 \subsection{Linear Quadratic Gaussian Control}
@@ -13831,13 +14692,63 @@ where $\pi_{n}'$ denotes the greedy policy improvement step performed on policy 
 
 \section{Reinforcement Learning}
 
+\subsection{Markov Decision Problems}
+
+To formulate a reinforcement learning problem, we augment a Markov decision process with rewards. Consider a Markov decision process with state space $\mathcal{S}$, action space $\mathcal{A}\left(s\right) \subseteq \mathcal{A}$ for $s \in \mathcal{S}$ and transition probability:
+\begin{equation}
+p\left(s'\middle|s, a\right) = \operatorname{Pr}\left(S_{t + 1} = s'\middle| S_{t} = s, A_{t} = a\right)
+\end{equation}
+We use the term \textit{agent} to describe the party that takes actions based on the current state (ie. another name for controller). For a given pair $\left(S_{t}, A_{t}\right)$ which is the action $A_{t}$ taken at state $S_{t}$, the agent receives a (possibly random) reward $R_{t + 1} \in \mathcal{R}$. Note that whether to assign a time index of $t + 1$ or $t$ to this reward is arbitrary, however we use $t + 1$ for convention. The agent's decisions are governed by the policy:
+\begin{equation}
+\pi\left(a\middle|s\right) = \operatorname{Pr}\left(A_{t} = a \in \mathcal{A}\left(s\right) \middle| S_{t} = s\right)
+\end{equation}
+The agent together with the Markov decision process gives rise to a \textit{trajectory} of random variables: $S_{0}, A_{0}, R_{1}, S_{1}, A_{1}, R_{2}, \dots$. For simplicity, we will assume that $\mathcal{S}$, $\mathcal{A}$, $\mathcal{R}$ are finite sets, which causes the random variables $S_{t}$, $A_{t}$, $R_{t}$ to be discrete. Additionally, we introduce an augmented transition probability which also encompasses rewards:
+\begin{equation}
+p\left(s', r\middle|s, a\right) = \operatorname{Pr}\left(S_{t + 1} = s', R_{t + 1} = r \middle| S_{t} = s, A_{t} = a\right)
+\end{equation}
+This defines the dynamics of the \textit{environment} (ie. system). Denote $G_{t}$ as the discounted sum of rewards from time $t$:
+\begin{align}
+G_{t} &= \sum_{k = 0}^{\infty}\gamma^{k}R_{t + k + 1} \\
+&= \sum_{k = 1}^{\infty}\gamma^{k - 1}R_{t + k}
+\end{align}
+with discount rate $0 \leq \gamma \leq 1$. Note that for \textit{episodic tasks} (where there is some absorbing state which signifies the termination of the process), this can be handled by setting the rewards from the terminal state to zero. The goal of the Markov decision problem is to find the policy $\pi^{*}$ which minimises the expected discounted sum of future rewards from each state:
+\begin{equation}
+V_{\pi}\left(s\right) = \mathbb{E}_{\pi}\left[G_{t}\middle| S_{t} = s\right]
+\end{equation}
+The function $V_{\pi}\left(s\right)$ is called the \textit{state-value function} (or just the value function). If the transition probabilities are known, then the Markov decision problem can in principle be solved using stochastic dynamic programming, and the optimal value function $V^{*}\left(s\right) = V_{\pi^{*}}\left(s\right)$ follows the Bellman equation:
+\begin{equation}
+V^{*}\left(s\right) = \max_{a \in \mathcal{A}\left(s\right)}\mathbb{E}\left[R_{t + 1} + \gamma V^{*}\left(S_{t + 1}\right)\middle| S_{t} = s, A_{t} = a\right]
+\end{equation}
+Reinforcement learning (also known as approximate dynamic programming) is a collection of strategies and techniques to address situations where standard stochastic dynamic programming cannot be applied straightforwardly.
+
+\subsubsection{Action-Value Functions}
+
+The action-value function $Q_{\pi}\left(s, a\right)$ is defined as the expected discounted sum of rewards for choosing action $a$ at state $s$, the following policy $\pi$ thereafter. It can be written as
+\begin{equation}
+Q_{\pi}\left(s, a\right) = \mathbb{E}\left[R_{t + 1} + \gamma V_{\pi}\left(S_{t + 1}\right)\middle|S_{t} = s, A_{t} = a\right]
+\end{equation}
+The optimal action-value function $Q^{*}\left(s, a\right)$ is the action-value function for the optimal policy:
+\begin{equation}
+Q^{*}\left(s, a\right) = \mathbb{E}\left[R_{t + 1} + \gamma V^{*}\left(S_{t + 1}\right)\middle|S_{t} = s, A_{t} = a\right]
+\end{equation}
+From this we can see that the optimal value function can be also written in terms of the optimal action-value function by
+\begin{equation}
+V^{*}\left(s\right) = \max_{a \in \mathcal{A}\left(s\right)}Q^{*}\left(s, a\right)
+\end{equation}
+
+\subsubsection{$\varepsilon$-Greedy Policies}
+
+The action-value function is useful for deriving policies `on-the-spot'. An $\varepsilon$-greedy policy for an action-value function $Q_{\pi}\left(s, a\right)$ is to choose action $a^{*} = \max_{a \in \mathcal{A}\left(s\right)}Q_{\pi}\left(s, a\right)$ with probability $1 - \varepsilon$, and then with probability $\varepsilon$ choose a random action from $\mathcal{A}\left(s\right)$ uniformly. The selection of  $\varepsilon$ determines the exploration-exploitation tradeoff. \\
+
+From the relation $V^{*}\left(s\right) = \max_{a \in \mathcal{A}\left(s\right)}Q^{*}\left(s, a\right)$, this shows that the $\varepsilon$-greedy policy derived from the optimal action-value function $Q^{*}\left(s, a\right)$ approaches the optimal policy $\pi^{*}$ as $\varepsilon \to 0$. This then motivates strategies for learning the optimal action-value function $Q^{*}\left(s, a\right)$.
+
 \subsection{Monte-Carlo Approximate Dynamic Programming}
 
 In Monte-Carlo approaches for approximate dynamic programming, we assume that the model is unknown (ie. we do not know the probability transitions of all possible transitions), however we do assume that sample transitions from the model can be generated.
 
 \subsubsection{Monte-Carlo Policy Evaluation \cite{Sutton2018}}
 
-Suppose we have a policy $\pi$ to evaluate the value function of. Then a `first-visit' Monte-Carlo approach is to generate an episode following $\pi$ for $T$ time-steps which results in the sequence $S_{0}, A_{0}, R_{1}, S_{1}, A_{2}, R_{2}, \dots, S_{T - 1}, A_{T - 1}, R_{T}$. From this sampled episode, we can find the first-occuring instance of each state  $s \in \mathcal{S}$ that was visited, and compute the discounted sum of total rewards from that first occurrence. The estimated value function $\widehat{V}_{\pi}\left(s\right)$ for each $s \in \mathcal{S}$ is taken as the averaged discounted sum of total rewards over all the simulation replications for that state.
+Suppose we have a policy $\pi$ that we wish to evaluate the value function of. Then a `first-visit' Monte-Carlo approach is to generate an episode following $\pi$ for $T$ time-steps which results in the sequence $S_{0}, A_{0}, R_{1}, S_{1}, A_{2}, R_{2}, \dots, S_{T - 1}, A_{T - 1}, R_{T}$. From this sampled episode, we can find the first-occuring instance of each state  $s \in \mathcal{S}$ that was visited, and compute the discounted sum of total rewards from that first occurrence. The estimated value function $\widehat{V}_{\pi}\left(s\right)$ for each $s \in \mathcal{S}$ is taken as the averaged discounted sum of total rewards over all the simulation replications for that state.
 
 \subsubsection{Monte-Carlo Action-Value Function Evaluation}
 
@@ -13849,23 +14760,23 @@ Monte-Carlo approaches can be used in the same manner as above to evaluate the a
 
 \subsubsection{One-Step Temporal Differences \cite{Sutton2018}}
 
-From the Bellman equation, we can write
+From the Bellman operator, we can write
 \begin{equation}
 V_{\pi}\left(s\right) = \mathbb{E}_{\pi}\left[R + \gamma V_{\pi}\left(S'\right)\right]
 \end{equation}
-where $R$ is the reward from taking an action following $\pi$ at $s$, and $S'$ is the respective transition. This motivates the following update rule to estimate the value function for a given policy:
+where $R$ is the reward from taking an action following $\pi$ at $s$, and $S'$ is the respective transition. This motivates the following weighted average update rule to estimate the value function for a given policy:
 \begin{equation}
 \widehat{V}_{\pi}\left(s\right) \gets \left(1 - \alpha\right)\widehat{V}_{\pi}\left(s\right)+ \alpha\left(R + \gamma \widehat{V}_{\pi}\left(S'\right)\right)
 \end{equation}
 where $\alpha \in \left(0, 1\right]$ is the `learning rate'. This can be repeated for every state encountered over as many episodes as desired.
 
-\subsubsection{SARSA}
+\subsubsection{SARSA Algorithm}
 
-The SARSA algorithm applies one-step temporal differences to find the optimal action-value function, rather than evaluating the state-value function. Each update operates on the observed quintuple $\left(S, A, R, S', A'\right)$, hence its namesake. This update is given by (assuming some initial $Q^{*}\left(\cdot, \cdot\right)$):
+The SARSA algorithm applies one-step temporal differences to find the optimal action-value function, rather than evaluating the state-value function. Each update operates on the observed quintuple $\left(S, A, R, S', A'\right)$, hence its namesake. This update is given by (assuming some initial $\widehat{Q}^{*}\left(\cdot, \cdot\right)$):
 \begin{equation}
 \widehat{Q}^{*}\left(S, A\right) \gets \left(1 - \alpha\right)\widehat{Q}^{*}\left(S, A\right) + \alpha\left(R + \gamma \widehat{Q}^{*}\left(S', A'\right)\right)
 \end{equation}
-where $A$ is the action taken at $S$ by following a policy derived from the current $\widehat{Q}^{*}\left(\cdot, \cdot\right)$, while $R$ is the respective reward for the respective transition to $S'$. Then $A'$ is the action taken at $S'$ by following a policy also derived from the current $\widehat{Q}^{*}\left(\cdot, \cdot\right)$. SARSA is known as an `on-policy' approach because updates are made using the same action as the policy derived from the current action-value function.
+where $A$ is the action taken at $S$ by following a policy derived from the current $\widehat{Q}^{*}\left(\cdot, \cdot\right)$, while $R$ is the respective reward for the transition to $S'$. Then $A'$ is the action taken at $S'$ by following a policy also derived from the current $\widehat{Q}^{*}\left(\cdot, \cdot\right)$. SARSA is known as an `on-policy' approach because updates are made using the same action as the policy derived from the current action-value function.
 
 \subsubsection{$Q$-Learning}
 
@@ -13873,13 +14784,140 @@ $Q$-learning can be thought of as a `greedier' version of SARSA, with the update
 \begin{equation}
 \widehat{Q}^{*}\left(S, A\right) \gets \left(1 - \alpha\right)\widehat{Q}^{*}\left(S, A\right) + \alpha\left(R + \gamma \widehat{Q}^{*}\left(S', a^{*}\right)\right)
 \end{equation}
-where $S$, $R$, $R$ and $S'$ as before with SARSA, however now $a^{*}$ is chosen as $a^{*} = \argmax_{a}\widehat{Q}^{*}\left(S', a\right)$ using the current estimate of the action-value function. In this sense, $Q$-learning is regarded as an `off-policy' approach because the update is made using a different policy than the one used to generate $A$.
+where $S$, $A$, $R$ and $S'$ as before with SARSA, however now $a^{*}$ is chosen as $a^{*} = \argmax_{a}\widehat{Q}^{*}\left(S', a\right)$ using the current estimate of the action-value function. In this sense, $Q$-learning is regarded as an `off-policy' approach because the update is made using a different policy than the one used to generate $A$.
 
 \subsection{Value Function Approximation}
 
-\subsection{Policy Gradient}
+When it is infeasible to store the value function for every single state (such as when the state space is very large), a parametric approach can be used to approximate the value function for policy $\pi$, parametrised on some weights $\mathbf{w}$. The approximation is denoted
+\begin{equation}
+\widehat{V}_{\pi}\left(s; \mathbf{w}\right) \approx V_{\pi}\left(s\right)
+\end{equation}
+A reasonable metric to quantify the closeness of approximation is the weighted sum of squared errors:
+\begin{equation}
+J\left(\mathbf{w}\right) = \dfrac{1}{2}\sum_{s\in\mathcal{S}}\mu\left(s\right)\left(V_{\pi}\left(s\right) - \widehat{V}_{\pi}\left(s; \mathbf{w}\right)\right)^{2}
+\end{equation}
+where the weighting distribution $\mu\left(s\right)$ can for example be chosen as the typical fraction of time spent at $s$ under policy $\pi$.
 
-\subsection{Actor-Critic}
+\subsubsection{Stochastic Gradient Value Function Approximation}
+
+Gradient descent can be used to derive a stochastic gradient descent update rule to learn $\widehat{V}_{\pi}\left(s; \mathbf{w}\right)$. The canonical gradient descent step for minimising $J\left(\mathbf{w}\right)$ is to perform
+\begin{equation}
+\mathbf{w}_{t + 1} = \mathbf{w}_{t} - \alpha\nabla_{\mathbf{w}}J\left(\mathbf{w}_{t}\right)
+\end{equation}
+with positive step size $\alpha$. As $V_{\pi}\left(s\right)$ is treated as unattainable, performing an update of this form is not possible. Rather, we can replace $\nabla_{\mathbf{w}}J\left(\mathbf{w}_{t}\right)$ with stochastic approximations. Suppose state $S_{t}$ is visited at time $t$. Now consider the gradient approximation
+\begin{equation}
+\widehat{\nabla}_{\mathbf{w}}J\left(\mathbf{w}_{t}\right) = \nabla_{\mathbf{w}}\left(\dfrac{1}{2}\left(U_{\pi}\left(S_{t}\right) - \widehat{V}_{\pi}\left(S_{t}; \mathbf{w}\right)\right)^{2}\right)
+\end{equation}
+where $U_{\pi}\left(s\right)$ is an unbiased estimate for $V_{\pi}\left(s\right)$ for all $s \in \mathcal{S}$, and this implicitly assumes that $\widehat{V}_{\pi}\left(S_{t}; \mathbf{w}\right)$ is differentiable with respect to $\mathbf{w}$. Taking expectations of this approximation, we can show it is unbiased, by assuming that the distribution of time spent at state $S_{t}$ is indeed $\mu\left(S_{t}\right)$:
+\begin{align}
+\mathbb{E}\left[\widehat{\nabla}_{\mathbf{w}}J\left(\mathbf{w}_{t}\right)\right] &= \mathbb{E}\left[\nabla_{\mathbf{w}}\left(\dfrac{1}{2}\left(U_{\pi}\left(S_{t}\right) - \widehat{V}_{\pi}\left(S_{t}; \mathbf{w}_{t}\right)\right)^{2}\right)\right] \\
+&= \nabla_{\mathbf{w}}\mathbb{E}\left[\dfrac{1}{2}\left(U_{\pi}\left(S_{t}\right) - \widehat{V}_{\pi}\left(S_{t}; \mathbf{w}_{t}\right)\right)^{2}\right] \\
+&= \nabla_{\mathbf{w}}\left(\dfrac{1}{2}\sum_{s\in\mathcal{S}}\operatorname{Pr}\left(S_{t} = s\right)\mathbb{E}\left[\left(U_{\pi}\left(S_{t}\right) - \widehat{V}_{\pi}\left(S_{t}; \mathbf{w}_{t}\right)\right)^{2}\middle|S_{t} = s\right]\right) \\
+&= \nabla_{\mathbf{w}}\left(\dfrac{1}{2}\sum_{s\in\mathcal{S}}\operatorname{Pr}\left(S_{t} = s\right)\left(V_{\pi}\left(s\right) - \widehat{V}_{\pi}\left(s; \mathbf{w}_{t}\right)\right)^{2}\right) \\
+&= \nabla_{\mathbf{w}}\left(\dfrac{1}{2}\sum_{s\in\mathcal{S}}\mu\left(s\right)\left(V_{\pi}\left(s\right) - \widehat{V}_{\pi}\left(s; \mathbf{w}_{t}\right)\right)^{2}\right) \\
+&= \nabla_{\mathbf{w}}J\left(\mathbf{w}_{t}\right)
+\end{align}
+Hence we have the stochastic gradient descent update rule:
+\begin{align}
+\mathbf{w}_{t + 1} &= \mathbf{w}_{t} - \dfrac{1}{2}\alpha\nabla_{\mathbf{w}}\left(\dfrac{1}{2}\left(U_{\pi}\left(S_{t}\right) - \widehat{V}_{\pi}\left(S_{t}; \mathbf{w}_{t}\right)\right)^{2}\right) \\
+&= \mathbf{w}_{t} + \alpha\left(U_{\pi}\left(S_{t}\right) - \widehat{V}_{\pi}\left(S_{t}; \mathbf{w}_{t}\right)\right)\nabla_{\mathbf{w}}\widehat{V}_{\pi}\left(S_{t}; \mathbf{w}_{t}\right)
+\end{align}
+by the chain rule. An example of a choice for $U_{\pi}\left(S_{t}\right)$ as an unbiased estimate of $V_{\pi}\left(S_{t}\right)$ (conditional on $S_{t}$) is a Monte-Carlo policy evaluation on simulated episodes. These stochastic gradient descent updates can be iterated over episodes until convergence of $\mathbf{w}$.
+
+\subsubsection{Stochastic Semi-Gradient Value Function Approximation}
+
+Instead of requiring an unbiased estimate $U_{\pi}\left(S_{t}\right)$, one option is to estimate $V_{\pi}\left(S_{t}\right)$ using the current value function approximation as $V_{\pi}\left(S_{t}\right) \approx R_{t + 1} + \gamma\widehat{V}_{\pi}\left(S_{t + 1}; \mathbf{w}_{t}\right)$, where $R_{t}$ is the reward observed for following policy $\pi$, and $S_{t + 1}$ is the observed next state transitioned to. This yields the update rule
+\begin{equation}
+\mathbf{w}_{t + 1} = \mathbf{w}_{t} + \alpha\left(R_{t + 1} + \gamma\widehat{V}_{\pi}\left(S_{t + 1}; \mathbf{w}_{t}\right) - \widehat{V}_{\pi}\left(S_{t}; \mathbf{w}_{t}\right)\right)\nabla_{\mathbf{w}}\widehat{V}_{\pi}\left(S_{t}; \mathbf{w}_{t}\right)
+\end{equation}
+Note that in general this estimate is biased since it depends on the current weights $\mathbf{w}_{t}$, hence the method is often referred to as a stochastic semi-gradient method. The advantage of using this method is that it provides an algorithm for online learning.
+
+\subsubsection{Semi-Gradient SARSA}
+
+Value function approximation learning methods can be extended to approximation of the optimal action-value function. This parametrised approximation is denoted
+\begin{equation}
+\widehat{Q}^{*}\left(s, a; \mathbf{w}\right) \approx Q^{*}\left(s, a\right)
+\end{equation}
+Analogous to stochastic semi-gradient value function approximation, a semi-gradient SARSA method using the update rule
+\begin{equation}
+\mathbf{w}_{t + 1} = \mathbf{w}_{t} + \alpha\left(R_{t + 1} + \gamma\widehat{Q}^{*}\left(S_{t + 1}, A_{t + 1}; \mathbf{w}_{t}\right) - \widehat{Q}^{*}\left(S_{t}, A_{t}; \mathbf{w}_{t}\right)\right)\nabla_{\mathbf{w}}\widehat{Q}^{*}\left(S_{t}, A_{t}; \mathbf{w}_{t}\right)
+\end{equation}
+
+\subsection{Policy Gradients}
+
+Policy gradient methods attempt to learn the optimal policy via a parametric approximation
+\begin{equation}
+\widehat{\pi}^{*}\left(a\middle|s;\boldsymbol{\theta}\right) \approx \pi^{*}\left(a\middle|s\right)
+\end{equation}
+To ensure the policy is `explorative' enough (ie. the policy is not deterministic per se, but may be allowed to approach a deterministic policy), one option when the action space is finite is to parametrise a function $h\left(s, a; \boldsymbol{\theta}\right)$, and then take a softmax to determine action selection probabilities:
+\begin{equation}
+\widehat{\pi}^{*}\left(a\middle|s;\boldsymbol{\theta}\right) = \dfrac{e^{h\left(s, a; \boldsymbol{\theta}\right)}}{\sum_{a' \in \mathcal{A}\left(s\right)}e^{h\left(s, a'; \boldsymbol{\theta}\right)}}
+\end{equation}
+An appropriate performance metric to evaluate the optimal policy approximation is the value function under the policy:
+\begin{equation}
+J\left(\boldsymbol{\theta}\right) = V_{\pi_{\boldsymbol{\theta}}}\left(s_{0}\right)
+\end{equation}
+where $s_{0}$ is the starting state (assumed non-random), and $\pi_{\boldsymbol{\theta}} = \pi\left(a\middle|s;\boldsymbol{\theta}\right)$ is the policy under $\boldsymbol{\theta}$. Hence we aim to find
+\begin{equation}
+\boldsymbol{\theta}^{*} = \argmax_{\boldsymbol{\theta}}V_{\pi_{\boldsymbol{\theta}}}\left(s_{0}\right)
+\end{equation}
+
+\subsubsection{Policy Gradient Theorem}
+
+\subsubsection{REINFORCE Algorithm}
+
+Applying policy $\widehat{\pi}^{*}\left(a\middle|s;\boldsymbol{\theta}\right)$ from starting state $s_{0}$ induces a distribution over the trajectories $\boldsymbol{\tau} = \left(s_{0}, A_{0}, R_{1}, S_{1}, A_{1}, \dots\right)$. This probability distribution can be written as
+\begin{equation}
+p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right) = \prod_{t = 0}^{L\left(\tau\right)}p\left(S_{t + 1}, R_{t + 1}\middle|S_{t}, A_{t}\right)\widehat{\pi}^{*}\left(A_{t}\middle|S_{t};\boldsymbol{\theta}\right)
+\end{equation}
+where $L\left(\boldsymbol{\tau}\right)$ is the length of trajectory $\boldsymbol{\tau}$ (until a terminal state is reached). Denote the support of this distribution by the set $\mathcal{T}$. Denote $g\left(\boldsymbol{\tau}\right)$ as the sum of discounted rewards from trajectory $\boldsymbol{\tau}$:
+\begin{equation}
+g\left(\boldsymbol{\tau}\right) = \sum_{t = 1}^{L\left(\boldsymbol{\tau}\right)}\gamma^{t - 1}R_{t}
+\end{equation}
+Then the performance criterion can be expressed as
+\begin{align}
+J\left(\boldsymbol{\theta}\right) &= V_{\pi_{\boldsymbol{\theta}}}\left(s_{0}\right) \\
+&= \mathbb{E}_{\pi_{\boldsymbol{\theta}}}\left[G_{0}\middle|S_{0} = s_{0}\right] \\
+&= \mathbb{E}_{\pi_{\boldsymbol{\theta}}}\left[g\left(\boldsymbol{\tau}\right)\right] \\
+&= \sum_{\boldsymbol{\tau} \in \mathcal{T}}g\left(\boldsymbol{\tau}\right)p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)
+\end{align}
+Hence taking the gradient yields
+\begin{align}
+\nabla_{\boldsymbol{\theta}}J\left(\boldsymbol{\theta}\right) &= \nabla_{\boldsymbol{\theta}}\sum_{\boldsymbol{\tau} \in \mathcal{T}}g\left(\boldsymbol{\tau}\right)p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right) \\
+&= \sum_{\boldsymbol{\tau} \in \mathcal{T}}g\left(\boldsymbol{\tau}\right) \nabla_{\boldsymbol{\theta}}p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right) \\
+&= \sum_{\boldsymbol{\tau} \in \mathcal{T}}g\left(\boldsymbol{\tau}\right) \nabla_{\boldsymbol{\theta}}p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)\times\dfrac{p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)}{p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)} \\
+&= \sum_{\boldsymbol{\tau} \in \mathcal{T}}g\left(\boldsymbol{\tau}\right)\left(\dfrac{\nabla_{\boldsymbol{\theta}}p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)}{p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)}\right)p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)
+\end{align}
+Note by the chain rule that $\nabla_{\boldsymbol{\theta}}\log p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right) = \dfrac{\nabla_{\boldsymbol{\theta}}p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)}{p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)}$, hence
+\begin{align}
+\nabla_{\boldsymbol{\theta}}J\left(\boldsymbol{\theta}\right) &= \sum_{\boldsymbol{\tau} \in \mathcal{T}}\left(g\left(\boldsymbol{\tau}\right)\nabla_{\boldsymbol{\theta}}\log p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)\right)p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right) \\
+&= \mathbb{E}_{\pi_{\boldsymbol{\theta}}}\left[g\left(\boldsymbol{\tau}\right)\nabla_{\boldsymbol{\theta}}\log p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)\right]
+\end{align}
+Moreover $\nabla_{\boldsymbol{\theta}}\log p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right)$ can be evaluated without knowing the transition probabilities because:
+\begin{align}
+\nabla_{\boldsymbol{\theta}}\log p\left(\boldsymbol{\tau}; \boldsymbol{\theta}\right) &= \nabla_{\boldsymbol{\theta}}\log\left(\prod_{t = 0}^{L\left(\boldsymbol{\tau}\right)}p\left(S_{t + 1}, R_{t + 1}\middle|S_{t}, A_{t}\right)\widehat{\pi}^{*}\left(A_{t}\middle|S_{t};\boldsymbol{\theta}\right)\right) \\
+&= \nabla_{\boldsymbol{\theta}}\sum_{t = 0}^{L\left(\boldsymbol{\tau}\right)}\left(\log p\left(S_{t + 1}, R_{t + 1}\middle|S_{t}, A_{t}\right) + \log \widehat{\pi}^{*}\left(A_{t}\middle|S_{t};\boldsymbol{\theta}\right)\right) \\
+&= \sum_{t = 0}^{L\left(\boldsymbol{\tau}\right)}\nabla_{\boldsymbol{\theta}}\log \widehat{\pi}^{*}\left(A_{t}\middle|S_{t};\boldsymbol{\theta}\right)
+\end{align}
+Therefore
+\begin{equation}
+\nabla_{\boldsymbol{\theta}}J\left(\boldsymbol{\theta}\right) = \mathbb{E}_{\pi_{\boldsymbol{\theta}}}\left[g\left(\boldsymbol{\tau}\right)\sum_{t = 0}^{L\left(\boldsymbol{\tau}\right)}\nabla_{\boldsymbol{\theta}}\log \widehat{\pi}^{*}\left(A_{t}\middle|S_{t};\boldsymbol{\theta}\right)\right]
+\end{equation}
+From this we derive the REINFORCE algorithm, which is to generate an episode following $\pi_{\boldsymbol{\theta}}$, observe the trajectory $\boldsymbol{\tau}$ and the return $g\left(\boldsymbol{\tau}\right)$, then update the parameters $\boldsymbol{\theta}$ by stochastic gradient ascent:
+\begin{equation}
+\boldsymbol{\theta}_{k + 1} = \boldsymbol{\theta}_{k} + \alpha_{k}g\left(\boldsymbol{\tau}_{k}\right)\sum_{t = 0}^{L\left(\boldsymbol{\tau}_{k}\right)}\nabla_{\boldsymbol{\theta}}\log \widehat{\pi}^{*}\left(A_{t, k}\middle|S_{t, k};\boldsymbol{\theta}_{k}\right)
+\end{equation}
+where $\left\{\alpha_{k}\right\}$ is the stepsize sequence.
+
+\subsection{Actor-Critic Methods}
+
+Actor-critic methods learn both a policy (actor) and a state-value function (critic), so that incremental online learning is possible. An approximation of the optimal policy $\widehat{\pi}^{*}\left(a\middle|s;\boldsymbol{\theta}\right) \approx \pi^{*}\left(a\middle|s\right)$ and of the value function $\widehat{V}_{\pi_{\boldsymbol{\theta}}}\left(s; \mathbf{w}\right) \approx V_{\pi_{\boldsymbol{\theta}}}\left(s\right)$ are simultaneously updated. In the update for the policy parameters $\boldsymbol{\theta}$, the full return of a trajectory $g\left(\boldsymbol{\tau}\right)$ is replaced by a discounted one-step return plus a value using the learned value function. That is,
+\begin{equation}
+\boldsymbol{\theta}_{t + 1} = \boldsymbol{\theta}_{t} + \alpha_{\boldsymbol{\theta}}\gamma^{t - 1}\left(R_{t + 1} + \gamma\widehat{V}_{\pi_{\boldsymbol{\theta}}}\left(S_{t + 1}; \mathbf{w}_{t}\right)\right)\nabla_{\boldsymbol{\theta}}\log \widehat{\pi}^{*}\left(A_{t}\middle|S_{t};\boldsymbol{\theta}_{t}\right)
+\end{equation}
+using stepsize $\alpha_{\boldsymbol{\theta}}$. The factor of $\gamma^{t - 1}$ is because in the original policy gradient update, successive rewards along the trajectory $\boldsymbol{\tau}$ are discounted by $\gamma$, hence we do the same here. Meanwhile, $\mathbf{w}_{t}$ is simultaneously updated using an online value function approximation learning algorithm such as one-step temporal differences using stepsize $\alpha_{\mathbf{w}}$.
+
+\section{Optimal Transport}
 
 \chapter{Quantitative Finance}
 
@@ -14065,6 +15103,12 @@ Since $u\left(\cdot\right)$ is concave, applying Jensen's inequality on the inne
 \section{Fokker-Planck Equations}
 
 \section{Hamiltonian Monte-Carlo}
+
+\section{Statistical Mechanics}
+
+\subsection{Gibbs Distribution}
+
+\section{Quantum Mechanics \cite{Whittle2000}}
 
 %\nocite{*} % adds all entries in the bib file to the bibliography
 \bibliography{prob_stats_references}{}

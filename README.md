@@ -36,7 +36,8 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Families of Multivariate Probability
             Distributions](#families-of-multivariate-probability-distributions)
         -   [Inequalities in Probability](#inequalities-in-probability)
-        -   [Notions of Convergence](#notions-of-convergence)
+        -   [Notions of Probabilistic
+            Convergence](#notions-of-probabilistic-convergence)
         -   [Branching Processes](#branching-processes)
     -   [Intermediate Statistics](#intermediate-statistics)
         -   [Multivariate Statistics](#multivariate-statistics)
@@ -48,6 +49,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Fisher Information](#fisher-information)
         -   [James-Stein Estimation](#james-stein-estimation)
         -   [Generalised Linear Models](#generalised-linear-models)
+        -   [Quantile Regression](#quantile-regression)
     -   [Advanced Probability](#advanced-probability)
         -   [Moments](#moments)
         -   [Probability Generating
@@ -58,9 +60,9 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Multivariate Gaussian
             Properties](#multivariate-gaussian-properties)
         -   [Exponential Families](#exponential-families)
-        -   [Random Matrices](#random-matrices)
         -   [Stochastic Processes](#stochastic-processes)
         -   [Concentration Inequalities](#concentration-inequalities)
+        -   [Random Matrices](#random-matrices)
     -   [Bayesian Probability &
         Statistics](#bayesian-probability-statistics)
         -   [Cox's Theorem](#coxs-theorem)
@@ -71,7 +73,6 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Bayesian Inference](#bayesian-inference)
         -   [Posterior Approximations](#posterior-approximations)
         -   [Bernstein-von Mises Theorem](#bernstein-von-mises-theorem)
-        -   [Bayesian Classifiers](#bayesian-classifiers)
         -   [Subjective Probability
             [@Schervish1995]](#subjective-probability)
     -   [Markov Processes](#markov-processes)
@@ -80,9 +81,9 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Countable-State Discrete-Time Markov
             Chains](#countable-state-discrete-time-markov-chains)
         -   [Countable-State Continuous-Time Markov
-            Chains](#countable-state-continuous-time-markov-chains)
+            Processes](#countable-state-continuous-time-markov-processes)
         -   [Uncountable-State Discrete-Time Markov
-            Processes](#uncountable-state-discrete-time-markov-processes)
+            Chains](#uncountable-state-discrete-time-markov-chains)
         -   [Uncountable-State Continuous-Time Markov
             Processes](#uncountable-state-continuous-time-markov-processes)
         -   [Time-Inhomogeneous Markov
@@ -108,8 +109,6 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Order Statistics](#order-statistics)
         -   [Monte-Carlo Methods](#monte-carlo-methods)
         -   [Resampling Methods](#resampling-methods)
-        -   [Principal Component
-            Analysis](#principal-component-analysis)
         -   [Survival Analysis](#survival-analysis)
         -   [Rao-Blackwell Estimators](#rao-blackwell-estimators)
         -   [Nonparametric Statistics](#nonparametric-statistics)
@@ -155,15 +154,17 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Time-Series Regression](#time-series-regression)
         -   [Time-Series Analysis](#time-series-analysis)
         -   [Time-Series Forecasting](#time-series-forecasting)
+        -   [Generalised Method of
+            Moments](#generalised-method-of-moments)
     -   [Machine Learning](#machine-learning)
         -   [Machine Learning Datasets](#machine-learning-datasets)
         -   [Statistical Classification](#statistical-classification)
-        -   [Cross-Validation](#cross-validation)
-        -   [Neural Networks](#neural-networks)
+        -   [Artificial Neural Networks](#artificial-neural-networks)
         -   [Gaussian Process Regression](#gaussian-process-regression)
         -   [Ensemble Methods](#ensemble-methods)
         -   [Decision Trees [@James2013]](#decision-trees)
         -   [Unsupervised Learning](#unsupervised-learning)
+        -   [Dimensionality Reduction](#dimensionality-reduction)
         -   [Statistical Learning Theory](#statistical-learning-theory)
     -   [Statistical Signal Processing](#statistical-signal-processing)
         -   [Random Signals and Systems](#random-signals-and-systems)
@@ -171,10 +172,10 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Spectral Density Estimation](#spectral-density-estimation)
         -   [Linear Filtering](#linear-filtering)
         -   [Kalman Filtering](#kalman-filtering)
-        -   [Viterbi Algorithm](#viterbi-algorithm)
         -   [Particle Filtering](#particle-filtering)
-        -   [Independent Component
-            Analysis](#independent-component-analysis)
+        -   [Independent Component Analysis
+            [@Hyvaerinen2001]](#independent-component-analysis)
+        -   [Compressed Sensing](#compressed-sensing)
         -   [Wavelets](#wavelets)
     -   [Stochastic Control](#stochastic-control)
         -   [Linear System
@@ -188,6 +189,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Stochastic Approximation](#stochastic-approximation)
         -   [Multi-armed Bandits](#multi-armed-bandits)
         -   [Reinforcement Learning](#reinforcement-learning)
+        -   [Optimal Transport](#optimal-transport)
     -   [Quantitative Finance](#quantitative-finance)
         -   [Copulas](#copulas)
         -   [Portfolio Optimisation](#portfolio-optimisation)
@@ -201,3 +203,5 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Mean Field Theory](#mean-field-theory)
         -   [Fokker-Planck Equations](#fokker-planck-equations)
         -   [Hamiltonian Monte-Carlo](#hamiltonian-monte-carlo)
+        -   [Statistical Mechanics](#statistical-mechanics)
+        -   [Quantum Mechanics [@Whittle2000]](#quantum-mechanics)
