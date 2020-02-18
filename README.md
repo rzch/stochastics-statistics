@@ -23,7 +23,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Analysis of Variance](#analysis-of-variance)
         -   [Design of Experiments](#design-of-experiments)
         -   [Statistical Graphics](#statistical-graphics)
-        -   [Method of Moments](#method-of-moments)
+        -   [Method of Moments [@Greene2012]](#method-of-moments)
     -   [Intermediate Probability](#intermediate-probability)
         -   [Transformations of Random
             Variables](#transformations-of-random-variables)
@@ -69,9 +69,9 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Extensions to Bayes' Theorem](#extensions-to-bayes-theorem)
         -   [Bayesian Priors](#bayesian-priors)
         -   [Bayesian Updating](#bayesian-updating)
-        -   [Bayesian Networks](#bayesian-networks)
         -   [Bayesian Inference](#bayesian-inference)
         -   [Posterior Approximations](#posterior-approximations)
+        -   [Bayesian Networks](#bayesian-networks)
         -   [Bernstein-von Mises Theorem](#bernstein-von-mises-theorem)
         -   [Subjective Probability
             [@Schervish1995]](#subjective-probability)
@@ -91,6 +91,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Markov Networks](#markov-networks)
         -   [Hidden Markov Models](#hidden-markov-models)
         -   [Markov Decision Processes](#markov-decision-processes)
+        -   [Semi-Markov Chains [@Hoek2018]](#semi-markov-chains)
         -   [Inference of Markov
             Processes](#inference-of-markov-processes)
         -   [Quasistationary Distributions
@@ -110,7 +111,6 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Monte-Carlo Methods](#monte-carlo-methods)
         -   [Resampling Methods](#resampling-methods)
         -   [Survival Analysis](#survival-analysis)
-        -   [Rao-Blackwell Estimators](#rao-blackwell-estimators)
         -   [Nonparametric Statistics](#nonparametric-statistics)
         -   [Robust Statistics](#robust-statistics)
     -   [Stochastic Calculus](#stochastic-calculus)
@@ -130,6 +130,7 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Partitions](#partitions)
         -   [Catalan Numbers [@Lange2010]](#catalan-numbers)
         -   [Derangements](#derangements)
+        -   [Probabilisitic Method](#probabilisitic-method)
         -   [Random Graphs](#random-graphs)
 -   [Applications](#applications)
     -   [Information Theory](#information-theory)
@@ -142,6 +143,8 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Minimum Description Length](#minimum-description-length)
         -   [Optimal Experimental Design](#optimal-experimental-design)
         -   [Statistical Distances](#statistical-distances)
+        -   [Algorithmic Information
+            Theory](#algorithmic-information-theory)
         -   [Information Geometry](#information-geometry)
     -   [Econometrics](#econometrics)
         -   [Economic Data](#economic-data)
@@ -169,14 +172,15 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
     -   [Statistical Signal Processing](#statistical-signal-processing)
         -   [Random Signals and Systems](#random-signals-and-systems)
         -   [Power Spectral Density](#power-spectral-density)
-        -   [Spectral Density Estimation](#spectral-density-estimation)
+        -   [Spectral Density Estimation
+            [@Stoica2005]](#spectral-density-estimation)
         -   [Linear Filtering](#linear-filtering)
         -   [Kalman Filtering](#kalman-filtering)
         -   [Particle Filtering](#particle-filtering)
         -   [Independent Component Analysis
             [@Hyvaerinen2001]](#independent-component-analysis)
+        -   [Wavelets [@Wang2012]](#wavelets)
         -   [Compressed Sensing](#compressed-sensing)
-        -   [Wavelets](#wavelets)
     -   [Stochastic Control](#stochastic-control)
         -   [Linear System
             Identification](#linear-system-identification)
@@ -187,9 +191,8 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
             [@Bertsekas1976]](#stochastic-dynamic-programming)
         -   [Stochastic Optimal Control](#stochastic-optimal-control)
         -   [Stochastic Approximation](#stochastic-approximation)
-        -   [Multi-armed Bandits](#multi-armed-bandits)
+        -   [Multi-Armed Bandits](#multi-armed-bandits)
         -   [Reinforcement Learning](#reinforcement-learning)
-        -   [Optimal Transport](#optimal-transport)
     -   [Quantitative Finance](#quantitative-finance)
         -   [Copulas](#copulas)
         -   [Portfolio Optimisation](#portfolio-optimisation)
