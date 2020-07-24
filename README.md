@@ -1,10 +1,7 @@
-﻿# Stochastics & Statistics
-Encyclopaedia-style notes in probability, statistics, and their applications (including econometrics, machine learning and statistical signal processing) from the introductory to the early-graduate level. These notes capture my personal journey in studying probability and statistics, and are intended to serve as a handy reference. It is a work in progress that may be completed one day, but right now topics are being added faster than they can be filled in.
-
-## Night Mode
-`\usepackage[dark, book]{mystyle}` generates the PDF in 'night mode' whereas `\usepackage[light, book]{mystyle}` generates the PDF in conventional dark text on light background.
+﻿# Stochastics, Statistics, Skedastics
 
 ## Contents
+-   [Preface](#preface)
 -   [Fundamentals](#fundamentals)
     -   [Introductory Probability](#introductory-probability)
         -   [Probability Laws](#probability-laws)
@@ -13,18 +10,6 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Expectation](#expectation)
         -   [Variance](#variance)
         -   [Independence](#independence)
-    -   [Introductory Statistics](#introductory-statistics)
-        -   [Data Generating Processes](#data-generating-processes)
-        -   [Descriptive Statistics](#descriptive-statistics)
-        -   [Normal Statistics](#normal-statistics)
-        -   [Inferential Statistics](#inferential-statistics)
-        -   [Two-Sample Inference](#two-sample-inference)
-        -   [Simple Linear Regression](#simple-linear-regression)
-        -   [Analysis of Variance](#analysis-of-variance)
-        -   [Design of Experiments](#design-of-experiments)
-        -   [Statistical Graphics](#statistical-graphics)
-        -   [Method of Moments [@Greene2012]](#method-of-moments)
-    -   [Intermediate Probability](#intermediate-probability)
         -   [Transformations of Random
             Variables](#transformations-of-random-variables)
         -   [Families of Continuous Univariate Probability
@@ -32,40 +17,55 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Families of Discrete Univariate Probability
             Distributions](#families-of-discrete-univariate-probability-distributions)
         -   [Distribution Relationships](#distribution-relationships)
+    -   [Introductory Statistics](#introductory-statistics)
+        -   [Data Generating Processes](#data-generating-processes)
+        -   [Descriptive Statistics](#descriptive-statistics)
+        -   [Normal Statistics](#normal-statistics)
+        -   [Inferential Statistics](#inferential-statistics)
+        -   [Two-Sample Inference](#two-sample-inference)
+        -   [Simple Linear Regression](#simple-linear-regression)
+        -   [Analysis of Variance [@Ross2017]](#analysis-of-variance)
+        -   [Design of Experiments](#design-of-experiments)
+        -   [Statistical Graphics](#statistical-graphics)
+        -   [Method of Moments [@Greene2012]](#method-of-moments)
+    -   [Intermediate Probability](#intermediate-probability)
         -   [Random Vectors](#random-vectors)
         -   [Families of Multivariate Probability
             Distributions](#families-of-multivariate-probability-distributions)
         -   [Inequalities in Probability](#inequalities-in-probability)
         -   [Notions of Probabilistic
             Convergence](#notions-of-probabilistic-convergence)
-        -   [Branching Processes](#branching-processes)
+        -   [Moments](#moments)
+        -   [Probability Generating
+            Functions](#probability-generating-functions)
+        -   [Characteristic Functions](#characteristic-functions)
+        -   [Cumulants](#cumulants)
+        -   [Exponential Families
+            [@Grunwald2007]](#exponential-families)
     -   [Intermediate Statistics](#intermediate-statistics)
         -   [Multivariate Statistics](#multivariate-statistics)
         -   [Statistical Decision Theory](#statistical-decision-theory)
         -   [Least Squares](#least-squares)
         -   [Estimation Theory](#estimation-theory)
         -   [Maximum Likelihood
-            Estimation](#maximum-likelihood-estimation)
+            Estimation](#sec:maximum_likelihood_estimation)
         -   [Fisher Information](#fisher-information)
-        -   [James-Stein Estimation](#james-stein-estimation)
+        -   [Multiple Hypothesis Testing](#multiple-hypothesis-testing)
         -   [Generalised Linear Models](#generalised-linear-models)
         -   [Quantile Regression](#quantile-regression)
     -   [Advanced Probability](#advanced-probability)
-        -   [Moments](#moments)
-        -   [Probability Generating
-            Functions](#probability-generating-functions)
-        -   [Characteristic Functions](#characteristic-functions)
-        -   [Cumulants](#cumulants)
+        -   [Branching Processes](#branching-processes)
         -   [Central Limit Theorems](#central-limit-theorems)
         -   [Multivariate Gaussian
             Properties](#multivariate-gaussian-properties)
-        -   [Exponential Families](#exponential-families)
         -   [Stochastic Processes](#stochastic-processes)
+        -   [Families of Stochastic
+            Processes](#families-of-stochastic-processes)
         -   [Concentration Inequalities](#concentration-inequalities)
+        -   [Large Deviations Theory](#large-deviations-theory)
         -   [Random Matrices](#random-matrices)
     -   [Bayesian Probability &
         Statistics](#bayesian-probability-statistics)
-        -   [Cox's Theorem](#coxs-theorem)
         -   [Extensions to Bayes' Theorem](#extensions-to-bayes-theorem)
         -   [Bayesian Priors](#bayesian-priors)
         -   [Bayesian Updating](#bayesian-updating)
@@ -73,27 +73,22 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Posterior Approximations](#posterior-approximations)
         -   [Bayesian Networks](#bayesian-networks)
         -   [Bernstein-von Mises Theorem](#bernstein-von-mises-theorem)
+        -   [Cox's Theorem [@Jaynes2003]](#coxs-theorem)
         -   [Subjective Probability
             [@Schervish1995]](#subjective-probability)
     -   [Markov Processes](#markov-processes)
         -   [Finite-State Discrete-Time Markov
             Chains](#finite-state-discrete-time-markov-chains)
-        -   [Countable-State Discrete-Time Markov
-            Chains](#countable-state-discrete-time-markov-chains)
-        -   [Countable-State Continuous-Time Markov
-            Processes](#countable-state-continuous-time-markov-processes)
-        -   [Uncountable-State Discrete-Time Markov
-            Chains](#uncountable-state-discrete-time-markov-chains)
-        -   [Uncountable-State Continuous-Time Markov
-            Processes](#uncountable-state-continuous-time-markov-processes)
+        -   [Infinite-State Discrete-Time Markov
+            Chains](#infinite-state-discrete-time-markov-chains)
+        -   [Continuous-Time Markov Processes
+            [@Anderson1991]](#continuous-time-markov-processes)
         -   [Time-Inhomogeneous Markov
             Chains](#time-inhomogeneous-markov-chains)
-        -   [Markov Networks](#markov-networks)
         -   [Hidden Markov Models](#hidden-markov-models)
-        -   [Markov Decision Processes](#markov-decision-processes)
+        -   [Markov Decision Processes](#sec:markov_decision_processses)
+        -   [Markov Networks](#markov-networks)
         -   [Semi-Markov Chains [@Hoek2018]](#semi-markov-chains)
-        -   [Inference of Markov
-            Processes](#inference-of-markov-processes)
         -   [Quasistationary Distributions
             [@Collet2012]](#quasistationary-distributions)
     -   [Measure Theoretic Probability](#measure-theoretic-probability)
@@ -106,22 +101,27 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Measure Theoretic Stochastic
             Processes](#measure-theoretic-stochastic-processes)
     -   [Advanced Statistics](#advanced-statistics)
+        -   [Asymptotic Statistics](#asymptotic-statistics)
         -   [Empirical Measures](#empirical-measures)
         -   [Order Statistics](#order-statistics)
-        -   [Monte-Carlo Methods](#monte-carlo-methods)
+        -   [Computational Statistics](#computational-statistics)
         -   [Resampling Methods](#resampling-methods)
         -   [Survival Analysis](#survival-analysis)
         -   [Nonparametric Statistics](#nonparametric-statistics)
         -   [Robust Statistics](#robust-statistics)
     -   [Stochastic Calculus](#stochastic-calculus)
-        -   [Analysis of Stochastic
-            Processes](#analysis-of-stochastic-processes)
-        -   [Martingales](#martingales-1)
+        -   [Continuity of Stochastic
+            Processes](#continuity-of-stochastic-processes)
+        -   [Mean Square Stochastic
+            Calculus](#mean-square-stochastic-calculus)
+        -   [Continuous-Time Martingales](#continuous-time-martingales)
         -   [Itô Calculus](#itô-calculus)
         -   [Stratonovich Integral](#stratonovich-integral)
         -   [Stochastic Differential
             Equations](#stochastic-differential-equations)
-        -   [Diffusions](#diffusions)
+        -   [Malliavin Calculus](#malliavin-calculus)
+        -   [Numerical Stochastic Differential
+            Equations](#numerical-stochastic-differential-equations)
     -   [Probabilistic Combinatorics](#probabilistic-combinatorics)
         -   [Stirling's Approximation](#stirlings-approximation)
         -   [Inclusion-Exclusion
@@ -136,11 +136,10 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
     -   [Information Theory](#information-theory)
         -   [Entropy](#entropy)
         -   [Kullback-Leibler Divergence](#kullback-leibler-divergence)
-        -   [Maximum Entropy
-            Distributions](#maximum-entropy-distributions)
+        -   [Maximum Entropy Distributions
+            [@Grunwald2007]](#maximum-entropy-distributions)
         -   [Coding Theory [@Cover2006]](#coding-theory)
-        -   [Information Criteria](#information-criteria)
-        -   [Minimum Description Length](#minimum-description-length)
+        -   [Information Criteria](#sec:information_criteria)
         -   [Optimal Experimental Design](#optimal-experimental-design)
         -   [Statistical Distances](#statistical-distances)
         -   [Algorithmic Information
@@ -160,13 +159,14 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Generalised Method of
             Moments](#generalised-method-of-moments)
     -   [Machine Learning](#machine-learning)
-        -   [Machine Learning Datasets](#machine-learning-datasets)
+        -   [Concepts in Machine
+            Learning](#concepts-in-machine-learning)
         -   [Statistical Classification](#statistical-classification)
+        -   [Unsupervised Learning](#unsupervised-learning)
         -   [Artificial Neural Networks](#artificial-neural-networks)
         -   [Gaussian Process Regression](#gaussian-process-regression)
         -   [Ensemble Methods](#ensemble-methods)
         -   [Decision Trees [@James2013]](#decision-trees)
-        -   [Unsupervised Learning](#unsupervised-learning)
         -   [Dimensionality Reduction](#dimensionality-reduction)
         -   [Statistical Learning Theory](#statistical-learning-theory)
     -   [Statistical Signal Processing](#statistical-signal-processing)
@@ -180,31 +180,37 @@ Encyclopaedia-style notes in probability, statistics, and their applications (in
         -   [Independent Component Analysis
             [@Hyvaerinen2001]](#independent-component-analysis)
         -   [Wavelets [@Wang2012]](#wavelets)
-        -   [Compressed Sensing](#compressed-sensing)
+        -   [Compressed Sensing
+            [@Foucart2013; @Hastie2015]](#compressed-sensing)
     -   [Stochastic Control](#stochastic-control)
-        -   [Linear System
-            Identification](#linear-system-identification)
+        -   [System Identification](#system-identification)
         -   [Queueing Theory [@Leon-Garcia2008]](#queueing-theory)
         -   [Stochastic Stability](#stochastic-stability)
         -   [Stochastic Games](#stochastic-games)
         -   [Stochastic Dynamic Programming
-            [@Bertsekas1976]](#stochastic-dynamic-programming)
+            [@Bertsekas1976]](#sec:stochastic_dynammic_programming)
         -   [Stochastic Optimal Control](#stochastic-optimal-control)
-        -   [Stochastic Approximation](#stochastic-approximation)
+        -   [Stochastic Approximation](#sec:stochastic_approximation)
         -   [Multi-Armed Bandits](#multi-armed-bandits)
         -   [Reinforcement Learning](#reinforcement-learning)
     -   [Quantitative Finance](#quantitative-finance)
-        -   [Copulas](#copulas)
+        -   [Copulae](#copulae)
+        -   [Heavy-Tailed Distributions
+            [@Foss2013]](#sec:heavy-tailed_distributions)
         -   [Portfolio Optimisation](#portfolio-optimisation)
-        -   [Derivatives Pricing](#derivatives-pricing)
+        -   [Derivatives Pricing [@Blyth2013]](#derivatives-pricing)
         -   [Optimal Stopping](#optimal-stopping)
         -   [Ruin Theory](#ruin-theory)
-    -   [Statistical Physics](#statistical-physics)
+        -   [Financial Econometrics](#financial-econometrics)
+    -   [Physics](#physics)
         -   [Maxwell-Boltzmann
             Distribution](#maxwell-boltzmann-distribution)
         -   [Mean Sojourn Time](#mean-sojourn-time)
-        -   [Mean Field Theory](#mean-field-theory)
-        -   [Fokker-Planck Equations](#fokker-planck-equations)
         -   [Hamiltonian Monte-Carlo](#hamiltonian-monte-carlo)
         -   [Statistical Mechanics](#statistical-mechanics)
-        -   [Quantum Mechanics [@Whittle2000]](#quantum-mechanics)
+        -   [Fokker-Planck Equations](#fokker-planck-equations)
+        -   [Langevin Dynamics](#langevin-dynamics)
+        -   [Mean Field Theory](#mean-field-theory)
+        -   [Quantum Mechanics
+            [@Whittle2000; @Hamming1991]](#quantum-mechanics)
+        -   [Econophysics [@Mantegna1999]](#econophysics)
